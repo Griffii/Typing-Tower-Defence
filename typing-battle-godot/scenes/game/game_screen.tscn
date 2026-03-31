@@ -1,0 +1,170 @@
+[gd_scene format=3 uid="uid://160u44o703f8"]
+
+[ext_resource type="Script" uid="uid://dct4gjexb3n5b" path="res://scenes/game/game_screen.gd" id="1_rs55t"]
+[ext_resource type="Texture2D" uid="uid://boloplsrx54db" path="res://assets/castle.png" id="2_h5hde"]
+
+[node name="Game" type="Control" unique_id=1988827291]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rs55t")
+
+[node name="BG" type="ColorRect" parent="." unique_id=554063797]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.27721754, 0.2342737, 0.37871638, 1)
+
+[node name="RootMargin" type="MarginContainer" parent="." unique_id=1677052667]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="RootMargin" unique_id=1449689008]
+layout_mode = 2
+alignment = 1
+
+[node name="TopBar" type="HBoxContainer" parent="RootMargin/VBox" unique_id=2009156413]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="RootMargin/VBox/TopBar" unique_id=1960939456]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="RootMargin/VBox/TopBar" unique_id=605198321]
+layout_mode = 2
+
+[node name="PingLabel" type="Label" parent="RootMargin/VBox/TopBar" unique_id=1071903697]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ArenaPanel" type="PanelContainer" parent="RootMargin/VBox" unique_id=275662666]
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+
+[node name="ArenaMargin" type="MarginContainer" parent="RootMargin/VBox/ArenaPanel" unique_id=1478057555]
+layout_mode = 2
+
+[node name="ArenaVBox" type="VBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin" unique_id=317395639]
+layout_mode = 2
+
+[node name="CountdownLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox" unique_id=71448986]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Arena" type="HBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox" unique_id=1222301772]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="LeftSide" type="VBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena" unique_id=306949853]
+layout_mode = 2
+
+[node name="LeftCastlePanel" type="PanelContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide" unique_id=1460896184]
+layout_mode = 2
+
+[node name="LeftCastleCenter" type="CenterContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide/LeftCastlePanel" unique_id=1724699037]
+layout_mode = 2
+
+[node name="LeftCastleVBox" type="VBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide/LeftCastlePanel/LeftCastleCenter" unique_id=844504058]
+layout_mode = 2
+
+[node name="LeftCastleLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide/LeftCastlePanel/LeftCastleCenter/LeftCastleVBox" unique_id=872286150]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Left Castle"
+horizontal_alignment = 1
+
+[node name="LeftCastleTexture" type="TextureRect" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide/LeftCastlePanel/LeftCastleCenter/LeftCastleVBox" unique_id=2129058064]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("2_h5hde")
+expand_mode = 1
+
+[node name="LeftHpLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide/LeftCastlePanel/LeftCastleCenter/LeftCastleVBox" unique_id=333809644]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100"
+horizontal_alignment = 1
+
+[node name="LeftWordLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/LeftSide" unique_id=1308178370]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Example"
+
+[node name="CenterLane" type="PanelContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena" unique_id=1907078524]
+layout_mode = 2
+
+[node name="SoldierLayer" type="Control" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/CenterLane" unique_id=877702799]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 160)
+layout_mode = 2
+
+[node name="RightSide" type="VBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena" unique_id=1674385484]
+layout_mode = 2
+
+[node name="RightCastlePanel" type="PanelContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide" unique_id=608086994]
+layout_mode = 2
+
+[node name="RightCastleCenter" type="CenterContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide/RightCastlePanel" unique_id=2124663684]
+layout_mode = 2
+
+[node name="RightCastleVBox" type="VBoxContainer" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide/RightCastlePanel/RightCastleCenter" unique_id=148055815]
+layout_mode = 2
+
+[node name="RightCastleLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide/RightCastlePanel/RightCastleCenter/RightCastleVBox" unique_id=1280778504]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Right Castle"
+horizontal_alignment = 1
+
+[node name="RightCastleTexture" type="TextureRect" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide/RightCastlePanel/RightCastleCenter/RightCastleVBox" unique_id=450285718]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("2_h5hde")
+expand_mode = 1
+
+[node name="RightHpLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide/RightCastlePanel/RightCastleCenter/RightCastleVBox" unique_id=126037472]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100"
+horizontal_alignment = 1
+
+[node name="RightWordLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox/Arena/RightSide" unique_id=1741926052]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Example"
+
+[node name="InputInfoLabel" type="Label" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox" unique_id=638060724]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TypeInput" type="LineEdit" parent="RootMargin/VBox/ArenaPanel/ArenaMargin/ArenaVBox" unique_id=117553241]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Type your word and press Enter"
+
+[node name="LogPanel" type="PanelContainer" parent="RootMargin/VBox" unique_id=2079545198]
+layout_mode = 2
+
+[node name="LogLabel" type="RichTextLabel" parent="RootMargin/VBox/LogPanel" unique_id=1628083069]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2

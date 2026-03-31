@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dlouqnp58v4nl"]
+
+[ext_resource type="Script" uid="uid://poovhl5nq36r" path="res://scenes/menus/main_menu.gd" id="1_xqga4"]
+
+[node name="MainMenu" type="Control" unique_id=86599386]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xqga4")
+
+[node name="RootMargin" type="MarginContainer" parent="." unique_id=323781759]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="MainVBox" type="VBoxContainer" parent="RootMargin" unique_id=2116830742]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="GameTitle" type="Label" parent="RootMargin/MainVBox" unique_id=2042347001]
+layout_mode = 2
+text = "Super Fun & Cool Typing Battle Game!"
+horizontal_alignment = 1
+
+[node name="ButtonVBox" type="VBoxContainer" parent="RootMargin/MainVBox" unique_id=437543968]
+layout_mode = 2
+
+[node name="SoloButton" type="Button" parent="RootMargin/MainVBox/ButtonVBox" unique_id=156142824]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Solo Play"
+
+[node name="CreateButton" type="Button" parent="RootMargin/MainVBox/ButtonVBox" unique_id=1676640020]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create Game"
+
+[node name="JoinButton" type="Button" parent="RootMargin/MainVBox/ButtonVBox" unique_id=660662386]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join Game"
