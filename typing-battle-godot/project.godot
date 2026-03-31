@@ -13,7 +13,7 @@ config_version=5
 config/name="English Typing Battle"
 run/main_scene="uid://ws4cm1qoqgge"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://assets/icon.svg"
+config/icon="res://assets/images/icon.svg"
 
 [autoload]
 
@@ -24,6 +24,10 @@ NetworkManager="*uid://b05iwefirw6f8"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/tile-run-instances/plugin.cfg")
 
 [file_customization]
 
@@ -39,6 +43,7 @@ folder_colors={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

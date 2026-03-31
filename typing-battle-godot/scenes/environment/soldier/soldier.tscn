@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://775rlscy584e"]
+
+[ext_resource type="Script" uid="uid://cjyi07ew8vudw" path="res://scenes/environment/soldier/soldier.gd" id="1_1wly5"]
+[ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/soldiers/soldier_01.png" id="2_572ow"]
+[ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/soldiers/weapon_01.png" id="3_4qrpb"]
+[ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_8ry7a"]
+
+[node name="Soldier" type="Node2D" unique_id=1147033172]
+script = ExtResource("1_1wly5")
+
+[node name="Body" type="Sprite2D" parent="." unique_id=1258104527]
+unique_name_in_owner = true
+scale = Vector2(3, 3)
+texture = ExtResource("2_572ow")
+
+[node name="Weapon" type="Sprite2D" parent="." unique_id=929959547]
+unique_name_in_owner = true
+position = Vector2(24.000004, 9.000001)
+rotation = 0.7853982
+scale = Vector2(2, 2)
+texture = ExtResource("3_4qrpb")
+flip_h = true
+
+[node name="Shield" type="Sprite2D" parent="." unique_id=1389916622]
+unique_name_in_owner = true
+position = Vector2(-15, 15)
+scale = Vector2(2, 2)
+texture = ExtResource("4_8ry7a")
+
+[node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1439825337]
+
+[node name="death-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1091195346]
+
+[node name="hit-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1037426347]

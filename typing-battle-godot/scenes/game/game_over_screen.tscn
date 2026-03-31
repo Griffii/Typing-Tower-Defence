@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dphmihvpeco5r" path="res://scenes/game/game_over_screen.gd" id="1_agkj2"]
 
 [node name="GameOver_Screen" type="Control" unique_id=1380305430]
+z_index = 5
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,3 +11,118 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_agkj2")
+
+[node name="Dimmer" type="ColorRect" parent="." unique_id=978087656]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.21568628)
+
+[node name="CenterWrap" type="CenterContainer" parent="." unique_id=967277885]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterWrap" unique_id=550388119]
+custom_minimum_size = Vector2(900, 500)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="CenterWrap/Panel" unique_id=663118376]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterWrap/Panel/Margin" unique_id=456799780]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=472422861]
+unique_name_in_owner = true
+layout_mode = 2
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ResultLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=822854693]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You Win/Lose!"
+horizontal_alignment = 1
+
+[node name="SummaryLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=1404725536]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Game stats here"
+horizontal_alignment = 1
+
+[node name="StatsRow" type="HBoxContainer" parent="CenterWrap/Panel/Margin/VBox" unique_id=1475156027]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="LeftStatsPanel" type="PanelContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow" unique_id=2079539059]
+layout_mode = 2
+
+[node name="LeftStatsMargin" type="MarginContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsPanel" unique_id=1300589813]
+layout_mode = 2
+
+[node name="LeftStatsVbox" type="VBoxContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsPanel/LeftStatsMargin" unique_id=240635234]
+layout_mode = 2
+
+[node name="LeftStatsTitle" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsPanel/LeftStatsMargin/LeftStatsVbox" unique_id=1676081814]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LeftWordsLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsPanel/LeftStatsMargin/LeftStatsVbox" unique_id=1816089938]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LeftWordsList" type="RichTextLabel" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsPanel/LeftStatsMargin/LeftStatsVbox" unique_id=1529036645]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+
+[node name="RightStatsPanel" type="PanelContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow" unique_id=1681372310]
+layout_mode = 2
+
+[node name="RightStatsMargin" type="MarginContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsPanel" unique_id=1605952421]
+layout_mode = 2
+
+[node name="RightStatsVbox" type="VBoxContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsPanel/RightStatsMargin" unique_id=802719728]
+layout_mode = 2
+
+[node name="RightStatsTitle" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsPanel/RightStatsMargin/RightStatsVbox" unique_id=102209612]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RightWordsLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsPanel/RightStatsMargin/RightStatsVbox" unique_id=1797531960]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RightWordsList" type="RichTextLabel" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsPanel/RightStatsMargin/RightStatsVbox" unique_id=1439196109]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+
+[node name="ButtonsRow" type="HBoxContainer" parent="CenterWrap/Panel/Margin/VBox" unique_id=252381431]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="BackToMenuButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=1549646800]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back to Main Menu"
+
+[node name="PlayAgainButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=1177684516]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play Again"
+
+[node name="WaitingLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=1044447210]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Waiting Label..."
+horizontal_alignment = 1
