@@ -23,11 +23,12 @@ func _ready() -> void:
 	network.connected_to_server.connect(_on_socket_connected)
 	network.disconnected_from_server.connect(_on_socket_disconnected)
 	network.message_received.connect(_on_server_message)
-
+	network.connection_failed.connect(_on_connection_failed)
+	
 	_show_main_menu()
-
+	
 	await get_tree().process_frame
-	network.connect_to_server(NetworkManager.get_server_url())
+	network.connect_to_server()
 
 
 func _clear_current_screen() -> void:
@@ -197,6 +198,9 @@ func _on_socket_disconnected() -> void:
 	current_match_state.clear()
 	_show_main_menu()
 
+
+func _on_connection_failed() -> void:
+	print("Connection failed")
 
 func _on_server_message(msg: Dictionary) -> void:
 	var msg_type: String = String(msg.get("type", ""))
