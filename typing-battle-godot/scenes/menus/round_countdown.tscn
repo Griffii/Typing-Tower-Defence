@@ -4,18 +4,11 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_b7dil"]
 [ext_resource type="AudioStream" uid="uid://c13tku0pdgk86" path="res://assets/sfx/arcade-countdown.mp3" id="3_i3x7k"]
 
-[node name="RoundCountdown" type="Control" unique_id=2122675623]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="RoundCountdown" type="CanvasLayer" unique_id=30536367]
 script = ExtResource("1_2jpbh")
 
 [node name="DimRect" type="ColorRect" parent="." unique_id=873915584]
 unique_name_in_owner = true
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +18,6 @@ color = Color(0, 0, 0, 0.39215687)
 
 [node name="NumberLabel" type="Label" parent="." unique_id=1952052665]
 unique_name_in_owner = true
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

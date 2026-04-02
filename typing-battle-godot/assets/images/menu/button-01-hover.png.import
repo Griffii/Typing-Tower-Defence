@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo8jlfobfohap"
-path="res://.godot/imported/tiny-town-tilemap.png-7c434e9e9bd8e62d2a0072c307de529b.ctex"
+uid="uid://v1j1lrc1w21j"
+path="res://.godot/imported/button-01-hover.png-d11597f1825b5cecebc2684373d573c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/tiny-town-tilemap.png"
-dest_files=["res://.godot/imported/tiny-town-tilemap.png-7c434e9e9bd8e62d2a0072c307de529b.ctex"]
+source_file="res://assets/images/menu/button-01-hover.png"
+dest_files=["res://.godot/imported/button-01-hover.png-d11597f1825b5cecebc2684373d573c7.ctex"]
 
 [params]
 

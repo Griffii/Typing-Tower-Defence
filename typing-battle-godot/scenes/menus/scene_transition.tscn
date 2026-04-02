@@ -3,18 +3,11 @@
 [ext_resource type="Script" uid="uid://dkws726ul5fd6" path="res://scenes/menus/scene_transition.gd" id="1_3bgq8"]
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="2_sromv"]
 
-[node name="SceneTransition" type="Control" unique_id=846731844]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="SceneTransition" type="CanvasLayer" unique_id=2112578889]
 script = ExtResource("1_3bgq8")
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=755848035]
 unique_name_in_owner = true
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,7 +17,6 @@ color = Color(0.096204735, 0.09620475, 0.096204735, 1)
 
 [node name="LoadingLabel" type="Label" parent="." unique_id=2057856749]
 unique_name_in_owner = true
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

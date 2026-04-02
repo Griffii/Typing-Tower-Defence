@@ -20,15 +20,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackgroundLayer" type="Control" parent="." unique_id=482531126]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="OverlayLayer" type="Control" parent="." unique_id=2127794360]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="SceneTransition" parent="." unique_id=846731844 instance=ExtResource("2_ujsvu")]
-layout_mode = 1

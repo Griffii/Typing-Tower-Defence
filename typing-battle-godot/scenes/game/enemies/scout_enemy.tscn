@@ -1,19 +1,20 @@
-[gd_scene format=3 uid="uid://775rlscy584e"]
+[gd_scene format=3 uid="uid://cgl7lpk5yrt2l"]
 
-[ext_resource type="Script" uid="uid://cjyi07ew8vudw" path="res://scenes/environment/soldier/soldier.gd" id="1_1wly5"]
-[ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/soldiers/soldier_01.png" id="2_572ow"]
-[ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/soldiers/weapon_01.png" id="3_4qrpb"]
-[ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_8ry7a"]
-[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/sword-attack-sfx.ogg" id="5_1vxcc"]
-[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/soldier-death-sfx.ogg" id="6_dnd12"]
-[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/soldier-take-damage-sfx.ogg" id="7_2iljp"]
+[ext_resource type="Script" uid="uid://b847mmq3ltync" path="res://scenes/game/enemies/enemy.gd" id="1_grmvo"]
+[ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/soldiers/soldier_01.png" id="2_8diex"]
+[ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/soldiers/weapon_01.png" id="3_kpt4l"]
+[ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_1aatg"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_8g6i5"]
+[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/sword-attack-sfx.ogg" id="6_u4ii5"]
+[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/soldier-death-sfx.ogg" id="7_s8oqu"]
+[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/soldier-take-damage-sfx.ogg" id="8_vfbyj"]
 
 [sub_resource type="Animation" id="Animation_1vxcc"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:rotation")
+tracks/0/path = NodePath("VisualRoot/Body:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -25,7 +26,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:position")
+tracks/1/path = NodePath("VisualRoot/Weapon:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -37,7 +38,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Weapon:rotation")
+tracks/2/path = NodePath("VisualRoot/Weapon:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -48,7 +49,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Body:position")
+tracks/3/path = NodePath("VisualRoot/Body:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -60,7 +61,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Body:modulate")
+tracks/4/path = NodePath("VisualRoot/Body:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -72,7 +73,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Shield:position")
+tracks/5/path = NodePath("VisualRoot/Shield:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -84,7 +85,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Shield:rotation")
+tracks/6/path = NodePath("VisualRoot/Shield:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -95,7 +96,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Weapon:modulate")
+tracks/7/path = NodePath("VisualRoot/Weapon:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -107,7 +108,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Shield:modulate")
+tracks/8/path = NodePath("VisualRoot/Shield:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -115,6 +116,66 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("death-sfx:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("attack-sfx:playing")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("VisualRoot:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("hit-sfx:playing")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("VisualRoot/Body:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 3)]
 }
 
 [sub_resource type="Animation" id="Animation_2iljp"]
@@ -124,7 +185,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Weapon:position")
+tracks/0/path = NodePath("VisualRoot/Weapon:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -136,7 +197,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:rotation")
+tracks/1/path = NodePath("VisualRoot/Weapon:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -147,7 +208,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Body:position")
+tracks/2/path = NodePath("VisualRoot/Body:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -159,7 +220,7 @@ tracks/2/keys = {
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Body:rotation")
+tracks/3/path = NodePath("VisualRoot/Body:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -170,7 +231,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Shield:position")
+tracks/4/path = NodePath("VisualRoot/Shield:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -178,6 +239,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-15, 12.999999), Vector2(-15.999999, 9), Vector2(-12, 13.999999), Vector2(-15, 12.999999)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("attack-sfx:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_1chb8"]
@@ -187,7 +260,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:position")
+tracks/0/path = NodePath("VisualRoot/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -199,7 +272,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Body:rotation")
+tracks/1/path = NodePath("VisualRoot/Body:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -210,7 +283,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Body:modulate")
+tracks/2/path = NodePath("VisualRoot/Body:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -222,7 +295,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Weapon:position")
+tracks/3/path = NodePath("VisualRoot/Weapon:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -234,7 +307,7 @@ tracks/3/keys = {
 tracks/4/type = "bezier"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Weapon:rotation")
+tracks/4/path = NodePath("VisualRoot/Weapon:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -245,7 +318,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Shield:position")
+tracks/5/path = NodePath("VisualRoot/Shield:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -257,7 +330,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Shield:rotation")
+tracks/6/path = NodePath("VisualRoot/Shield:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -268,7 +341,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Weapon:modulate")
+tracks/7/path = NodePath("VisualRoot/Weapon:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -280,7 +353,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Shield:modulate")
+tracks/8/path = NodePath("VisualRoot/Shield:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -288,6 +361,58 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("death-sfx:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_5dgaa"]
+resource_name = "take_damage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualRoot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.50246364, 0.434156, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hit-sfx:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VisualRoot/Body:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(3.5, 3.5), Vector2(3, 3)]
 }
 
 [sub_resource type="Animation" id="Animation_dnd12"]
@@ -298,7 +423,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body:rotation")
+tracks/0/path = NodePath("VisualRoot/Body:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -310,7 +435,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Weapon:rotation")
+tracks/1/path = NodePath("VisualRoot/Weapon:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -322,7 +447,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Weapon:position")
+tracks/2/path = NodePath("VisualRoot/Weapon:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -334,7 +459,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Shield:position")
+tracks/3/path = NodePath("VisualRoot/Shield:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -346,7 +471,7 @@ tracks/3/keys = {
 tracks/4/type = "bezier"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Shield:rotation")
+tracks/4/path = NodePath("VisualRoot/Shield:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -355,51 +480,114 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.6, 0.8)
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2iljp"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kusb3"]
 _data = {
 &"RESET": SubResource("Animation_1vxcc"),
 &"attack": SubResource("Animation_2iljp"),
 &"die": SubResource("Animation_1chb8"),
+&"take_damage": SubResource("Animation_5dgaa"),
 &"walk": SubResource("Animation_dnd12")
 }
 
-[node name="Soldier" type="Node2D" unique_id=1147033172]
-script = ExtResource("1_1wly5")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
+size = Vector2(40, 40)
 
-[node name="Body" type="Sprite2D" parent="." unique_id=1258104527]
+[node name="Scout" type="CharacterBody2D" unique_id=1935126053]
+scale = Vector2(0.8, 0.8)
+collision_layer = 2
+script = ExtResource("1_grmvo")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1740791532]
+unique_name_in_owner = true
+
+[node name="Body" type="Sprite2D" parent="VisualRoot" unique_id=972723332]
 unique_name_in_owner = true
 position = Vector2(0, 24)
 scale = Vector2(3, 3)
-texture = ExtResource("2_572ow")
+texture = ExtResource("2_8diex")
 offset = Vector2(0, -8)
 
-[node name="Weapon" type="Sprite2D" parent="." unique_id=929959547]
+[node name="Weapon" type="Sprite2D" parent="VisualRoot" unique_id=1242448013]
 unique_name_in_owner = true
 position = Vector2(17.000002, 15.000003)
 rotation = 0.7853982
-scale = Vector2(2, 2)
-texture = ExtResource("3_4qrpb")
+scale = Vector2(1.9999998, 1.9999998)
+texture = ExtResource("3_kpt4l")
 offset = Vector2(-0.20558357, -5.305299)
-flip_h = true
 
-[node name="Shield" type="Sprite2D" parent="." unique_id=1389916622]
+[node name="Shield" type="Sprite2D" parent="VisualRoot" unique_id=70943691]
 unique_name_in_owner = true
 position = Vector2(-15, 12.999999)
 scale = Vector2(2, 2)
-texture = ExtResource("4_8ry7a")
+texture = ExtResource("4_1aatg")
 
-[node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1439825337]
+[node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
 unique_name_in_owner = true
-stream = ExtResource("5_1vxcc")
 
-[node name="death-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1091195346]
+[node name="WordLabel" type="RichTextLabel" parent="LabelRoot" unique_id=1401014258]
 unique_name_in_owner = true
-stream = ExtResource("6_dnd12")
+clip_contents = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.5
+offset_top = -48.0
+offset_right = 25.5
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7647059)
+theme_override_constants/shadow_outline_size = 3
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("5_8g6i5")
+theme_override_fonts/bold_font = ExtResource("5_8g6i5")
+theme_override_fonts/bold_italics_font = ExtResource("5_8g6i5")
+theme_override_fonts/italics_font = ExtResource("5_8g6i5")
+theme_override_fonts/mono_font = ExtResource("5_8g6i5")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+bbcode_enabled = true
+text = "Word"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
 
-[node name="hit-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1037426347]
+[node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
 unique_name_in_owner = true
-stream = ExtResource("7_2iljp")
+offset_left = -21.0
+offset_top = 21.0
+offset_right = 21.0
+offset_bottom = 44.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44313726)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("5_8g6i5")
+text = "10"
+horizontal_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=380001448]
+[node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1599622870]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_2iljp")
+stream = ExtResource("6_u4ii5")
+
+[node name="death-sfx" type="AudioStreamPlayer2D" parent="." unique_id=98160918]
+unique_name_in_owner = true
+stream = ExtResource("7_s8oqu")
+
+[node name="hit-sfx" type="AudioStreamPlayer2D" parent="." unique_id=684487782]
+unique_name_in_owner = true
+stream = ExtResource("8_vfbyj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=540991098]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_kusb3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=990227414]
+shape = SubResource("RectangleShape2D_0x1wx")

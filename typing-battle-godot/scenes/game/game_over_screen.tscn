@@ -4,7 +4,6 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_74tcy"]
 [ext_resource type="Texture2D" uid="uid://dgnpkl5wwblb1" path="res://assets/images/menu/panelInset_blue.png" id="2_pxy88"]
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="3_dilvs"]
-[ext_resource type="FontFile" uid="uid://dfafj6dmhu6ti" path="res://assets/fonts/ud-digi-kyokasho-n-b.ttf" id="4_dilvs"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_8xsqk"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_mu18a"]
 [ext_resource type="AudioStream" uid="uid://uw7s61mg3r77" path="res://assets/sfx/fanfare.mp3" id="8_pxy88"]
@@ -51,18 +50,10 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxy88"]
 
-[node name="GameOver_Screen" type="Control" unique_id=1380305430]
-z_index = 5
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GameOver_Screen" type="CanvasLayer" unique_id=2079985304]
 script = ExtResource("1_agkj2")
 
 [node name="Dimmer" type="ColorRect" parent="." unique_id=978087656]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -71,7 +62,6 @@ grow_vertical = 2
 color = Color(0.1148968, 0.11489681, 0.1148968, 0.21568628)
 
 [node name="CenterWrap" type="CenterContainer" parent="." unique_id=967277885]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -79,7 +69,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="CenterWrap" unique_id=550388119]
-custom_minimum_size = Vector2(900, 600)
+custom_minimum_size = Vector2(700, 500)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_7vxs3")
 
@@ -93,6 +83,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBox" type="VBoxContainer" parent="CenterWrap/Panel/Margin" unique_id=456799780]
 layout_mode = 2
 theme_override_constants/separation = 28
+alignment = 1
 
 [node name="TitleLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=472422861]
 unique_name_in_owner = true
@@ -128,66 +119,6 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
-
-[node name="LeftStatsMargin" type="MarginContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow" unique_id=1300589813]
-layout_mode = 2
-
-[node name="LeftStatsVbox" type="VBoxContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsMargin" unique_id=240635234]
-layout_mode = 2
-
-[node name="LeftPlayerName" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsMargin/LeftStatsVbox" unique_id=555379938]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7058824)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("4_dilvs")
-theme_override_font_sizes/font_size = 28
-text = "Left Player Name"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="LeftWordsList" type="RichTextLabel" parent="CenterWrap/Panel/Margin/VBox/StatsRow/LeftStatsMargin/LeftStatsVbox" unique_id=1529036645]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 200)
-layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("2_74tcy")
-theme_override_fonts/italics_font = ExtResource("3_dilvs")
-theme_override_font_sizes/normal_font_size = 22
-text = "Word
-Word
-Word
-Word"
-horizontal_alignment = 1
-
-[node name="RightStatsMargin" type="MarginContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow" unique_id=1605952421]
-layout_mode = 2
-
-[node name="RightStatsVbox" type="VBoxContainer" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsMargin" unique_id=802719728]
-layout_mode = 2
-
-[node name="RightPlayerName" type="Label" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsMargin/RightStatsVbox" unique_id=102209612]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7058824)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("4_dilvs")
-theme_override_font_sizes/font_size = 28
-text = "Right Player Name"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="RightWordsList" type="RichTextLabel" parent="CenterWrap/Panel/Margin/VBox/StatsRow/RightStatsMargin/RightStatsVbox" unique_id=1439196109]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 200)
-layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("2_74tcy")
-theme_override_fonts/italics_font = ExtResource("3_dilvs")
-theme_override_font_sizes/normal_font_size = 22
-text = "Word
-Word
-Word
-Word"
-horizontal_alignment = 1
 
 [node name="ButtonsRow" type="HBoxContainer" parent="CenterWrap/Panel/Margin/VBox" unique_id=252381431]
 layout_mode = 2
@@ -225,14 +156,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_8xsqk")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_mu18a")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
 text = "Play Again"
-
-[node name="WaitingLabel" type="Label" parent="CenterWrap/Panel/Margin/VBox" unique_id=1044447210]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_74tcy")
-theme_override_font_sizes/font_size = 24
-text = "Waiting Label..."
-horizontal_alignment = 1
 
 [node name="FanfareSfx" type="AudioStreamPlayer" parent="." unique_id=126516856]
 unique_name_in_owner = true

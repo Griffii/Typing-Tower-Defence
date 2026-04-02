@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" format=3 uid="uid://381uk2yd5j73"]
 
-[ext_resource type="Texture2D" uid="uid://bo8jlfobfohap" path="res://assets/images/tiny-town-tilemap.png" id="1_kx76d"]
+[ext_resource type="Texture2D" uid="uid://bo8jlfobfohap" path="res://assets/tilemaps/tiny-town-tilemap.png" id="1_kx76d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5imjo"]
 resource_name = "TinyTownTileset"

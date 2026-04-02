@@ -1,572 +1,400 @@
 extends Control
 
 signal back_to_menu_requested
-signal play_again_requested
 
-const SoldierScene: PackedScene = preload("res://scenes/environment/soldier/soldier.tscn")
-const GameOverScene: PackedScene = preload("res://scenes/game/game_over_screen.tscn")
-const CountDownScene: PackedScene = preload("res://scenes/menus/round_countdown.tscn")
+enum RunState {
+	PRE_WAVE,
+	COUNTDOWN,
+	WAVE_ACTIVE,
+	SHOP,
+	VICTORY,
+	DEFEAT
+}
 
-var game_over_overlay: Control = null
-var countdown_overlay: Control = null
+const DEFAULT_WAVE_SET = preload("res://data/waves/wave_set_01.gd")
 
-var match_start_time_ms: int = 0
+@onready var game_hud: CanvasLayer = %GameHud
+@onready var countdown_overlay: CanvasLayer = %CountdownOverlay
+@onready var game_over_overlay: CanvasLayer = %GameOverOverlay
+@onready var game_menu_overlay: CanvasLayer = %GameMenuOverlay
 
-var left_word_history: Array[String] = []
-var right_word_history: Array[String] = []
+@onready var wave_manager: Node = %WaveManager
+@onready var spawn_manager: Node = %SpawnManager
+@onready var typing_manager: Node = %TypingManager
+@onready var combat_manager: Node = %CombatManager
 
-var left_player_name: String = "Left Player"
-var right_player_name: String = "Right Player"
+var run_state: RunState = RunState.PRE_WAVE
+var current_wave_index: int = 0
+var total_waves: int = 0
+var run_active: bool = false
+var wave_set: Array = []
+var is_game_menu_open: bool = false
 
-var soldier_nodes: Dictionary = {}
-
-@onready var left_word_label: Label = %LeftWordLabel
-@onready var right_word_label: Label = %RightWordLabel
-@onready var left_hp_label: Label = %LeftHpLabel
-@onready var right_hp_label: Label = %RightHpLabel
-
-@onready var input_container: Control = %InputContainer
-
-@onready var soldier_layer: Node = %SoldierLayer
-@onready var left_spawn_marker: Marker2D = %LeftSpawnMarker
-@onready var right_spawn_marker: Marker2D = %RightSpawnMarker
-
-@onready var log_label: RichTextLabel = %LogLabel
-
-@onready var correct_sfx: AudioStreamPlayer2D = %"correct-sfx"
-@onready var wrong_sfx: AudioStreamPlayer2D = %"wrong-sfx"
-
-
-var my_player_id: String = ""
-var my_side: String = ""
-
-var current_my_word_id: String = ""
-var current_my_word_text: String = ""
-var word_started_at_ms: int = 0
-
-var opponent_left_session: bool = false
-var match_active: bool = false
-var game_over: bool = false
-var castle_hp_initialized: bool = false
-
-var left_castle_hp_visual: int = 100
-var right_castle_hp_visual: int = 100
 
 func _ready() -> void:
-	if input_container.has_signal("word_submitted"):
-		input_container.word_submitted.connect(_on_word_submitted_from_container)
-	
-	_set_pre_match_ui()
-	
-	game_over_overlay = GameOverScene.instantiate()
-	add_child(game_over_overlay)
-	game_over_overlay.back_to_menu_requested.connect(_on_game_over_back_to_menu_requested)
-	game_over_overlay.play_again_requested.connect(_on_game_over_play_again_requested)
-	
-	countdown_overlay = CountDownScene.instantiate()
-	add_child(countdown_overlay)
-	
-	if countdown_overlay.has_signal("countdown_finished"):
+	_connect_signals()
+	_load_default_wave_set()
+	_reset_run()
+
+
+func setup_run(run_config: Dictionary) -> void:
+	if run_config.has("wave_definitions"):
+		var defs: Variant = run_config.get("wave_definitions", [])
+		if typeof(defs) == TYPE_ARRAY:
+			wave_set = defs as Array
+
+	if wave_set.is_empty():
+		_load_default_wave_set()
+
+	if combat_manager != null and combat_manager.has_method("setup_run"):
+		combat_manager.setup_run(run_config)
+
+	_reset_run()
+
+
+func _connect_signals() -> void:
+	if game_hud != null:
+		if game_hud.has_signal("start_wave_pressed"):
+			game_hud.start_wave_pressed.connect(_on_start_wave_pressed)
+		if game_hud.has_signal("game_menu_pressed"):
+			game_hud.game_menu_pressed.connect(_on_game_menu_pressed)
+		if game_hud.has_signal("text_changed"):
+			game_hud.text_changed.connect(_on_hud_text_changed)
+		if game_hud.has_signal("text_submitted"):
+			game_hud.text_submitted.connect(_on_hud_text_submitted)
+
+	if countdown_overlay != null and countdown_overlay.has_signal("countdown_finished"):
 		countdown_overlay.countdown_finished.connect(_on_countdown_finished)
 
+	if game_over_overlay != null:
+		if game_over_overlay.has_signal("back_to_menu_requested"):
+			game_over_overlay.back_to_menu_requested.connect(_on_back_to_menu_pressed)
+		if game_over_overlay.has_signal("play_again_requested"):
+			game_over_overlay.play_again_requested.connect(_on_play_again_requested)
 
-func set_local_player_info(player_id: String, side: String) -> void:
-	my_player_id = player_id
-	my_side = side
-	_update_input_target_word()
+	if game_menu_overlay != null:
+		if game_menu_overlay.has_signal("back_to_menu_requested"):
+			game_menu_overlay.back_to_menu_requested.connect(_on_back_to_menu_pressed)
+		if game_menu_overlay.has_signal("resume_requested"):
+			game_menu_overlay.resume_requested.connect(_on_game_menu_resume_requested)
+
+	if wave_manager != null:
+		if wave_manager.has_signal("wave_started"):
+			wave_manager.wave_started.connect(_on_wave_started)
+		if wave_manager.has_signal("wave_cleared"):
+			wave_manager.wave_cleared.connect(_on_wave_cleared)
+		if wave_manager.has_signal("all_waves_cleared"):
+			wave_manager.all_waves_cleared.connect(_on_all_waves_cleared)
+
+	if combat_manager != null:
+		if combat_manager.has_signal("base_destroyed"):
+			combat_manager.base_destroyed.connect(_on_base_destroyed)
+		if combat_manager.has_signal("hud_stats_changed"):
+			combat_manager.hud_stats_changed.connect(_on_hud_stats_changed)
+		if combat_manager.has_signal("soldier_meter_changed"):
+			combat_manager.soldier_meter_changed.connect(_on_soldier_meter_changed)
+
+	if typing_manager != null:
+		if typing_manager.has_signal("word_completed"):
+			typing_manager.word_completed.connect(_on_word_completed)
+		if typing_manager.has_signal("input_cleared"):
+			typing_manager.input_cleared.connect(_on_typing_input_cleared)
 
 
-func set_player_names(left_name: String, right_name: String) -> void:
-	left_player_name = left_name
-	right_player_name = right_name
+func _load_default_wave_set() -> void:
+	if DEFAULT_WAVE_SET == null:
+		wave_set = []
+		total_waves = 0
+		push_warning("GameScreen: DEFAULT_WAVE_SET is null.")
+		return
+
+	wave_set = DEFAULT_WAVE_SET.WAVES
+	total_waves = wave_set.size()
 
 
-func _set_pre_match_ui() -> void:
-	left_word_label.text = ""
-	right_word_label.text = ""
-	left_word_label.visible = false
-	right_word_label.visible = false
+func _reset_run() -> void:
+	run_active = true
+	current_wave_index = 0
+	total_waves = wave_set.size()
+	is_game_menu_open = false
 
-	left_castle_hp_visual = 100
-	right_castle_hp_visual = 100
-	left_hp_label.text = "100"
-	right_hp_label.text = "100"
+	get_tree().paused = false
 
-	_set_input_editable(false)
-	_clear_input_text()
+	if wave_manager != null and wave_manager.has_method("set_wave_definitions"):
+		wave_manager.set_wave_definitions(wave_set)
 
-	opponent_left_session = false
-	match_active = false
-	game_over = false
-	castle_hp_initialized = false
-	match_start_time_ms = 0
+	if spawn_manager != null and spawn_manager.has_method("reset_for_new_run"):
+		spawn_manager.reset_for_new_run()
 
-	left_word_history.clear()
-	right_word_history.clear()
+	if typing_manager != null and typing_manager.has_method("reset_for_new_run"):
+		typing_manager.reset_for_new_run()
 
-	_clear_soldiers()
+	if combat_manager != null and combat_manager.has_method("reset_for_new_run"):
+		combat_manager.reset_for_new_run()
 
 	if game_over_overlay != null and game_over_overlay.has_method("hide_overlay"):
 		game_over_overlay.hide_overlay()
 
+	if game_menu_overlay != null and game_menu_overlay.has_method("hide_overlay"):
+		game_menu_overlay.hide_overlay()
 
-func apply_match_state(state: Dictionary) -> void:
-	if state.is_empty():
+	_set_run_state(RunState.PRE_WAVE)
+	_refresh_wave_ui()
+	_on_hud_stats_changed({
+		"score": 0,
+		"gold": 0,
+		"base_hp": 0,
+		"base_hp_max": 0
+	})
+	_on_soldier_meter_changed(0.0, 100.0)
+
+
+func _set_run_state(new_state: RunState) -> void:
+	run_state = new_state
+
+	match run_state:
+		RunState.PRE_WAVE:
+			_disable_typing()
+			_show_start_wave_button("Start Wave")
+			_set_status_text("Press Start Wave when ready.")
+
+		RunState.COUNTDOWN:
+			_disable_typing()
+			_hide_start_wave_button()
+			_set_status_text("Get ready...")
+
+		RunState.WAVE_ACTIVE:
+			_enable_typing()
+			_hide_start_wave_button()
+			_set_status_text("Wave %d in progress." % (current_wave_index + 1))
+
+		RunState.SHOP:
+			_disable_typing()
+			_show_start_wave_button("Start Next Wave")
+			_set_status_text("Wave cleared.")
+
+		RunState.VICTORY:
+			_disable_typing()
+			_hide_start_wave_button()
+			_set_status_text("Victory.")
+			_show_game_over(true)
+
+		RunState.DEFEAT:
+			_disable_typing()
+			_hide_start_wave_button()
+			_set_status_text("Defeat.")
+			_show_game_over(false)
+
+
+func _refresh_wave_ui() -> void:
+	if game_hud != null and game_hud.has_method("set_wave_text"):
+		game_hud.set_wave_text(current_wave_index + 1, max(1, total_waves))
+
+
+func _on_start_wave_pressed() -> void:
+	if not run_active:
 		return
 
-	var players_raw: Variant = state.get("players", {})
-	if typeof(players_raw) != TYPE_DICTIONARY:
-		return
-	var players: Dictionary = players_raw as Dictionary
-
-	var left_raw: Variant = players.get("left", {})
-	var right_raw: Variant = players.get("right", {})
-
-	if typeof(left_raw) != TYPE_DICTIONARY or typeof(right_raw) != TYPE_DICTIONARY:
+	if is_game_menu_open:
 		return
 
-	var left: Dictionary = left_raw as Dictionary
-	var right: Dictionary = right_raw as Dictionary
-
-	left_castle_hp_visual = int(left.get("castleHp", left_castle_hp_visual))
-	right_castle_hp_visual = int(right.get("castleHp", right_castle_hp_visual))
-	left_hp_label.text = "%d" % left_castle_hp_visual
-	right_hp_label.text = "%d" % right_castle_hp_visual
-	castle_hp_initialized = true
-
-	left_player_name = str(left.get("name", left_player_name))
-	right_player_name = str(right.get("name", right_player_name))
-
-	var left_word_raw: Variant = left.get("currentWord", {})
-	var right_word_raw: Variant = right.get("currentWord", {})
-
-	if typeof(left_word_raw) != TYPE_DICTIONARY or typeof(right_word_raw) != TYPE_DICTIONARY:
+	if run_state != RunState.PRE_WAVE and run_state != RunState.SHOP:
 		return
 
-	var left_word: Dictionary = left_word_raw as Dictionary
-	var right_word: Dictionary = right_word_raw as Dictionary
-
-	var previous_word_id: String = current_my_word_id
-	var previous_word_text: String = current_my_word_text
-
-	if my_side == "left":
-		current_my_word_id = str(left_word.get("wordId", ""))
-		current_my_word_text = str(left_word.get("text", ""))
-	elif my_side == "right":
-		current_my_word_id = str(right_word.get("wordId", ""))
-		current_my_word_text = str(right_word.get("text", ""))
-
-	if current_my_word_id != previous_word_id or current_my_word_text != previous_word_text:
-		_update_input_target_word()
-
-	var soldiers_raw: Variant = state.get("soldiers", [])
-	if typeof(soldiers_raw) == TYPE_ARRAY:
-		_sync_soldiers_from_snapshot(soldiers_raw as Array)
-
-
-
-func show_countdown() -> void:
-	match_active = false
-	_set_input_editable(false)
-	_clear_input_text()
-	left_word_label.visible = false
-	right_word_label.visible = false
+	_set_run_state(RunState.COUNTDOWN)
 
 	if countdown_overlay != null and countdown_overlay.has_method("play_countdown"):
 		countdown_overlay.play_countdown(3, 1.0)
 
 
 func _on_countdown_finished() -> void:
-	if game_over:
+	if not run_active:
 		return
 
-	_update_input_target_word()
-	_set_input_editable(true)
-	_grab_input_focus()
-	match_active = true
-
-	if match_start_time_ms <= 0:
-		match_start_time_ms = Time.get_ticks_msec()
-
-
-func start_match() -> void:
-	if game_over:
+	if current_wave_index >= wave_set.size():
+		_on_all_waves_cleared()
 		return
 
-	if match_start_time_ms <= 0:
-		match_start_time_ms = Time.get_ticks_msec()
+	_set_run_state(RunState.WAVE_ACTIVE)
 
-	_update_input_target_word()
-	_set_input_editable(true)
-	_grab_input_focus()
-	match_active = true
+	if wave_manager != null and wave_manager.has_method("start_wave"):
+		wave_manager.start_wave(current_wave_index)
 
 
-func handle_word_rejected(msg: Dictionary) -> void:
-	if game_over:
-		return
-	
-	_set_input_editable(true)
-	_grab_input_focus()
-	
-	var rejected_state_raw: Variant = msg.get("state", {})
-	if typeof(rejected_state_raw) == TYPE_DICTIONARY:
-		apply_match_state(rejected_state_raw as Dictionary)
-	
-	_add_log("Word rejected: %s" % str(msg.get("reason", "Unknown")))
+func _on_wave_started(wave_index: int) -> void:
+	current_wave_index = wave_index
+	_refresh_wave_ui()
+
+	if typing_manager != null and typing_manager.has_method("begin_wave"):
+		typing_manager.begin_wave(wave_index)
 
 
-func handle_word_resolved(msg: Dictionary) -> void:
-	if game_over:
-		return
-	
-	var attacker_side: String = str(msg.get("attackerSide", ""))
-	var typed_text: String = str(msg.get("typedText", ""))
-	
-	var resolved_state_raw: Variant = msg.get("state", {})
-	if typeof(resolved_state_raw) == TYPE_DICTIONARY:
-		apply_match_state(resolved_state_raw as Dictionary)
-	
-	_record_word_entry(attacker_side, typed_text)
-	_play_castle_word_flash(attacker_side, typed_text)
-	
-	if attacker_side == my_side:
-		_set_input_editable(true)
-		_grab_input_focus()
-		_update_input_target_word()
-		
-		# Play correct ping sfx
-		correct_sfx.play()
-	
-	_add_log("Resolved: %s sent 1 soldier." % attacker_side)
-
-
-func handle_soldier_spawned(msg: Dictionary) -> void:
-	var soldier_raw: Variant = msg.get("soldier", {})
-	if typeof(soldier_raw) != TYPE_DICTIONARY:
+func _on_wave_cleared(wave_index: int) -> void:
+	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
 		return
 
-	var soldier_data: Dictionary = soldier_raw as Dictionary
-	var soldier_id: String = str(soldier_data.get("id", ""))
+	current_wave_index = wave_index + 1
+	_refresh_wave_ui()
 
-	if soldier_id.is_empty():
+	if current_wave_index >= total_waves:
+		_on_all_waves_cleared()
 		return
 
-	if soldier_nodes.has(soldier_id):
+	_set_run_state(RunState.SHOP)
+
+
+func _on_all_waves_cleared() -> void:
+	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
 		return
 
-	var soldier_side: String = str(soldier_data.get("side", "left"))
-	var spawn_marker: Marker2D = left_spawn_marker
-	if soldier_side == "right":
-		spawn_marker = right_spawn_marker
-
-	var soldier: SoldierUnit = SoldierScene.instantiate() as SoldierUnit
-	soldier_layer.add_child(soldier)
-	soldier.setup(
-		soldier_id,
-		soldier_side,
-		spawn_marker.position.x,
-		spawn_marker.position.y
-	)
-	soldier.apply_server_state(soldier_data)
-
-	soldier_nodes[soldier_id] = soldier
+	run_active = false
+	_set_run_state(RunState.VICTORY)
 
 
-func handle_soldier_state(msg: Dictionary) -> void:
-	var soldiers_raw: Variant = msg.get("soldiers", [])
-	if typeof(soldiers_raw) == TYPE_ARRAY:
-		_sync_soldiers_from_snapshot(soldiers_raw as Array)
-
-	var castles_raw: Variant = msg.get("castles", {})
-	if typeof(castles_raw) == TYPE_DICTIONARY:
-		var castles: Dictionary = castles_raw as Dictionary
-
-		var left_castle_raw: Variant = castles.get("left", {})
-		var right_castle_raw: Variant = castles.get("right", {})
-
-		if typeof(left_castle_raw) == TYPE_DICTIONARY:
-			var left_castle: Dictionary = left_castle_raw as Dictionary
-			left_castle_hp_visual = int(left_castle.get("hp", left_castle_hp_visual))
-			left_hp_label.text = "%d" % left_castle_hp_visual
-
-		if typeof(right_castle_raw) == TYPE_DICTIONARY:
-			var right_castle: Dictionary = right_castle_raw as Dictionary
-			right_castle_hp_visual = int(right_castle.get("hp", right_castle_hp_visual))
-			right_hp_label.text = "%d" % right_castle_hp_visual
-
-
-func handle_soldier_attack(msg: Dictionary) -> void:
-	var attacker_id: String = str(msg.get("attackerId", ""))
-	if attacker_id.is_empty():
+func _on_base_destroyed() -> void:
+	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
 		return
 
-	if soldier_nodes.has(attacker_id):
-		var soldier: SoldierUnit = soldier_nodes[attacker_id] as SoldierUnit
-		if is_instance_valid(soldier):
-			soldier.play_attack_animation()
+	run_active = false
+	_set_run_state(RunState.DEFEAT)
 
 
-func handle_soldier_damaged(msg: Dictionary) -> void:
-	var soldier_id: String = str(msg.get("soldierId", ""))
-	if soldier_id.is_empty():
+func _on_hud_text_changed(text: String) -> void:
+	if run_state != RunState.WAVE_ACTIVE:
 		return
 
-	if soldier_nodes.has(soldier_id):
-		var soldier: SoldierUnit = soldier_nodes[soldier_id] as SoldierUnit
-		if is_instance_valid(soldier):
-			soldier.play_damage_flash()
-
-
-func handle_soldier_died(msg: Dictionary) -> void:
-	var soldier_id: String = str(msg.get("soldierId", ""))
-	if soldier_id.is_empty():
+	if is_game_menu_open:
 		return
 
-	if soldier_nodes.has(soldier_id):
-		var soldier: SoldierUnit = soldier_nodes[soldier_id] as SoldierUnit
-		soldier_nodes.erase(soldier_id)
-
-		if is_instance_valid(soldier):
-			soldier.play_death_and_remove()
+	if typing_manager != null and typing_manager.has_method("process_input_text"):
+		typing_manager.process_input_text(text)
 
 
-func handle_castle_hp_updated(msg: Dictionary) -> void:
-	var side: String = str(msg.get("side", ""))
-	var hp: int = int(msg.get("hp", 0))
-
-	if side == "left":
-		left_castle_hp_visual = hp
-		left_hp_label.text = "%d" % left_castle_hp_visual
-	elif side == "right":
-		right_castle_hp_visual = hp
-		right_hp_label.text = "%d" % right_castle_hp_visual
-
-
-func handle_match_ended(msg: Dictionary) -> void:
-	if game_over:
+func _on_hud_text_submitted(_text: String) -> void:
+	if run_state != RunState.WAVE_ACTIVE:
 		return
 
-	match_active = false
-	game_over = true
-	_set_input_editable(false)
-	_release_input_focus()
-
-	var ended_state_raw: Variant = msg.get("state", {})
-	if typeof(ended_state_raw) == TYPE_DICTIONARY:
-		apply_match_state(ended_state_raw as Dictionary)
-
-	var winner_id: String = str(msg.get("winnerPlayerId", ""))
-	var did_win: bool = winner_id == my_player_id
-
-	_show_game_over_overlay(did_win)
-	_add_log("Match ended.")
-
-
-func set_status_text(text: String) -> void:
-	_add_log(text)
-
-
-func _on_word_submitted_from_container(submitted_text: String) -> void:
-	if not match_active:
+	if is_game_menu_open:
 		return
-	
-	if game_over:
-		return
-	
-	var typed: String = submitted_text.strip_edges().to_lower()
-	
-	# If the input is incorrect dont even send it to the server, just wipe the input field and tell the player No.
-	if typed != current_my_word_text:
-		_add_log("Incorrect word entered.")
-		_clear_input_text()
-		wrong_sfx.play()
-		return
-	
-	var now_ms: int = Time.get_ticks_msec()
-	var duration_ms: int = max(1, now_ms - word_started_at_ms)
-	
-	NetworkManager.send_json({
-		"type": "submit_word",
-		"wordId": current_my_word_id,
-		"text": typed,
-		"typedDurationMs": duration_ms
-	})
-	
-	_clear_input_text()
-	_set_input_editable(false)
+
+	if typing_manager != null and typing_manager.has_method("cancel_current_target"):
+		typing_manager.cancel_current_target()
 
 
-func _show_game_over_overlay(did_win: bool) -> void:
+func _on_word_completed(target_enemy: Node) -> void:
+	if run_state != RunState.WAVE_ACTIVE:
+		return
+
+	if combat_manager != null and combat_manager.has_method("resolve_completed_word"):
+		combat_manager.resolve_completed_word(target_enemy)
+
+
+func _on_typing_input_cleared() -> void:
+	if game_hud != null and game_hud.has_method("clear_input"):
+		game_hud.clear_input()
+
+
+func _on_hud_stats_changed(stats: Dictionary) -> void:
+	if game_hud == null:
+		return
+
+	if game_hud.has_method("set_score"):
+		game_hud.set_score(int(stats.get("score", 0)))
+
+	if game_hud.has_method("set_gold"):
+		game_hud.set_gold(int(stats.get("gold", 0)))
+
+	if game_hud.has_method("set_base_hp"):
+		game_hud.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
+
+
+func _on_soldier_meter_changed(current_value: float, max_value: float) -> void:
+	if game_hud != null and game_hud.has_method("set_soldier_meter"):
+		game_hud.set_soldier_meter(current_value, max_value)
+
+
+func _show_game_over(did_win: bool) -> void:
+	get_tree().paused = true
+
 	if game_over_overlay == null:
 		return
 
-	var game_length_seconds: float = 0.0
-	if match_start_time_ms > 0:
-		game_length_seconds = float(Time.get_ticks_msec() - match_start_time_ms) / 1000.0
-
-	var overlay_data: Dictionary = {
-		"did_win": did_win,
-		"game_length_seconds": game_length_seconds,
-		"left_player": {
-			"title": left_player_name,
-			"entries": left_word_history,
-		},
-		"right_player": {
-			"title": right_player_name,
-			"entries": right_word_history,
-		},
-	}
-
 	if game_over_overlay.has_method("show_results"):
-		game_over_overlay.show_results(overlay_data)
-
-	if opponent_left_session:
-		if game_over_overlay.has_method("set_opponent_left"):
-			game_over_overlay.set_opponent_left()
-
-
-func _record_word_entry(attacker_side: String, word: String) -> void:
-	var clean_word: String = word.strip_edges()
-	if clean_word.is_empty():
-		clean_word = "(unknown)"
-
-	if attacker_side == "left":
-		left_word_history.append(clean_word)
-	else:
-		right_word_history.append(clean_word)
+		game_over_overlay.show_results({
+			"did_win": did_win,
+			"wave_reached": current_wave_index,
+			"total_waves": total_waves
+		})
 
 
-func set_waiting_for_rematch(is_waiting: bool) -> void:
-	if game_over_overlay != null and game_over_overlay.has_method("set_waiting_for_rematch"):
-		game_over_overlay.set_waiting_for_rematch(is_waiting)
+func _show_start_wave_button(button_text: String) -> void:
+	if game_hud != null and game_hud.has_method("show_start_wave_button"):
+		game_hud.show_start_wave_button(button_text)
 
 
-func set_opponent_left_session() -> void:
-	opponent_left_session = true
-	match_active = false
-	_set_input_editable(false)
-
-	if game_over_overlay != null and game_over_overlay.has_method("set_opponent_left"):
-		game_over_overlay.set_opponent_left()
+func _hide_start_wave_button() -> void:
+	if game_hud != null and game_hud.has_method("hide_start_wave_button"):
+		game_hud.hide_start_wave_button()
 
 
-func set_both_players_ready() -> void:
-	if game_over_overlay != null and game_over_overlay.has_method("set_both_players_ready"):
-		game_over_overlay.set_both_players_ready()
+func _set_status_text(text: String) -> void:
+	if game_hud != null and game_hud.has_method("set_status_text"):
+		game_hud.set_status_text(text)
 
 
-func reset_for_rematch() -> void:
-	_set_pre_match_ui()
+func _enable_typing() -> void:
+	if typing_manager != null and typing_manager.has_method("set_active"):
+		typing_manager.set_active(true)
+
+	if game_hud != null and game_hud.has_method("set_input_enabled"):
+		game_hud.set_input_enabled(true)
+
+	if game_hud != null and game_hud.has_method("clear_input"):
+		game_hud.clear_input()
 
 
-func _on_game_over_back_to_menu_requested() -> void:
-	back_to_menu_requested.emit()
+func _disable_typing() -> void:
+	if typing_manager != null and typing_manager.has_method("set_active"):
+		typing_manager.set_active(false)
+
+	if typing_manager != null and typing_manager.has_method("clear_input_state"):
+		typing_manager.clear_input_state()
+
+	if game_hud != null and game_hud.has_method("set_input_enabled"):
+		game_hud.set_input_enabled(false)
+
+	if game_hud != null and game_hud.has_method("clear_input"):
+		game_hud.clear_input()
 
 
-func _on_game_over_play_again_requested() -> void:
-	if game_over_overlay != null and game_over_overlay.has_method("set_waiting_for_rematch"):
-		game_over_overlay.set_waiting_for_rematch(true)
-	play_again_requested.emit()
-
-
-func _update_input_target_word() -> void:
-	if game_over:
+func _on_game_menu_pressed() -> void:
+	if run_state == RunState.VICTORY or run_state == RunState.DEFEAT:
 		return
 
-	if input_container != null and input_container.has_method("set_target_word"):
-		input_container.set_target_word(current_my_word_text)
+	is_game_menu_open = true
+	get_tree().paused = true
+	_disable_typing()
+
+	if game_menu_overlay != null and game_menu_overlay.has_method("show_overlay"):
+		game_menu_overlay.show_overlay()
 
 
-func _set_input_editable(is_editable: bool) -> void:
-	if input_container != null and input_container.has_method("set_editable"):
-		input_container.set_editable(is_editable)
+func _on_game_menu_resume_requested() -> void:
+	is_game_menu_open = false
+	get_tree().paused = false
+
+	if game_menu_overlay != null and game_menu_overlay.has_method("hide_overlay"):
+		game_menu_overlay.hide_overlay()
+
+	if run_state == RunState.WAVE_ACTIVE:
+		_enable_typing()
 
 
-func _grab_input_focus() -> void:
-	if input_container != null and input_container.has_method("grab_input_focus"):
-		input_container.grab_input_focus()
+func _on_play_again_requested() -> void:
+	get_tree().paused = false
+	_reset_run()
 
 
-func _release_input_focus() -> void:
-	if input_container != null and input_container.has_method("release_input_focus"):
-		input_container.release_input_focus()
-
-
-func _clear_input_text() -> void:
-	if input_container != null and input_container.has_method("clear_input"):
-		input_container.clear_input()
-
-
-func _play_castle_word_flash(attacker_side: String, word: String) -> void:
-	var target_label: Label = left_word_label
-	if attacker_side == "right":
-		target_label = right_word_label
-
-	target_label.text = word
-	target_label.visible = true
-
-	var base_position: Vector2 = target_label.position
-	target_label.modulate.a = 1.0
-	target_label.position = base_position + Vector2(0.0, 8.0)
-
-	var tween: Tween = create_tween()
-	tween.parallel().tween_property(target_label, "modulate:a", 0.0, 0.8)
-	tween.parallel().tween_property(target_label, "position", base_position + Vector2(0.0, -10.0), 0.8)
-	await tween.finished
-
-	target_label.visible = false
-	target_label.text = ""
-	target_label.modulate.a = 1.0
-	target_label.position = base_position
-
-
-func _sync_soldiers_from_snapshot(soldiers: Array) -> void:
-	var seen_ids: Dictionary = {}
-
-	for soldier_raw in soldiers:
-		if typeof(soldier_raw) != TYPE_DICTIONARY:
-			continue
-
-		var soldier_data: Dictionary = soldier_raw as Dictionary
-		var soldier_id: String = str(soldier_data.get("id", ""))
-		if soldier_id.is_empty():
-			continue
-
-		seen_ids[soldier_id] = true
-
-		if not soldier_nodes.has(soldier_id):
-			handle_soldier_spawned({
-				"soldier": soldier_data
-			})
-
-		if soldier_nodes.has(soldier_id):
-			var soldier: SoldierUnit = soldier_nodes[soldier_id] as SoldierUnit
-			if is_instance_valid(soldier):
-				soldier.apply_server_state(soldier_data)
-
-	var existing_ids: Array = soldier_nodes.keys().duplicate()
-	for existing_id in existing_ids:
-		if not seen_ids.has(existing_id):
-			var old_soldier: SoldierUnit = soldier_nodes[existing_id] as SoldierUnit
-			if is_instance_valid(old_soldier):
-				old_soldier.play_death_and_remove()
-			soldier_nodes.erase(existing_id)
-
-
-func _clear_soldiers() -> void:
-	for soldier_id in soldier_nodes.keys():
-		var soldier: SoldierUnit = soldier_nodes[soldier_id] as SoldierUnit
-		if is_instance_valid(soldier):
-			soldier.queue_free()
-
-	soldier_nodes.clear()
-
-	for child: Node in soldier_layer.get_children():
-		if child is SoldierUnit:
-			child.queue_free()
-
-
-func _add_log(text: String) -> void:
-	if log_label != null:
-		log_label.append_text("%s\n" % text)
+func _on_back_to_menu_pressed() -> void:
+	get_tree().paused = false
+	back_to_menu_requested.emit()

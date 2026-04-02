@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b05r3ewvjg4i4"]
+
+[ext_resource type="Script" uid="uid://cjl8i2wp56gfh" path="res://scenes/game/game_menu_overlay.gd" id="1_aj1up"]
+
+[node name="GameMenuOverlay" type="CanvasLayer" unique_id=1547500714]
+script = ExtResource("1_aj1up")
