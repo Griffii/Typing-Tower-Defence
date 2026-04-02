@@ -177,6 +177,18 @@ tracks/13/keys = {
 "update": 0,
 "values": [Vector2(3, 3)]
 }
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("LabelRoot:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_2iljp"]
 resource_name = "attack"
@@ -374,6 +386,18 @@ tracks/9/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("LabelRoot:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_5dgaa"]
 resource_name = "take_damage"
@@ -492,6 +516,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
 size = Vector2(40, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hy27"]
+size = Vector2(65, 56)
+
 [node name="Grunt" type="CharacterBody2D" unique_id=1935126053]
 collision_layer = 2
 script = ExtResource("1_1hy27")
@@ -590,3 +617,10 @@ libraries/ = SubResource("AnimationLibrary_kusb3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=990227414]
 shape = SubResource("RectangleShape2D_0x1wx")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1648451880]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2016797801]
+position = Vector2(3.5, 2)
+shape = SubResource("RectangleShape2D_1hy27")

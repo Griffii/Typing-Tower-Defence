@@ -1,3 +1,4 @@
+# spawn_manager.gd
 extends Node
 
 const GRUNT_SCENE: PackedScene = preload("res://scenes/game/enemies/grunt_enemy.tscn")
@@ -17,6 +18,7 @@ const GruntWords = preload("res://data/words/grunt_words.gd")
 
 @onready var enemy_container: Node = %EnemyContainer
 @onready var spawn_marker: Marker2D = %EnemySpawnMarker
+@onready var enemy_path: Path2D = %EnemyPath
 @onready var base_marker: Marker2D = %BaseMarker
 @onready var wave_manager: Node = %WaveManager
 @onready var combat_manager: Node = %CombatManager
@@ -115,6 +117,31 @@ func get_active_enemies() -> Array[Node]:
 	return active_enemies.duplicate()
 
 
+func get_front_most_enemy() -> Node:
+	_cleanup_invalid_enemies()
+
+	var front_most: Node2D = null
+
+	for enemy in active_enemies:
+		if not is_instance_valid(enemy):
+			continue
+		if not (enemy is Node2D):
+			continue
+		if enemy.has_method("is_enemy_dead") and enemy.is_enemy_dead():
+			continue
+
+		var enemy_node: Node2D = enemy as Node2D
+
+		if front_most == null:
+			front_most = enemy_node
+			continue
+
+		if enemy_node.global_position.x < front_most.global_position.x:
+			front_most = enemy_node
+
+	return front_most
+
+
 func get_word_for_enemy_type(enemy_type: String) -> String:
 	return _get_word_for_enemy_type(enemy_type)
 
@@ -186,7 +213,7 @@ func _spawn_next_enemy_from_queue() -> void:
 
 	var final_enemy_data: Dictionary = enemy_data.duplicate(true)
 	final_enemy_data["enemy_id"] = "%s_%d" % [enemy_type, enemy_spawn_serial]
-	final_enemy_data["base_target"] = base_marker
+	final_enemy_data["path_points"] = enemy_path.curve.get_baked_points()
 
 	if not final_enemy_data.has("word") or str(final_enemy_data.get("word", "")).is_empty():
 		final_enemy_data["word"] = _get_word_for_enemy_type(enemy_type)

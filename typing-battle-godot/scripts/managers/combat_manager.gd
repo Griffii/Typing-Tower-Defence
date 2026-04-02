@@ -1,23 +1,26 @@
+# combat_manager.gd
 extends Node
 
 signal base_destroyed
 signal hud_stats_changed(stats: Dictionary)
-signal soldier_meter_changed(current_value: float, max_value: float)
+signal arrow_meter_changed(current_value: float, max_value: float)
 signal enemy_survived_word_hit(enemy: Node)
+signal arrow_meter_filled
 
-@export var base_hp_max: int = 20
+@export var base_hp_max: int = 50
 @export var word_damage: int = 10
 @export var kill_score: int = 10
 @export var kill_gold: int = 1
-@export var soldier_meter_gain_per_word: float = 25.0
-@export var soldier_meter_max: float = 100.0
+@export var arrow_damage: int = 10
+@export var arrow_meter_gain_per_word: float = 25.0
+@export var arrow_meter_max: float = 100.0
 
 @onready var spawn_manager: Node = %SpawnManager
 
-var base_hp: int = 20
+var base_hp: int = 50
 var score: int = 0
 var gold: int = 0
-var soldier_meter: float = 0.0
+var arrow_meter: float = 0.0
 
 var base_attackers: Array[Node] = []
 
@@ -38,19 +41,20 @@ func setup_run(run_config: Dictionary) -> void:
 	word_damage = int(run_config.get("word_damage", word_damage))
 	kill_score = int(run_config.get("kill_score", kill_score))
 	kill_gold = int(run_config.get("kill_gold", kill_gold))
-	soldier_meter_gain_per_word = float(run_config.get("soldier_meter_gain_per_word", soldier_meter_gain_per_word))
-	soldier_meter_max = float(run_config.get("soldier_meter_max", soldier_meter_max))
+	arrow_damage = int(run_config.get("arrow_damage", arrow_damage))
+	arrow_meter_gain_per_word = float(run_config.get("arrow_meter_gain_per_word", arrow_meter_gain_per_word))
+	arrow_meter_max = float(run_config.get("arrow_meter_max", arrow_meter_max))
 
 
 func reset_for_new_run() -> void:
 	base_hp = base_hp_max
 	score = 0
 	gold = 0
-	soldier_meter = 0.0
+	arrow_meter = 0.0
 	base_attackers.clear()
 
 	_emit_hud_stats()
-	soldier_meter_changed.emit(soldier_meter, soldier_meter_max)
+	arrow_meter_changed.emit(arrow_meter, arrow_meter_max)
 
 
 func resolve_completed_word(target_enemy: Node) -> void:
@@ -66,8 +70,12 @@ func resolve_completed_word(target_enemy: Node) -> void:
 
 	target_enemy.apply_damage(word_damage)
 
-	soldier_meter = min(soldier_meter + soldier_meter_gain_per_word, soldier_meter_max)
-	soldier_meter_changed.emit(soldier_meter, soldier_meter_max)
+	arrow_meter += arrow_meter_gain_per_word
+	if arrow_meter >= arrow_meter_max:
+		arrow_meter = 0.0
+		arrow_meter_filled.emit()
+
+	arrow_meter_changed.emit(arrow_meter, arrow_meter_max)
 
 	if not is_instance_valid(target_enemy):
 		score += kill_score
@@ -82,7 +90,6 @@ func resolve_completed_word(target_enemy: Node) -> void:
 			_emit_hud_stats()
 		return
 
-	# Enemy survived: assign a new word unless it is already at the base and you want to keep combat simple.
 	if target_enemy.has_method("get_enemy_type") and spawn_manager != null and spawn_manager.has_method("get_word_for_enemy_type"):
 		var enemy_type: String = String(target_enemy.get_enemy_type())
 		var new_word: String = String(spawn_manager.get_word_for_enemy_type(enemy_type))
@@ -93,6 +100,32 @@ func resolve_completed_word(target_enemy: Node) -> void:
 			target_enemy.set_word(new_word)
 
 	enemy_survived_word_hit.emit(target_enemy)
+
+
+func fire_castle_arrow_at_target(target_enemy: Node) -> void:
+	if target_enemy == null or not is_instance_valid(target_enemy):
+		return
+
+	if not target_enemy.has_method("apply_damage"):
+		return
+
+	var was_dead_before: bool = false
+	if target_enemy.has_method("is_enemy_dead"):
+		was_dead_before = target_enemy.is_enemy_dead()
+
+	target_enemy.apply_damage(arrow_damage)
+
+	if not is_instance_valid(target_enemy):
+		score += kill_score
+		gold += kill_gold
+		_emit_hud_stats()
+		return
+
+	if target_enemy.has_method("is_enemy_dead") and target_enemy.is_enemy_dead():
+		if not was_dead_before:
+			score += kill_score
+			gold += kill_gold
+			_emit_hud_stats()
 
 
 func register_enemy_at_base(enemy: Node) -> void:

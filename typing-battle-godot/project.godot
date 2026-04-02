@@ -18,7 +18,6 @@ config/icon="uid://p2nuq11q8jsi"
 
 [autoload]
 
-NetworkManager="*uid://b05iwefirw6f8"
 UiSfxManager="*uid://djhi43b2iy1oq"
 
 [display]

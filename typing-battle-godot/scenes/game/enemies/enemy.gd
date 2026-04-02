@@ -10,7 +10,7 @@ const ENEMY_STATS := {
 		"reward_score": 10,
 		"reward_gold": 1,
 		"base_attack_damage": 2,
-		"base_attack_interval": 1.0,
+		"base_attack_interval": 2.0,
 	},
 	"scout": {
 		"move_speed": 65.0,
@@ -18,7 +18,7 @@ const ENEMY_STATS := {
 		"reward_score": 15,
 		"reward_gold": 2,
 		"base_attack_damage": 1,
-		"base_attack_interval": 0.7,
+		"base_attack_interval": 1.0,
 	},
 	"tank": {
 		"move_speed": 24.0,
@@ -26,7 +26,7 @@ const ENEMY_STATS := {
 		"reward_score": 25,
 		"reward_gold": 5,
 		"base_attack_damage": 3,
-		"base_attack_interval": 1.4,
+		"base_attack_interval": 3.0,
 	},
 }
 
@@ -56,6 +56,8 @@ const WEAPON_TEXTURES: Array[String] = [
 @onready var hp_label: Label = %HpLabel
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
+@onready var detection_area: Area2D = %DetectionArea
+
 var move_speed: float = 40.0
 var max_hp: int = 10
 var reward_score: int = 10
@@ -77,6 +79,15 @@ var is_damage_anim_active: bool = false
 var base_target: Node2D = null
 var base_attack_timer: float = 0.0
 
+# For attacking things - Not used since we removed soldiers
+var current_target: Node = null
+var targets_in_range: Array[Node] = []
+
+# Setting the pathing to the castle
+var path_points: PackedVector2Array = PackedVector2Array()
+var path_index: int = 0
+var path_reach_distance: float = 6.0
+
 
 func _ready() -> void:
 	if word_label != null:
@@ -84,32 +95,53 @@ func _ready() -> void:
 		word_label.fit_content = true
 		word_label.scroll_active = false
 	
+	add_to_group("enemies")
+	
+	if detection_area != null:
+		detection_area.body_entered.connect(_on_detection_body_entered)
+		detection_area.body_exited.connect(_on_detection_body_exited)
+		detection_area.area_entered.connect(_on_detection_area_entered)
+		detection_area.area_exited.connect(_on_detection_area_exited)
+	
 	_apply_random_visuals()
 	_apply_facing()
 	_update_labels()
 	_play_walk_animation()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if is_dead:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-	
+
+	_cleanup_targets()
+
+	if is_instance_valid(current_target):
+		velocity = Vector2.ZERO
+		move_and_slide()
+
+		base_attack_timer -= delta
+		if base_attack_timer <= 0.0:
+			base_attack_timer = base_attack_interval
+			play_attack_animation()
+
+			if is_instance_valid(current_target) and current_target.has_method("apply_damage"):
+				current_target.apply_damage(base_attack_damage)
+		return
+
 	if has_reached_base:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-	
-	if not is_instance_valid(base_target):
+
+	if path_points.is_empty():
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-	
-	var to_base: Vector2 = base_target.global_position - global_position
-	var distance_to_base: float = to_base.length()
-	
-	if distance_to_base <= base_reach_distance:
+
+	# If we've reached the final point → treat as base reached
+	if path_index >= path_points.size():
 		has_reached_base = true
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -118,7 +150,16 @@ func _physics_process(_delta: float) -> void:
 		enemy_reached_base.emit(self)
 		return
 
-	var direction: Vector2 = to_base.normalized()
+	var target_point: Vector2 = path_points[path_index]
+	var to_point: Vector2 = target_point - global_position
+	var distance: float = to_point.length()
+
+	# Advance to next point
+	if distance <= path_reach_distance:
+		path_index += 1
+		return
+
+	var direction: Vector2 = to_point.normalized()
 	velocity = direction * move_speed
 	move_and_slide()
 
@@ -133,9 +174,9 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 	
 	current_word = str(enemy_data.get("word", ""))
 	
-	var base_target_variant: Variant = enemy_data.get("base_target", null)
-	if base_target_variant is Node2D:
-		base_target = base_target_variant as Node2D
+	var raw_points: Variant = enemy_data.get("path_points", PackedVector2Array())
+	if raw_points is PackedVector2Array:
+		path_points = raw_points
 	
 	current_hp = max_hp
 	has_reached_base = false
@@ -144,6 +185,7 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 	is_attack_anim_active = false
 	is_damage_anim_active = false
 	base_attack_timer = 0.0
+	path_index = 0
 	
 	_apply_random_visuals()
 	_apply_facing()
@@ -281,7 +323,10 @@ func die() -> void:
 	if animation_player != null and animation_player.has_animation("die"):
 		animation_player.play("die")
 		await animation_player.animation_finished
-
+	
+	current_target = null
+	targets_in_range.clear()
+	
 	enemy_died.emit(self)
 	queue_free()
 
@@ -383,3 +428,76 @@ func _apply_facing() -> void:
 
 	if label_root != null:
 		label_root.scale.x = 1.0
+
+
+func _on_detection_body_entered(body: Node) -> void:
+	_try_add_target(body)
+
+
+func _on_detection_body_exited(body: Node) -> void:
+	_remove_target(body)
+
+
+func _on_detection_area_entered(area: Area2D) -> void:
+	_try_add_target(area.get_parent())
+
+
+func _on_detection_area_exited(area: Area2D) -> void:
+	_remove_target(area.get_parent())
+
+
+func _try_add_target(candidate: Node) -> void:
+	if is_dead:
+		return
+	if candidate == null or not is_instance_valid(candidate):
+		return
+	if not candidate.is_in_group("soldiers"):
+		return
+	if candidate.has_method("is_soldier_dead") and candidate.is_soldier_dead():
+		return
+	if targets_in_range.has(candidate):
+		return
+
+	targets_in_range.append(candidate)
+	_try_set_next_target()
+
+
+func _remove_target(candidate: Node) -> void:
+	var idx: int = targets_in_range.find(candidate)
+	if idx != -1:
+		targets_in_range.remove_at(idx)
+
+	if candidate == current_target:
+		current_target = null
+		_try_set_next_target()
+
+
+func _cleanup_targets() -> void:
+	for i in range(targets_in_range.size() - 1, -1, -1):
+		var target: Node = targets_in_range[i]
+		if not is_instance_valid(target):
+			targets_in_range.remove_at(i)
+			continue
+		if target.has_method("is_soldier_dead") and target.is_soldier_dead():
+			targets_in_range.remove_at(i)
+
+	if current_target != null:
+		if not is_instance_valid(current_target):
+			current_target = null
+		elif current_target.has_method("is_soldier_dead") and current_target.is_soldier_dead():
+			current_target = null
+
+	if current_target == null:
+		_try_set_next_target()
+
+
+func _try_set_next_target() -> void:
+	if current_target != null and is_instance_valid(current_target):
+		return
+
+	if targets_in_range.is_empty():
+		current_target = null
+		return
+
+	current_target = targets_in_range[0]
+	base_attack_timer = 0.0

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="4_u5dwu"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="5_tk2q4"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="6_121qb"]
+[ext_resource type="AudioStream" uid="uid://d21dtkxbcw5qs" path="res://assets/sfx/Type_Click.ogg" id="7_121qb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tk2q4"]
 texture = ExtResource("3_1h1bv")
@@ -39,12 +40,6 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_04ufq"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjfpv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1h1bv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u5dwu"]
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_04ufq"]
 texture = ExtResource("5_tk2q4")
 texture_margin_left = 8.0
@@ -77,6 +72,12 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iun3u"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjfpv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1h1bv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u5dwu"]
+
 [node name="GameHud" type="CanvasLayer" unique_id=2066332068]
 script = ExtResource("1_d4vl5")
 
@@ -102,6 +103,14 @@ size_flags_vertical = 0
 theme_override_constants/separation = 64
 alignment = 1
 
+[node name="BaseHpLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar" unique_id=253855940]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("2_g1fq1")
+theme_override_font_sizes/font_size = 20
+text = "Hp: 20/20"
+
 [node name="WaveLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar" unique_id=1172670504]
 unique_name_in_owner = true
 layout_mode = 2
@@ -109,15 +118,6 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
 theme_override_fonts/font = ExtResource("2_g1fq1")
 theme_override_font_sizes/font_size = 20
 text = "Wave label"
-horizontal_alignment = 1
-
-[node name="TimerLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar" unique_id=2024208336]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
-theme_override_fonts/font = ExtResource("2_g1fq1")
-theme_override_font_sizes/font_size = 20
-text = "Timer label"
 horizontal_alignment = 1
 
 [node name="PointsLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar" unique_id=601466392]
@@ -129,28 +129,11 @@ theme_override_font_sizes/font_size = 20
 text = "Points label"
 horizontal_alignment = 1
 
-[node name="StatusLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar" unique_id=1294491608]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
-theme_override_fonts/font = ExtResource("2_g1fq1")
-theme_override_font_sizes/font_size = 20
-text = "Status label"
-horizontal_alignment = 1
-
 [node name="TopBar2" type="HBoxContainer" parent="MarginContainer/TopBarsBox" unique_id=1514422143]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 64
 alignment = 1
-
-[node name="BaseHpLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar2" unique_id=253855940]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
-theme_override_fonts/font = ExtResource("2_g1fq1")
-theme_override_font_sizes/font_size = 20
-text = "Hp: 20/20"
 
 [node name="GoldLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar2" unique_id=1986961054]
 unique_name_in_owner = true
@@ -159,6 +142,24 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
 theme_override_fonts/font = ExtResource("2_g1fq1")
 theme_override_font_sizes/font_size = 20
 text = "Gold: 0"
+
+[node name="TimerLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar2" unique_id=2024208336]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("2_g1fq1")
+theme_override_font_sizes/font_size = 20
+text = "Timer label"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/TopBarsBox/TopBar2" unique_id=1294491608]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("2_g1fq1")
+theme_override_font_sizes/font_size = 20
+text = "Status label"
+horizontal_alignment = 1
 
 [node name="CenterOverlay" type="Control" parent="MarginContainer" unique_id=1297231550]
 layout_mode = 2
@@ -194,34 +195,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_i4r04")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_04ufq")
 text = "Start Wave"
 
-[node name="Bottombar" type="VBoxContainer" parent="MarginContainer" unique_id=248021035]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="InputField" type="LineEdit" parent="MarginContainer/Bottombar" unique_id=526934371]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 200)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/caret_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
-theme_override_constants/outline_size = 2
-theme_override_constants/caret_width = 2
-theme_override_fonts/font = ExtResource("2_g1fq1")
-theme_override_font_sizes/font_size = 52
-theme_override_styles/normal = SubResource("StyleBoxEmpty_gjfpv")
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_1h1bv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_u5dwu")
-text = "Words"
-alignment = 1
-keep_editing_on_text_submit = true
-expand_to_text_length = true
-caret_blink = true
-
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/Bottombar" unique_id=2073683597]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="FeedbackLayer" type="Control" parent="MarginContainer" unique_id=614952366]
 layout_mode = 2
 mouse_filter = 2
@@ -247,3 +220,44 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_h1umh")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_s71qi")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_iun3u")
 text = "Menu"
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2073683597]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 20)
+offset_left = 34.0
+offset_top = 109.0
+offset_right = 134.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 12
+value = 50.0
+
+[node name="InputField" type="LineEdit" parent="." unique_id=526934371]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 100)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -63.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/caret_width = 2
+theme_override_fonts/font = ExtResource("2_g1fq1")
+theme_override_font_sizes/font_size = 52
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gjfpv")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_1h1bv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_u5dwu")
+text = "Words"
+alignment = 1
+keep_editing_on_text_submit = true
+caret_blink = true
+
+[node name="TypingSfxPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1151039798]
+unique_name_in_owner = true
+stream = ExtResource("7_121qb")

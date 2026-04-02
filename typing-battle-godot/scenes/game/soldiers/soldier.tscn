@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://775rlscy584e"]
 
-[ext_resource type="Script" uid="uid://cjyi07ew8vudw" path="res://scenes/game/soldier/soldier.gd" id="1_1wly5"]
+[ext_resource type="Script" uid="uid://cjyi07ew8vudw" path="res://scenes/game/soldiers/soldier.gd" id="1_1wly5"]
 [ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/soldiers/soldier_01.png" id="2_572ow"]
 [ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/soldiers/weapon_01.png" id="3_4qrpb"]
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_8ry7a"]
@@ -492,10 +492,14 @@ _data = {
 &"walk": SubResource("Animation_dnd12")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43huc"]
+size = Vector2(65, 56)
+
 [node name="Soldier" type="CharacterBody2D" unique_id=594494914]
 script = ExtResource("1_1wly5")
 
 [node name="VisualRoot" type="Node2D" parent="." unique_id=838137635]
+unique_name_in_owner = true
 
 [node name="Body" type="Sprite2D" parent="VisualRoot" unique_id=1258104527]
 unique_name_in_owner = true
@@ -552,3 +556,10 @@ shape = SubResource("RectangleShape2D_bjaux")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1490550242]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_43huc")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=923986362]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1531394147]
+position = Vector2(3.5, 2)
+shape = SubResource("RectangleShape2D_43huc")

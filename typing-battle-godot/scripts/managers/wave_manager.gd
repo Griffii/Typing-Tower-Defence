@@ -39,11 +39,13 @@ func start_wave(wave_index: int) -> void:
 		return
 
 	current_wave_index = wave_index
-	alive_enemy_count = 0
+	current_wave_queue.clear()
 	current_spawn_cursor = 0
+	alive_enemy_count = 0
+	pending_spawn_count = 0
 	wave_finished = false
 	wave_active = true
-
+	
 	var wave_data_variant: Variant = wave_definitions[wave_index]
 	if typeof(wave_data_variant) != TYPE_DICTIONARY:
 		push_warning("WaveManager: wave %d is not a Dictionary." % wave_index)
@@ -51,7 +53,7 @@ func start_wave(wave_index: int) -> void:
 		pending_spawn_count = 0
 		_try_finish_wave()
 		return
-
+	
 	var wave_data: Dictionary = wave_data_variant as Dictionary
 	var enemies_variant: Variant = wave_data.get("enemies", [])
 
@@ -160,7 +162,7 @@ func _try_finish_wave() -> void:
 	wave_finished = true
 	wave_active = false
 
-	wave_cleared.emit(current_wave_index)
-
 	if current_wave_index >= wave_definitions.size() - 1:
 		all_waves_cleared.emit()
+	else:
+		wave_cleared.emit(current_wave_index)

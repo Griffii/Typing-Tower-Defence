@@ -1,3 +1,4 @@
+# game_screen.gd
 extends Control
 
 signal back_to_menu_requested
@@ -12,11 +13,17 @@ enum RunState {
 }
 
 const DEFAULT_WAVE_SET = preload("res://data/waves/wave_set_01.gd")
+const ARROW_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/arrow_projectile.tscn")
 
 @onready var game_hud: CanvasLayer = %GameHud
 @onready var countdown_overlay: CanvasLayer = %CountdownOverlay
 @onready var game_over_overlay: CanvasLayer = %GameOverOverlay
 @onready var game_menu_overlay: CanvasLayer = %GameMenuOverlay
+
+@onready var arrow_spawn_marker: Marker2D = %ArrowSpawnMarker
+@onready var projectile_container: Node = %ProjectileContainer
+
+@onready var enemy_path: Path2D = %EnemyPath
 
 @onready var wave_manager: Node = %WaveManager
 @onready var spawn_manager: Node = %SpawnManager
@@ -38,6 +45,8 @@ func _ready() -> void:
 
 
 func setup_run(run_config: Dictionary) -> void:
+	wave_set = []
+
 	if run_config.has("wave_definitions"):
 		var defs: Variant = run_config.get("wave_definitions", [])
 		if typeof(defs) == TYPE_ARRAY:
@@ -91,8 +100,11 @@ func _connect_signals() -> void:
 			combat_manager.base_destroyed.connect(_on_base_destroyed)
 		if combat_manager.has_signal("hud_stats_changed"):
 			combat_manager.hud_stats_changed.connect(_on_hud_stats_changed)
-		if combat_manager.has_signal("soldier_meter_changed"):
-			combat_manager.soldier_meter_changed.connect(_on_soldier_meter_changed)
+		if combat_manager.has_signal("arrow_meter_changed"):
+			combat_manager.arrow_meter_changed.connect(_on_arrow_meter_changed)
+		if combat_manager.has_signal("arrow_meter_filled"):
+			if not combat_manager.arrow_meter_filled.is_connected(_on_arrow_meter_filled):
+				combat_manager.arrow_meter_filled.connect(_on_arrow_meter_filled)
 
 	if typing_manager != null:
 		if typing_manager.has_signal("word_completed"):
@@ -120,6 +132,9 @@ func _reset_run() -> void:
 
 	get_tree().paused = false
 
+	if wave_manager != null and wave_manager.has_method("reset_for_new_run"):
+		wave_manager.reset_for_new_run()
+
 	if wave_manager != null and wave_manager.has_method("set_wave_definitions"):
 		wave_manager.set_wave_definitions(wave_set)
 
@@ -138,15 +153,10 @@ func _reset_run() -> void:
 	if game_menu_overlay != null and game_menu_overlay.has_method("hide_overlay"):
 		game_menu_overlay.hide_overlay()
 
+
 	_set_run_state(RunState.PRE_WAVE)
 	_refresh_wave_ui()
-	_on_hud_stats_changed({
-		"score": 0,
-		"gold": 0,
-		"base_hp": 0,
-		"base_hp_max": 0
-	})
-	_on_soldier_meter_changed(0.0, 100.0)
+
 
 
 func _set_run_state(new_state: RunState) -> void:
@@ -308,10 +318,41 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 		game_hud.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
 
 
-func _on_soldier_meter_changed(current_value: float, max_value: float) -> void:
-	if game_hud != null and game_hud.has_method("set_soldier_meter"):
-		game_hud.set_soldier_meter(current_value, max_value)
+func _on_arrow_meter_changed(current_value: float, max_value: float) -> void:
+	if game_hud != null and game_hud.has_method("set_arrow_meter"):
+		game_hud.set_arrow_meter(current_value, max_value)
 
+
+func _on_arrow_meter_filled() -> void:
+	if spawn_manager == null or not spawn_manager.has_method("get_front_most_enemy"):
+		return
+
+	var target_enemy: Node = spawn_manager.get_front_most_enemy()
+	if target_enemy == null or not is_instance_valid(target_enemy):
+		return
+
+	_spawn_arrow_projectile(target_enemy)
+
+
+func _spawn_arrow_projectile(target_enemy: Node) -> void:
+	if not is_instance_valid(arrow_spawn_marker):
+		return
+	if not is_instance_valid(projectile_container):
+		return
+
+	var arrow: Node = ARROW_PROJECTILE_SCENE.instantiate()
+	projectile_container.add_child(arrow)
+
+	if arrow.has_signal("impact_reached"):
+		arrow.impact_reached.connect(_on_arrow_projectile_impact)
+
+	if arrow.has_method("fire"):
+		arrow.fire(arrow_spawn_marker.global_position, target_enemy, 0.35, 48.0)
+
+
+func _on_arrow_projectile_impact(target_enemy: Node) -> void:
+	if combat_manager != null and combat_manager.has_method("fire_castle_arrow_at_target"):
+		combat_manager.fire_castle_arrow_at_target(target_enemy)
 
 func _show_game_over(did_win: bool) -> void:
 	get_tree().paused = true
@@ -322,7 +363,7 @@ func _show_game_over(did_win: bool) -> void:
 	if game_over_overlay.has_method("show_results"):
 		game_over_overlay.show_results({
 			"did_win": did_win,
-			"wave_reached": current_wave_index,
+			"wave_reached": current_wave_index + 1,
 			"total_waves": total_waves
 		})
 

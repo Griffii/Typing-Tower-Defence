@@ -20,6 +20,8 @@ signal text_changed(text: String)
 @onready var gold_label: Label = %GoldLabel
 
 @onready var feedback_label: Label = %FeedbackLabel
+@onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
+
 
 
 func _ready() -> void:
@@ -35,11 +37,7 @@ func _ready() -> void:
 
 	show_start_wave_button("Start Wave")
 	set_wave_text(1, 1)
-	set_score(0)
-	set_gold(0)
-	set_base_hp(0, 0)
-	set_soldier_meter(0.0, 100.0)
-	set_status_text("")
+
 
 
 func _on_start_wave_button_pressed() -> void:
@@ -52,6 +50,7 @@ func _on_game_menu_button_pressed() -> void:
 
 
 func _on_input_field_text_changed(new_text: String) -> void:
+	typing_sfx_player.play()
 	text_changed.emit(new_text)
 
 
@@ -78,7 +77,7 @@ func set_base_hp(current_hp: int, max_hp: int) -> void:
 		base_hp_label.text = "Base HP: %d / %d" % [current_hp, max_hp]
 
 
-func set_soldier_meter(current_value: float, max_value: float) -> void:
+func set_arrow_meter(current_value: float, max_value: float) -> void:
 	progress_bar.max_value = max(0.001, max_value)
 	progress_bar.value = clampf(current_value, 0.0, progress_bar.max_value)
 
