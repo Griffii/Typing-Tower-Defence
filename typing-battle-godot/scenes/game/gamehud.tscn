@@ -260,11 +260,11 @@ text = "Menu"
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=2073683597]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 20)
-offset_left = 28.0
-offset_top = 282.0
-offset_right = 128.0
-offset_bottom = 303.0
+custom_minimum_size = Vector2(120, 20)
+offset_left = 19.0
+offset_top = 278.0
+offset_right = 139.0
+offset_bottom = 299.0
 theme_override_styles/background = SubResource("StyleBoxTexture_iun3u")
 theme_override_styles/fill = SubResource("StyleBoxTexture_qdpdd")
 show_percentage = false

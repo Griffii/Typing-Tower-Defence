@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfdh6bl5ijki2"
-path="res://.godot/imported/Castle.png-876aa6ad3a26ca808fb48b98d7bbdbfb.ctex"
+uid="uid://n54m58d228ns"
+path="res://.godot/imported/TypingTowerDefence-Backsplash.png-1038bb7085c17bb5caba01fcf48d75ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/Castle.png"
-dest_files=["res://.godot/imported/Castle.png-876aa6ad3a26ca808fb48b98d7bbdbfb.ctex"]
+source_file="res://TypingTowerDefence-Backsplash.png"
+dest_files=["res://.godot/imported/TypingTowerDefence-Backsplash.png-1038bb7085c17bb5caba01fcf48d75ff.ctex"]
 
 [params]
 

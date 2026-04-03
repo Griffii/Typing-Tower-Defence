@@ -1,0 +1,275 @@
+[gd_scene format=3 uid="uid://bgic4n30wrv4a"]
+
+[ext_resource type="Script" uid="uid://d25jfyytgy2at" path="res://scenes/menus/build_overlay.gd" id="1_ihyv4"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="4_p6amu"]
+[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="5_yamvf"]
+[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="6_1jpwt"]
+[ext_resource type="Texture2D" uid="uid://bd3nhyopixmid" path="res://assets/images/gold_coin.png" id="7_rmrjr"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e1sc8"]
+texture = ExtResource("5_yamvf")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6wfwg"]
+texture = ExtResource("6_1jpwt")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ki24r"]
+texture = ExtResource("5_yamvf")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_otfcb"]
+texture = ExtResource("5_yamvf")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hvkio"]
+
+[node name="BuildOverlay" type="CanvasLayer" unique_id=1554375440]
+script = ExtResource("1_ihyv4")
+
+[node name="ReturnToShopButton" type="Button" parent="." unique_id=793090918]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 166.0
+offset_bottom = 60.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_e1sc8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6wfwg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ki24r")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_otfcb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hvkio")
+text = "Back"
+
+[node name="GoldContainer" type="HBoxContainer" parent="." unique_id=1920783726]
+offset_left = 430.0
+offset_top = 499.0
+offset_right = 495.0
+offset_bottom = 527.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+alignment = 1
+
+[node name="GoldIcon" type="TextureRect" parent="GoldContainer" unique_id=1083045380]
+layout_mode = 2
+texture = ExtResource("7_rmrjr")
+expand_mode = 3
+
+[node name="GoldLabel" type="Label" parent="GoldContainer" unique_id=1427181295]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 22
+text = "0 G"
+horizontal_alignment = 1
+
+[node name="SlotsContainer" type="Control" parent="." unique_id=143945337]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Slot01" type="Node2D" parent="SlotsContainer" unique_id=1236485525]
+position = Vector2(736, 295)
+
+[node name="Slot01Info" type="VBoxContainer" parent="SlotsContainer/Slot01" unique_id=991295979]
+offset_right = 99.0
+offset_bottom = 77.0
+alignment = 1
+
+[node name="Slot01Name" type="Label" parent="SlotsContainer/Slot01/Slot01Info" unique_id=66039810]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "Tower 1"
+horizontal_alignment = 1
+
+[node name="Slot01Level" type="Label" parent="SlotsContainer/Slot01/Slot01Info" unique_id=1463327108]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "lvl. 1"
+horizontal_alignment = 1
+
+[node name="Slot01Stats" type="Label" parent="SlotsContainer/Slot01/Slot01Info" unique_id=1957499951]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "DMG: 12
+SPD: 0.9
+RNG: 280"
+horizontal_alignment = 1
+
+[node name="Slot01Button" type="Button" parent="SlotsContainer/Slot01" unique_id=170369145]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -15.5
+offset_right = 9.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.82137066, 0.94038725, 0.31198052, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 22
+text = "+"
+
+[node name="Slot02" type="Node2D" parent="SlotsContainer" unique_id=727799180]
+position = Vector2(480, 368)
+
+[node name="Slot02Info" type="VBoxContainer" parent="SlotsContainer/Slot02" unique_id=2050296768]
+offset_right = 99.0
+offset_bottom = 77.0
+alignment = 1
+
+[node name="Slot02Name" type="Label" parent="SlotsContainer/Slot02/Slot02Info" unique_id=740155605]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "Tower 1"
+horizontal_alignment = 1
+
+[node name="Slot02Level" type="Label" parent="SlotsContainer/Slot02/Slot02Info" unique_id=645445266]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "lvl. 1"
+horizontal_alignment = 1
+
+[node name="Slot02Stats" type="Label" parent="SlotsContainer/Slot02/Slot02Info" unique_id=501540764]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "dmg. 2"
+horizontal_alignment = 1
+
+[node name="Slot02Button" type="Button" parent="SlotsContainer/Slot02" unique_id=1623358962]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -15.5
+offset_right = 9.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.82137066, 0.94038725, 0.31198052, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 22
+text = "+"
+
+[node name="Slot03" type="Node2D" parent="SlotsContainer" unique_id=1153413368]
+position = Vector2(225, 267)
+
+[node name="Slot03Info" type="VBoxContainer" parent="SlotsContainer/Slot03" unique_id=65562743]
+offset_right = 99.0
+offset_bottom = 77.0
+alignment = 1
+
+[node name="Slot03Name" type="Label" parent="SlotsContainer/Slot03/Slot03Info" unique_id=1052006605]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "Tower 1"
+horizontal_alignment = 1
+
+[node name="Slot03Level" type="Label" parent="SlotsContainer/Slot03/Slot03Info" unique_id=452416441]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "lvl. 1"
+horizontal_alignment = 1
+
+[node name="Slot03Stats" type="Label" parent="SlotsContainer/Slot03/Slot03Info" unique_id=2101229098]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 16
+text = "dmg. 2"
+horizontal_alignment = 1
+
+[node name="Slot03Button" type="Button" parent="SlotsContainer/Slot03" unique_id=46893139]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -15.5
+offset_right = 9.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.82137066, 0.94038725, 0.31198052, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_p6amu")
+theme_override_font_sizes/font_size = 22
+text = "+"

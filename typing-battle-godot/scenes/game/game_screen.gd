@@ -8,6 +8,7 @@ enum RunState {
 	COUNTDOWN,
 	WAVE_ACTIVE,
 	SHOP,
+	BUILD,
 	VICTORY,
 	DEFEAT
 }
@@ -15,15 +16,18 @@ enum RunState {
 const DEFAULT_WAVE_SET = preload("res://data/waves/wave_set_01.gd")
 const ARROW_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/arrow_projectile.tscn")
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
+const TOWER_SCENE: PackedScene = preload("res://scenes/game/tower.tscn")
 
 @onready var game_hud: CanvasLayer = %GameHud
 @onready var countdown_overlay: CanvasLayer = %CountdownOverlay
 @onready var game_over_overlay: CanvasLayer = %GameOverOverlay
 @onready var game_menu_overlay: CanvasLayer = %GameMenuOverlay
 @onready var shop_overlay: CanvasLayer = %ShopOverlay
+@onready var build_overlay: CanvasLayer = %BuildOverlay
 
 @onready var arrow_spawn_marker: Marker2D = %ArrowSpawnMarker
 @onready var projectile_container: Node = %ProjectileContainer
+@onready var tower_container: Node = %TowerContainer
 
 @onready var enemy_path: Path2D = %EnemyPath
 
@@ -39,6 +43,8 @@ var run_active: bool = false
 var wave_set: Array = []
 var is_game_menu_open: bool = false
 var is_shop_open: bool = false
+var is_build_open: bool = false
+var tower_nodes := {}
 
 
 func _ready() -> void:
@@ -98,6 +104,12 @@ func _connect_signals() -> void:
 		if shop_overlay.has_signal("next_wave_requested"):
 			shop_overlay.next_wave_requested.connect(_on_shop_next_wave_requested)
 
+	if build_overlay != null:
+		if build_overlay.has_signal("return_to_shop_requested"):
+			build_overlay.return_to_shop_requested.connect(_on_build_return_to_shop_requested)
+		if build_overlay.has_signal("tower_purchase_requested"):
+			build_overlay.tower_purchase_requested.connect(_on_build_tower_purchase_requested)
+
 
 	if wave_manager != null:
 		if wave_manager.has_signal("wave_started"):
@@ -117,6 +129,8 @@ func _connect_signals() -> void:
 		if combat_manager.has_signal("arrow_meter_filled"):
 			if not combat_manager.arrow_meter_filled.is_connected(_on_arrow_meter_filled):
 				combat_manager.arrow_meter_filled.connect(_on_arrow_meter_filled)
+		if combat_manager.has_signal("tower_state_changed"):
+			combat_manager.tower_state_changed.connect(_on_tower_state_changed)
 
 	if typing_manager != null:
 		if typing_manager.has_signal("word_completed"):
@@ -142,6 +156,7 @@ func _reset_run() -> void:
 	total_waves = wave_set.size()
 	is_game_menu_open = false
 	is_shop_open = false
+	is_build_open = false
 
 	get_tree().paused = false
 
@@ -169,7 +184,10 @@ func _reset_run() -> void:
 	if shop_overlay != null and shop_overlay.has_method("hide_overlay"):
 		shop_overlay.hide_overlay()
 
+	if build_overlay != null and build_overlay.has_method("hide_overlay"):
+		build_overlay.hide_overlay()
 
+	_refresh_all_towers()
 	_set_run_state(RunState.PRE_WAVE)
 	_refresh_wave_ui()
 
@@ -184,30 +202,42 @@ func _set_run_state(new_state: RunState) -> void:
 			_show_start_wave_button("Start Wave")
 			_set_status_text("Press Start Wave when ready.")
 			_hide_shop()
+			_hide_build()
 
 		RunState.COUNTDOWN:
 			_disable_typing()
 			_hide_start_wave_button()
 			_set_status_text("Get ready...")
 			_hide_shop()
+			_hide_build()
 
 		RunState.WAVE_ACTIVE:
 			_enable_typing()
 			_hide_start_wave_button()
 			_set_status_text("Wave %d in progress." % (current_wave_index + 1))
 			_hide_shop()
+			_hide_build()
 
 		RunState.SHOP:
 			_disable_typing()
 			_hide_start_wave_button()
 			_set_status_text("Shopping Time.")
 			_show_shop()
+			_hide_build()
+
+		RunState.BUILD:
+			_disable_typing()
+			_hide_start_wave_button()
+			_set_status_text("Build Mode.")
+			_hide_shop()
+			_show_build()
 
 		RunState.VICTORY:
 			_disable_typing()
 			_hide_start_wave_button()
 			_set_status_text("Victory.")
 			_hide_shop()
+			_hide_build()
 			_show_game_over(true)
 
 		RunState.DEFEAT:
@@ -215,6 +245,7 @@ func _set_run_state(new_state: RunState) -> void:
 			_hide_start_wave_button()
 			_set_status_text("Defeat.")
 			_hide_shop()
+			_hide_build()
 			_show_game_over(false)
 
 
@@ -298,10 +329,10 @@ func _on_base_destroyed() -> void:
 func _on_hud_text_changed(text: String) -> void:
 	if run_state != RunState.WAVE_ACTIVE:
 		return
-
+	
 	if is_game_menu_open or is_shop_open:
 		return
-
+	
 	if typing_manager != null and typing_manager.has_method("process_input_text"):
 		typing_manager.process_input_text(text)
 
@@ -334,9 +365,6 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 	if game_hud == null:
 		return
 
-	if game_hud.has_method("set_score"):
-		game_hud.set_score(int(stats.get("score", 0)))
-
 	if game_hud.has_method("set_gold"):
 		game_hud.set_gold(int(stats.get("gold", 0)))
 
@@ -345,6 +373,11 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 
 	if is_shop_open:
 		_refresh_shop()
+
+	if is_build_open:
+		_refresh_build()
+
+
 
 func _on_arrow_meter_changed(current_value: float, max_value: float) -> void:
 	if game_hud != null and game_hud.has_method("set_arrow_meter"):
@@ -469,6 +502,10 @@ func _on_back_to_menu_pressed() -> void:
 	back_to_menu_requested.emit()
 
 
+############################################################
+## Shop Menu Helpers ######################################
+###########################################################
+
 func _show_shop() -> void:
 	is_shop_open = true
 	
@@ -516,9 +553,8 @@ func _on_shop_purchase_requested(upgrade_id: String) -> void:
 func _on_shop_build_mode_requested() -> void:
 	if run_state != RunState.SHOP:
 		return
-
-	# Placeholder for tower placement mode.
-	_set_status_text("Build mode not implemented yet.")
+	
+	_set_run_state(RunState.BUILD)
 
 
 func _on_shop_next_wave_requested() -> void:
@@ -537,3 +573,93 @@ func _on_shop_next_wave_requested() -> void:
 	print("Game Screen: State changed to: COUNTDOWN")
 	if countdown_overlay != null and countdown_overlay.has_method("play_countdown"):
 		countdown_overlay.play_countdown(3, 1.0)
+
+
+####################################################
+### Build Menu Helpers ############################
+####################################################
+
+func _show_build() -> void:
+	is_build_open = true
+
+	if build_overlay == null or combat_manager == null:
+		return
+
+	if build_overlay.has_method("show_overlay") and combat_manager.has_method("get_build_state"):
+		build_overlay.show_overlay(combat_manager.get_build_state())
+
+
+func _hide_build() -> void:
+	is_build_open = false
+
+	if build_overlay != null and build_overlay.has_method("hide_overlay"):
+		build_overlay.hide_overlay()
+
+
+func _refresh_build() -> void:
+	if not is_build_open:
+		return
+	if build_overlay == null or combat_manager == null:
+		return
+
+	if build_overlay.has_method("refresh_build") and combat_manager.has_method("get_build_state"):
+		build_overlay.refresh_build(combat_manager.get_build_state())
+
+
+func _on_build_return_to_shop_requested() -> void:
+	if run_state != RunState.BUILD:
+		return
+
+	_set_run_state(RunState.SHOP)
+
+
+func _on_build_tower_purchase_requested(slot_id: String) -> void:
+	if run_state != RunState.BUILD:
+		return
+	if combat_manager == null or not combat_manager.has_method("purchase_tower_upgrade"):
+		return
+
+	var purchased: bool = combat_manager.purchase_tower_upgrade(slot_id)
+	if purchased:
+		_refresh_build()
+		_refresh_shop()
+		_refresh_all_towers()
+
+
+func _on_tower_state_changed() -> void:
+	_refresh_all_towers()
+
+	if is_build_open:
+		_refresh_build()
+
+	if is_shop_open:
+		_refresh_shop()
+
+
+func _refresh_all_towers() -> void:
+	if combat_manager == null or tower_container == null or projectile_container == null:
+		return
+
+	for slot_id in combat_manager.tower_levels.keys():
+		var level: int = combat_manager.get_tower_level(slot_id)
+
+		if level <= 0:
+			if tower_nodes.has(slot_id) and is_instance_valid(tower_nodes[slot_id]):
+				tower_nodes[slot_id].queue_free()
+			tower_nodes.erase(slot_id)
+			continue
+
+		var tower: Node2D = tower_nodes.get(slot_id, null)
+
+		if tower == null or not is_instance_valid(tower):
+			var marker: Marker2D = tower_container.get_node_or_null(slot_id)
+			if marker == null:
+				continue
+
+			tower = TOWER_SCENE.instantiate()
+			tower_container.add_child(tower)
+			tower.global_position = marker.global_position
+			tower_nodes[slot_id] = tower
+
+		if tower.has_method("setup_tower"):
+			tower.setup_tower(slot_id, combat_manager, projectile_container)

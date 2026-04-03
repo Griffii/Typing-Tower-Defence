@@ -514,10 +514,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
-size = Vector2(40, 40)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpbj4"]
-size = Vector2(65, 56)
+size = Vector2(30, 35)
 
 [node name="Scout" type="CharacterBody2D" unique_id=1935126053]
 collision_layer = 2
@@ -616,12 +613,6 @@ stream = ExtResource("8_vfbyj")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_lld82")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=990227414]
+[node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=990227414]
+position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_0x1wx")
-
-[node name="DetectionArea" type="Area2D" parent="." unique_id=688404450]
-unique_name_in_owner = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=549968839]
-position = Vector2(3.5, 2)
-shape = SubResource("RectangleShape2D_fpbj4")

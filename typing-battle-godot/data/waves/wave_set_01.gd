@@ -3,7 +3,6 @@ class_name WaveSet01
 
 const WAVES := [
 	{
-		"spawn_interval": 0.95,
 		"enemies": [
 			{"enemy_type": "grunt"},
 			{"enemy_type": "scout"},
@@ -14,7 +13,7 @@ const WAVES := [
 		]
 	},
 	{
-		"spawn_interval": 0.82,
+		"spawn_interval": 0.9,
 		"enemies": [
 			{"enemy_type": "grunt"},
 			{"enemy_type": "scout", "speed": 82.0},
@@ -28,7 +27,7 @@ const WAVES := [
 		]
 	},
 	{
-		"spawn_interval": 0.72,
+		"spawn_interval": 0.8,
 		"enemies": [
 			{"enemy_type": "grunt"},
 			{"enemy_type": "scout", "speed": 84.0},
@@ -45,7 +44,7 @@ const WAVES := [
 		]
 	},
 	{
-		"spawn_interval": 0.60,
+		"spawn_interval": 0.7,
 		"enemies": [
 			{"enemy_type": "grunt", "speed": 56.0},
 			{"enemy_type": "scout", "speed": 88.0},
@@ -65,7 +64,7 @@ const WAVES := [
 		]
 	},
 	{
-		"spawn_interval": 0.52,
+		"spawn_interval": 0.6,
 		"enemies": [
 			{"enemy_type": "scout", "speed": 92.0},
 			{"enemy_type": "grunt"},

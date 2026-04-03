@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p2nuq11q8jsi"
-path="res://.godot/imported/typing-battle-icon.png-c5ddfacd69a4d7425aecf01d78a3c6af.ctex"
+uid="uid://boloplsrx54db"
+path="res://.godot/imported/castle-flaticon.png-afb7b4d58631a4bb29abb360494aba72.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://typing-battle-icon.png"
-dest_files=["res://.godot/imported/typing-battle-icon.png-c5ddfacd69a4d7425aecf01d78a3c6af.ctex"]
+source_file="res://assets/images/castle-flaticon.png"
+dest_files=["res://.godot/imported/castle-flaticon.png-afb7b4d58631a4bb29abb360494aba72.ctex"]
 
 [params]
 

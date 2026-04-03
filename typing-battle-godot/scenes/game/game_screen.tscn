@@ -3,17 +3,19 @@
 [ext_resource type="Script" uid="uid://dct4gjexb3n5b" path="res://scenes/game/game_screen.gd" id="1_rs55t"]
 [ext_resource type="TileSet" uid="uid://381uk2yd5j73" path="res://assets/tilesets/tiny-town-tileset.tres" id="2_u3wq2"]
 [ext_resource type="PackedScene" uid="uid://bokumkckuakt" path="res://scenes/game/gamehud.tscn" id="3_874p4"]
-[ext_resource type="Texture2D" uid="uid://boloplsrx54db" path="res://assets/images/castle.png" id="3_fvr6p"]
+[ext_resource type="Texture2D" uid="uid://dfdh6bl5ijki2" path="res://assets/images/Castle.png" id="3_gto2k"]
+[ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="3_m43re"]
 [ext_resource type="PackedScene" uid="uid://c22rn1rytwsq0" path="res://scenes/menus/round_countdown.tscn" id="4_fxpxx"]
 [ext_resource type="Script" uid="uid://vjtapq4mb3eo" path="res://scripts/managers/wave_manager.gd" id="4_xuyhh"]
 [ext_resource type="Script" uid="uid://c3nnrk7jojd3j" path="res://scripts/managers/spawn_manager.gd" id="5_6qx3b"]
-[ext_resource type="PackedScene" uid="uid://r2lmnunso6ux" path="res://scenes/game/game_over_screen.tscn" id="5_qs4dp"]
+[ext_resource type="PackedScene" uid="uid://r2lmnunso6ux" path="res://scenes/menus/game_over_screen.tscn" id="5_qs4dp"]
 [ext_resource type="AudioStream" uid="uid://dagwp65eftifx" path="res://assets/sfx/correct-ping.ogg" id="7_6qx3b"]
-[ext_resource type="PackedScene" uid="uid://b05r3ewvjg4i4" path="res://scenes/game/game_menu_overlay.tscn" id="7_dagq5"]
+[ext_resource type="PackedScene" uid="uid://b05r3ewvjg4i4" path="res://scenes/menus/game_menu_overlay.tscn" id="7_dagq5"]
 [ext_resource type="Script" uid="uid://d3jb80mi3pwid" path="res://scripts/managers/typing_manager.gd" id="7_ftoqm"]
 [ext_resource type="AudioStream" uid="uid://lj557ih7bune" path="res://assets/sfx/no-sfx.ogg" id="7_fxpxx"]
 [ext_resource type="Script" uid="uid://i0uokjc0q4k" path="res://scripts/managers/combat_manager.gd" id="8_664sp"]
-[ext_resource type="PackedScene" uid="uid://bs1hvpqt6or3h" path="res://scenes/game/shop_menu_overlay.tscn" id="8_stvp0"]
+[ext_resource type="PackedScene" uid="uid://bs1hvpqt6or3h" path="res://scenes/menus/shop_menu_overlay.tscn" id="8_stvp0"]
+[ext_resource type="PackedScene" uid="uid://bgic4n30wrv4a" path="res://scenes/menus/build_overlay.tscn" id="9_dfe6s"]
 
 [sub_resource type="Curve2D" id="Curve2D_dagq5"]
 _data = {
@@ -53,18 +55,32 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAABAAAAAAAKAAEAAAABAAEAAAAKAAEAAAAAAAEAAAAKAAEAAAAAAAIAAAAKAAEAAAABAAMAAAAKAAEAAAACAAIAAAAKAAEAAAADAAEAAAAKAAEAAAAEAAAAAAAKAAEAAAAAAAMAAAAKAAEAAAABAAQAAAAKAAIAAAACAAMAAAALAAIAAAAEAAEAAAALAAIAAAADAAAAAAAKAAEAAAACAAAAAAAKAAEAAAACAAEAAAAKAAEAAAABAAIAAAAKAAEAAAAAAAAAAAAKAAEAAAAAAAQAAAALAAIAAAAFAAAAAAALAAEAAAAFAAEAAAAJAAAAAAAFAAIAAAAKAAIAAAAGAAEAAAALAAAAAAAGAAIAAAAKAAIAAAADAAIAAAALAAIAAAAHAAAAAAALAAEAAAAGAAAAAAAJAAEAAAAZAAAAAAAGAAEAAAAaAAAAAAAHAAEAAAAaAAEAAAAGAAIAAAAaAAIAAAAGAAEAAAAbAAAAAAAHAAEAAAAbAAEAAAAHAAEAAAAbAAIAAAAHAAEAAAAbAAMAAAAGAAIAAAAcAAAAAAAHAAEAAAAcAAEAAAAHAAEAAAAcAAIAAAAHAAEAAAAcAAMAAAAHAAEAAAAcAAQAAAAGAAIAAAAdAAAAAAAHAAEAAAAdAAEAAAAHAAEAAAAdAAIAAAAHAAEAAAAdAAMAAAAHAAEAAAAdAAQAAAAHAAEAAAAdAAUAAAAHAAIAAAAAAAoAAAAJAAQAAAAdAA0AAAAEAAAAAAAdAA4AAAAEAAEAAAAAAA8AAAADAAAAAAAAABAAAAADAAEAAAAcAAUAAAAEAAIAAAAdAAYAAAAEAAIAAAACABAAAAAFAAIAAAABAA4AAAAIAAcAAAABAA8AAAAIAAgAAAAYAAIAAAAGAAEAAAAZAAIAAAAIAAEAAAAXAAAAAAAEAAAAAAAXAAEAAAAEAAEAAAADAAMAAAADAAAAAAADAAQAAAADAAEAAAAAAAUAAAADAAIAAAAEAAsAAAAFAAEAAAAbABAAAAAEAAIAAAAcAAgAAAAFAAIAAAAHAA8AAAAKAAgAAAA=")
 tile_set = ExtResource("2_u3wq2")
 
-[node name="Castle" type="Sprite2D" parent="Battlefield/Background" unique_id=390658575]
-position = Vector2(82, 209)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_fvr6p")
+[node name="CastleTower" type="Sprite2D" parent="Battlefield/Background" unique_id=1131317394]
+position = Vector2(79, 173)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_m43re")
 
-[node name="TowerLayer" type="Node" parent="Battlefield" unique_id=1117695447]
+[node name="Castle" type="Sprite2D" parent="Battlefield/Background" unique_id=390658575]
+position = Vector2(81, 221)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_gto2k")
+
+[node name="TowerContainer" type="Node" parent="Battlefield" unique_id=1117695447]
 unique_name_in_owner = true
+
+[node name="slot_01" type="Marker2D" parent="Battlefield/TowerContainer" unique_id=933817326]
+position = Vector2(786, 284)
+
+[node name="slot_02" type="Marker2D" parent="Battlefield/TowerContainer" unique_id=355545720]
+position = Vector2(526, 362)
+
+[node name="slot_03" type="Marker2D" parent="Battlefield/TowerContainer" unique_id=1000326379]
+position = Vector2(272, 263)
 
 [node name="EnemyContainer" type="Node" parent="Battlefield" unique_id=487878552]
 unique_name_in_owner = true
 
-[node name="ProjectileContainer" type="Node" parent="Battlefield" unique_id=1736628992]
+[node name="ProjectileContainer" type="Node" parent="Battlefield" unique_id=1736628992 groups=["projectile_container"]]
 unique_name_in_owner = true
 
 [node name="EnemySpawnMarker" type="Marker2D" parent="Battlefield" unique_id=2071484387]
@@ -77,7 +93,7 @@ position = Vector2(81, 272)
 
 [node name="ArrowSpawnMarker" type="Marker2D" parent="Battlefield" unique_id=873359651]
 unique_name_in_owner = true
-position = Vector2(83, 207)
+position = Vector2(80, 158)
 
 [node name="EnemyPath" type="Path2D" parent="Battlefield" unique_id=482679344]
 unique_name_in_owner = true
@@ -101,10 +117,15 @@ visible = false
 
 [node name="ShopOverlay" parent="UI" unique_id=2140083217 instance=ExtResource("8_stvp0")]
 unique_name_in_owner = true
+visible = false
 
 [node name="GameMenuOverlay" parent="UI" unique_id=1547500714 instance=ExtResource("7_dagq5")]
 unique_name_in_owner = true
 layer = 2
+visible = false
+
+[node name="BuildOverlay" parent="UI" unique_id=1554375440 instance=ExtResource("9_dfe6s")]
+unique_name_in_owner = true
 visible = false
 
 [node name="Managers" type="Node" parent="." unique_id=828761454]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bs1hvpqt6or3h"]
 
-[ext_resource type="Script" uid="uid://dam307em63adr" path="res://scenes/game/shop_menu_overlay.gd" id="1_ho8j0"]
+[ext_resource type="Script" uid="uid://dam307em63adr" path="res://scenes/menus/shop_menu_overlay.gd" id="1_ho8j0"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_4j2oy"]
 [ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/card_01.png" id="2_8e4jm"]
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="3_8e4jm"]
@@ -283,7 +283,6 @@ theme_override_constants/separation = -30
 alignment = 1
 
 [node name="GoldContainer" type="HBoxContainer" parent="." unique_id=1453181399]
-visible = false
 offset_left = 457.0
 offset_top = 334.0
 offset_right = 502.0
@@ -310,16 +309,20 @@ horizontal_alignment = 1
 [node name="DescriptionLabel" type="Label" parent="." unique_id=1762160267]
 unique_name_in_owner = true
 offset_left = 14.0
-offset_top = 309.0
-offset_right = 151.0
-offset_bottom = 345.0
+offset_top = 302.0
+offset_right = 210.0
+offset_bottom = 453.0
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.33660764, 0.3366076, 0.3366076, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("2_4j2oy")
 theme_override_styles/normal = SubResource("StyleBoxTexture_kespj")
-text = "Description Text"
+text = "Description Text
+
+
+
+"
 horizontal_alignment = 1
 
 [node name="NextWaveButton" type="Button" parent="." unique_id=1357789461]

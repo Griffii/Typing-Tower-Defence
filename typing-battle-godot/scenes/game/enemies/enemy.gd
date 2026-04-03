@@ -7,31 +7,27 @@ const ENEMY_STATS := {
 	"grunt": {
 		"move_speed": 50.0,
 		"max_hp": 22,
-		"reward_score": 10,
-		"reward_gold": 5,
+		"reward_gold": 8,
 		"base_attack_damage": 2,
 		"base_attack_interval": 1.5,
 	},
 	"scout": {
 		"move_speed": 80.0,
 		"max_hp": 11,
-		"reward_score": 15,
-		"reward_gold": 7,
+		"reward_gold": 10,
 		"base_attack_damage": 1,
 		"base_attack_interval": 1.0,
 	},
 	"tank": {
 		"move_speed": 30.0,
 		"max_hp": 60,
-		"reward_score": 25,
-		"reward_gold": 10,
+		"reward_gold": 15,
 		"base_attack_damage": 3,
 		"base_attack_interval": 2.0,
 	},
 	"boss": {
 		"move_speed": 20.0,
 		"max_hp": 1000,
-		"reward_score": 100,
 		"reward_gold": 100,
 		"base_attack_damage": 10,
 		"base_attack_interval": 3.0,
@@ -64,7 +60,6 @@ const WEAPON_TEXTURES: Array[String] = [
 @onready var hp_label: Label = %HpLabel
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
-@onready var detection_area: Area2D = %DetectionArea
 
 var move_speed: float = 40.0
 var max_hp: int = 10
@@ -104,12 +99,6 @@ func _ready() -> void:
 		word_label.scroll_active = false
 	
 	add_to_group("enemies")
-	
-	if detection_area != null:
-		detection_area.body_entered.connect(_on_detection_body_entered)
-		detection_area.body_exited.connect(_on_detection_body_exited)
-		detection_area.area_entered.connect(_on_detection_area_entered)
-		detection_area.area_exited.connect(_on_detection_area_exited)
 	
 	_apply_random_visuals()
 	_apply_facing()

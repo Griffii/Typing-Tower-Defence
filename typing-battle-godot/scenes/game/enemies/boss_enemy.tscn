@@ -514,14 +514,12 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
-size = Vector2(40, 40)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ddi5"]
-size = Vector2(65, 56)
+size = Vector2(99, 133)
 
 [node name="Boss" type="CharacterBody2D" unique_id=1935126053 groups=["enemy"]]
 collision_layer = 2
 script = ExtResource("1_obodn")
+base_reach_distance = null
 
 [node name="VisualRoot" type="Node2D" parent="." unique_id=1740791532]
 unique_name_in_owner = true
@@ -616,12 +614,6 @@ stream = ExtResource("8_jbcq4")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_xx04p")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=990227414]
+[node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=990227414]
+position = Vector2(0.5, 5.5)
 shape = SubResource("RectangleShape2D_0x1wx")
-
-[node name="DetectionArea" type="Area2D" parent="." unique_id=915548193]
-unique_name_in_owner = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2035060509]
-position = Vector2(3.5, 2)
-shape = SubResource("RectangleShape2D_4ddi5")
