@@ -60,35 +60,29 @@ shape = SubResource("CircleShape2D_8t4bd")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 20)
 offset_left = -31.0
-offset_top = -2.0
+offset_top = -1.0
 offset_right = 29.0
-offset_bottom = 18.0
+offset_bottom = 19.0
 theme_override_styles/background = SubResource("StyleBoxTexture_4lgji")
 theme_override_styles/fill = SubResource("StyleBoxTexture_j8waj")
 show_percentage = false
 
-[node name="Background" type="PanelContainer" parent="." unique_id=568260226]
+[node name="WordLabel" type="RichTextLabel" parent="." unique_id=1236156707]
 unique_name_in_owner = true
+clip_contents = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -35.5
-offset_top = -128.0
+offset_top = -130.0
 offset_right = 35.5
-offset_bottom = -83.0
+offset_bottom = -85.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxTexture_om1c8")
-
-[node name="MarginContainer" type="MarginContainer" parent="Background" unique_id=1103861658]
-layout_mode = 2
-
-[node name="WordLabel" type="RichTextLabel" parent="Background/MarginContainer" unique_id=1236156707]
-unique_name_in_owner = true
-clip_contents = false
-layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7647059)
@@ -105,9 +99,11 @@ theme_override_font_sizes/bold_font_size = 20
 theme_override_font_sizes/bold_italics_font_size = 20
 theme_override_font_sizes/italics_font_size = 20
 theme_override_font_sizes/mono_font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_om1c8")
 bbcode_enabled = true
 text = "Word"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
+horizontal_alignment = 1
 vertical_alignment = 1

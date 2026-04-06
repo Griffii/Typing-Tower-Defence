@@ -1,4 +1,3 @@
-# game_screen.gd
 extends Control
 
 signal back_to_menu_requested
@@ -14,9 +13,12 @@ enum RunState {
 }
 
 const DEFAULT_WAVE_SET = preload("res://data/waves/wave_set_01.gd")
+#SLIME MODE: preload("res://data/waves/wave_set_slime_01.gd")
 const ARROW_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/arrow_projectile.tscn")
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 const TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
+
+@onready var castle: Node = %Castle
 
 @onready var game_hud: CanvasLayer = %GameHud
 @onready var countdown_overlay: CanvasLayer = %CountdownOverlay
@@ -25,7 +27,6 @@ const TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.t
 @onready var shop_overlay: CanvasLayer = %ShopOverlay
 @onready var build_overlay: CanvasLayer = %BuildOverlay
 
-@onready var arrow_spawn_marker: Marker2D = %ArrowSpawnMarker
 @onready var projectile_container: Node = %ProjectileContainer
 @onready var tower_container: Node = %TowerContainer
 
@@ -36,6 +37,10 @@ const TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.t
 @onready var typing_manager: Node = %TypingManager
 @onready var combat_manager: Node = %CombatManager
 
+## Debug Stuff
+@onready var skip_wave_button: Button = %DEBUG_SkipWave
+
+
 var run_state: RunState = RunState.PRE_WAVE
 var current_wave_index: int = 0
 var total_waves: int = 0
@@ -45,6 +50,8 @@ var is_game_menu_open: bool = false
 var is_shop_open: bool = false
 var is_build_open: bool = false
 var tower_nodes := {}
+
+var current_gold: int = 0
 
 
 func _ready() -> void:
@@ -110,7 +117,6 @@ func _connect_signals() -> void:
 		if build_overlay.has_signal("tower_purchase_requested"):
 			build_overlay.tower_purchase_requested.connect(_on_build_tower_purchase_requested)
 
-
 	if wave_manager != null:
 		if wave_manager.has_signal("wave_started"):
 			wave_manager.wave_started.connect(_on_wave_started)
@@ -157,6 +163,7 @@ func _reset_run() -> void:
 	is_game_menu_open = false
 	is_shop_open = false
 	is_build_open = false
+	current_gold = 0
 
 	get_tree().paused = false
 
@@ -188,9 +195,9 @@ func _reset_run() -> void:
 		build_overlay.hide_overlay()
 
 	_refresh_all_towers()
+	_refresh_gold_ui()
 	_set_run_state(RunState.PRE_WAVE)
 	_refresh_wave_ui()
-
 
 
 func _set_run_state(new_state: RunState) -> void:
@@ -249,10 +256,14 @@ func _set_run_state(new_state: RunState) -> void:
 			_show_game_over(false)
 
 
-
 func _refresh_wave_ui() -> void:
 	if game_hud != null and game_hud.has_method("set_wave_text"):
 		game_hud.set_wave_text(current_wave_index + 1, max(1, total_waves))
+
+
+func _refresh_gold_ui() -> void:
+	if game_hud != null and game_hud.has_method("set_gold"):
+		game_hud.set_gold(current_gold)
 
 
 func _on_start_wave_pressed() -> void:
@@ -299,6 +310,9 @@ func _on_wave_cleared(wave_index: int) -> void:
 
 	if combat_manager != null and combat_manager.has_method("reset_arrow_meter"):
 		combat_manager.reset_arrow_meter()
+	
+	if castle != null and castle.has_method("reset_arrow_meter"):
+		castle.reset_arrow_meter()
 
 	current_wave_index = wave_index + 1
 	_refresh_wave_ui()
@@ -374,8 +388,11 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 	if game_hud == null:
 		return
 
+	if stats.has("gold"):
+		current_gold = int(stats.get("gold", current_gold))
+
 	if game_hud.has_method("set_gold"):
-		game_hud.set_gold(int(stats.get("gold", 0)))
+		game_hud.set_gold(current_gold)
 
 	if game_hud.has_method("set_base_hp"):
 		game_hud.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
@@ -387,10 +404,9 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 		_refresh_build()
 
 
-
 func _on_arrow_meter_changed(current_value: float, max_value: float) -> void:
-	if game_hud != null and game_hud.has_method("set_arrow_meter"):
-		game_hud.set_arrow_meter(current_value, max_value)
+	if castle != null and castle.has_method("set_arrow_meter"):
+		castle.set_arrow_meter(current_value, max_value)
 
 
 func _on_arrow_meter_filled() -> void:
@@ -405,10 +421,12 @@ func _on_arrow_meter_filled() -> void:
 
 
 func _spawn_arrow_projectile(target_enemy: Node) -> void:
-	if not is_instance_valid(arrow_spawn_marker):
+	if castle == null or not castle.has_method("get_arrow_spawn_position"):
 		return
 	if not is_instance_valid(projectile_container):
 		return
+
+	var spawn_position: Vector2 = castle.get_arrow_spawn_position()
 
 	var arrow: Node = ARROW_PROJECTILE_SCENE.instantiate()
 	projectile_container.add_child(arrow)
@@ -417,12 +435,50 @@ func _spawn_arrow_projectile(target_enemy: Node) -> void:
 		arrow.impact_reached.connect(_on_arrow_projectile_impact)
 
 	if arrow.has_method("fire"):
-		arrow.fire(arrow_spawn_marker.global_position, target_enemy, 0.35, 48.0)
+		arrow.fire(spawn_position, target_enemy, 0.35, 48.0)
 
 
 func _on_arrow_projectile_impact(target_enemy: Node) -> void:
 	if combat_manager != null and combat_manager.has_method("fire_castle_arrow_at_target"):
 		combat_manager.fire_castle_arrow_at_target(target_enemy)
+
+
+func debug_skip_wave() -> void:
+	if run_state != RunState.WAVE_ACTIVE:
+		return
+	if spawn_manager == null or not spawn_manager.has_method("debug_force_spawn_all_remaining_enemies"):
+		return
+
+	# Step 1: Force spawn everything remaining in the wave
+	spawn_manager.debug_force_spawn_all_remaining_enemies()
+
+	# Step 2: Get all active enemies directly from the container
+	if spawn_manager == null or not spawn_manager.has_node("%EnemyContainer"):
+		return
+
+	var enemy_container: Node = spawn_manager.get_node("%EnemyContainer")
+	if enemy_container == null:
+		return
+
+	var enemies: Array = enemy_container.get_children()
+
+	# Step 3: Kill everything and give gold
+	for enemy in enemies:
+		if enemy == null or not is_instance_valid(enemy):
+			continue
+
+		if enemy.has_method("is_enemy_dead") and enemy.is_enemy_dead():
+			continue
+
+		if enemy.has_method("apply_damage"):
+			enemy.apply_damage(9999)
+		
+		if combat_manager and combat_manager.has_method("_award_enemy_kill_rewards"):
+			combat_manager._award_enemy_kill_rewards(enemy)
+
+
+
+
 
 func _show_game_over(did_win: bool) -> void:
 	get_tree().paused = true

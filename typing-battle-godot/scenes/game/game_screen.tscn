@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://dct4gjexb3n5b" path="res://scenes/game/game_screen.gd" id="1_rs55t"]
 [ext_resource type="TileSet" uid="uid://381uk2yd5j73" path="res://assets/tilesets/tiny-town-tileset.tres" id="2_u3wq2"]
 [ext_resource type="PackedScene" uid="uid://bokumkckuakt" path="res://scenes/game/gamehud.tscn" id="3_874p4"]
-[ext_resource type="Texture2D" uid="uid://dfdh6bl5ijki2" path="res://assets/images/Castle.png" id="3_gto2k"]
-[ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="3_m43re"]
+[ext_resource type="PackedScene" uid="uid://c8jx1yfih5d8l" path="res://scenes/game/bases/the_castle.tscn" id="3_qiuvn"]
 [ext_resource type="PackedScene" uid="uid://c22rn1rytwsq0" path="res://scenes/menus/round_countdown.tscn" id="4_fxpxx"]
 [ext_resource type="Script" uid="uid://vjtapq4mb3eo" path="res://scripts/managers/wave_manager.gd" id="4_xuyhh"]
 [ext_resource type="Script" uid="uid://c3nnrk7jojd3j" path="res://scripts/managers/spawn_manager.gd" id="5_6qx3b"]
@@ -16,12 +15,47 @@
 [ext_resource type="Script" uid="uid://i0uokjc0q4k" path="res://scripts/managers/combat_manager.gd" id="8_664sp"]
 [ext_resource type="PackedScene" uid="uid://bs1hvpqt6or3h" path="res://scenes/menus/shop_menu_overlay.tscn" id="8_stvp0"]
 [ext_resource type="PackedScene" uid="uid://bgic4n30wrv4a" path="res://scenes/menus/build_overlay.tscn" id="9_dfe6s"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="17_o8s5m"]
+[ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="18_ap3x1"]
+[ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="19_dbcar"]
 
 [sub_resource type="Curve2D" id="Curve2D_dagq5"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 1008, 336, 0, 0, 0, 0, 725, 336, 0, 0, 0, 0, 716, 408, 0, 0, 0, 0, 572, 407, 0, 0, 0, 0, 562, 215, 0, 0, 0, 0, 246, 214, 0, 0, 0, 0, 232, 432, 0, 0, 0, 0, 80, 434, 0, 0, 0, 0, 79, 288)
 }
 point_count = 9
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5sw37"]
+texture = ExtResource("18_ap3x1")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_60eht"]
+texture = ExtResource("19_dbcar")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f7bvm"]
+texture = ExtResource("18_ap3x1")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(0.85606754, 0.85606724, 0.85606724, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjqof"]
+texture = ExtResource("18_ap3x1")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lrm5"]
 
 [node name="GameScreen" type="Control" unique_id=1988827291]
 layout_mode = 3
@@ -58,43 +92,28 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAABAAAAAAAKAAEAAAABAAEAAAAKAAEAAAAAAAEAAAAKAAEAAAAAAAIAAAAKAAEAAAABAAMAAAAKAAEAAAACAAIAAAAKAAEAAAADAAEAAAAKAAEAAAAEAAAAAAAKAAEAAAAAAAMAAAAKAAEAAAABAAQAAAAKAAIAAAACAAMAAAALAAIAAAAEAAEAAAALAAIAAAADAAAAAAAKAAEAAAACAAAAAAAKAAEAAAACAAEAAAAKAAEAAAABAAIAAAAKAAEAAAAAAAAAAAAKAAEAAAAAAAQAAAALAAIAAAAFAAAAAAALAAEAAAAFAAEAAAAJAAAAAAAFAAIAAAAKAAIAAAAGAAEAAAALAAAAAAAGAAIAAAAKAAIAAAADAAIAAAALAAIAAAAHAAAAAAALAAEAAAAGAAAAAAAJAAEAAAAZAAAAAAAGAAEAAAAaAAAAAAAHAAEAAAAaAAEAAAAGAAIAAAAaAAIAAAAGAAEAAAAbAAAAAAAHAAEAAAAbAAEAAAAHAAEAAAAbAAIAAAAHAAEAAAAbAAMAAAAGAAIAAAAcAAAAAAAHAAEAAAAcAAEAAAAHAAEAAAAcAAIAAAAHAAEAAAAcAAMAAAAHAAEAAAAcAAQAAAAGAAIAAAAdAAAAAAAHAAEAAAAdAAEAAAAHAAEAAAAdAAIAAAAHAAEAAAAdAAMAAAAHAAEAAAAdAAQAAAAHAAEAAAAdAAUAAAAHAAIAAAAAAAoAAAAJAAQAAAAdAA0AAAAEAAAAAAAdAA4AAAAEAAEAAAAAAA8AAAADAAAAAAAAABAAAAADAAEAAAAcAAUAAAAEAAIAAAAdAAYAAAAEAAIAAAACABAAAAAFAAIAAAABAA4AAAAIAAcAAAABAA8AAAAIAAgAAAAYAAIAAAAGAAEAAAAZAAIAAAAIAAEAAAAXAAAAAAAEAAAAAAAXAAEAAAAEAAEAAAADAAMAAAADAAAAAAADAAQAAAADAAEAAAAAAAUAAAADAAIAAAAEAAsAAAAFAAEAAAAbABAAAAAEAAIAAAAcAAgAAAAFAAIAAAAHAA8AAAAKAAgAAAA=")
 tile_set = ExtResource("2_u3wq2")
 
-[node name="CastleTower" type="Sprite2D" parent="Battlefield/NormalMode" unique_id=1131317394]
-position = Vector2(79, 173)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_m43re")
-
-[node name="Castle" type="Sprite2D" parent="Battlefield/NormalMode" unique_id=390658575]
-position = Vector2(81, 221)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_gto2k")
+[node name="Castle" parent="Battlefield/NormalMode" unique_id=1460439950 instance=ExtResource("3_qiuvn")]
+unique_name_in_owner = true
 
 [node name="EnemyPath" type="Path2D" parent="Battlefield/NormalMode" unique_id=482679344]
 unique_name_in_owner = true
 curve = SubResource("Curve2D_dagq5")
 
-[node name="BaseMarker" type="Marker2D" parent="Battlefield/NormalMode" unique_id=362441404]
-unique_name_in_owner = true
-position = Vector2(81, 272)
-
 [node name="EnemySpawnMarker" type="Marker2D" parent="Battlefield/NormalMode" unique_id=2071484387]
 unique_name_in_owner = true
 position = Vector2(1009, 335)
-
-[node name="ArrowSpawnMarker" type="Marker2D" parent="Battlefield/NormalMode" unique_id=873359651]
-unique_name_in_owner = true
-position = Vector2(80, 158)
 
 [node name="TowerContainer" type="Node" parent="Battlefield/NormalMode" unique_id=1117695447]
 unique_name_in_owner = true
 
 [node name="slot_01" type="Marker2D" parent="Battlefield/NormalMode/TowerContainer" unique_id=933817326]
-position = Vector2(723, 267)
+position = Vector2(644, 323)
 
 [node name="slot_02" type="Marker2D" parent="Battlefield/NormalMode/TowerContainer" unique_id=355545720]
-position = Vector2(400, 141)
+position = Vector2(387, 387)
 
 [node name="slot_03" type="Marker2D" parent="Battlefield/NormalMode/TowerContainer" unique_id=1000326379]
-position = Vector2(315, 438)
+position = Vector2(160, 363)
 
 [node name="EnemyContainer" type="Node" parent="." unique_id=487878552]
 unique_name_in_owner = true
@@ -159,3 +178,36 @@ volume_db = -15.0
 [node name="wrong-sfx" type="AudioStreamPlayer2D" parent="Audio" unique_id=1002116931]
 unique_name_in_owner = true
 stream = ExtResource("7_fxpxx")
+
+[node name="DevStuff" type="CanvasLayer" parent="." unique_id=1547193028]
+
+[node name="DEBUG_SkipWave" type="Button" parent="DevStuff" unique_id=168527252]
+unique_name_in_owner = true
+z_index = 5
+custom_minimum_size = Vector2(100, 40)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = -258.0
+offset_right = 464.0
+offset_bottom = -218.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("17_o8s5m")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_5sw37")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_60eht")
+theme_override_styles/hover = SubResource("StyleBoxTexture_f7bvm")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_fjqof")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0lrm5")
+text = "Skip Wave"
+
+[connection signal="pressed" from="DevStuff/DEBUG_SkipWave" to="." method="debug_skip_wave"]

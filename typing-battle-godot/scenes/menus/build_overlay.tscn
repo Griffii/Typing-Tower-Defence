@@ -147,7 +147,8 @@ offset_bottom = 40.0
 anchors_preset = 0
 
 [node name="Slot01" type="Node2D" parent="ModesContainer/NormalModeSlots" unique_id=1236485525]
-position = Vector2(724, 147)
+z_index = 1
+position = Vector2(644, 209)
 
 [node name="Slot01AreaRing" parent="ModesContainer/NormalModeSlots/Slot01" unique_id=116692627 instance=ExtResource("7_p6amu")]
 unique_name_in_owner = true
@@ -229,10 +230,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -84.0
-offset_top = 89.0
-offset_right = -44.0
-offset_bottom = 129.0
+offset_left = -20.0
+offset_top = 140.0
+offset_right = 20.0
+offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
@@ -244,7 +245,8 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Slot02" type="Node2D" parent="ModesContainer/NormalModeSlots" unique_id=135548210]
-position = Vector2(401, 25)
+z_index = 1
+position = Vector2(388, 276)
 
 [node name="Slot02AreaRing" parent="ModesContainer/NormalModeSlots/Slot02" unique_id=1782920259 instance=ExtResource("7_p6amu")]
 unique_name_in_owner = true
@@ -319,10 +321,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -84.0
-offset_top = 89.0
-offset_right = -44.0
-offset_bottom = 129.0
+offset_left = -21.0
+offset_top = 134.0
+offset_right = 19.0
+offset_bottom = 174.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
@@ -334,7 +336,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Slot03" type="Node2D" parent="ModesContainer/NormalModeSlots" unique_id=1138934213]
-position = Vector2(316, 319)
+position = Vector2(159, 253)
 
 [node name="Slot03AreaRing" parent="ModesContainer/NormalModeSlots/Slot03" unique_id=1029134687 instance=ExtResource("7_p6amu")]
 unique_name_in_owner = true
@@ -412,10 +414,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -84.0
-offset_top = 89.0
-offset_right = -44.0
-offset_bottom = 129.0
+offset_left = -21.0
+offset_top = 138.0
+offset_right = 19.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
@@ -431,3 +433,15 @@ unique_name_in_owner = true
 
 [node name="upgrade-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1988925113]
 unique_name_in_owner = true
+
+[node name="TowerContainer" type="Node" parent="." unique_id=665627511]
+unique_name_in_owner = true
+
+[node name="slot_01" type="Marker2D" parent="TowerContainer" unique_id=10235311]
+position = Vector2(644, 323)
+
+[node name="slot_02" type="Marker2D" parent="TowerContainer" unique_id=393121232]
+position = Vector2(387, 387)
+
+[node name="slot_03" type="Marker2D" parent="TowerContainer" unique_id=1908858059]
+position = Vector2(160, 363)

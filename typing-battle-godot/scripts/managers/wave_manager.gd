@@ -143,6 +143,34 @@ func get_pending_spawn_count() -> int:
 	return pending_spawn_count
 
 
+func get_unspawned_enemies() -> Array:
+	var remaining: Array = []
+
+	if current_spawn_cursor >= current_wave_queue.size():
+		return remaining
+
+	for i in range(current_spawn_cursor, current_wave_queue.size()):
+		var enemy_data: Variant = current_wave_queue[i]
+		if typeof(enemy_data) == TYPE_DICTIONARY:
+			remaining.append((enemy_data as Dictionary).duplicate(true))
+
+	return remaining
+
+
+func debug_skip_current_wave() -> Array:
+	if not wave_active:
+		return []
+
+	var unspawned_enemies: Array = get_unspawned_enemies()
+
+	current_spawn_cursor = current_wave_queue.size()
+	pending_spawn_count = 0
+	alive_enemy_count = 0
+
+	_try_finish_wave()
+
+	return unspawned_enemies
+
 func _try_finish_wave() -> void:
 	if not wave_active:
 		return

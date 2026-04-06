@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c8jx1yfih5d8l"]
+
+[ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="1_buqnp"]
+[ext_resource type="Script" uid="uid://dt4ox5fq1jugt" path="res://scenes/game/bases/the_castle.gd" id="1_r27sy"]
+[ext_resource type="Texture2D" uid="uid://dfdh6bl5ijki2" path="res://assets/images/castle.png" id="2_r27sy"]
+[ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/magic_bar_empty.png" id="3_fhuuk"]
+[ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/magic_bar_filled.png" id="4_jg7c2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rf8lp"]
+texture = ExtResource("3_fhuuk")
+texture_margin_left = 10.034258
+texture_margin_right = 2.0089364
+region_rect = Rect2(0, 0, 50.008907, 11)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nktak"]
+texture = ExtResource("4_jg7c2")
+texture_margin_left = 10.978203
+texture_margin_right = 2.0044343
+region_rect = Rect2(0, 0, 49.99132, 11)
+
+[node name="TheCastle" type="Node2D" unique_id=1460439950]
+script = ExtResource("1_r27sy")
+
+[node name="CastleTower" type="Sprite2D" parent="." unique_id=1945198937]
+position = Vector2(79, 173)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_buqnp")
+
+[node name="Castle" type="Sprite2D" parent="." unique_id=488283384]
+position = Vector2(81, 221)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_r27sy")
+
+[node name="ProgressBarRoot" type="Node2D" parent="." unique_id=904749073]
+
+[node name="ProgressBar" type="ProgressBar" parent="ProgressBarRoot" unique_id=1059438204]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 20)
+offset_left = 19.0
+offset_top = 278.0
+offset_right = 139.0
+offset_bottom = 299.0
+theme_override_styles/background = SubResource("StyleBoxTexture_rf8lp")
+theme_override_styles/fill = SubResource("StyleBoxTexture_nktak")
+show_percentage = false
+
+[node name="BaseMarker" type="Marker2D" parent="." unique_id=2124206430]
+unique_name_in_owner = true
+position = Vector2(81, 272)
+
+[node name="ArrowSpawnMarker" type="Marker2D" parent="." unique_id=1365120791]
+unique_name_in_owner = true
+position = Vector2(80, 158)

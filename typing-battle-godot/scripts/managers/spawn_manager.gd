@@ -154,6 +154,30 @@ func get_front_most_enemy() -> Node:
 	return front_most
 
 
+func create_enemy_preview_from_data(enemy_data: Dictionary) -> Node:
+	var enemy_type: String = str(enemy_data.get("enemy_type", "grunt"))
+	var enemy_scene: PackedScene = ENEMY_SCENES.get(enemy_type, GRUNT_SCENE)
+
+	var enemy_instance: Node = enemy_scene.instantiate()
+
+	var final_enemy_data: Dictionary = enemy_data.duplicate(true)
+
+	var resolved_list_name: String = _resolve_word_list_name(final_enemy_data)
+	final_enemy_data["resolved_word_list"] = resolved_list_name
+
+	if not final_enemy_data.has("word") or str(final_enemy_data.get("word", "")).is_empty():
+		final_enemy_data["word"] = get_word_for_enemy_data(final_enemy_data)
+
+	enemy_instance.set_meta("spawn_enemy_data", final_enemy_data)
+
+	if enemy_instance.has_method("setup_enemy"):
+		final_enemy_data["path_points"] = []
+		final_enemy_data["enemy_id"] = "preview_%s" % enemy_type
+		enemy_instance.setup_enemy(final_enemy_data)
+
+	return enemy_instance
+
+
 func _on_wave_started(wave_index: int) -> void:
 	begin_wave(wave_index)
 
@@ -371,3 +395,44 @@ func _cleanup_invalid_enemies() -> void:
 	for i in range(active_enemies.size() - 1, -1, -1):
 		if not is_instance_valid(active_enemies[i]):
 			active_enemies.remove_at(i)
+
+
+
+func debug_force_spawn_all_remaining_enemies() -> Array[Node]:
+	var spawned_enemies: Array[Node] = []
+
+	if not wave_in_progress:
+		_cleanup_invalid_enemies()
+		return active_enemies.duplicate()
+
+	waiting_for_wave_enemy_data = false
+	spawn_timer = 0.0
+
+	while true:
+		while not spawn_queue.is_empty():
+			var before_count: int = active_enemies.size()
+			_spawn_next_enemy_from_queue()
+
+			if active_enemies.size() > before_count:
+				var newest_enemy: Node = active_enemies[active_enemies.size() - 1]
+				if is_instance_valid(newest_enemy):
+					spawned_enemies.append(newest_enemy)
+
+		if wave_manager == null:
+			break
+		if not wave_manager.has_method("has_more_enemies_to_spawn"):
+			break
+		if not wave_manager.has_more_enemies_to_spawn():
+			break
+
+		waiting_for_wave_enemy_data = true
+		if wave_manager.has_method("request_next_enemy_spawn"):
+			wave_manager.request_next_enemy_spawn()
+		waiting_for_wave_enemy_data = false
+
+	spawn_queue.clear()
+	waiting_for_wave_enemy_data = false
+	spawn_timer = 0.0
+
+	_cleanup_invalid_enemies()
+	return active_enemies.duplicate()

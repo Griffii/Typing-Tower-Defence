@@ -12,14 +12,12 @@ signal text_changed(text: String)
 @onready var game_menu_button: Button = %GameMenuButton
 
 @onready var input_field: LineEdit = %InputField
-@onready var progress_bar: ProgressBar = %ProgressBar
 
 @onready var base_hp_label: Label = %BaseHpLabel
 @onready var gold_label: Label = %GoldLabel
 
 @onready var feedback_label: Label = %FeedbackLabel
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
-
 
 
 func _ready() -> void:
@@ -34,7 +32,6 @@ func _ready() -> void:
 
 	show_start_wave_button("Start Wave")
 	set_wave_text(1, 1)
-
 
 
 func _on_start_wave_button_pressed() -> void:
@@ -71,15 +68,8 @@ func set_base_hp(current_hp: int, max_hp: int) -> void:
 		base_hp_label.text = "%d / %d" % [current_hp, max_hp]
 
 
-func set_arrow_meter(current_value: float, max_value: float) -> void:
-	progress_bar.max_value = max(0.001, max_value)
-	progress_bar.value = clampf(current_value, 0.0, progress_bar.max_value)
-
-
-
 func set_status_text(text: String) -> void:
 	status_label.text = text
-
 
 
 func show_start_wave_button(button_text: String) -> void:
