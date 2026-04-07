@@ -5,9 +5,9 @@ extends Enemy
 const SLIME_COLORS: Array[String] = [
 	"blue",
 	"grey",
-	#"green",
-	#"yellow",
-	#"orange",
+	"green",
+	"yellow",
+	"orange",
 	"red",
 	"pink",
 ]
@@ -130,7 +130,9 @@ func die() -> void:
 
 	current_target = null
 	targets_in_range.clear()
-
+	
+	_spawn_coin_burst_effect()
+	
 	if slime_sprite != null:
 		var anim_name := "%s_die" % slime_color
 		if slime_sprite.sprite_frames != null and slime_sprite.sprite_frames.has_animation(anim_name):
@@ -147,6 +149,22 @@ func die() -> void:
 
 	enemy_died.emit(self)
 	queue_free()
+
+
+func _spawn_hit_burst_effect() -> void:
+	if not use_hit_burst_effect:
+		return
+
+	var effect: Node2D = HIT_BURST_EFFECT_SCENE.instantiate() as Node2D
+	if effect == null:
+		return
+
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		return
+
+	parent_node.add_child(effect)
+	effect.global_position = _get_effect_spawn_position()
 
 
 func _play_idle_animation() -> void:

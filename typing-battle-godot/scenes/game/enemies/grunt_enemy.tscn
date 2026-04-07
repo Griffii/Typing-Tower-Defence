@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_jja6d"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_mi6ti"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/word_label_controller.tscn" id="5_wysbr"]
-[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/sword-attack-sfx.ogg" id="6_vbw0u"]
-[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/soldier-death-sfx.ogg" id="7_rr3is"]
-[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/soldier-take-damage-sfx.ogg" id="8_pd8my"]
+[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_vbw0u"]
+[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_rr3is"]
+[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="8_pd8my"]
 
 [sub_resource type="Animation" id="Animation_1vxcc"]
 length = 0.001
@@ -575,11 +575,11 @@ stream = ExtResource("6_vbw0u")
 
 [node name="death-sfx" type="AudioStreamPlayer2D" parent="." unique_id=98160918]
 unique_name_in_owner = true
-stream = ExtResource("7_rr3is")
+stream = ExtResource("8_pd8my")
 
 [node name="hit-sfx" type="AudioStreamPlayer2D" parent="." unique_id=684487782]
 unique_name_in_owner = true
-stream = ExtResource("8_pd8my")
+stream = ExtResource("7_rr3is")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=540991098]
 unique_name_in_owner = true

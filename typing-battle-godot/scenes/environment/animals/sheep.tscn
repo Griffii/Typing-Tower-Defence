@@ -41,4 +41,5 @@ animations = [{
 [node name="Sheep" type="AnimatedSprite2D" unique_id=1144505600]
 sprite_frames = SubResource("SpriteFrames_cart2")
 animation = &"idle"
+autoplay = "idle"
 frame_progress = 0.5453689

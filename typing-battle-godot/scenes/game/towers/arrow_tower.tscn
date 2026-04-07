@@ -4,11 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="2_w6fnv"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_gbksj"]
 [ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/magic_bar_empty.png" id="4_bnc5y"]
-[ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/card_01.png" id="5_wdbdq"]
 [ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/magic_bar_filled.png" id="5_y6i83"]
+[ext_resource type="Texture2D" uid="uid://68c4e2karxs3" path="res://assets/images/magic_panel_04.png" id="6_wdbdq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8t4bd"]
 radius = 250.0
+
+[sub_resource type="Animation" id="Animation_wdbdq"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jwqch"]
+_data = {
+&"RESET": SubResource("Animation_wdbdq")
+}
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lgji"]
 texture = ExtResource("4_bnc5y")
@@ -23,14 +31,14 @@ texture_margin_right = 2.0044343
 region_rect = Rect2(0, 0, 49.99132, 11)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_om1c8"]
-texture = ExtResource("5_wdbdq")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
-region_rect = Rect2(8, 0, 48, 64)
+texture = ExtResource("6_wdbdq")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(0, 0, 48, 48)
 
-[node name="Tower" type="Node2D" unique_id=1067505479]
+[node name="ArrowTower" type="Node2D" unique_id=1067505479]
 script = ExtResource("1_cen7m")
 
 [node name="BaseSprite" type="Sprite2D" parent="." unique_id=2072018009]
@@ -55,6 +63,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_8t4bd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1903714713]
+libraries/ = SubResource("AnimationLibrary_jwqch")
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=786163962]
 unique_name_in_owner = true

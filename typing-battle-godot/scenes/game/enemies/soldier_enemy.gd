@@ -103,12 +103,14 @@ func die() -> void:
 	velocity = Vector2.ZERO
 	clear_typing_feedback()
 
+	current_target = null
+	targets_in_range.clear()
+
+	_spawn_coin_burst_effect()
+
 	if animation_player != null and animation_player.has_animation("die"):
 		animation_player.play("die")
 		await animation_player.animation_finished
-
-	current_target = null
-	targets_in_range.clear()
 
 	enemy_died.emit(self)
 	queue_free()

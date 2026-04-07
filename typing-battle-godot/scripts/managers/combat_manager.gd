@@ -1,6 +1,8 @@
 extends Node
 
 signal base_destroyed
+signal base_damaged(amount: int)
+signal base_repaired(amount: int)
 signal hud_stats_changed(stats: Dictionary)
 signal arrow_meter_changed(current_value: float, max_value: float)
 signal enemy_survived_word_hit(enemy: Node)
@@ -33,7 +35,9 @@ var upgrade_levels := {
 	"gold_gain": 0
 }
 
-var tower_levels := {}
+var available_tower_slots: Array[String] = []
+var tower_levels: Dictionary = {}
+var tower_types: Dictionary = {}
 
 
 func _process(delta: float) -> void:
@@ -57,9 +61,9 @@ func setup_run(run_config: Dictionary) -> void:
 
 
 func set_available_tower_slots(slot_ids: Array[String]) -> void:
-	tower_levels.clear()
-	for slot_id in slot_ids:
-		tower_levels[slot_id] = 0
+	available_tower_slots = slot_ids.duplicate()
+	_reset_tower_state()
+	tower_state_changed.emit()
 
 
 func reset_for_new_run() -> void:
@@ -74,9 +78,11 @@ func reset_for_new_run() -> void:
 
 func _reset_tower_state() -> void:
 	tower_levels.clear()
-	
-	for slot_id in TowerDefinitions.SLOTS.keys():
+	tower_types.clear()
+
+	for slot_id in available_tower_slots:
 		tower_levels[slot_id] = 0
+		tower_types[slot_id] = ""
 
 
 func resolve_completed_word(target_enemy: Node) -> void:
@@ -172,7 +178,16 @@ func unregister_enemy_at_base(enemy: Node) -> void:
 
 
 func apply_base_damage(amount: int) -> void:
+	if amount <= 0:
+		return
+
+	var previous_hp: int = base_hp
 	base_hp = max(0, base_hp - amount)
+	var applied_damage: int = previous_hp - base_hp
+
+	if applied_damage > 0:
+		base_damaged.emit(applied_damage)
+
 	_emit_hud_stats()
 
 	if base_hp <= 0:
@@ -199,7 +214,12 @@ func apply_upgrade_purchase(upgrade_id: String) -> bool:
 	match upgrade_id:
 		"repair_base":
 			var repair_amount: int = int(def.get("value_per_level", 0))
+			var previous_hp: int = base_hp
 			base_hp = min(base_hp_max, base_hp + repair_amount)
+			var applied_repair: int = base_hp - previous_hp
+
+			if applied_repair > 0:
+				base_repaired.emit(applied_repair)
 
 		"word_damage":
 			word_damage += int(def.get("value_per_level", 0))
@@ -252,66 +272,89 @@ func _emit_hud_stats() -> void:
 	})
 
 
-
 ### Tower API #####
+
+func has_tower_slot(slot_id: String) -> bool:
+	return tower_levels.has(slot_id)
+
 
 func get_tower_level(slot_id: String) -> int:
 	return int(tower_levels.get(slot_id, 0))
 
 
+func get_tower_type(slot_id: String) -> String:
+	return str(tower_types.get(slot_id, ""))
+
+
 func get_tower_stats(slot_id: String) -> Dictionary:
-	if not TowerDefinitions.SLOTS.has(slot_id):
+	var tower_type: String = get_tower_type(slot_id)
+	if tower_type.is_empty():
 		return {}
 
 	var level: int = get_tower_level(slot_id)
 	if level <= 0:
 		return {}
 
-	var levels: Array = TowerDefinitions.SLOTS[slot_id].get("levels", [])
-	if level - 1 < 0 or level - 1 >= levels.size():
-		return {}
-
-	return levels[level - 1]
+	return TowerDefinitions.get_level_data(tower_type, level)
 
 
-func get_next_tower_cost(slot_id: String) -> int:
-	if not TowerDefinitions.SLOTS.has(slot_id):
-		return -1
+func get_max_tower_level(slot_id: String) -> int:
+	var tower_type: String = get_tower_type(slot_id)
+	if tower_type.is_empty():
+		return 0
 
+	return TowerDefinitions.get_max_level(tower_type)
+
+
+func get_next_tower_cost(slot_id: String, preview_tower_type: String = "") -> int:
 	var current_level: int = get_tower_level(slot_id)
-	var levels: Array = TowerDefinitions.SLOTS[slot_id].get("levels", [])
+	var tower_type: String = get_tower_type(slot_id)
 
-	if current_level >= levels.size():
+	if current_level <= 0:
+		tower_type = preview_tower_type
+
+	if tower_type.is_empty():
 		return -1
 
-	return int(levels[current_level].get("cost", -1))
+	return TowerDefinitions.get_next_cost(tower_type, current_level)
 
 
-func can_purchase_tower_level(slot_id: String) -> bool:
-	var cost := get_next_tower_cost(slot_id)
+func can_purchase_tower_level(slot_id: String, preview_tower_type: String = "") -> bool:
+	var cost := get_next_tower_cost(slot_id, preview_tower_type)
 	if cost < 0:
 		return false
 	return gold >= cost
 
 
-func purchase_tower_upgrade(slot_id: String) -> bool:
-	if not TowerDefinitions.SLOTS.has(slot_id):
+func purchase_tower_upgrade(slot_id: String, selected_tower_type: String) -> bool:
+	if not has_tower_slot(slot_id):
 		return false
 
 	var current_level: int = get_tower_level(slot_id)
-	var levels: Array = TowerDefinitions.SLOTS[slot_id].get("levels", [])
+	var built_tower_type: String = get_tower_type(slot_id)
+	var active_tower_type: String = built_tower_type
 
-	if current_level >= levels.size():
-		return false
+	if current_level <= 0:
+		if selected_tower_type.is_empty():
+			return false
 
-	var next_level_data: Dictionary = levels[current_level]
-	var cost: int = int(next_level_data.get("cost", -1))
+		if not TowerDefinitions.has_tower_type(selected_tower_type):
+			return false
 
+		active_tower_type = selected_tower_type
+	else:
+		if active_tower_type.is_empty():
+			return false
+
+	var cost: int = get_next_tower_cost(slot_id, active_tower_type)
 	if cost < 0 or gold < cost:
 		return false
 
 	gold -= cost
 	tower_levels[slot_id] = current_level + 1
+
+	if current_level <= 0:
+		tower_types[slot_id] = active_tower_type
 
 	_emit_hud_stats()
 	tower_state_changed.emit()
@@ -321,13 +364,15 @@ func purchase_tower_upgrade(slot_id: String) -> bool:
 func get_build_state() -> Dictionary:
 	var slot_state := {}
 
-	for slot_id in TowerDefinitions.SLOTS.keys():
+	for slot_id in available_tower_slots:
 		var current_level: int = get_tower_level(slot_id)
+		var tower_type: String = get_tower_type(slot_id)
 		var next_cost: int = get_next_tower_cost(slot_id)
-		var max_level: int = int((TowerDefinitions.SLOTS[slot_id].get("levels", []) as Array).size())
+		var max_level: int = get_max_tower_level(slot_id)
 
 		slot_state[slot_id] = {
 			"level": current_level,
+			"tower_type": tower_type,
 			"next_cost": next_cost,
 			"max_level": max_level,
 			"is_built": current_level > 0,

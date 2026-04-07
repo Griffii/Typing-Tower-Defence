@@ -6,8 +6,13 @@ signal enemy_died(enemy: Node)
 signal enemy_reached_base(enemy: Node)
 
 const EnemyDefinitions = preload("res://data/enemies/enemy_definitions.gd")
+const HIT_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/hit_burst.tscn")
+const COIN_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/coin_burst.tscn")
+const BUBBLE_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/bubble_burst.tscn")
 
 @export var base_reach_distance: float = 8.0
+@export var use_hit_burst_effect: bool = true
+@export var use_coin_burst_effect: bool = true
 
 @onready var visual_root: Node2D = %VisualRoot
 @onready var label_root: Node2D = %LabelRoot
@@ -170,7 +175,11 @@ func process_base_attack(delta: float, combat_manager: Node) -> void:
 
 	base_attack_timer = base_attack_interval
 	play_attack_animation()
-
+	
+	# Wait for the anim to start before applying damage to the base.
+	# Janky, but its easy and it works.
+	await get_tree().create_timer(0.2).timeout
+	
 	if combat_manager != null and combat_manager.has_method("apply_base_damage"):
 		combat_manager.apply_base_damage(base_attack_damage)
 
@@ -217,6 +226,7 @@ func apply_damage(amount: int) -> void:
 		die()
 		return
 
+	_spawn_hit_burst_effect()
 	play_take_damage_animation()
 
 
@@ -238,6 +248,11 @@ func die() -> void:
 
 	current_target = null
 	targets_in_range.clear()
+
+	_spawn_coin_burst_effect()
+
+	# Small delay to allow effects/animations to play
+	#await get_tree().create_timer(0.4).timeout
 
 	enemy_died.emit(self)
 	queue_free()
@@ -294,6 +309,49 @@ func _apply_facing() -> void:
 
 func _play_walk_animation() -> void:
 	pass
+
+
+func _spawn_hit_burst_effect() -> void:
+	if not use_hit_burst_effect:
+		return
+	if HIT_BURST_EFFECT_SCENE == null:
+		return
+
+	var effect: Node2D = HIT_BURST_EFFECT_SCENE.instantiate() as Node2D
+	if effect == null:
+		return
+
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		return
+
+	parent_node.add_child(effect)
+	effect.global_position = _get_effect_spawn_position()
+
+
+func _spawn_coin_burst_effect() -> void:
+	if not use_coin_burst_effect:
+		return
+	if COIN_BURST_EFFECT_SCENE == null:
+		return
+
+	var effect: Node2D = COIN_BURST_EFFECT_SCENE.instantiate() as Node2D
+	if effect == null:
+		return
+
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		return
+
+	parent_node.add_child(effect)
+	effect.global_position = _get_effect_spawn_position()
+
+
+func _get_effect_spawn_position() -> Vector2:
+	if visual_root != null:
+		return visual_root.global_position
+
+	return global_position
 
 
 func _on_detection_body_entered(body: Node) -> void:

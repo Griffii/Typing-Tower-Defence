@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cw84mg5vyjq1w"]
+
+[ext_resource type="Script" uid="uid://dyi2mn16ux1af" path="res://scenes/game/effects/burst_effect.gd" id="1_44pg2"]
+[ext_resource type="Texture2D" uid="uid://bkjp76b7vr2nm" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0000.png" id="2_44pg2"]
+[ext_resource type="Texture2D" uid="uid://bn0oeygp86432" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0001.png" id="3_duv3p"]
+[ext_resource type="Texture2D" uid="uid://chkus87j63lnd" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0002.png" id="4_0hiaw"]
+[ext_resource type="Texture2D" uid="uid://dxx44mus6islp" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0003.png" id="5_q2qhc"]
+[ext_resource type="Texture2D" uid="uid://bfm08d6nmod8s" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0004.png" id="6_kq2d5"]
+[ext_resource type="Texture2D" uid="uid://dykbl3e5kjtcc" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0005.png" id="7_nw5im"]
+[ext_resource type="Texture2D" uid="uid://cdi7fb3ksspcl" path="res://assets/images/impact_effects/symmetrical_impact_001_large_yellow/frame0006.png" id="8_3k4c0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jjmt3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_44pg2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_duv3p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0hiaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_q2qhc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_kq2d5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_nw5im")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3k4c0")
+}],
+"loop": false,
+"name": &"hit_burst",
+"speed": 20.0
+}]
+
+[node name="HitBurstEffect" type="Node2D" unique_id=1950245865]
+z_index = 5
+script = ExtResource("1_44pg2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1493804115]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_jjmt3")
+animation = &"hit_burst"
+autoplay = "hit_burst"
+frame = 6
+frame_progress = 1.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1114708514]
+unique_name_in_owner = true

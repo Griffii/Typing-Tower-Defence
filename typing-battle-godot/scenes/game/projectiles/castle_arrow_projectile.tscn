@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bemiv1qu52bm3"]
+
+[ext_resource type="Script" uid="uid://bkvwc1grmniku" path="res://scenes/game/projectiles/castle_arrow_projectile.gd" id="1_3t1q7"]
+[ext_resource type="Texture2D" uid="uid://dbs106u6c2tv" path="res://assets/images/towers/arrow.png" id="2_7l43p"]
+[ext_resource type="AudioStream" uid="uid://b34acd123tgn6" path="res://assets/sfx/towers/arrow_hit.mp3" id="3_j15ig"]
+[ext_resource type="AudioStream" uid="uid://b68w6soxh2uuv" path="res://assets/sfx/towers/arrow_shoot.mp3" id="4_o26b5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vbn6"]
+radius = 2.0
+height = 16.0
+
+[node name="ArrowProjectile" type="Node2D" unique_id=1539643433]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_3t1q7")
+
+[node name="ArrowSprite" type="Sprite2D" parent="." unique_id=1041803924]
+unique_name_in_owner = true
+texture = ExtResource("2_7l43p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1193172505]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_0vbn6")
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="." unique_id=1183953062]
+unique_name_in_owner = true
+stream = ExtResource("3_j15ig")
+
+[node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=183227528]
+unique_name_in_owner = true
+stream = ExtResource("4_o26b5")

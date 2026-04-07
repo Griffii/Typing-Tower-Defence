@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://vw8hocprbtjh"]
+
+[ext_resource type="Script" uid="uid://8n4jjyrct652" path="res://scenes/game/projectiles/tower_arrow_projectile.gd" id="1_1fr4b"]
+[ext_resource type="Texture2D" uid="uid://dbs106u6c2tv" path="res://assets/images/towers/arrow.png" id="2_xorti"]
+[ext_resource type="AudioStream" uid="uid://b34acd123tgn6" path="res://assets/sfx/towers/arrow_hit.mp3" id="3_1mfc2"]
+[ext_resource type="AudioStream" uid="uid://b68w6soxh2uuv" path="res://assets/sfx/towers/arrow_shoot.mp3" id="4_e32tw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5nnoj"]
+radius = 2.0
+height = 16.0
+
+[node name="TowerArrowProjectile" type="Node2D" unique_id=994561407]
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_1fr4b")
+
+[node name="ArrowSprite" type="Sprite2D" parent="." unique_id=1645388335]
+unique_name_in_owner = true
+texture = ExtResource("2_xorti")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=457943395]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_5nnoj")
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="." unique_id=707143104]
+unique_name_in_owner = true
+stream = ExtResource("3_1mfc2")
+
+[node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=377079126]
+unique_name_in_owner = true
+stream = ExtResource("4_e32tw")

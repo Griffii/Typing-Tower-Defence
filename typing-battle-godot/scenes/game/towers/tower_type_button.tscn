@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://vjau7wdcbhe7"]
+
+[ext_resource type="Texture2D" uid="uid://cu41173875ncd" path="res://assets/images/magic_panel_01.png" id="1_wh3gp"]
+[ext_resource type="Script" uid="uid://dv0axyoa7s2f0" path="res://scenes/game/towers/tower_type_button.gd" id="2_wh3gp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5nkwm"]
+texture = ExtResource("1_wh3gp")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(0, 0, 46, 46)
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4g1u2"]
+texture = ExtResource("1_wh3gp")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(0, 0, 46, 46)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x52mr"]
+texture = ExtResource("1_wh3gp")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(0, 0, 46, 46)
+modulate_color = Color(1, 1, 0.7647059, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aaevm"]
+texture = ExtResource("1_wh3gp")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(0, 0, 46, 46)
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tkwek"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 0.44705883, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wh3gp"]
+
+[node name="TowerTypeButton" type="Button" unique_id=1378997435]
+custom_minimum_size = Vector2(50, 50)
+offset_right = 50.0
+offset_bottom = 50.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5nkwm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4g1u2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_x52mr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_aaevm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tkwek")
+icon = SubResource("CompressedTexture2D_wh3gp")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("2_wh3gp")

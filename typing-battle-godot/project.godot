@@ -14,6 +14,7 @@ config/name="Typing Tower Defence!"
 run/main_scene="uid://ws4cm1qoqgge"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/image="uid://n54m58d228ns"
+config/icon="uid://b23vspxb8ehtc"
 
 [autoload]
 

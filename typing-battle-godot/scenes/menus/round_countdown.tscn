@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3jiu5nydwwxj" path="res://scenes/menus/round_countdown.gd" id="1_2jpbh"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_b7dil"]
-[ext_resource type="AudioStream" uid="uid://c13tku0pdgk86" path="res://assets/sfx/arcade-countdown.mp3" id="3_i3x7k"]
+[ext_resource type="AudioStream" uid="uid://c13tku0pdgk86" path="res://assets/sfx/menus/arcade-countdown.mp3" id="3_i3x7k"]
 
 [node name="RoundCountdown" type="CanvasLayer" unique_id=30536367]
 script = ExtResource("1_2jpbh")

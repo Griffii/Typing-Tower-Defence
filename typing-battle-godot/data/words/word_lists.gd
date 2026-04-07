@@ -58,7 +58,7 @@ const SCHOOL_WORDS: Array[String] = [
 	"desk","drawing","eraser","example","exercise","folder","grammar","homework","lesson","library",
 	"marker","notebook","number","pencil","problem","project","question","quiet","reader","report",
 	"ruler","science","student","subject","teacher","textbook","timetable","vocabulary","whiteboard","worksheet",
-	"writing","history","music","lunchbox","schedule","practice","speaker","stationery","study","review"
+	"writing","history","music","lunchbox","schedule","practice","speaker","stationary","study","review"
 ]
 
 const FOOD_WORDS: Array[String] = [

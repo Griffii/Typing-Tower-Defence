@@ -1,8 +1,12 @@
 extends Node2D
 class_name TowerUpgradeNode
 
-signal purchase_requested(slot_id: String)
+signal purchase_requested(slot_id: String, tower_type: String)
 
+const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
+const TOWER_TYPE_BUTTON_SCENE: PackedScene = preload("res://scenes/game/towers/tower_type_button.tscn")
+
+@onready var tower_type_buttons: VBoxContainer = %TowerTypeButtons
 @onready var area_ring: Sprite2D = %AreaRing
 @onready var info_card: PanelContainer = %InfoCard
 @onready var cost_label: Label = %CostLabel
@@ -12,10 +16,20 @@ signal purchase_requested(slot_id: String)
 @onready var upgrade_sfx: AudioStreamPlayer2D = %UpgradeSfx
 
 var slot_id: String = ""
+var allowed_tower_types: Array[String] = []
+var selected_tower_type: String = ""
+
+var _tower_type_button_group: ButtonGroup = ButtonGroup.new()
+var _type_button_nodes: Dictionary = {}
 var _last_level: int = 0
+var _last_built_tower_type: String = ""
+var _current_slot_data: Dictionary = {}
+var _current_gold: int = 0
 
 
 func _ready() -> void:
+	_tower_type_button_group.allow_unpress = false
+
 	if purchase_button != null:
 		if not purchase_button.pressed.is_connected(_on_purchase_pressed):
 			purchase_button.pressed.connect(_on_purchase_pressed)
@@ -27,7 +41,7 @@ func _ready() -> void:
 			purchase_button.mouse_exited.connect(_on_button_unhovered)
 
 		purchase_button.scale = Vector2.ONE
-		purchase_button.modulate.a = 0.82
+		purchase_button.modulate.a = 0.35
 		purchase_button.pivot_offset = purchase_button.size * 0.5
 
 	if info_card != null:
@@ -36,8 +50,26 @@ func _ready() -> void:
 		_start_info_card_float()
 
 
-func setup_slot(new_slot_id: String) -> void:
+func setup_slot(new_slot_id: String, new_allowed_tower_types: Array[String] = []) -> void:
 	slot_id = new_slot_id
+	allowed_tower_types.clear()
+
+	for tower_type in new_allowed_tower_types:
+		var tower_type_str := str(tower_type)
+		if TowerDefinitions.has_tower_type(tower_type_str):
+			allowed_tower_types.append(tower_type_str)
+
+	if allowed_tower_types.is_empty():
+		allowed_tower_types = ["arrow"]
+
+	if selected_tower_type.is_empty() or not allowed_tower_types.has(selected_tower_type):
+		selected_tower_type = allowed_tower_types[0]
+
+	_rebuild_type_buttons()
+	_refresh_type_button_selection()
+	_refresh_type_button_visibility()
+	_refresh_info_panel()
+	_refresh_purchase_button_state()
 
 
 func set_screen_position(screen_position: Vector2) -> void:
@@ -50,42 +82,116 @@ func set_info_card_visible(is_visible: bool) -> void:
 
 
 func refresh_slot_state(slot_data: Variant, current_gold: int) -> void:
+	_current_gold = current_gold
+
 	if slot_data == null:
+		_current_slot_data = {}
 		_set_unavailable_state()
 		return
 
-	var data: Dictionary = slot_data as Dictionary
-	var level: int = int(data.get("level", 0))
-	var next_cost: int = int(data.get("next_cost", -1))
-	var max_level: int = int(data.get("max_level", 0))
-	var current_stats: Dictionary = data.get("current_stats", {})
+	_current_slot_data = slot_data as Dictionary
 
-	_play_purchase_sfx_if_needed(level)
+	var level: int = int(_current_slot_data.get("level", 0))
+	var built_tower_type: String = str(_current_slot_data.get("tower_type", ""))
 
-	if next_cost < 0:
-		if purchase_button != null:
-			purchase_button.disabled = true
-			purchase_button.modulate.a = 0.35
+	_play_purchase_sfx_if_needed(level, built_tower_type)
 
-		if cost_label != null:
-			cost_label.text = "Max Level"
-	else:
-		var can_afford: bool = current_gold >= next_cost
+	if level > 0 and not built_tower_type.is_empty():
+		selected_tower_type = built_tower_type
+	elif selected_tower_type.is_empty() and not allowed_tower_types.is_empty():
+		selected_tower_type = allowed_tower_types[0]
 
-		if purchase_button != null:
-			purchase_button.disabled = not can_afford
-			purchase_button.modulate.a = 0.82 if can_afford else 0.35
+	_refresh_type_button_visibility()
+	_refresh_type_button_selection()
+	_refresh_info_panel()
+	_refresh_purchase_button_state()
 
-		if cost_label != null:
-			cost_label.text = "Cost: %d" % next_cost
+	if info_card != null:
+		info_card.visible = false
+
+	_last_level = level
+	_last_built_tower_type = built_tower_type
+
+
+func _rebuild_type_buttons() -> void:
+	for child in tower_type_buttons.get_children():
+		child.queue_free()
+
+	_type_button_nodes.clear()
+	_tower_type_button_group = ButtonGroup.new()
+	_tower_type_button_group.allow_unpress = false
+
+	for tower_type in allowed_tower_types:
+		var button = TOWER_TYPE_BUTTON_SCENE.instantiate()
+		tower_type_buttons.add_child(button)
+
+		if button.has_method("setup_button"):
+			button.setup_button(tower_type, _tower_type_button_group)
+
+		if button.has_signal("tower_type_selected"):
+			button.tower_type_selected.connect(_on_tower_type_selected)
+
+		_type_button_nodes[tower_type] = button
+
+
+func _refresh_type_button_visibility() -> void:
+	var level: int = int(_current_slot_data.get("level", 0))
+	var show_type_buttons: bool = level <= 0
+
+	if tower_type_buttons != null:
+		tower_type_buttons.visible = show_type_buttons
 
 	if area_ring != null:
 		area_ring.visible = level <= 0
 
-	if stats_label != null:
-		if level <= 0:
-			stats_label.text = ""
-		else:
+
+func _refresh_type_button_selection() -> void:
+	for tower_type in _type_button_nodes.keys():
+		var button = _type_button_nodes[tower_type]
+		if button != null and is_instance_valid(button) and button.has_method("set_selected"):
+			button.set_selected(tower_type == selected_tower_type)
+
+
+func _on_tower_type_selected(tower_type: String) -> void:
+	_select_tower_type(tower_type)
+
+
+func _select_tower_type(tower_type: String) -> void:
+	var level: int = int(_current_slot_data.get("level", 0))
+	if level > 0:
+		return
+
+	if not allowed_tower_types.has(tower_type):
+		return
+
+	selected_tower_type = tower_type
+	_refresh_type_button_selection()
+	_refresh_info_panel()
+	_refresh_purchase_button_state()
+
+
+func _refresh_info_panel() -> void:
+	var level: int = int(_current_slot_data.get("level", 0))
+	var max_level: int = int(_current_slot_data.get("max_level", 0))
+	var current_stats: Dictionary = _current_slot_data.get("current_stats", {})
+
+	var tower_type_to_show := _get_display_tower_type()
+	if tower_type_to_show.is_empty():
+		_set_unavailable_state()
+		return
+
+	if area_ring != null:
+		area_ring.visible = level <= 0
+
+	if level > 0:
+		if cost_label != null:
+			var next_cost_built: int = int(_current_slot_data.get("next_cost", -1))
+			if next_cost_built < 0:
+				cost_label.text = "Max Level"
+			else:
+				cost_label.text = "%d" % next_cost_built
+
+		if stats_label != null:
 			var damage: int = int(current_stats.get("damage", 0))
 			var charge_required: int = int(current_stats.get("charge_required", 0))
 			var duration: float = float(current_stats.get("duration", 0.0))
@@ -111,11 +217,79 @@ func refresh_slot_state(slot_data: Variant, current_gold: int) -> void:
 				attack_interval,
 				int(range)
 			]
+		return
 
-	if info_card != null:
-		info_card.visible = false
+	var preview_next_cost: int = TowerDefinitions.get_next_cost(tower_type_to_show, 0)
+	var preview_data: Dictionary = TowerDefinitions.get_next_level_data(tower_type_to_show, 0)
+	var preview_max_level: int = TowerDefinitions.get_max_level(tower_type_to_show)
 
-	_last_level = level
+	if cost_label != null:
+		if preview_next_cost < 0:
+			cost_label.text = "Unavailable"
+		else:
+			cost_label.text = "%d" % preview_next_cost
+
+	if stats_label != null:
+		if preview_data.is_empty():
+			stats_label.text = "Unavailable"
+		else:
+			var damage_preview: int = int(preview_data.get("damage", 0))
+			var charge_required_preview: int = int(preview_data.get("charge_required", 0))
+			var duration_preview: float = float(preview_data.get("duration", 0.0))
+			var cooldown_preview: float = float(preview_data.get("cooldown", 0.0))
+			var attack_interval_preview: float = float(preview_data.get("attack_interval", 0.0))
+			var range_preview: float = float(preview_data.get("range", 0.0))
+
+			stats_label.text = (
+				"LV 1 / %d\n"
+				+ "DMG: %d\n"
+				+ "Words to Charge: %d\n"
+				+ "Duration: %.1fs\n"
+				+ "Cooldown: %.1fs\n"
+				+ "Rate: %.2fs\n"
+				+ "Range: %d"
+			) % [
+				preview_max_level,
+				damage_preview,
+				charge_required_preview,
+				duration_preview,
+				cooldown_preview,
+				attack_interval_preview,
+				int(range_preview)
+			]
+
+
+func _refresh_purchase_button_state() -> void:
+	if purchase_button == null:
+		return
+
+	var level: int = int(_current_slot_data.get("level", 0))
+	var next_cost: int = -1
+
+	if level > 0:
+		next_cost = int(_current_slot_data.get("next_cost", -1))
+	else:
+		if selected_tower_type.is_empty():
+			next_cost = -1
+		else:
+			next_cost = TowerDefinitions.get_next_cost(selected_tower_type, 0)
+
+	var has_selected_type: bool = not selected_tower_type.is_empty()
+	var can_afford: bool = next_cost >= 0 and _current_gold >= next_cost
+	var can_buy: bool = has_selected_type and can_afford
+
+	purchase_button.disabled = not can_buy
+	purchase_button.modulate.a = 0.82 if can_buy else 0.35
+
+
+func _get_display_tower_type() -> String:
+	var built_tower_type: String = str(_current_slot_data.get("tower_type", ""))
+	var level: int = int(_current_slot_data.get("level", 0))
+
+	if level > 0 and not built_tower_type.is_empty():
+		return built_tower_type
+
+	return selected_tower_type
 
 
 func _set_unavailable_state() -> void:
@@ -132,6 +306,9 @@ func _set_unavailable_state() -> void:
 	if area_ring != null:
 		area_ring.visible = false
 
+	if tower_type_buttons != null:
+		tower_type_buttons.visible = false
+
 	if info_card != null:
 		info_card.visible = false
 
@@ -140,7 +317,10 @@ func _on_purchase_pressed() -> void:
 	if slot_id.is_empty():
 		return
 
-	purchase_requested.emit(slot_id)
+	if selected_tower_type.is_empty():
+		return
+
+	purchase_requested.emit(slot_id, selected_tower_type)
 
 
 func _on_button_hovered() -> void:
@@ -182,7 +362,7 @@ func _on_button_unhovered() -> void:
 		info_card.visible = false
 
 
-func _play_purchase_sfx_if_needed(new_level: int) -> void:
+func _play_purchase_sfx_if_needed(new_level: int, built_tower_type: String) -> void:
 	if new_level <= _last_level:
 		return
 
@@ -192,6 +372,8 @@ func _play_purchase_sfx_if_needed(new_level: int) -> void:
 	else:
 		if upgrade_sfx != null:
 			upgrade_sfx.play()
+
+	_last_built_tower_type = built_tower_type
 
 
 func _start_info_card_float() -> void:
@@ -225,16 +407,6 @@ func _start_info_card_float() -> void:
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	info_card.set_meta("float_tween", tween)
-
-
-func _has_meta_tween(node: Node, key: String) -> bool:
-	if node == null:
-		return false
-	if not node.has_meta(key):
-		return false
-
-	var tween = node.get_meta(key)
-	return tween != null and is_instance_valid(tween)
 
 
 func _kill_meta_tween(node: Node, key: String) -> void:

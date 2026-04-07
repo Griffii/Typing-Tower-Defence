@@ -3,8 +3,8 @@ extends Node
 @onready var hover_player: AudioStreamPlayer = AudioStreamPlayer.new()
 @onready var click_player: AudioStreamPlayer = AudioStreamPlayer.new()
 
-var hover_sound: AudioStream = preload("res://assets/sfx/hover-sfx.ogg")
-var click_sound: AudioStream = preload("res://assets/sfx/click-sfx.ogg")
+var hover_sound: AudioStream = preload("res://assets/sfx/menus/hover-sfx.ogg")
+var click_sound: AudioStream = preload("res://assets/sfx/menus/click-sfx.ogg")
 
 func _ready():
 	add_child(hover_player)

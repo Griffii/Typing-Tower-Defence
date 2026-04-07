@@ -117,6 +117,10 @@ func _connect_signals() -> void:
 				combat_manager.arrow_meter_filled.connect(_on_arrow_meter_filled)
 		if combat_manager.has_signal("tower_state_changed"):
 			combat_manager.tower_state_changed.connect(_on_tower_state_changed)
+		if combat_manager.has_signal("base_damaged"):
+			combat_manager.base_damaged.connect(_on_base_damaged)
+		if combat_manager.has_signal("base_repaired"):
+			combat_manager.base_repaired.connect(_on_base_repaired)
 
 	if typing_manager != null:
 		if typing_manager.has_signal("word_completed"):
@@ -195,6 +199,10 @@ func _apply_level_references_to_systems() -> void:
 
 	if build_overlay != null and build_overlay.has_method("set_level"):
 		build_overlay.set_level(current_level)
+
+	if combat_manager != null and combat_manager.has_method("set_available_tower_slots"):
+		if current_level.has_method("get_tower_slot_ids"):
+			combat_manager.set_available_tower_slots(current_level.get_tower_slot_ids())
 
 
 func setup_run(run_config: Dictionary) -> void:
@@ -394,6 +402,15 @@ func _on_all_waves_cleared() -> void:
 	_set_run_state(RunState.VICTORY)
 
 
+func _on_base_damaged(_amount: int) -> void:
+	if current_level != null and current_level.castle != null and current_level.castle.has_method("play_take_damage"):
+		current_level.castle.play_take_damage()
+
+
+func _on_base_repaired(_amount: int) -> void:
+	if current_level != null and current_level.castle != null and current_level.castle.has_method("spawn_repair_burst"):
+		current_level.castle.spawn_repair_burst()
+
 func _on_base_destroyed() -> void:
 	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
 		return
@@ -458,10 +475,13 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 
 	if game_hud.has_method("set_base_hp"):
 		game_hud.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
-
+	
+	if current_level.castle.has_method("set_base_hp"):
+		current_level.castle.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
+	
 	if is_shop_open:
 		_refresh_shop()
-
+	
 	if is_build_open:
 		_refresh_build()
 
@@ -687,6 +707,12 @@ func _hide_build() -> void:
 		build_overlay.hide_overlay()
 
 
+func _on_build_return_to_shop_requested() -> void:
+	if run_state != RunState.BUILD:
+		return
+
+	_set_run_state(RunState.SHOP)
+
 func _refresh_build() -> void:
 	if not is_build_open:
 		return
@@ -697,20 +723,13 @@ func _refresh_build() -> void:
 		build_overlay.refresh_build(combat_manager.get_build_state())
 
 
-func _on_build_return_to_shop_requested() -> void:
-	if run_state != RunState.BUILD:
-		return
-
-	_set_run_state(RunState.SHOP)
-
-
-func _on_build_tower_purchase_requested(slot_id: String) -> void:
+func _on_build_tower_purchase_requested(slot_id: String, tower_type: String) -> void:
 	if run_state != RunState.BUILD:
 		return
 	if combat_manager == null or not combat_manager.has_method("purchase_tower_upgrade"):
 		return
 
-	var purchased: bool = combat_manager.purchase_tower_upgrade(slot_id)
+	var purchased: bool = combat_manager.purchase_tower_upgrade(slot_id, tower_type)
 	if purchased:
 		_refresh_build()
 		_refresh_shop()

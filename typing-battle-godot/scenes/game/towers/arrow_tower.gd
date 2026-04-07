@@ -1,6 +1,6 @@
 extends Node2D
 
-const TOWER_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/tower_projectile.tscn")
+const TOWER_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/tower_arrow_projectile.tscn")
 const WordLists = preload("res://data/words/word_lists.gd")
 
 enum TowerState {
@@ -227,7 +227,7 @@ func _build_word_bbcode(input_text: String) -> String:
 			var typed_char: String = input_text.substr(i, 1)
 
 			if typed_char == target_char:
-				bbcode += "[color=#9CFF9C]" + _escape_bbcode(target_char) + "[/color]"
+				bbcode += "[color=#C9A6FF]" + _escape_bbcode(target_char) + "[/color]"
 			else:
 				bbcode += "[color=#FF9C9C]" + _escape_bbcode(target_char) + "[/color]"
 		else:

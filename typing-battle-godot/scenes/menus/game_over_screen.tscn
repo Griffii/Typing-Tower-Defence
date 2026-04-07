@@ -6,8 +6,8 @@
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="3_dilvs"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_8xsqk"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_mu18a"]
-[ext_resource type="AudioStream" uid="uid://uw7s61mg3r77" path="res://assets/sfx/fanfare.mp3" id="8_pxy88"]
-[ext_resource type="AudioStream" uid="uid://b2w7yrhi4xs8x" path="res://assets/sfx/fail-sound-effect.mp3" id="9_8xsqk"]
+[ext_resource type="AudioStream" uid="uid://uw7s61mg3r77" path="res://assets/sfx/menus/fanfare.mp3" id="8_pxy88"]
+[ext_resource type="AudioStream" uid="uid://b2w7yrhi4xs8x" path="res://assets/sfx/menus/fail-sound-effect.mp3" id="9_8xsqk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vxs3"]
 texture = ExtResource("2_pxy88")

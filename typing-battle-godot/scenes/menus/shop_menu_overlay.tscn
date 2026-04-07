@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="11_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://rb4720ggs5up" path="res://assets/images/menu/scroll_label_panel.png" id="11_styg8"]
 [ext_resource type="Texture2D" uid="uid://c0lcannswxffp" path="res://assets/images/icons/heart_icon_hover.png" id="12_h403f"]
-[ext_resource type="AudioStream" uid="uid://dacstklnvog4q" path="res://assets/sfx/card_swipe.ogg" id="12_styg8"]
+[ext_resource type="AudioStream" uid="uid://dacstklnvog4q" path="res://assets/sfx/menus/card_swipe.ogg" id="12_styg8"]
 [ext_resource type="Texture2D" uid="uid://g1etfgg7s1qt" path="res://assets/images/icons/build_icon_hover.png" id="13_yr2xu"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kmlj4"]

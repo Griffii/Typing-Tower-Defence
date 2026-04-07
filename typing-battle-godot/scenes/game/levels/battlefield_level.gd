@@ -4,6 +4,8 @@ class_name BattlefieldLevel
 signal castle_projectile_impact(target_enemy: Node)
 
 const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
+const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
+const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
 
 @onready var castle: Node = %Castle
 @onready var enemy_path: Path2D = %EnemyPath
@@ -13,6 +15,8 @@ const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow
 var projectile_container: Node = null
 var tower_nodes: Dictionary = {}
 var tower_scene_map: Dictionary = {}
+
+var allowed_tower_types: Array[String] = ["arrow"]
 
 
 func setup_level(shared_projectile_container: Node) -> void:
@@ -64,6 +68,10 @@ func get_tower_slots() -> Array[Marker2D]:
 			result.append(child)
 
 	return result
+
+
+func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
+	return allowed_tower_types.duplicate()
 
 
 func set_arrow_meter(current_value: float, max_value: float) -> void:
@@ -122,7 +130,7 @@ func refresh_all_towers(combat_manager: Node) -> void:
 			if marker == null:
 				continue
 
-			var tower_scene: PackedScene = get_tower_scene_for_slot(slot_id, level)
+			var tower_scene: PackedScene = get_tower_scene_for_slot(slot_id, level, combat_manager)
 			tower = tower_scene.instantiate() as Node2D
 			if tower == null:
 				continue
@@ -147,7 +155,16 @@ func refresh_all_towers(combat_manager: Node) -> void:
 		tower_nodes.erase(stale_slot_id)
 
 
-func get_tower_scene_for_slot(slot_id: String, _level: int) -> PackedScene:
+func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node = null) -> PackedScene:
+	if combat_manager != null and combat_manager.has_method("get_tower_type"):
+		var tower_type: String = combat_manager.get_tower_type(slot_id)
+
+		match tower_type:
+			"lightning":
+				return LIGHTNING_TOWER_SCENE
+			"arrow":
+				return ARROW_TOWER_SCENE
+
 	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
 
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://byxn2tink4tyi" path="res://scenes/game/levels/grasslands.gd" id="1_2v6j6"]
 [ext_resource type="TileSet" uid="uid://381uk2yd5j73" path="res://assets/tilesets/tiny-town-tileset.tres" id="1_gemwl"]
-[ext_resource type="PackedScene" uid="uid://c8jx1yfih5d8l" path="res://scenes/game/bases/the_castle.tscn" id="2_2v6j6"]
+[ext_resource type="PackedScene" uid="uid://c8jx1yfih5d8l" path="res://scenes/game/bases/grasslands_castle.tscn" id="2_2v6j6"]
 
 [sub_resource type="Curve2D" id="Curve2D_dagq5"]
 _data = {

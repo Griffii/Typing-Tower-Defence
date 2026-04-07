@@ -1,10 +1,9 @@
 extends CanvasLayer
 
 signal return_to_shop_requested
-signal tower_purchase_requested(slot_id: String)
+signal tower_purchase_requested(slot_id: String, tower_type: String)
 
 const TOWER_UPGRADE_NODE_SCENE: PackedScene = preload("res://scenes/game/towers/tower_upgrade_node.tscn")
-const TOWER_MARKER_SCENE: PackedScene = preload("res://scenes/game/towers/tower_area_ring.tscn")
 
 @onready var gold_label: Label = %GoldLabel
 @onready var return_button: Button = %ReturnToShopButton
@@ -26,6 +25,8 @@ func _ready() -> void:
 
 
 func set_level(level: BattlefieldLevel) -> void:
+	print("[BuildOverlay] set_level() level=", level, " class=", level.get_class() if level != null else "null")
+
 	_current_level = level
 	_rebuild_slot_nodes()
 
@@ -88,6 +89,8 @@ func _rebuild_slot_nodes() -> void:
 	_clear_slot_nodes()
 	_slot_markers.clear()
 
+	print("[BuildOverlay] _rebuild_slot_nodes() _current_level=", _current_level, " class=", _current_level.get_class() if _current_level != null else "null")
+
 	if _current_level == null:
 		return
 
@@ -106,8 +109,12 @@ func _rebuild_slot_nodes() -> void:
 		var slot_node = TOWER_UPGRADE_NODE_SCENE.instantiate()
 		slot_node_container.add_child(slot_node)
 
+		var allowed_types: Array[String] = ["arrow"]
+		if _current_level.has_method("get_allowed_tower_types_for_slot"):
+			allowed_types = _current_level.get_allowed_tower_types_for_slot(slot_id)
+
 		if slot_node.has_method("setup_slot"):
-			slot_node.setup_slot(slot_id)
+			slot_node.setup_slot(slot_id, allowed_types)
 
 		if slot_node.has_signal("purchase_requested"):
 			slot_node.purchase_requested.connect(_on_slot_purchase_requested)
@@ -145,8 +152,8 @@ func _world_to_screen(world_position: Vector2) -> Vector2:
 	return get_viewport().get_canvas_transform() * world_position
 
 
-func _on_slot_purchase_requested(slot_id: String) -> void:
-	tower_purchase_requested.emit(slot_id)
+func _on_slot_purchase_requested(slot_id: String, tower_type: String) -> void:
+	tower_purchase_requested.emit(slot_id, tower_type)
 
 
 func _on_return_pressed() -> void:

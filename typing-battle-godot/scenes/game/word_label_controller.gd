@@ -224,11 +224,14 @@ func _build_word_bbcode(input_text: String) -> String:
 			var typed_char: String = input_text.substr(i, 1)
 
 			if typed_char == target_char:
-				bbcode += "[color=#9CFF9C]" + _escape_bbcode(target_char) + "[/color]"
+				# Bright neon green (very readable)
+				bbcode += "[color=#4CFF4C]" + _escape_bbcode(target_char) + "[/color]"
 			else:
-				bbcode += "[color=#FF9C9C]" + _escape_bbcode(target_char) + "[/color]"
+				# Strong red (clear failure)
+				bbcode += "[color=#FF4C4C]" + _escape_bbcode(target_char) + "[/color]"
 		else:
-			bbcode += "[color=#FFFFFF]" + _escape_bbcode(target_char) + "[/color]"
+			# Brighter white with slight blue tint for clarity
+			bbcode += "[color=#F5F7FF]" + _escape_bbcode(target_char) + "[/color]"
 
 	bbcode += "[/center]"
 	return bbcode

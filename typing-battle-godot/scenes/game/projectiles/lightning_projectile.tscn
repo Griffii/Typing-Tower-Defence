@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://blet6g5uj5s40"]
+
+[ext_resource type="Script" uid="uid://dws120am6v876" path="res://scenes/game/projectiles/lightning_projectile.gd" id="1_cpvws"]
+[ext_resource type="Texture2D" uid="uid://dob8ce576773p" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0000.png" id="2_prelx"]
+[ext_resource type="Texture2D" uid="uid://roil3timxwq8" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0001.png" id="3_g13cl"]
+[ext_resource type="Texture2D" uid="uid://oku3nq6ylumh" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0002.png" id="4_lwkkc"]
+[ext_resource type="Texture2D" uid="uid://cg6npb4y1ybo5" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0003.png" id="5_cpvws"]
+[ext_resource type="Texture2D" uid="uid://dkyjnwpxti4vg" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0004.png" id="6_ik58h"]
+[ext_resource type="Texture2D" uid="uid://bx5ogdxq0amqo" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0005.png" id="7_3k18o"]
+[ext_resource type="Texture2D" uid="uid://br6jig8wtbsqm" path="res://assets/images/impact_effects/lightning_strike_001_large_violet/frame0006.png" id="8_lqu0x"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5udkg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_prelx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g13cl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lwkkc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_cpvws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ik58h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_3k18o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_lqu0x")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="LightningProjectile" type="Node2D" unique_id=1539643433]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_cpvws")
+
+[node name="LightningSprite" type="AnimatedSprite2D" parent="." unique_id=20361608]
+unique_name_in_owner = true
+position = Vector2(0, -102)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_5udkg")
+autoplay = "default"
+frame = 12
+frame_progress = 1.0

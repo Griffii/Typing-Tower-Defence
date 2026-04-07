@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/soldiers/soldier_01.png" id="2_572ow"]
 [ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/soldiers/weapon_01.png" id="3_4qrpb"]
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/soldiers/shield.png" id="4_8ry7a"]
-[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/sword-attack-sfx.ogg" id="5_1vxcc"]
+[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="5_1vxcc"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_43huc"]
-[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/soldier-death-sfx.ogg" id="6_dnd12"]
-[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/soldier-take-damage-sfx.ogg" id="7_2iljp"]
+[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="6_dnd12"]
+[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="7_2iljp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bjaux"]
 size = Vector2(40, 40)
