@@ -5,6 +5,7 @@ const SCOUT_SCENE: PackedScene = preload("res://scenes/game/enemies/scout_enemy.
 const TANK_SCENE: PackedScene = preload("res://scenes/game/enemies/tank_enemy.tscn")
 const BOSS_SCENE: PackedScene = preload("res://scenes/game/enemies/boss_enemy.tscn")
 const SLIME_SCENE: PackedScene = preload("res://scenes/game/enemies/slime_enemy.tscn")
+const BOSS_SLIME_SCENE: PackedScene = preload("res://scenes/game/enemies/boss_slime_enemy.tscn")
 
 const ENEMY_SCENES := {
 	"grunt": GRUNT_SCENE,
@@ -12,6 +13,7 @@ const ENEMY_SCENES := {
 	"tank": TANK_SCENE,
 	"boss": BOSS_SCENE,
 	"slime": SLIME_SCENE,
+	"boss_slime": BOSS_SLIME_SCENE
 }
 
 const WordLists = preload("res://data/words/word_lists.gd")

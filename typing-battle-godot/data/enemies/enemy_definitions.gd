@@ -29,10 +29,10 @@ const ENEMY_STATS := {
 	},
 	"boss": {
 		"move_speed": 20.0,
-		"max_hp": 400,
+		"max_hp": 300,
 		"reward_score": 10,
 		"reward_gold": 100,
-		"base_attack_damage": 10,
+		"base_attack_damage": 8,
 		"base_attack_interval": 3.0,
 	},
 	"slime": {
@@ -43,4 +43,13 @@ const ENEMY_STATS := {
 		"base_attack_damage": 2,
 		"base_attack_interval": 1.4,
 	},
+	"boss_slime": {
+		"move_speed": 15.0,    
+		"max_hp": 350,          
+		"reward_score": 120,
+		"reward_gold": 130,
+		"base_attack_damage": 10,     
+		"base_attack_interval": 3.5,  
+	},
+	
 }
