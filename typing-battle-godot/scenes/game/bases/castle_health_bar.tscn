@@ -17,11 +17,26 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CastleHealthBar" type="Node2D" unique_id=390813373]
+[node name="CastleHealthBar" type="Control" unique_id=970504870]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -270.0
+offset_right = -480.0
+offset_bottom = -270.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_fafxe")
 
 [node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=418022284]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -47,6 +62,7 @@ texture_progress = ExtResource("3_mnog0")
 [node name="HpLabel" type="Label" parent="." unique_id=1985976043]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 20)
+layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5

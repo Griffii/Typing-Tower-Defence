@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @onready var progress_bar: TextureProgressBar = %ProgressBar
 @onready var hp_label: Label = %HpLabel

@@ -4,8 +4,6 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="4_p6amu"]
 [ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="5_yamvf"]
 [ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="6_1jpwt"]
-[ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/card_01.png" id="7_87ymt"]
-[ext_resource type="Texture2D" uid="uid://vq5kd1kupw7b" path="res://assets/images/icons/gold_coin_hover.png" id="7_yamvf"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e1sc8"]
 texture = ExtResource("5_yamvf")
@@ -55,14 +53,6 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hvkio"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yamvf"]
-texture = ExtResource("7_87ymt")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
-region_rect = Rect2(8, 0, 48, 64)
-
 [node name="BuildOverlay" type="CanvasLayer" unique_id=1554375440]
 script = ExtResource("1_ihyv4")
 
@@ -87,39 +77,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_ki24r")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_otfcb")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_hvkio")
 text = "Back"
-
-[node name="GoldPanel" type="Panel" parent="." unique_id=772550241]
-custom_minimum_size = Vector2(125, 40)
-offset_left = 31.0
-offset_top = 74.0
-offset_right = 156.0
-offset_bottom = 114.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_yamvf")
-
-[node name="GoldContainer" type="HBoxContainer" parent="GoldPanel" unique_id=1920783726]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 6.0
-offset_right = 112.0
-offset_bottom = 34.0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-alignment = 1
-
-[node name="GoldIcon" type="TextureRect" parent="GoldPanel/GoldContainer" unique_id=1083045380]
-layout_mode = 2
-texture = ExtResource("7_yamvf")
-expand_mode = 3
-
-[node name="GoldLabel" type="Label" parent="GoldPanel/GoldContainer" unique_id=1427181295]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("4_p6amu")
-theme_override_font_sizes/font_size = 22
-text = "9999 G"
-horizontal_alignment = 1
 
 [node name="SlotNodeContainer" type="Node2D" parent="." unique_id=1064592461]
 unique_name_in_owner = true

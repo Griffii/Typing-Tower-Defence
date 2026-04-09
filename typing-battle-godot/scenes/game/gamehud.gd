@@ -14,7 +14,6 @@ signal text_changed(text: String)
 @onready var input_field: LineEdit = %InputField
 
 @onready var base_hp_label: Label = %BaseHpLabel
-@onready var gold_label: Label = %GoldLabel
 
 @onready var feedback_label: Label = %FeedbackLabel
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
@@ -56,9 +55,6 @@ func _on_input_field_text_submitted(text: String) -> void:
 func set_wave_text(current_wave: int, total_waves: int) -> void:
 	wave_label.text = "Wave %d / %d" % [current_wave, total_waves]
 
-
-func set_gold(gold: int) -> void:
-	gold_label.text = "%d" % gold
 
 
 func set_base_hp(current_hp: int, max_hp: int) -> void:

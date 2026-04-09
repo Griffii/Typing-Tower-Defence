@@ -517,7 +517,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
 size = Vector2(40, 40)
 
-[node name="Grunt" type="CharacterBody2D" unique_id=1935126053]
+[node name="Grunt" type="CharacterBody2D" unique_id=1935126053 groups=["enemy"]]
 collision_layer = 2
 script = ExtResource("1_1hy27")
 
@@ -545,7 +545,7 @@ position = Vector2(-15, 12.999999)
 scale = Vector2(2, 2)
 texture = ExtResource("4_jja6d")
 
-[node name="LabelRoot" type="Node2D" parent="." unique_id=258776368 groups=["enemy"]]
+[node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
 unique_name_in_owner = true
 
 [node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=641645112]

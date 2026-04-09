@@ -4,12 +4,17 @@ signal play_requested
 signal settings_requested
 
 const LIGHTNING_SCENE: PackedScene = preload("res://scenes/game/projectiles/lightning_projectile.tscn")
+const GRUNT_ENEMY_SCENE: PackedScene = preload("res://scenes/game/enemies/grunt_enemy.tscn")
+const SLIME_ENEMY_SCENE: PackedScene = preload("res://scenes/game/enemies/slime_enemy.tscn")
+
+const MENU_ENEMY_SCENES: Array[PackedScene] = [
+	GRUNT_ENEMY_SCENE,
+	SLIME_ENEMY_SCENE,
+]
 
 const TITLE_TEXT := "Typing\nTower Defence!"
-const TITLE_WAVE_OPEN := "[center][wave height=8 speed=2.2 spacing=0.45]"
-const TITLE_WAVE_CLOSE := "[/wave][/center]"
-const TITLE_BASE_COLOR := "#ffffff"
-const TITLE_TYPED_COLOR := "#7fd6ff"
+const TITLE_TYPED_COLOR := "6fdc8c"
+const MENU_ENEMY_MOVE_SPEED := 50.0
 
 @onready var play_button: Button = %PlayButton
 @onready var multiplayer_button: Button = %MultiplayerButton
@@ -20,8 +25,12 @@ const TITLE_TYPED_COLOR := "#7fd6ff"
 @onready var animation_player: AnimationPlayer = %TowerAnimPlayer
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
 
+@onready var enemy_spawn_marker: Marker2D = %EnemySpawnMarker
+@onready var enemy_path: Path2D = %EnemyPath
+
 var rng := RandomNumberGenerator.new()
 var is_shoot_animation_playing := false
+var type_color_effect: TypeColorEffect = null
 
 
 func _ready() -> void:
@@ -29,6 +38,9 @@ func _ready() -> void:
 
 	play_button.pressed.connect(_on_play_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
+
+	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
+		animation_player.animation_finished.connect(_on_animation_finished)
 
 	multiplayer_button.disabled = true
 	multiplayer_button.focus_mode = Control.FOCUS_NONE
@@ -40,61 +52,112 @@ func _ready() -> void:
 	var wave_effect := WaveTextEffect.new()
 	title_label.install_effect(wave_effect)
 
-	_set_title_progress(0)
+	type_color_effect = TypeColorEffect.new()
+	title_label.install_effect(type_color_effect)
+
+	_reset_title_text()
 
 	call_deferred("_run_title_cycle")
+	call_deferred("_run_menu_enemy_cycle")
+
+
+func _reset_title_text() -> void:
+	if type_color_effect != null:
+		type_color_effect.typed_count = 0
+
+	title_label.text = "[wave height=8 speed=2.2 spacing=0.45][typecolor color=%s]%s[/typecolor]" % [
+		TITLE_TYPED_COLOR,
+		TITLE_TEXT
+	]
 
 
 func _run_title_cycle() -> void:
 	while is_inside_tree():
-		_set_title_progress(0)
+		if type_color_effect == null:
+			return
 
-		await get_tree().create_timer(rng.randf_range(0.5, 1.2)).timeout
+		type_color_effect.typed_count = 0
+		title_label.queue_redraw()
+
+		await get_tree().create_timer(rng.randf_range(1.8, 3.8)).timeout
 
 		for i in range(1, TITLE_TEXT.length() + 1):
-			_set_title_progress(i)
+			type_color_effect.typed_count = i
+			title_label.queue_redraw()
 			_play_typing_sfx()
 
-			var delay := rng.randf_range(0.04, 0.10)
+			var delay := rng.randf_range(0.07, 0.15)
 
-			if rng.randf() < 0.18:
-				delay += rng.randf_range(0.04, 0.12)
+			if rng.randf() < 0.24:
+				delay += rng.randf_range(0.06, 0.18)
 
 			await get_tree().create_timer(delay).timeout
 
-		await get_tree().create_timer(rng.randf_range(0.15, 0.35)).timeout
-		await _play_random_shoot_animation()
-		await get_tree().create_timer(rng.randf_range(0.6, 1.2)).timeout
+		await get_tree().create_timer(0.2).timeout
+
+		type_color_effect.typed_count = 0
+		title_label.queue_redraw()
+		_play_random_shoot_animation()
+
+		while is_shoot_animation_playing and is_inside_tree():
+			await get_tree().process_frame
+
+		await get_tree().create_timer(rng.randf_range(2.5, 5.0)).timeout
 
 
-func _set_title_progress(colored_count: int) -> void:
-	var bbcode_text := TITLE_WAVE_OPEN
-
-	for i in range(TITLE_TEXT.length()):
-		var character := TITLE_TEXT[i]
-
-		if character == "\n":
-			bbcode_text += "\n"
-			continue
-
-		var color := TITLE_BASE_COLOR
-		if i < colored_count:
-			color = TITLE_TYPED_COLOR
-
-		bbcode_text += "[color=%s]%s[/color]" % [color, _escape_bbcode_character(character)]
-
-	bbcode_text += TITLE_WAVE_CLOSE
-	title_label.text = bbcode_text
+func _run_menu_enemy_cycle() -> void:
+	while is_inside_tree():
+		await get_tree().create_timer(rng.randf_range(8.0, 16.0)).timeout
+		_spawn_menu_enemy()
 
 
-func _escape_bbcode_character(character: String) -> String:
-	match character:
-		"[":
-			return "[lb]"
-		"]":
-			return "[rb]"
-		_:
-			return character
+func _spawn_menu_enemy() -> void:
+	if enemy_path == null or enemy_spawn_marker == null:
+		return
+
+	if MENU_ENEMY_SCENES.is_empty():
+		return
+
+	var curve: Curve2D = enemy_path.curve
+	if curve == null:
+		return
+
+	var enemy_scene: PackedScene = MENU_ENEMY_SCENES[rng.randi_range(0, MENU_ENEMY_SCENES.size() - 1)]
+	if enemy_scene == null:
+		return
+
+	var path_follow: PathFollow2D = PathFollow2D.new()
+	path_follow.rotates = false
+	path_follow.loop = false
+	enemy_path.add_child(path_follow)
+
+	var enemy_instance: Node = enemy_scene.instantiate()
+	path_follow.add_child(enemy_instance)
+
+	if enemy_instance is Node2D:
+		(enemy_instance as Node2D).position = Vector2.ZERO
+
+	var label_root := enemy_instance.find_child("LabelRoot", true, false)
+	if label_root is CanvasItem:
+		(label_root as CanvasItem).visible = false
+
+	var spawn_local: Vector2 = enemy_path.to_local(enemy_spawn_marker.global_position)
+	var start_offset: float = curve.get_closest_offset(spawn_local)
+	var path_length: float = curve.get_baked_length()
+
+	path_follow.progress = start_offset
+
+	var remaining_distance: float = maxf(path_length - start_offset, 1.0)
+	var travel_time: float = remaining_distance / MENU_ENEMY_MOVE_SPEED
+
+	var tween := create_tween()
+	tween.tween_property(path_follow, "progress", path_length, travel_time)
+	tween.finished.connect(_on_menu_enemy_tween_finished.bind(path_follow))
+
+
+func _on_menu_enemy_tween_finished(path_follow: PathFollow2D) -> void:
+	if is_instance_valid(path_follow):
+		path_follow.queue_free()
 
 
 func _play_typing_sfx() -> void:
@@ -116,8 +179,10 @@ func _play_random_shoot_animation() -> void:
 	else:
 		animation_player.play("shoot_yellow")
 
-	await animation_player.animation_finished
-	is_shoot_animation_playing = false
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "shoot_blue" or anim_name == "shoot_yellow":
+		is_shoot_animation_playing = false
 
 
 func spawn_lightning() -> void:

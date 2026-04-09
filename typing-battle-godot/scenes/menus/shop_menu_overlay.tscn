@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/card_01.png" id="2_8e4jm"]
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="3_8e4jm"]
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="4_ixlxq"]
+[ext_resource type="PackedScene" uid="uid://mutayi51c78v" path="res://scenes/menus/gold_tracker.tscn" id="6_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://hufcnkabsplo" path="res://assets/images/menu/panelInset_beigeLight.png" id="8_idgks"]
-[ext_resource type="Texture2D" uid="uid://bd3nhyopixmid" path="res://assets/images/icons/gold_coin.png" id="9_vb16a"]
 [ext_resource type="Texture2D" uid="uid://bbsbgkdeoma4g" path="res://assets/images/icons/skull_hover.png" id="10_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="10_cq8vo"]
 [ext_resource type="FontFile" uid="uid://dfafj6dmhu6ti" path="res://assets/fonts/ud-digi-kyokasho-n-b.ttf" id="10_kespj"]
@@ -303,6 +303,12 @@ text = "+ Gold
 Gain"
 autowrap_mode = 3
 
+[node name="GoldTracker" parent="." unique_id=22832078 instance=ExtResource("6_2uuwv")]
+offset_left = 788.0
+offset_top = 452.0
+offset_right = 788.0
+offset_bottom = 452.0
+
 [node name="UpgradeCardsHBox - For Repositioning" type="HBoxContainer" parent="." unique_id=1618639219]
 custom_minimum_size = Vector2(0, 150)
 anchors_preset = 7
@@ -320,31 +326,6 @@ size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = -30
 alignment = 1
-
-[node name="GoldContainer" type="HBoxContainer" parent="." unique_id=1453181399]
-visible = false
-offset_left = 457.0
-offset_top = 334.0
-offset_right = 502.0
-offset_bottom = 357.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
-
-[node name="GoldIcon" type="TextureRect" parent="GoldContainer" unique_id=2039493674]
-layout_mode = 2
-texture = ExtResource("9_vb16a")
-expand_mode = 3
-
-[node name="GoldLabel" type="Label" parent="GoldContainer" unique_id=2075328028]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("2_4j2oy")
-theme_override_font_sizes/font_size = 22
-text = "0 G"
-horizontal_alignment = 1
 
 [node name="DescriptionLabel" type="Label" parent="." unique_id=1762160267]
 unique_name_in_owner = true

@@ -5,7 +5,6 @@ signal purchase_requested(upgrade_id: String)
 signal build_mode_requested
 
 @onready var title_label: Label = %TitleLabel
-@onready var gold_label: Label = %GoldLabel
 @onready var description_label: Label = %DescriptionLabel
 
 @onready var repair_button: Button = %RepairButton
@@ -184,8 +183,6 @@ func _on_card_hover_exited(card_root: Control) -> void:
 
 
 func _update_ui() -> void:
-	var gold: int = int(current_shop_state.get("gold", 0))
-	gold_label.text = "Gold: %d" % gold
 
 	repair_button.text = _build_repair_button_text()
 	word_damage_button.text = _build_upgrade_button_text("word_damage")

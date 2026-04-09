@@ -11,6 +11,7 @@ const WAVES := [
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
+			{"enemy_type": "slime"},
 			{"enemy_type": "slime"}
 		]
 	},
@@ -105,7 +106,7 @@ const WAVES := [
 	},
 	{
 		"spawn_interval": 0.80,
-		"wave_word_list": "boss",
+		"wave_word_list": "cute",
 		"enemies": [
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
@@ -142,18 +143,22 @@ const WAVES := [
 	},
 	{
 		"spawn_interval": 0.86,
-		"wave_word_list": "boss",
+		"wave_word_list": "cute",
 		"enemies": [
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
-			{"enemy_type": "boss_slime", "word_list": "boss"},
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
 			{"enemy_type": "boss_slime", "word_list": "boss"},
 			{"enemy_type": "slime"},
 			{"enemy_type": "slime"},
-			{"enemy_type": "boss_slime", "word_list": "boss"}
+			{"enemy_type": "slime"},
+			{"enemy_type": "slime"},
+			{"enemy_type": "slime"},
+			{"enemy_type": "slime"},
+			{"enemy_type": "slime"},
+			{"enemy_type": "slime"}
 		]
 	}
 ]

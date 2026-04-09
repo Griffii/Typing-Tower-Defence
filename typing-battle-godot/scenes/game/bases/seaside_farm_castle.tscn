@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/magic_bar_empty.png" id="4_61rl7"]
 [ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/magic_bar_filled.png" id="5_pvo7f"]
 [ext_resource type="PackedScene" uid="uid://c86wxohinjsip" path="res://scenes/game/bases/castle_health_bar.tscn" id="6_7ahkd"]
+[ext_resource type="AudioStream" uid="uid://ce7yx07342a3i" path="res://assets/sfx/environment/animal_sheep_baa_short.ogg" id="7_l2hp0"]
 [ext_resource type="Texture2D" uid="uid://nou6hqfvsi23" path="res://assets/tilemaps/spr_tileset_sunnysideworld_16px.png" id="27_x568f"]
 [ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/environment/animals/sheep.tscn" id="28_ufdhe"]
 
@@ -33,10 +34,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SheepBaa:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_7ahkd"]
 resource_name = "take_damage"
-length = 0.4
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -60,6 +73,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SheepBaa:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5d2ab"]
@@ -1835,7 +1860,7 @@ position = Vector2(81, 272)
 
 [node name="ArrowSpawnMarker" type="Marker2D" parent="." unique_id=1365120791]
 unique_name_in_owner = true
-position = Vector2(400, 19)
+position = Vector2(372, 62)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1829161579]
 unique_name_in_owner = true
@@ -1849,22 +1874,22 @@ tile_set = SubResource("TileSet_61rl7")
 [node name="SheepContainer" type="Node2D" parent="." unique_id=1599316108]
 
 [node name="Sheep" parent="SheepContainer" unique_id=1144505600 instance=ExtResource("28_ufdhe")]
-position = Vector2(105, 183)
+position = Vector2(102, 190)
+scale = Vector2(2, 2)
 flip_h = true
 
 [node name="Sheep5" parent="SheepContainer" unique_id=827736740 instance=ExtResource("28_ufdhe")]
-position = Vector2(50, 356)
+position = Vector2(67, 341)
+scale = Vector2(2, 2)
 flip_h = true
 
 [node name="Sheep2" parent="SheepContainer" unique_id=1166979082 instance=ExtResource("28_ufdhe")]
-position = Vector2(43, 232)
+position = Vector2(51, 252)
+scale = Vector2(2, 2)
 
 [node name="Sheep3" parent="SheepContainer" unique_id=1098134074 instance=ExtResource("28_ufdhe")]
-position = Vector2(110, 340)
-
-[node name="Sheep4" parent="SheepContainer" unique_id=453647329 instance=ExtResource("28_ufdhe")]
-position = Vector2(25, 302)
-flip_h = true
+position = Vector2(110, 327)
+scale = Vector2(2, 2)
 
 [node name="ProgressBarRoot" type="Node2D" parent="." unique_id=904749073]
 position = Vector2(8, 367)
@@ -1880,4 +1905,11 @@ show_percentage = false
 
 [node name="CastleHealthBar" parent="." unique_id=390813373 instance=ExtResource("6_7ahkd")]
 unique_name_in_owner = true
-position = Vector2(17, 120)
+offset_left = 17.0
+offset_top = 120.0
+offset_right = 17.0
+offset_bottom = 120.0
+
+[node name="SheepBaa" type="AudioStreamPlayer2D" parent="." unique_id=1005933035]
+unique_name_in_owner = true
+stream = ExtResource("7_l2hp0")

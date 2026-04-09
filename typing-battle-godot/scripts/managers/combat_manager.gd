@@ -40,6 +40,9 @@ var tower_levels: Dictionary = {}
 var tower_types: Dictionary = {}
 
 
+func _ready() -> void:
+	add_to_group("combat_manager")
+
 func _process(delta: float) -> void:
 	for i in range(base_attackers.size() - 1, -1, -1):
 		var enemy: Node = base_attackers[i]

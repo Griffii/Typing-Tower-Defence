@@ -37,7 +37,7 @@ const ENEMY_STATS := {
 	},
 	"slime": {
 		"move_speed": 50.0,
-		"max_hp": 24,
+		"max_hp": 22,
 		"reward_score": 10,
 		"reward_gold": 9,
 		"base_attack_damage": 2,

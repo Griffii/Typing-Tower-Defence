@@ -15,7 +15,7 @@ signal castle_projectile_impact(target_enemy: Node)
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 # Reference to your NEW health bar scene
-@onready var castle_health_bar: Node2D = %CastleHealthBar
+@onready var castle_health_bar: Control = %CastleHealthBar
 
 
 func _ready() -> void:

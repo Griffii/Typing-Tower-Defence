@@ -422,8 +422,9 @@ texture = ExtResource("7_3nlwe")
 flip_h = true
 
 [node name="Weapon03" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer/Soldier03" unique_id=1701077970]
-position = Vector2(-10.666662, 1.6666718)
+position = Vector2(-8.999995, 2.6666718)
 rotation = -0.7853982
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("8_if2tv")
 
 [node name="Soldier02" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer" unique_id=372422271]

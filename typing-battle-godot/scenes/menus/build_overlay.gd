@@ -5,7 +5,7 @@ signal tower_purchase_requested(slot_id: String, tower_type: String)
 
 const TOWER_UPGRADE_NODE_SCENE: PackedScene = preload("res://scenes/game/towers/tower_upgrade_node.tscn")
 
-@onready var gold_label: Label = %GoldLabel
+
 @onready var return_button: Button = %ReturnToShopButton
 @onready var slot_node_container: Node2D = %SlotNodeContainer
 
@@ -59,9 +59,6 @@ func hide_overlay() -> void:
 func refresh_build(build_state: Dictionary) -> void:
 	_current_build_state = build_state.duplicate(true)
 	_current_gold = int(build_state.get("gold", 0))
-
-	if gold_label != null:
-		gold_label.text = "%d" % _current_gold
 
 	var slots: Dictionary = build_state.get("slots", {})
 
