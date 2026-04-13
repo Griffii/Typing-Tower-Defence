@@ -3,16 +3,16 @@ class_name SoldierEnemy
 extends Enemy
 
 const BODY_TEXTURES: Array[String] = [
-	"res://assets/images/soldiers/soldier_01.png",
-	"res://assets/images/soldiers/soldier_02.png",
-	"res://assets/images/soldiers/soldier_03.png",
+	"res://assets/images/enemies/soldiers/soldier_01.png",
+	"res://assets/images/enemies/soldiers/soldier_02.png",
+	"res://assets/images/enemies/soldiers/soldier_03.png",
 ]
 
 const WEAPON_TEXTURES: Array[String] = [
-	"res://assets/images/soldiers/weapon_01.png",
-	"res://assets/images/soldiers/weapon_02.png",
-	"res://assets/images/soldiers/weapon_03.png",
-	"res://assets/images/soldiers/weapon_04.png",
+	"res://assets/images/enemies/soldiers/weapon_01.png",
+	"res://assets/images/enemies/soldiers/weapon_02.png",
+	"res://assets/images/enemies/soldiers/weapon_03.png",
+	"res://assets/images/enemies/soldiers/weapon_04.png",
 ]
 
 @onready var body_sprite: Sprite2D = %Body
