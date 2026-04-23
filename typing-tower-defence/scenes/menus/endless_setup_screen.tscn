@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://dk55vhpecvo3w"]
+
+[ext_resource type="Script" uid="uid://dlo0enhqcutvr" path="res://scenes/menus/endless_setup_screen.gd" id="1_vhn6x"]
+
+[node name="EndlessSetupScreen" type="Control" unique_id=1503643063]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vhn6x")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=565760538]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=648588476]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2142281638]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=3323165]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="LeftPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=641446435]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel" unique_id=912353970]
+layout_mode = 2
+
+[node name="MapLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=754889021]
+layout_mode = 2
+text = "Maps Label"
+
+[node name="MapOptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=454599737]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EnemyTypesLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=646963725]
+layout_mode = 2
+text = "Enemy Types Label"
+
+[node name="EnemyTypesContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=177035868]
+layout_mode = 2
+
+[node name="SoldiersCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/EnemyTypesContainer" unique_id=1203292981]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Soldiers"
+
+[node name="SlimesCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/EnemyTypesContainer" unique_id=1866861222]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Slimes"
+
+[node name="WordlistControlConatainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=2092458040]
+layout_mode = 2
+
+[node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=1800741804]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable All"
+
+[node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=1198670278]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Disable All"
+
+[node name="UploadCSVButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=688421591]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Upload CSV File"
+
+[node name="RightPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=777986148]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel" unique_id=374664702]
+layout_mode = 2
+
+[node name="WordListsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=888174451]
+layout_mode = 2
+text = "Word Lists"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=199907651]
+layout_mode = 2
+
+[node name="WordListScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer" unique_id=1797078358]
+layout_mode = 2
+
+[node name="WordListGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListScroll" unique_id=1250535535]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WordListDetailPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer" unique_id=242431919]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel" unique_id=1451818053]
+layout_mode = 2
+
+[node name="DetailNameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=1911519892]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DetailCategoryLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=858051808]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DetailCountLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=643149189]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DetailWordsText" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=821173370]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SummaryLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=368659150]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BottomButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=641985059]
+layout_mode = 2
+alignment = 1
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/BottomButtons" unique_id=121440933]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/BottomButtons" unique_id=2125713849]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start"
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=934017906]
+unique_name_in_owner = true

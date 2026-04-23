@@ -16,7 +16,7 @@ const ENEMY_SCENES := {
 	"boss_slime": BOSS_SLIME_SCENE
 }
 
-const WordLists = preload("res://data/words/word_lists.gd")
+const WordLists = preload("res://data/word_lists/word_lists.gd")
 
 @export var spawn_interval_seconds: float = 0.8
 @export var minimum_spacing_pixels: float = 72.0
