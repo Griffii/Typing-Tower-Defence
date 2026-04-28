@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://dsgooh03v84kj"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_lbqhj"]
+
+[resource]
+script = ExtResource("1_lbqhj")
+id = "medium"
+display_name = "Medium"
+category = "general"
+words = Array[String](["apple", "banana", "orange", "grape", "lemon", "peach", "cherry", "melon", "mango", "pear", "happy", "angry", "tired", "hungry", "excited", "bored", "scared", "proud", "calm", "nervous", "school", "teacher", "student", "lesson", "homework", "classroom", "subject", "study", "answer", "question", "family", "mother", "father", "brother", "sister", "parent", "child", "cousin", "uncle", "aunt", "friend", "people", "person", "neighbor", "group", "team", "member", "leader", "player", "partner", "morning", "afternoon", "evening", "night", "today", "weekend", "holiday", "season", "spring", "summer", "travel", "journey", "ticket", "station", "airport", "luggage", "passport", "hotel", "guide", "route", "market", "store", "shop", "seller", "buyer", "price", "money", "change", "order", "receipt", "health", "doctor", "nurse", "medicine", "hospital", "clinic", "patient", "fever", "injury", "treatment", "nature", "forest", "mountain", "river", "ocean", "island", "valley", "desert", "animal", "plant"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

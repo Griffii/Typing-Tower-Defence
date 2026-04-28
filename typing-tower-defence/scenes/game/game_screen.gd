@@ -16,7 +16,7 @@ enum RunState {
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 
 # Turn this to false before packaging for distribution
-var DEV_MODE: bool = true
+var DEV_MODE: bool = false
 
 var selected_level_scene: PackedScene = null
 var selected_wave_defs: Array = []

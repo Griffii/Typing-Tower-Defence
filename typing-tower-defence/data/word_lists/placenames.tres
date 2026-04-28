@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://dxuuu2jem26p0"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_lb3n1"]
+
+[resource]
+script = ExtResource("1_lb3n1")
+id = "place_names"
+display_name = "Place Names"
+category = "general"
+words = Array[String](["Tokyo", "Osaka", "Kyoto", "Sapporo", "Fukuoka", "Japan", "China", "Korea", "India", "Thailand", "USA", "Canada", "Mexico", "Brazil", "Argentina", "England", "France", "Germany", "Italy", "Spain", "Australia", "New Zealand", "Egypt", "Kenya", "South Africa", "Paris", "London", "Berlin", "Rome", "Madrid", "New York", "Los Angeles", "Chicago", "Toronto", "Vancouver", "Beijing", "Shanghai", "Seoul", "Bangkok", "Singapore", "Sydney", "Melbourne", "Cairo", "Nairobi", "Dubai"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

@@ -1,6 +1,23 @@
 class_name WordListManager
 extends Node
 
+const BUILTIN_WORD_LISTS: Array[WordListData] = [
+	preload("res://data/word_lists/actions.tres"),
+	preload("res://data/word_lists/adjectives.tres"),
+	preload("res://data/word_lists/animals.tres"),
+	preload("res://data/word_lists/colors.tres"),
+	preload("res://data/word_lists/compliments.tres"),
+	preload("res://data/word_lists/contractions.tres"),
+	preload("res://data/word_lists/daysandmonths.tres"),
+	preload("res://data/word_lists/easywords.tres"),
+	preload("res://data/word_lists/fantasy.tres"),
+	preload("res://data/word_lists/hardwords.tres"),
+	preload("res://data/word_lists/holidays.tres"),
+	preload("res://data/word_lists/mediumwords.tres"),
+	preload("res://data/word_lists/placenames.tres"),
+	preload("res://data/word_lists/school.tres"),
+]
+
 const BUILTIN_LISTS_DIR := "res://data/word_lists"
 const CUSTOM_LISTS_DIR := "user://word_lists"
 const CUSTOM_WORD_MAX_LENGTH := 32
@@ -18,11 +35,33 @@ func reload_all() -> void:
 	_lists_by_id.clear()
 	_builtin_ids.clear()
 	_custom_ids.clear()
+	
+	_load_builtin_lists_from_preloads()
+	
+	if not OS.has_feature("web"):
+		_ensure_custom_dir_exists()
+		_load_lists_from_dir(CUSTOM_LISTS_DIR, true)
 
-	_ensure_custom_dir_exists()
-	_load_lists_from_dir(BUILTIN_LISTS_DIR, false)
-	_load_lists_from_dir(CUSTOM_LISTS_DIR, true)
 
+func _load_builtin_lists_from_preloads() -> void:
+	for list_data in BUILTIN_WORD_LISTS:
+		if list_data == null:
+			continue
+
+		list_data.id = _normalize_id(list_data.id)
+		list_data.display_name = list_data.display_name.strip_edges()
+		list_data.category = list_data.category.strip_edges()
+		list_data.words = _sanitize_words(list_data.words)
+		list_data.is_custom = false
+
+		if list_data.id.is_empty():
+			push_warning("WordLists: built-in list has empty id.")
+			continue
+
+		_lists_by_id[list_data.id] = list_data
+
+		if not _builtin_ids.has(list_data.id):
+			_builtin_ids.append(list_data.id)
 
 func get_all_lists() -> Array[WordListData]:
 	var results: Array[WordListData] = []
@@ -175,15 +214,6 @@ func delete_custom_list(list_id: String) -> bool:
 	return true
 
 
-func import_csv_as_custom_list(csv_path: String, list_id: String, display_name: String, category: String = "custom") -> bool:
-	var words: Array[String] = _parse_words_from_csv(csv_path)
-	if words.is_empty():
-		push_error("WordListManager: no valid words found in CSV '%s'." % csv_path)
-		return false
-
-	return create_custom_list(list_id, display_name, words, category)
-
-
 func import_csv_as_temporary_list(path: String, list_id: String, display_name: String, category: String = "custom") -> bool:
 	var words: Array[String] = _parse_words_from_csv(path)
 
@@ -203,6 +233,33 @@ func import_csv_as_temporary_list(path: String, list_id: String, display_name: S
 		_custom_ids.append(list_data.id)
 
 	return true
+
+
+func import_text_as_temporary_list(raw_text: String, list_id: String, display_name: String, category: String = "custom") -> bool:
+	var words: Array[String] = []
+
+	for line in raw_text.split("\n"):
+		var word: String = line.strip_edges()
+		if not word.is_empty():
+			words.append(word)
+
+	if words.is_empty():
+		return false
+
+	var list_data := WordListData.new()
+	list_data.id = _normalize_id(list_id)
+	list_data.display_name = display_name.strip_edges()
+	list_data.category = category
+	list_data.words = _sanitize_words(words, CUSTOM_WORD_MAX_LENGTH)
+	list_data.is_custom = true
+
+	_lists_by_id[list_data.id] = list_data
+
+	if not _custom_ids.has(list_data.id):
+		_custom_ids.append(list_data.id)
+
+	return true
+
 
 func _load_lists_from_dir(dir_path: String, mark_as_custom: bool) -> void:
 	var dir := DirAccess.open(dir_path)

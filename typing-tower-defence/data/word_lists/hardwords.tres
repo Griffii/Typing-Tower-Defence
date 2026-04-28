@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://b2rr8gg4kch0l"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_g481l"]
+
+[resource]
+script = ExtResource("1_g481l")
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"
+id = "hard"
+display_name = "Hard"
+category = "general"
+words = Array[String](["important", "different", "beautiful", "interesting", "understand", "remember", "practice", "complete", "exercise", "holiday",
+"restaurant", "favorite", "chocolate", "breakfast", "tomorrow", "yesterday", "together", "everyone", "something", "anything",
+"nothing", "sometimes", "usually", "quickly", "carefully", "powerful", "friendly", "wonderful", "dangerous", "special",
+"available", "possible", "necessary", "successful", "comfortable", "expensive", "delicious", "serious", "popular", "famous",
+"exciting", "amazing", "incredible", "fantastic", "creative", "imagine", "discover", "explore", "decide", "improve",
+"develop", "support", "prepare", "organize", "communicate", "introduce", "continue", "experience", "knowledge", "education",
+"environment", "community", "technology", "information", "conversation", "opportunity", "relationship", "responsibility",
+"celebrate", "decorate", "traveling", "adventure", "destination", "transportation", "reservation", "invitation", "direction",
+"attention", "solution", "problem", "situation", "condition", "decision", "suggestion", "instruction", "expression", "discussion",
+"performance", "achievement", "confidence", "independent", "international", "communication", "organization", "imagination"
+])
+

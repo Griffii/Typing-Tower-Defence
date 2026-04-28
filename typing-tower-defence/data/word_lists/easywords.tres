@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://lvvjlh5p1o3o"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_4i8bc"]
+
+[resource]
+script = ExtResource("1_4i8bc")
+id = "easy"
+display_name = "Easy"
+category = "general"
+words = Array[String](["cat", "dog", "sun", "sky", "sea", "pen", "cup", "bed", "red", "blue", "run", "jump", "walk", "stop", "go", "eat", "read", "play", "look", "see", "big", "small", "fast", "slow", "hot", "cold", "wet", "dry", "new", "old", "hat", "bag", "box", "toy", "book", "ball", "desk", "lamp", "door", "wall", "tree", "leaf", "rock", "sand", "rain", "wind", "fire", "snow", "star", "moon", "car", "bus", "bike", "road", "park", "shop", "home", "room", "food", "cake", "milk", "rice", "fish", "meat", "egg", "tea", "water", "juice", "bread", "fruit", "hand", "foot", "head", "face", "eye", "ear", "nose", "hair", "arm", "leg", "one", "two", "three", "four", "five", "six", "ten", "day", "night", "time", "yes", "no", "ok", "hi", "bye", "good", "bad", "nice", "kind", "cool"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

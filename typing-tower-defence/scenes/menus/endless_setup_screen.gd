@@ -22,7 +22,8 @@ const ENEMY_GROUP_TO_TYPES := {
 
 @onready var enable_all_button: Button = %EnableAllButton
 @onready var disable_all_button: Button = %DisableAllButton
-@onready var upload_csv_button: Button = %UploadCSVButton
+@onready var add_new_word_list_button: Button = %AddNewWordListButton
+@onready var add_word_list_popup: PopupPanel = %AddWordListPopup
 
 @onready var total_words_count: Label = %TotalWordsCount
 @onready var included_lists_label: RichTextLabel = %IncludedListsLabel
@@ -30,8 +31,6 @@ const ENEMY_GROUP_TO_TYPES := {
 @onready var summary_label: Label = %SummaryLabel
 @onready var back_button: Button = %BackButton
 @onready var start_button: Button = %StartButton
-
-@onready var file_dialog: FileDialog = %FileDialog
 
 var run_config: EndlessRunConfig
 var map_button_group: ButtonGroup
@@ -52,7 +51,7 @@ func _ready() -> void:
 func _create_or_reset_config() -> void:
 	run_config = EndlessRunConfig.new()
 	run_config.map_id = "grasslands"
-	run_config.enabled_enemy_groups = ["soldiers"]
+	run_config.enabled_enemy_groups = []
 	run_config.selected_word_list_ids = []
 
 
@@ -90,7 +89,7 @@ func _setup_buttons() -> void:
 		seaside_farm_button.button_pressed = false
 
 	if soldiers_button != null:
-		soldiers_button.button_pressed = true
+		soldiers_button.button_pressed = false
 
 	if slimes_button != null:
 		slimes_button.button_pressed = false
@@ -131,22 +130,18 @@ func _connect_signals() -> void:
 	if disable_all_button != null and not disable_all_button.pressed.is_connected(_on_disable_all_pressed):
 		disable_all_button.pressed.connect(_on_disable_all_pressed)
 
-	if upload_csv_button != null and not upload_csv_button.pressed.is_connected(_on_upload_csv_pressed):
-		upload_csv_button.pressed.connect(_on_upload_csv_pressed)
+	if add_new_word_list_button != null and not add_new_word_list_button.pressed.is_connected(_on_add_new_word_list_pressed):
+		add_new_word_list_button.pressed.connect(_on_add_new_word_list_pressed)
+
+	if add_word_list_popup != null and add_word_list_popup.has_signal("word_list_created"):
+		if not add_word_list_popup.word_list_created.is_connected(_on_word_list_created):
+			add_word_list_popup.word_list_created.connect(_on_word_list_created)
 
 	if back_button != null and not back_button.pressed.is_connected(_on_back_pressed):
 		back_button.pressed.connect(_on_back_pressed)
 
 	if start_button != null and not start_button.pressed.is_connected(_on_start_pressed):
 		start_button.pressed.connect(_on_start_pressed)
-
-	if file_dialog != null and not file_dialog.file_selected.is_connected(_on_file_selected):
-		file_dialog.file_selected.connect(_on_file_selected)
-
-	if file_dialog != null:
-		file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-		file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-		file_dialog.filters = PackedStringArray(["*.csv ; CSV Files"])
 
 
 func _build_word_list_grid() -> void:
@@ -158,7 +153,7 @@ func _build_word_list_grid() -> void:
 
 	word_list_grid.columns = word_list_grid_columns
 
-	var lists: Array[WordListData] = WordLists.get_all_lists()
+	var lists: Array[WordListData] = _get_sorted_word_lists()
 
 	for list_data in lists:
 		var button := Button.new()
@@ -181,6 +176,60 @@ func _build_word_list_grid() -> void:
 	_refresh_word_list_summary()
 	_refresh_summary()
 	_refresh_start_button_state()
+
+
+func _get_sorted_word_lists() -> Array[WordListData]:
+	var all_lists: Array[WordListData] = WordLists.get_all_lists()
+
+	var custom_lists: Array[WordListData] = []
+	var priority_lists: Array[WordListData] = []
+	var remaining_builtin_lists: Array[WordListData] = []
+
+	for list_data in all_lists:
+		if list_data == null:
+			continue
+
+		if list_data.is_custom:
+			custom_lists.append(list_data)
+		elif _is_priority_builtin_list(list_data):
+			priority_lists.append(list_data)
+		else:
+			remaining_builtin_lists.append(list_data)
+
+	custom_lists.sort_custom(_sort_by_display_name)
+	priority_lists.sort_custom(_sort_priority_lists)
+	remaining_builtin_lists.sort_custom(_sort_by_display_name)
+
+	var sorted_lists: Array[WordListData] = []
+	sorted_lists.append_array(custom_lists)
+	sorted_lists.append_array(priority_lists)
+	sorted_lists.append_array(remaining_builtin_lists)
+
+	return sorted_lists
+
+
+func _is_priority_builtin_list(list_data: WordListData) -> bool:
+	return list_data.id == "easy" or list_data.id == "medium" or list_data.id == "hard"
+
+
+func _sort_priority_lists(a: WordListData, b: WordListData) -> bool:
+	return _get_priority_rank(a.id) < _get_priority_rank(b.id)
+
+
+func _get_priority_rank(list_id: String) -> int:
+	match list_id:
+		"easy":
+			return 0
+		"medium":
+			return 1
+		"hard":
+			return 2
+		_:
+			return 999
+
+
+func _sort_by_display_name(a: WordListData, b: WordListData) -> bool:
+	return a.display_name.naturalnocasecmp_to(b.display_name) < 0
 
 
 func _clear_word_list_grid() -> void:
@@ -310,7 +359,7 @@ func _toggle_word_list(list_id: String) -> void:
 func _enable_all_word_lists() -> void:
 	run_config.selected_word_list_ids.clear()
 
-	for list_data in WordLists.get_all_lists():
+	for list_data in _get_sorted_word_lists():
 		run_config.selected_word_list_ids.append(list_data.id)
 
 	_refresh_word_list_button_states()
@@ -326,15 +375,6 @@ func _disable_all_word_lists() -> void:
 	_refresh_word_list_summary()
 	_refresh_summary()
 	_refresh_start_button_state()
-
-
-func _make_custom_list_id_from_path(path: String) -> String:
-	var file_name: String = path.get_file().get_basename()
-	return "custom_%s" % file_name
-
-
-func _make_custom_display_name_from_path(path: String) -> String:
-	return path.get_file().get_basename()
 
 
 func _format_display_name(value: String) -> String:
@@ -382,22 +422,17 @@ func _on_disable_all_pressed() -> void:
 	_disable_all_word_lists()
 
 
-func _on_upload_csv_pressed() -> void:
-	if file_dialog == null:
+func _on_add_new_word_list_pressed() -> void:
+	if add_word_list_popup == null:
 		return
 
-	file_dialog.popup_centered_ratio(0.7)
+	if add_word_list_popup.has_method("open_popup"):
+		add_word_list_popup.open_popup()
+	else:
+		add_word_list_popup.popup_centered_ratio(0.65)
 
 
-func _on_file_selected(path: String) -> void:
-	var list_id: String = _make_custom_list_id_from_path(path)
-	var display_name: String = _make_custom_display_name_from_path(path)
-
-	var ok: bool = WordLists.import_csv_as_temporary_list(path, list_id, display_name, "custom")
-	if not ok:
-		push_warning("Failed to import custom CSV: %s" % path)
-		return
-
+func _on_word_list_created(list_id: String) -> void:
 	_build_word_list_grid()
 
 	if WordLists.has_list(list_id):

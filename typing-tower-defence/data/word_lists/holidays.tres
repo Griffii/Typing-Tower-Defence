@@ -4,8 +4,18 @@
 
 [resource]
 script = ExtResource("1_187ed")
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"
 id = "holidays"
 display_name = "Holidays"
 category = "general"
-words = Array[String](["autumn", "candle", "carol", "celebrate", "costume", "cracker", "dance", "easter", "family", "feast", "festival", "firework", "gift", "harvest", "holiday", "lantern", "laugh", "memory", "music", "party", "parade", "picnic", "present", "pumpkin", "rabbit", "reindeer", "ribbon", "santa", "season", "sing", "snowman", "spring", "summer", "turkey", "vacation", "valentine", "winter", "wreath", "zombie", "bonfire", "cookie", "dragon", "holiday", "jingle", "mascot", "mooncake", "ornament", "travel", "visitor"])
-metadata/_custom_type_script = "uid://blmx4awdqm5pt"
+words = Array[String]([
+    "Christmas", "Santa Claus", "reindeer", "sleigh", "elf", "North Pole", "gift", "present", "stocking", "ornament",
+"tree", "lights", "snowman", "snowflake", "carol", "holiday", "decoration", "wrapping", "ribbon", "bell",
+"Thanksgiving", "turkey", "gravy", "stuffing", "pumpkin pie", "harvest", "family dinner", "feast", "corn", "cranberry",
+"Halloween", "pumpkin", "jack-o'-lantern", "costume", "candy", "ghost", "witch", "zombie", "vampire", "skeleton",
+"trick-or-treat", "haunted house", "spider", "bat", "mask", "scary",
+"Valentine's Day", "heart", "love", "chocolate", "rose", "card", "Cupid", "kiss", "romantic", "date",
+"Easter", "egg", "Easter Bunny", "basket", "chocolate egg", "chick", "spring", "flower",
+"New Year's Eve", "midnight", "countdown", "fireworks", "resolution", "party", "celebration", "clock", "confetti", "toast"
+    ])
+

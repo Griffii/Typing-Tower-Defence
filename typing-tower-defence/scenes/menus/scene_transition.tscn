@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://4rggynnm11g4"]
 
 [ext_resource type="Script" uid="uid://dq3kwphm1620n" path="res://scenes/menus/scene_transition.gd" id="1_3bgq8"]
+[ext_resource type="AudioStream" uid="uid://cuh21rtnii00u" path="res://assets/sfx/menus/transition_whoosh.ogg" id="2_sromv"]
 
 [sub_resource type="Gradient" id="Gradient_ipp86"]
 offsets = PackedFloat32Array(0.712551, 0.955466, 1)
@@ -24,6 +25,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-239, -156)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("whoosh_sfx:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_3bgq8"]
@@ -56,6 +69,18 @@ tracks/1/keys = {
 "method": &"_on_transition_midpoint"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("whoosh_sfx:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_sromv"]
 resource_name = "back_swipe_RtoL"
@@ -86,6 +111,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"_on_transition_midpoint"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("whoosh_sfx:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_kq3v3"]
@@ -153,7 +190,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -239.0
 offset_top = -156.0
-offset_right = -239.00098
+offset_right = -238.9989
 offset_bottom = -156.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -168,3 +205,4 @@ unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_dl3iu")
 
 [node name="whoosh_sfx" type="AudioStreamPlayer2D" parent="." unique_id=820802789]
+stream = ExtResource("2_sromv")

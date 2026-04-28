@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://dvhaw8mh4j7lb"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_c801h"]
+
+[resource]
+script = ExtResource("1_c801h")
+id = "days_and_months"
+display_name = "Days & Months"
+category = "general"
+words = Array[String](["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="15_5skhe"]
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="16_tnddm"]
 [ext_resource type="Texture2D" uid="uid://bm3bbs2s8c15" path="res://assets/images/menu/confirm.png" id="17_27671"]
+[ext_resource type="PackedScene" uid="uid://dqmi7kaf6mca1" path="res://scenes/menus/add_word_list_popup.tscn" id="19_rux53"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55tox"]
 bg_color = Color(0, 0, 0, 0.50980395)
@@ -305,7 +306,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 1
 
-[node name="LeftPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=641446435]
+[node name="LeftPanel" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1223326107]
 layout_mode = 2
 size_flags_horizontal = 0
 
@@ -487,7 +488,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_evg4a")
 theme_override_styles/focus = SubResource("StyleBoxFlat_q47jv")
 text = "Slimes"
 
-[node name="RightPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=777986148]
+[node name="RightPanel" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=505774872]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
@@ -521,17 +522,20 @@ alignment = 1
 [node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800741804]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
 text = "Enable All"
 
 [node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1198670278]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
 text = "Disable All"
 
-[node name="UploadCSVButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=688421591]
+[node name="AddNewWordListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=919066391]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Upload CSV File"
+theme_override_fonts/font = ExtResource("2_muvbe")
+text = "Add New Word List"
 
 [node name="WordListDetailPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=242431919]
 layout_mode = 2
@@ -557,6 +561,10 @@ horizontal_alignment = 1
 [node name="SummaryLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=368659150]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 
 [node name="BottomButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=641985059]
@@ -607,6 +615,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_5wnyx")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_a2qnp")
 text = "Back"
 
-[node name="FileDialog" type="FileDialog" parent="." unique_id=934017906]
+[node name="AddWordListPopup" parent="." unique_id=983429506 instance=ExtResource("19_rux53")]
 unique_name_in_owner = true
-oversampling_override = 1.0
+visible = false

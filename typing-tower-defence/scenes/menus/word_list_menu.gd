@@ -14,15 +14,15 @@ signal back_requested
 @onready var word_list_scroll: ScrollContainer = %WordListScroll
 @onready var word_list_grid: GridContainer = %WordListGrid
 
-@onready var upload_csv_button: Button = %UploadCSVButton
+@onready var add_new_word_list_button: Button = %AddNewWordListButton
+@onready var add_word_list_popup: PopupPanel = %AddWordListPopup
+
 @onready var back_button: Button = %BackButton
-@onready var file_dialog: FileDialog = %FileDialog
 
 @onready var detail_name_label: Label = %DetailNameLabel
 @onready var detail_count_label: Label = %DetailCountLabel
 @onready var detail_words_text: RichTextLabel = %DetailWordsText
 @onready var delete_list_button: Button = %DeleteListButton
-
 
 var _focused_list_id: String = ""
 var _word_list_buttons_by_id: Dictionary = {}
@@ -60,22 +60,18 @@ func _setup_layout() -> void:
 
 
 func _connect_signals() -> void:
-	if upload_csv_button != null and not upload_csv_button.pressed.is_connected(_on_upload_csv_pressed):
-		upload_csv_button.pressed.connect(_on_upload_csv_pressed)
-
 	if back_button != null and not back_button.pressed.is_connected(_on_back_pressed):
 		back_button.pressed.connect(_on_back_pressed)
-	
+
 	if delete_list_button != null and not delete_list_button.pressed.is_connected(_on_delete_list_pressed):
 		delete_list_button.pressed.connect(_on_delete_list_pressed)
 
-	if file_dialog != null and not file_dialog.file_selected.is_connected(_on_file_selected):
-		file_dialog.file_selected.connect(_on_file_selected)
+	if add_new_word_list_button != null and not add_new_word_list_button.pressed.is_connected(_on_add_new_word_list_pressed):
+		add_new_word_list_button.pressed.connect(_on_add_new_word_list_pressed)
 
-	if file_dialog != null:
-		file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-		file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-		file_dialog.filters = PackedStringArray(["*.csv ; CSV Files"])
+	if add_word_list_popup != null and add_word_list_popup.has_signal("word_list_created"):
+		if not add_word_list_popup.word_list_created.is_connected(_on_word_list_created):
+			add_word_list_popup.word_list_created.connect(_on_word_list_created)
 
 
 func _build_word_list_grid() -> void:
@@ -87,7 +83,7 @@ func _build_word_list_grid() -> void:
 
 	word_list_grid.columns = word_list_grid_columns
 
-	var lists: Array[WordListData] = WordLists.get_all_lists()
+	var lists: Array[WordListData] = _get_sorted_word_lists()
 
 	for list_data in lists:
 		var button := Button.new()
@@ -107,6 +103,60 @@ func _build_word_list_grid() -> void:
 
 	_refresh_word_list_button_states()
 	_refresh_detail_panel()
+
+
+func _get_sorted_word_lists() -> Array[WordListData]:
+	var all_lists: Array[WordListData] = WordLists.get_all_lists()
+
+	var custom_lists: Array[WordListData] = []
+	var priority_lists: Array[WordListData] = []
+	var remaining_builtin_lists: Array[WordListData] = []
+
+	for list_data in all_lists:
+		if list_data == null:
+			continue
+
+		if list_data.is_custom:
+			custom_lists.append(list_data)
+		elif _is_priority_builtin_list(list_data):
+			priority_lists.append(list_data)
+		else:
+			remaining_builtin_lists.append(list_data)
+
+	custom_lists.sort_custom(_sort_by_display_name)
+	priority_lists.sort_custom(_sort_priority_lists)
+	remaining_builtin_lists.sort_custom(_sort_by_display_name)
+
+	var sorted_lists: Array[WordListData] = []
+	sorted_lists.append_array(custom_lists)
+	sorted_lists.append_array(priority_lists)
+	sorted_lists.append_array(remaining_builtin_lists)
+
+	return sorted_lists
+
+
+func _is_priority_builtin_list(list_data: WordListData) -> bool:
+	return list_data.id == "easy" or list_data.id == "medium" or list_data.id == "hard"
+
+
+func _sort_priority_lists(a: WordListData, b: WordListData) -> bool:
+	return _get_priority_rank(a.id) < _get_priority_rank(b.id)
+
+
+func _get_priority_rank(list_id: String) -> int:
+	match list_id:
+		"easy":
+			return 0
+		"medium":
+			return 1
+		"hard":
+			return 2
+		_:
+			return 999
+
+
+func _sort_by_display_name(a: WordListData, b: WordListData) -> bool:
+	return a.display_name.naturalnocasecmp_to(b.display_name) < 0
 
 
 func _clear_word_list_grid() -> void:
@@ -193,41 +243,11 @@ func _build_word_grid_text(words: Array[String]) -> String:
 	return "\n".join(rows)
 
 
-func _make_custom_list_id_from_path(path: String) -> String:
-	var file_name: String = path.get_file().get_basename()
-	return "custom_%s" % file_name
-
-
-func _make_custom_display_name_from_path(path: String) -> String:
-	return path.get_file().get_basename()
-
-
 func _on_word_list_pressed(list_id: String) -> void:
 	if _focused_list_id == list_id:
 		return
-	_focused_list_id = list_id
-	_refresh_word_list_button_states()
-	_refresh_detail_panel()
-
-
-func _on_upload_csv_pressed() -> void:
-	if file_dialog == null:
-		return
-
-	file_dialog.popup_centered_ratio(0.7)
-
-
-func _on_file_selected(path: String) -> void:
-	var list_id: String = _make_custom_list_id_from_path(path)
-	var display_name: String = _make_custom_display_name_from_path(path)
-
-	var ok: bool = WordLists.import_csv_as_temporary_list(path, list_id, display_name, "custom")
-	if not ok:
-		push_warning("WordListViewMenu: failed to import custom CSV: %s" % path)
-		return
 
 	_focused_list_id = list_id
-	_build_word_list_grid()
 	_refresh_word_list_button_states()
 	_refresh_detail_panel()
 
@@ -256,6 +276,24 @@ func _on_delete_list_pressed() -> void:
 	_build_word_list_grid()
 	_refresh_word_list_button_states()
 	_refresh_detail_panel()
+
+
+func _on_add_new_word_list_pressed() -> void:
+	if add_word_list_popup == null:
+		return
+
+	if add_word_list_popup.has_method("open_popup"):
+		add_word_list_popup.open_popup()
+	else:
+		add_word_list_popup.popup_centered_ratio(0.65)
+
+
+func _on_word_list_created(list_id: String) -> void:
+	_focused_list_id = list_id
+	_build_word_list_grid()
+	_refresh_word_list_button_states()
+	_refresh_detail_panel()
+
 
 func _on_back_pressed() -> void:
 	back_requested.emit()

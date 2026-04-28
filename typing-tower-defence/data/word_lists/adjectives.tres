@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://x6ffvsc0fcvx"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_gyqor"]
+
+[resource]
+script = ExtResource("1_gyqor")
+id = "adjectives"
+display_name = "Adjectives"
+category = "general"
+words = Array[String](["big", "small", "tall", "short", "long", "wide", "narrow", "heavy", "light", "fast", "slow", "hot", "cold", "warm", "cool", "new", "old", "young", "early", "late", "happy", "sad", "angry", "excited", "tired", "hungry", "thirsty", "scared", "brave", "calm", "kind", "nice", "mean", "polite", "rude", "friendly", "quiet", "loud", "busy", "free", "easy", "hard", "simple", "difficult", "strong", "weak", "clean", "dirty", "bright", "dark", "soft", "rough", "smooth", "sharp", "safe", "dangerous", "rich", "poor", "full", "empty"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"
