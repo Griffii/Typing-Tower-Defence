@@ -1,6 +1,269 @@
 [gd_scene format=3 uid="uid://dk55vhpecvo3w"]
 
 [ext_resource type="Script" uid="uid://dlo0enhqcutvr" path="res://scenes/menus/endless_setup_screen.gd" id="1_vhn6x"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_muvbe"]
+[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="3_25s1c"]
+[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="4_rux53"]
+[ext_resource type="PackedScene" uid="uid://d36h1rtkqgva4" path="res://scenes/game/levels/grasslands.tscn" id="5_fnvk8"]
+[ext_resource type="PackedScene" uid="uid://bx4vrgw3koyaf" path="res://scenes/game/levels/seaside_farm.tscn" id="6_awmu3"]
+[ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/enemies/soldiers/soldier_01.png" id="7_nrc65"]
+[ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/enemies/soldiers/weapon_01.png" id="8_e0k1d"]
+[ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/enemies/soldiers/shield.png" id="9_mp1at"]
+[ext_resource type="Texture2D" uid="uid://csajkcdbq6r3" path="res://assets/images/enemies/soldiers/soldier_03.png" id="10_em6pk"]
+[ext_resource type="Texture2D" uid="uid://cqi2eoyspmkgn" path="res://assets/images/enemies/soldiers/weapon_03.png" id="11_5253r"]
+[ext_resource type="Texture2D" uid="uid://bmssjb6jyu2px" path="res://assets/images/enemies/soldiers/soldier_02.png" id="12_fkc8u"]
+[ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="13_25s1c"]
+[ext_resource type="Texture2D" uid="uid://emfdppmqxmp" path="res://assets/images/enemies/slimes/slime_idle2.png" id="13_taa3s"]
+[ext_resource type="Texture2D" uid="uid://c5t858ksierir" path="res://assets/images/enemies/slimes/slime_jump.png" id="14_snn44"]
+[ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="15_5skhe"]
+[ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="16_tnddm"]
+[ext_resource type="Texture2D" uid="uid://bm3bbs2s8c15" path="res://assets/images/menu/confirm.png" id="17_27671"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55tox"]
+bg_color = Color(0, 0, 0, 0.50980395)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q47jv"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_evg4a"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgcbf"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(0, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6lfc"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(80, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70l6n"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(160, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilwhj"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(240, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ase7r"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(320, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtltp"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(400, 216, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8u4nx"]
+atlas = ExtResource("13_taa3s")
+region = Rect2(480, 216, 80, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x5ylh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgcbf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6lfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70l6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilwhj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ase7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtltp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8u4nx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yixkv"]
+atlas = ExtResource("14_snn44")
+region = Rect2(0, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmx3p"]
+atlas = ExtResource("14_snn44")
+region = Rect2(80, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgixs"]
+atlas = ExtResource("14_snn44")
+region = Rect2(160, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el57h"]
+atlas = ExtResource("14_snn44")
+region = Rect2(240, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogp34"]
+atlas = ExtResource("14_snn44")
+region = Rect2(320, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1td6"]
+atlas = ExtResource("14_snn44")
+region = Rect2(400, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqa14"]
+atlas = ExtResource("14_snn44")
+region = Rect2(480, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ppcu"]
+atlas = ExtResource("14_snn44")
+region = Rect2(560, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5xjm"]
+atlas = ExtResource("14_snn44")
+region = Rect2(640, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oipxj"]
+atlas = ExtResource("14_snn44")
+region = Rect2(720, 72, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5grt"]
+atlas = ExtResource("14_snn44")
+region = Rect2(800, 72, 80, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2wvu7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yixkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmx3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dgixs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el57h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogp34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1td6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqa14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ppcu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5xjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oipxj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5grt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c7t6o"]
+texture = ExtResource("15_5skhe")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d0h3w"]
+texture = ExtResource("16_tnddm")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ifcxl"]
+texture = ExtResource("15_5skhe")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(0.85606754, 0.85606724, 0.85606724, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu5ue"]
+texture = ExtResource("15_5skhe")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_621w1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7420c"]
+texture = ExtResource("3_25s1c")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2a4q0"]
+texture = ExtResource("4_rux53")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3j7xl"]
+texture = ExtResource("3_25s1c")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5wnyx"]
+texture = ExtResource("3_25s1c")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a2qnp"]
 
 [node name="EndlessSetupScreen" type="Control" unique_id=1503643063]
 layout_mode = 3
@@ -18,12 +281,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=648588476]
 layout_mode = 2
+alignment = 1
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2142281638]
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_font_sizes/font_size = 32
+text = "Endless Mode Setup Menu"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=3323165]
 layout_mode = 2
@@ -35,53 +309,186 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel" unique_id=912353970]
+[node name="LevelsAndEnemiesButtons" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel" unique_id=1586081599]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 38
+alignment = 1
+
+[node name="LevelsMainContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons" unique_id=273553518]
 layout_mode = 2
 
-[node name="MapLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=754889021]
-layout_mode = 2
-text = "Maps Label"
-
-[node name="MapOptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=454599737]
+[node name="LevelSelectLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer" unique_id=1524755985]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8352941)
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_muvbe")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Pick a level:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EnemyTypesLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=646963725]
+[node name="LevelsBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer" unique_id=61650908]
 layout_mode = 2
-text = "Enemy Types Label"
+alignment = 1
 
-[node name="EnemyTypesContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=177035868]
+[node name="GrasslandsContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox" unique_id=1483033324]
+clip_contents = true
+custom_minimum_size = Vector2(200, 120)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="SoldiersCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/EnemyTypesContainer" unique_id=1203292981]
+[node name="Grasslands" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/GrasslandsContainer" unique_id=1777634157 instance=ExtResource("5_fnvk8")]
+scale = Vector2(0.22, 0.22)
+
+[node name="GrasslandsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/GrasslandsContainer" unique_id=1227614111]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxFlat_55tox")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q47jv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_evg4a")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q47jv")
+text = "Grasslands"
+
+[node name="SeasideFarmContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox" unique_id=1231350528]
+clip_contents = true
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+
+[node name="Seaside_Farm" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/SeasideFarmContainer" unique_id=1439470031 instance=ExtResource("6_awmu3")]
+scale = Vector2(0.22, 0.22)
+
+[node name="SeasideFarmButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/SeasideFarmContainer" unique_id=1028136473]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxFlat_55tox")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q47jv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_evg4a")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q47jv")
+text = "Seaside Farm"
+
+[node name="EnemyMainContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons" unique_id=2140035849]
+layout_mode = 2
+
+[node name="EnemySelectLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer" unique_id=784952503]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8352941)
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_muvbe")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "Pick an Enemy Type:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemiesBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer" unique_id=647450423]
+layout_mode = 2
+alignment = 1
+
+[node name="SoldiersContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox" unique_id=376543311]
+clip_contents = true
+custom_minimum_size = Vector2(200, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Soldier01" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=889065322]
+position = Vector2(30, 94)
+scale = Vector2(3, 3)
+texture = ExtResource("7_nrc65")
+
+[node name="Weapon01" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier01" unique_id=884089240]
+position = Vector2(11.000004, 1)
+rotation = 0.7853982
+texture = ExtResource("8_e0k1d")
+flip_h = true
+
+[node name="Shield" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier01" unique_id=390018725]
+position = Vector2(-7, 4.666664)
+texture = ExtResource("9_mp1at")
+
+[node name="Soldier03" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=948755095]
+position = Vector2(172, 93)
+scale = Vector2(3, 3)
+texture = ExtResource("10_em6pk")
+flip_h = true
+
+[node name="Weapon03" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier03" unique_id=1009577612]
+position = Vector2(-8.999995, 2.6666718)
+rotation = -0.7853982
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("11_5253r")
+
+[node name="Soldier02" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=1832792164]
+position = Vector2(99, 95)
+scale = Vector2(3, 3)
+texture = ExtResource("12_fkc8u")
+
+[node name="SoldiersButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=543322497]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxFlat_55tox")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q47jv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_evg4a")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q47jv")
 text = "Soldiers"
 
-[node name="SlimesCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/EnemyTypesContainer" unique_id=1866861222]
+[node name="SlimesContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox" unique_id=892449717]
+custom_minimum_size = Vector2(200, 120)
+layout_mode = 2
+
+[node name="SlimeDemo" type="AnimatedSprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=203240255]
+position = Vector2(52, 95)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_x5ylh")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="SlimeDemo2" type="AnimatedSprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=242190105]
+position = Vector2(142, 95)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_2wvu7")
+animation = &"idle"
+autoplay = "idle"
+flip_h = true
+
+[node name="SlimesButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=1393493277]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxFlat_55tox")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q47jv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_evg4a")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q47jv")
 text = "Slimes"
 
-[node name="WordlistControlConatainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=2092458040]
-layout_mode = 2
-
-[node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=1800741804]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Enable All"
-
-[node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=1198670278]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Disable All"
-
-[node name="UploadCSVButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/WordlistControlConatainer" unique_id=688421591]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Upload CSV File"
-
 [node name="RightPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=777986148]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel" unique_id=374664702]
@@ -89,57 +496,117 @@ layout_mode = 2
 
 [node name="WordListsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=888174451]
 layout_mode = 2
-text = "Word Lists"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5882353)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_font_sizes/font_size = 28
+text = "Word Lists:"
+horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=199907651]
+[node name="WordListScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=1797078358]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 
-[node name="WordListScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer" unique_id=1797078358]
-layout_mode = 2
-
-[node name="WordListGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListScroll" unique_id=1250535535]
+[node name="WordListGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListScroll" unique_id=1250535535]
 unique_name_in_owner = true
 layout_mode = 2
+columns = 2
 
-[node name="WordListDetailPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer" unique_id=242431919]
+[node name="WordListControlsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=719219977]
 layout_mode = 2
+alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel" unique_id=1451818053]
-layout_mode = 2
-
-[node name="DetailNameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=1911519892]
+[node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800741804]
 unique_name_in_owner = true
 layout_mode = 2
+text = "Enable All"
 
-[node name="DetailCategoryLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=858051808]
+[node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1198670278]
 unique_name_in_owner = true
 layout_mode = 2
+text = "Disable All"
 
-[node name="DetailCountLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=643149189]
+[node name="UploadCSVButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=688421591]
 unique_name_in_owner = true
 layout_mode = 2
+text = "Upload CSV File"
 
-[node name="DetailWordsText" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/HBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=821173370]
+[node name="WordListDetailPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=242431919]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel" unique_id=1451818053]
+layout_mode = 2
+
+[node name="TotalWordsCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=643149189]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("13_25s1c")
+text = "Word Count"
+horizontal_alignment = 2
+
+[node name="IncludedListsLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=821173370]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_muvbe")
+text = "Words, words, words"
+fit_content = true
+horizontal_alignment = 1
 
 [node name="SummaryLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=368659150]
 unique_name_in_owner = true
 layout_mode = 2
+horizontal_alignment = 1
 
 [node name="BottomButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=641985059]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 28
 alignment = 1
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/BottomButtons" unique_id=121440933]
+[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/BottomButtons" unique_id=1408698574]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 60)
 layout_mode = 2
-text = "Back"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.14901961, 0.16862746, 0.26666668, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxTexture_c7t6o")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d0h3w")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ifcxl")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yu5ue")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_621w1")
+text = "Ready"
+icon = ExtResource("17_27671")
+expand_icon = true
 
-[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/BottomButtons" unique_id=2125713849]
+[node name="BackButton" type="Button" parent="MarginContainer" unique_id=1820640198]
 unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Start"
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_7420c")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2a4q0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3j7xl")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_5wnyx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_a2qnp")
+text = "Back"
 
 [node name="FileDialog" type="FileDialog" parent="." unique_id=934017906]
 unique_name_in_owner = true
+oversampling_override = 1.0

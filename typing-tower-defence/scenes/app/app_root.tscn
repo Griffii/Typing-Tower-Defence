@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ws4cm1qoqgge"]
 
 [ext_resource type="Script" uid="uid://7hftg84ntito" path="res://scenes/app/app_root.gd" id="1_me6kk"]
-[ext_resource type="PackedScene" uid="uid://b5ureljdbfatw" path="res://scenes/menus/scene_transition.tscn" id="2_ujsvu"]
+[ext_resource type="PackedScene" uid="uid://4rggynnm11g4" path="res://scenes/menus/scene_transition.tscn" id="2_ujsvu"]
 
 [node name="AppRoot" type="Control" unique_id=710985153]
 layout_mode = 3
@@ -13,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_me6kk")
 
 [node name="ScreenContainer" type="Control" parent="." unique_id=701613847]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,4 +21,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SceneTransition" parent="." unique_id=846731844 instance=ExtResource("2_ujsvu")]
+[node name="Scene_Transition" parent="." unique_id=1611063102 instance=ExtResource("2_ujsvu")]
+unique_name_in_owner = true
+visible = false

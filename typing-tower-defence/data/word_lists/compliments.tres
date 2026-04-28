@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://c572obd5khj7w"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_qra2b"]
+
+[resource]
+script = ExtResource("1_qra2b")
+id = "compliments"
+display_name = "Compliments"
+category = "general"
+words = Array[String](["amazing", "awesome", "brave", "bright", "calm", "careful", "cheerful", "clever", "cool", "cute", "elegant", "fancy", "friendly", "funny", "gentle", "glad", "good", "graceful", "great", "happy", "helpful", "honest", "kind", "lovely", "lucky", "magic", "mellow", "mighty", "neat", "nice", "perfect", "polite", "pretty", "proud", "quick", "shiny", "smart", "smile", "special", "strong", "sweet", "talented", "thankful", "thoughtful", "tidy", "warm", "wise", "wonderful", "worthy", "young"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

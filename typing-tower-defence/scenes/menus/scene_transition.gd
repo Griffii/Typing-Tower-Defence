@@ -1,31 +1,55 @@
 extends CanvasLayer
 
-signal fade_out_finished
-signal fade_in_finished
+signal transition_midpoint_reached
+signal transition_finished
 
-@onready var fade_rect: ColorRect = %FadeRect
-@onready var loading_label: Label = %LoadingLabel
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+
+var _midpoint_emitted: bool = false
+
 
 func _ready() -> void:
 	visible = false
-	fade_rect.modulate.a = 0.0
-	loading_label.visible = false
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
+		animation_player.animation_finished.connect(_on_animation_finished)
 
 
-func fade_out(duration: float = 0.25, show_loading: bool = true) -> void:
+func play_transition(animation_name: String = "black_swipe") -> void:
+	_midpoint_emitted = false
 	visible = true
-	loading_label.visible = show_loading
-	
-	var tween: Tween = create_tween()
-	tween.tween_property(fade_rect, "modulate:a", 1.0, duration)
-	await tween.finished
-	fade_out_finished.emit()
+
+	if animation_player == null:
+		_emit_midpoint()
+		transition_finished.emit()
+		return
+
+	if not animation_player.has_animation(animation_name):
+		push_warning("SceneTransition: missing animation '%s'." % animation_name)
+		_emit_midpoint()
+		transition_finished.emit()
+		return
+
+	animation_player.stop()
+	animation_player.play(animation_name)
 
 
-func fade_in(duration: float = 0.25) -> void:
-	var tween: Tween = create_tween()
-	tween.tween_property(fade_rect, "modulate:a", 0.0, duration)
-	await tween.finished
-	loading_label.visible = false
+func _on_transition_midpoint() -> void:
+	_emit_midpoint()
+
+
+func _emit_midpoint() -> void:
+	if _midpoint_emitted:
+		return
+
+	_midpoint_emitted = true
+	transition_midpoint_reached.emit()
+
+
+func _on_animation_finished(_anim_name: StringName) -> void:
+	if not _midpoint_emitted:
+		_emit_midpoint()
+
 	visible = false
-	fade_in_finished.emit()
+	transition_finished.emit()

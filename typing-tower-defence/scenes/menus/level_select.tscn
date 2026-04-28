@@ -304,10 +304,10 @@ size_flags_vertical = 4
 theme_override_constants/separation = 38
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/RootVbox" unique_id=1403110319]
+[node name="LevelsMainContainer" type="VBoxContainer" parent="MarginContainer/RootVbox" unique_id=1403110319]
 layout_mode = 2
 
-[node name="LevelSelectLabel" type="RichTextLabel" parent="MarginContainer/RootVbox/VBoxContainer" unique_id=328463030]
+[node name="LevelSelectLabel" type="RichTextLabel" parent="MarginContainer/RootVbox/LevelsMainContainer" unique_id=328463030]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -323,21 +323,21 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelsBox" type="HBoxContainer" parent="MarginContainer/RootVbox/VBoxContainer" unique_id=1123599676]
+[node name="LevelsBox" type="HBoxContainer" parent="MarginContainer/RootVbox/LevelsMainContainer" unique_id=1123599676]
 layout_mode = 2
 alignment = 1
 
-[node name="GrasslandsContainer" type="MarginContainer" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox" unique_id=1262312113]
+[node name="GrasslandsContainer" type="MarginContainer" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox" unique_id=1262312113]
 clip_contents = true
 custom_minimum_size = Vector2(200, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Grasslands" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox/GrasslandsContainer" unique_id=1777634157 instance=ExtResource("2_bjs8j")]
+[node name="Grasslands" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox/GrasslandsContainer" unique_id=1777634157 instance=ExtResource("2_bjs8j")]
 scale = Vector2(0.22, 0.22)
 
-[node name="GrasslandsButton" type="Button" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox/GrasslandsContainer" unique_id=1411026294]
+[node name="GrasslandsButton" type="Button" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox/GrasslandsContainer" unique_id=1411026294]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -349,15 +349,15 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_3nlwe")
 theme_override_styles/focus = SubResource("StyleBoxFlat_o3ryw")
 text = "Grasslands"
 
-[node name="SeasideFarmContainer" type="MarginContainer" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox" unique_id=1061794492]
+[node name="SeasideFarmContainer" type="MarginContainer" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox" unique_id=1061794492]
 clip_contents = true
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 
-[node name="Seaside_Farm" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox/SeasideFarmContainer" unique_id=1439470031 instance=ExtResource("3_6lkes")]
+[node name="Seaside_Farm" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox/SeasideFarmContainer" unique_id=1439470031 instance=ExtResource("3_6lkes")]
 scale = Vector2(0.22, 0.22)
 
-[node name="SeasideFarmButton" type="Button" parent="MarginContainer/RootVbox/VBoxContainer/LevelsBox/SeasideFarmContainer" unique_id=354838541]
+[node name="SeasideFarmButton" type="Button" parent="MarginContainer/RootVbox/LevelsMainContainer/LevelsBox/SeasideFarmContainer" unique_id=354838541]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -369,10 +369,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_3nlwe")
 theme_override_styles/focus = SubResource("StyleBoxFlat_o3ryw")
 text = "Seaside Farm"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/RootVbox" unique_id=113849658]
+[node name="EnemyMainContainer" type="VBoxContainer" parent="MarginContainer/RootVbox" unique_id=113849658]
 layout_mode = 2
 
-[node name="EnemySelectLabel" type="RichTextLabel" parent="MarginContainer/RootVbox/VBoxContainer2" unique_id=1119939082]
+[node name="EnemySelectLabel" type="RichTextLabel" parent="MarginContainer/RootVbox/EnemyMainContainer" unique_id=1119939082]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -389,50 +389,50 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemiesBox" type="HBoxContainer" parent="MarginContainer/RootVbox/VBoxContainer2" unique_id=451194601]
+[node name="EnemiesBox" type="HBoxContainer" parent="MarginContainer/RootVbox/EnemyMainContainer" unique_id=451194601]
 layout_mode = 2
 alignment = 1
 
-[node name="SoldiersContainer" type="MarginContainer" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox" unique_id=1401735939]
+[node name="SoldiersContainer" type="MarginContainer" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox" unique_id=1401735939]
 clip_contents = true
 custom_minimum_size = Vector2(200, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Soldier01" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer" unique_id=454307944]
+[node name="Soldier01" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=454307944]
 position = Vector2(30, 94)
 scale = Vector2(3, 3)
 texture = ExtResource("4_rm37b")
 
-[node name="Weapon01" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer/Soldier01" unique_id=763381381]
+[node name="Weapon01" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier01" unique_id=763381381]
 position = Vector2(11.000004, 1)
 rotation = 0.7853982
 texture = ExtResource("5_d52we")
 flip_h = true
 
-[node name="Shield" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer/Soldier01" unique_id=800102430]
+[node name="Shield" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier01" unique_id=800102430]
 position = Vector2(-7, 4.666664)
 texture = ExtResource("6_o3ryw")
 
-[node name="Soldier03" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer" unique_id=1584436263]
+[node name="Soldier03" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=1584436263]
 position = Vector2(172, 93)
 scale = Vector2(3, 3)
 texture = ExtResource("7_3nlwe")
 flip_h = true
 
-[node name="Weapon03" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer/Soldier03" unique_id=1701077970]
+[node name="Weapon03" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer/Soldier03" unique_id=1701077970]
 position = Vector2(-8.999995, 2.6666718)
 rotation = -0.7853982
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("8_if2tv")
 
-[node name="Soldier02" type="Sprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer" unique_id=372422271]
+[node name="Soldier02" type="Sprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=372422271]
 position = Vector2(99, 95)
 scale = Vector2(3, 3)
 texture = ExtResource("9_10jtx")
 
-[node name="SoldiersButton" type="Button" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SoldiersContainer" unique_id=1016297262]
+[node name="SoldiersButton" type="Button" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=1016297262]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -444,11 +444,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_3nlwe")
 theme_override_styles/focus = SubResource("StyleBoxFlat_o3ryw")
 text = "Soldiers"
 
-[node name="SlimesContainer" type="MarginContainer" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox" unique_id=360013673]
+[node name="SlimesContainer" type="MarginContainer" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox" unique_id=360013673]
 custom_minimum_size = Vector2(200, 120)
 layout_mode = 2
 
-[node name="SlimeDemo" type="AnimatedSprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SlimesContainer" unique_id=1524378349]
+[node name="SlimeDemo" type="AnimatedSprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=1524378349]
 position = Vector2(52, 95)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_pumrs")
@@ -456,7 +456,7 @@ animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.25020576
 
-[node name="SlimeDemo2" type="AnimatedSprite2D" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SlimesContainer" unique_id=1248910445]
+[node name="SlimeDemo2" type="AnimatedSprite2D" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=1248910445]
 position = Vector2(142, 95)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_buvdm")
@@ -465,7 +465,7 @@ autoplay = "idle"
 frame_progress = 0.61564636
 flip_h = true
 
-[node name="SlimesButton" type="Button" parent="MarginContainer/RootVbox/VBoxContainer2/EnemiesBox/SlimesContainer" unique_id=371014458]
+[node name="SlimesButton" type="Button" parent="MarginContainer/RootVbox/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=371014458]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

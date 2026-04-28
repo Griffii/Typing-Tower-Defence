@@ -1,29 +1,170 @@
-[gd_scene format=3 uid="uid://b5ureljdbfatw"]
+[gd_scene format=3 uid="uid://4rggynnm11g4"]
 
-[ext_resource type="Script" uid="uid://dkws726ul5fd6" path="res://scenes/menus/scene_transition.gd" id="1_3bgq8"]
-[ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="2_sromv"]
+[ext_resource type="Script" uid="uid://dq3kwphm1620n" path="res://scenes/menus/scene_transition.gd" id="1_3bgq8"]
 
-[node name="SceneTransition" type="CanvasLayer" unique_id=2112578889]
+[sub_resource type="Gradient" id="Gradient_ipp86"]
+offsets = PackedFloat32Array(0.712551, 0.955466, 1)
+colors = PackedColorArray(0.0728426, 0.0728426, 0.0728426, 1, 0.278431, 0.278431, 0.278431, 0.756863, 0.278431, 0.278431, 0.278431, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_igxph"]
+gradient = SubResource("Gradient_ipp86")
+fill = 2
+fill_from = Vector2(0.495726, 0.521368)
+
+[sub_resource type="Animation" id="Animation_8hbrc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-239, -156)]
+}
+
+[sub_resource type="Animation" id="Animation_3bgq8"]
+resource_name = "black_swipe"
+length = 0.6
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-1494, -156), Vector2(-239, -156), Vector2(1028, -156)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_transition_midpoint"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_sromv"]
+resource_name = "back_swipe_RtoL"
+length = 0.6
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1016, -156), Vector2(-239, -156), Vector2(-1509, -156)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_transition_midpoint"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kq3v3"]
+resource_name = "fade_in"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-3000, -126), Vector2(-247, -126)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("whoosh_sfx:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_5npbh"]
+resource_name = "fade_out"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-247, -126), Vector2(3000, -126)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dl3iu"]
+_data = {
+&"RESET": SubResource("Animation_8hbrc"),
+&"black_swipe_LtoR": SubResource("Animation_3bgq8"),
+&"black_swipe_RtoL": SubResource("Animation_sromv"),
+&"fade_in": SubResource("Animation_kq3v3"),
+&"fade_out": SubResource("Animation_5npbh")
+}
+
+[node name="Scene_Transition" type="CanvasLayer" unique_id=1611063102]
+layer = 5
 script = ExtResource("1_3bgq8")
 
-[node name="FadeRect" type="ColorRect" parent="." unique_id=755848035]
-unique_name_in_owner = true
+[node name="ColorRect" type="TextureRect" parent="." unique_id=316894576]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -239.0
+offset_top = -156.0
+offset_right = -239.00098
+offset_bottom = -156.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.096204735, 0.09620475, 0.096204735, 1)
+scale = Vector2(1.5, 1.5)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 0
+texture = SubResource("GradientTexture2D_igxph")
 
-[node name="LoadingLabel" type="Label" parent="." unique_id=2057856749]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=157343367]
 unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_sromv")
-theme_override_font_sizes/font_size = 58
-text = "Loading...."
-horizontal_alignment = 1
-vertical_alignment = 1
+libraries/ = SubResource("AnimationLibrary_dl3iu")
+
+[node name="whoosh_sfx" type="AudioStreamPlayer2D" parent="." unique_id=820802789]

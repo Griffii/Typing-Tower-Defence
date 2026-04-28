@@ -8,41 +8,32 @@ signal back_to_menu_requested
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 
-	if back_button != null:
+	if back_button != null and not back_button.pressed.is_connected(_on_back_pressed):
 		back_button.pressed.connect(_on_back_pressed)
 
-	if main_menu_button != null:
+	if main_menu_button != null and not main_menu_button.pressed.is_connected(_on_main_menu_pressed):
 		main_menu_button.pressed.connect(_on_main_menu_pressed)
 
 
-# --- Public API ---
-
 func show_overlay() -> void:
 	visible = true
-	get_tree().paused = true
-
-	# Ensure UI still works while paused
-	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
 
 func hide_overlay() -> void:
 	visible = false
-	get_tree().paused = false
 
 
 func toggle_overlay() -> void:
 	if visible:
-		hide_overlay()
+		_on_back_pressed()
 	else:
 		show_overlay()
 
 
-# --- Button handlers ---
-
 func _on_back_pressed() -> void:
-	hide_overlay()
 	resume_requested.emit()
 
 

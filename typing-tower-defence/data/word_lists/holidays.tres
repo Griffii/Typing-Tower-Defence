@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://cqgmipfd3o8ab"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_187ed"]
+
+[resource]
+script = ExtResource("1_187ed")
+id = "holidays"
+display_name = "Holidays"
+category = "general"
+words = Array[String](["autumn", "candle", "carol", "celebrate", "costume", "cracker", "dance", "easter", "family", "feast", "festival", "firework", "gift", "harvest", "holiday", "lantern", "laugh", "memory", "music", "party", "parade", "picnic", "present", "pumpkin", "rabbit", "reindeer", "ribbon", "santa", "season", "sing", "snowman", "spring", "summer", "turkey", "vacation", "valentine", "winter", "wreath", "zombie", "bonfire", "cookie", "dragon", "holiday", "jingle", "mascot", "mooncake", "ornament", "travel", "visitor"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

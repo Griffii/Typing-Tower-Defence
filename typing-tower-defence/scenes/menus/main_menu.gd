@@ -1,6 +1,7 @@
 extends Control
 
 signal play_requested
+signal endless_mode_requested
 signal settings_requested
 signal wordlistsmenu_requested
 
@@ -17,10 +18,10 @@ const TITLE_TEXT := "Typing\nTower Defence!"
 const TITLE_TYPED_COLOR := "6fdc8c"
 const MENU_ENEMY_MOVE_SPEED := 50.0
 
-@onready var play_button: Button = %PlayButton
+@onready var endless_button: Button = %EndlessButton
 @onready var settings_button: Button = %SettingsButton
 @onready var word_lists_button: Button = %WordListsButton
-@onready var multiplayer_button: Button = %MultiplayerButton
+@onready var story_button: Button = %StoryButton
 
 @onready var title_label: RichTextLabel = %TitleLabel
 @onready var tower_container: Node2D = %TowerContainer
@@ -38,28 +39,26 @@ var type_color_effect: TypeColorEffect = null
 
 func _ready() -> void:
 	rng.randomize()
-
-	play_button.pressed.connect(_on_play_pressed)
+	
+	endless_button.pressed.connect(_on_endless_mode_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
-
+	word_lists_button.pressed.connect(_on_wordlists_pressed)
+	
 	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
-
-	multiplayer_button.disabled = true
-	multiplayer_button.focus_mode = Control.FOCUS_NONE
-
+	
 	title_label.bbcode_enabled = true
 	title_label.scroll_active = false
 	title_label.fit_content = true
-
+	
 	var wave_effect := WaveTextEffect.new()
 	title_label.install_effect(wave_effect)
-
+	
 	type_color_effect = TypeColorEffect.new()
 	title_label.install_effect(type_color_effect)
-
+	
 	_reset_title_text()
-
+	
 	call_deferred("_run_title_cycle")
 	call_deferred("_run_menu_enemy_cycle")
 
@@ -203,13 +202,16 @@ func spawn_lightning() -> void:
 		lightning_instance.position = spawn_pos
 
 
+
+## Button press signal requests
 func _on_play_pressed() -> void:
 	play_requested.emit()
 
+func _on_endless_mode_pressed() -> void:
+	endless_mode_requested.emit()
 
 func _on_settings_pressed() -> void:
 	settings_requested.emit()
 
-
-func _in_wordlists_pressed() -> void:
+func _on_wordlists_pressed() -> void:
 	wordlistsmenu_requested.emit()

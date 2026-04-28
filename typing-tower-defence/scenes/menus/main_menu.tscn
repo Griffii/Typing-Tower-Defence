@@ -55,16 +55,6 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_imvie"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8r73w"]
-texture = ExtResource("3_8r73w")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ng0o5"]
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1hnlc"]
 texture = ExtResource("3_8r73w")
 texture_margin_left = 8.0
@@ -74,6 +64,16 @@ texture_margin_bottom = 8.0
 modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8r73w"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8r73w"]
+texture = ExtResource("3_8r73w")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ng0o5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_25m6f"]
 texture = ExtResource("6_uxao6")
@@ -2504,7 +2504,7 @@ offset_bottom = 452.0
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="PlayButton" type="Button" parent="ButtonBox" unique_id=156142824]
+[node name="EndlessButton" type="Button" parent="ButtonBox" unique_id=156142824]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
@@ -2514,13 +2514,49 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
-text = "Play"
+text = "Endless Mode"
+
+[node name="StoryButton" type="Button" parent="ButtonBox" unique_id=945723525]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_1hnlc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8r73w")
+disabled = true
+text = "Story Mode"
+
+[node name="WordListsButton" type="Button" parent="ButtonBox" unique_id=1784854066]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
+text = "Word Lists"
 
 [node name="SettingsButton" type="Button" parent="ButtonBox" unique_id=1598921276]
 unique_name_in_owner = true
@@ -2539,40 +2575,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
 disabled = true
 text = "Settings"
-
-[node name="WordListsButton" type="Button" parent="ButtonBox" unique_id=1784854066]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-text = "Word Lists"
-
-[node name="MultiplayerButton" type="Button" parent="ButtonBox" unique_id=945723525]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_1hnlc")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_8r73w")
-disabled = true
-text = "Multiplayer"
 
 [node name="BGContainer" type="Node2D" parent="." unique_id=1081627366]
 z_index = -1

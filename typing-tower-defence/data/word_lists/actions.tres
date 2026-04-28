@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://yto7d1ugmly4"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_ks7l4"]
+
+[resource]
+script = ExtResource("1_ks7l4")
+id = "actions"
+display_name = "Actions"
+category = "general"
+words = Array[String](["attack", "charge", "chase", "climb", "dash", "dodge", "drive", "fight", "guard", "jump", "kick", "march", "move", "punch", "push", "race", "rescue", "roll", "rush", "shoot", "slam", "slide", "sneak", "spin", "sprint", "strike", "swing", "throw", "track", "train", "travel", "walk", "watch", "wave", "crawl", "drift", "enter", "escape", "follow", "grab", "help", "hide", "hurry", "knock", "leap", "pull", "run", "search", "step", "tackle"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

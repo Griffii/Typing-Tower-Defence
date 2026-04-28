@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://b8t16y5u6wg8x"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_6evsd"]
+
+[resource]
+script = ExtResource("1_6evsd")
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"
+id = "fantasy"
+display_name = "Fantasy"
+category = "general"
+words = Array[String](["dragon", "wizard", "sword", "magic", "spell", "curse", "potion", "knight", "castle", "dungeon", "goblin", "orc", "elf", "dwarf", "giant", "troll", "quest", "battle", "armor", "shield", "blade", "staff", "rune", "mana", "beast", "spirit", "shadow", "flame", "frost", "storm"])

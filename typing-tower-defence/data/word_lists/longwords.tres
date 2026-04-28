@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://b2rr8gg4kch0l"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_g481l"]
+
+[resource]
+script = ExtResource("1_g481l")
+id = "long_words"
+display_name = "Long Words"
+category = "general"
+words = Array[String](["important", "different", "beautiful", "interesting", "understand", "remember", "practice", "complete", "exercise", "holiday", "restaurant", "favorite", "chocolate", "breakfast", "tomorrow", "yesterday", "together", "everyone", "something", "anything", "nothing", "sometimes", "usually", "quickly", "carefully", "powerful", "friendly", "wonderful", "dangerous", "special"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

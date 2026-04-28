@@ -15,6 +15,122 @@ var pending_spawn_count: int = 0
 var wave_active: bool = false
 var wave_finished: bool = false
 
+## ENDLESS MODE WAVE GENERATION DATA AND FUNCTIONS ################################################
+const ENDLESS_MAX_WAVES: int = 100
+
+const ENEMY_GROUP_TO_TYPES := {
+	"soldiers": ["grunt", "scout", "tank", "boss"],
+	"slimes": ["slime", "boss_slime"],
+}
+
+const ENEMY_GENERATION_DATA := {
+	"grunt": {
+		"cost": 1,
+		"min_wave": 1,
+	},
+	"scout": {
+		"cost": 2,
+		"min_wave": 3,
+	},
+	"tank": {
+		"cost": 4,
+		"min_wave": 6,
+	},
+	"boss": {
+		"cost": 10,
+		"min_wave": 10,
+	},
+	"slime": {
+		"cost": 1,
+		"min_wave": 1,
+	},
+	"boss_slime": {
+		"cost": 8,
+		"min_wave": 10,
+	},
+}
+
+func build_endless_wave_definitions(config: EndlessRunConfig) -> Array:
+	var generated_waves: Array = []
+
+	for wave_number in range(1, ENDLESS_MAX_WAVES + 1):
+		generated_waves.append(_build_endless_wave(config, wave_number))
+
+	return generated_waves
+
+func _build_endless_wave(config: EndlessRunConfig, wave_number: int) -> Dictionary:
+	var budget: int = _get_endless_wave_budget(wave_number)
+	var eligible_enemy_types: Array[String] = _get_eligible_enemy_types(config.enabled_enemy_groups, wave_number)
+	var selected_word_lists: Array[String] = config.selected_word_list_ids.duplicate()
+	var enemies: Array = []
+
+	while budget > 0:
+		var enemy_type: String = _pick_enemy_type_for_budget(eligible_enemy_types, budget)
+
+		if enemy_type.is_empty():
+			break
+
+		var enemy_cost: int = int(ENEMY_GENERATION_DATA[enemy_type].get("cost", 1))
+
+		if enemy_cost > budget:
+			break
+
+		enemies.append({
+			"enemy_type": enemy_type,
+			"word_list_ids": selected_word_lists,
+		})
+
+		budget -= enemy_cost
+
+	return {
+		"spawn_interval": _get_endless_spawn_interval(wave_number),
+		"wave_word_list_ids": selected_word_lists,
+		"enemies": enemies,
+	}
+
+func _get_endless_wave_budget(wave_number: int) -> int:
+	var base_budget: int = 4
+	var linear_growth: int = wave_number * 2
+	var milestone_bonus: int = int(floor(float(wave_number) / 10.0)) * 5
+
+	return base_budget + linear_growth + milestone_bonus
+
+func _get_endless_spawn_interval(wave_number: int) -> float:
+	var interval: float = 1.4 - (float(wave_number) * 0.008)
+	return clampf(interval, 0.45, 1.4)
+
+func _get_eligible_enemy_types(enabled_groups: Array[String], wave_number: int) -> Array[String]:
+	var eligible: Array[String] = []
+
+	for group_id in enabled_groups:
+		var enemy_types: Array = ENEMY_GROUP_TO_TYPES.get(group_id, [])
+
+		for enemy_type in enemy_types:
+			if not ENEMY_GENERATION_DATA.has(enemy_type):
+				continue
+
+			var min_wave: int = int(ENEMY_GENERATION_DATA[enemy_type].get("min_wave", 1))
+
+			if wave_number >= min_wave and not eligible.has(enemy_type):
+				eligible.append(enemy_type)
+
+	return eligible
+
+func _pick_enemy_type_for_budget(eligible_enemy_types: Array[String], remaining_budget: int) -> String:
+	var affordable: Array[String] = []
+
+	for enemy_type in eligible_enemy_types:
+		var enemy_cost: int = int(ENEMY_GENERATION_DATA[enemy_type].get("cost", 1))
+
+		if enemy_cost <= remaining_budget:
+			affordable.append(enemy_type)
+
+	if affordable.is_empty():
+		return ""
+
+	return affordable[randi() % affordable.size()]
+
+###################################################################################################
 
 func set_wave_definitions(waves: Array) -> void:
 	wave_definitions = waves.duplicate(true)

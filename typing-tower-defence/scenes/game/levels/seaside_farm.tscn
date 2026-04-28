@@ -2492,6 +2492,7 @@ shape = SubResource("CircleShape2D_08sba")
 position = Vector2(629, 448)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_60sps")
+autoplay = "default"
 frame_progress = 0.7632782
 
 [node name="TowerContainer" type="Node" parent="." unique_id=1637233430]

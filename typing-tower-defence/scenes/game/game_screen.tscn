@@ -89,13 +89,13 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
+[node name="BuildOverlay" parent="UI" unique_id=1554375440 instance=ExtResource("9_dfe6s")]
+unique_name_in_owner = true
+visible = false
+
 [node name="GameMenuOverlay" parent="UI" unique_id=1547500714 instance=ExtResource("7_dagq5")]
 unique_name_in_owner = true
 layer = 2
-visible = false
-
-[node name="BuildOverlay" parent="UI" unique_id=1554375440 instance=ExtResource("9_dfe6s")]
-unique_name_in_owner = true
 visible = false
 
 [node name="Managers" type="Node" parent="." unique_id=828761454]

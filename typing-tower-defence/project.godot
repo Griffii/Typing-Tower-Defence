@@ -21,6 +21,7 @@ config/icon="uid://b23vspxb8ehtc"
 UiSfxManager="*uid://djhi43b2iy1oq"
 GameSelection="*uid://bwa2ushl5h3ue"
 WordLists="*uid://dss58n4eqpj4b"
+GameSession="*uid://dkr8xqhgtymcr"
 
 [display]
 

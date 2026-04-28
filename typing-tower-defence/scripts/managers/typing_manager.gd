@@ -59,7 +59,7 @@ func process_input_text(text: String) -> void:
 	if not is_active:
 		return
 
-	input_buffer = text.to_lower()
+	input_buffer = text
 
 	if input_buffer.is_empty():
 		_clear_target()
@@ -79,7 +79,7 @@ func process_input_text(text: String) -> void:
 	_update_target_typing_feedback()
 
 	if active_target != null and is_instance_valid(active_target) and active_target.has_method("get_current_word"):
-		var target_word: String = String(active_target.get_current_word()).to_lower()
+		var target_word: String = String(active_target.get_current_word())
 
 		if input_buffer == target_word:
 			var completed_target: Node = active_target
@@ -126,7 +126,7 @@ func _collect_enemy_candidates(input_text: String, candidates: Array[Node]) -> v
 		if not enemy.has_method("get_current_word"):
 			continue
 
-		var word: String = String(enemy.get_current_word()).to_lower()
+		var word: String = String(enemy.get_current_word())
 		if word.is_empty():
 			continue
 
@@ -151,7 +151,7 @@ func _collect_tower_candidates(input_text: String, candidates: Array[Node]) -> v
 		if not child.has_method("get_current_word"):
 			continue
 
-		var word: String = String(child.get_current_word()).to_lower()
+		var word: String = String(child.get_current_word())
 		if word.is_empty():
 			continue
 
@@ -160,7 +160,7 @@ func _collect_tower_candidates(input_text: String, candidates: Array[Node]) -> v
 
 
 func _sort_enemy_priority(a: Node, b: Node) -> bool:
-	# First-spawned enemy should win.
+	# First-spawned enemy should win - In the case of NPC combat
 	# SpawnManager.get_active_enemies() is assumed to preserve spawn order.
 	# Stable fallback: instance id.
 	return a.get_instance_id() < b.get_instance_id()

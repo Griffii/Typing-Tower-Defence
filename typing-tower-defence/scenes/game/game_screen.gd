@@ -15,8 +15,8 @@ enum RunState {
 
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 
-# Turn this to false before packaging for itch
-var DEV_MODE: bool = false
+# Turn this to false before packaging for distribution
+var DEV_MODE: bool = true
 
 var selected_level_scene: PackedScene = null
 var selected_wave_defs: Array = []
@@ -142,10 +142,6 @@ func _load_selected_run_content() -> void:
 	print("[GameScreen] _load_selected_run_content()")
 
 	selected_level_scene = GameSelection.get_level_scene()
-	selected_wave_defs = GameSelection.get_wave_definitions()
-
-	print("[GameScreen] selected_level_scene = ", GameSelection._describe_resource(selected_level_scene))
-	print("[GameScreen] selected_wave_defs.size() = ", selected_wave_defs.size())
 
 	if selected_level_scene == null:
 		push_warning("GameScreen: selected_level_scene was null.")
@@ -153,15 +149,72 @@ func _load_selected_run_content() -> void:
 
 	load_level(selected_level_scene)
 
-	wave_set = selected_wave_defs.duplicate(true)
-	total_waves = wave_set.size()
+	match GameSession.run_mode:
+		GameSession.RunMode.ENDLESS:
+			_setup_endless_run()
 
-	print("[GameScreen] final wave_set size = ", wave_set.size())
+		GameSession.RunMode.CAMPAIGN:
+			_setup_campaign_run()
+
+		_:
+			_setup_legacy_run()
+
+
+func _setup_endless_run() -> void:
+	print("[GameScreen] Setting up endless run.")
+
+	var config: EndlessRunConfig = GameSession.endless_run_config
+
+	if config == null:
+		push_warning("GameScreen: endless config was null.")
+		_setup_legacy_run()
+		return
+
+	if wave_manager != null and wave_manager.has_method("build_endless_wave_definitions"):
+		wave_set = wave_manager.build_endless_wave_definitions(config)
+	else:
+		push_warning("GameScreen: WaveManager cannot build endless wave definitions.")
+		wave_set = []
+
+	total_waves = wave_set.size()
 
 	if combat_manager != null and combat_manager.has_method("setup_run"):
 		combat_manager.setup_run({
-			"wave_definitions": wave_set
+			"mode": "endless",
+			"wave_definitions": wave_set,
+			"run_config": config,
 		})
+
+	print("[GameScreen] Endless waves generated: ", total_waves)
+
+
+func _setup_campaign_run() -> void:
+	print("[GameScreen] Setting up campaign run.")
+
+	# Placeholder.
+	# Later:
+	# var level_data = GameSession.campaign_level_data
+	# wave_set = level_data.wave_definitions.duplicate(true)
+	# total_waves = wave_set.size()
+
+	wave_set = []
+	total_waves = 0
+
+
+func _setup_legacy_run() -> void:
+	print("[GameScreen] Setting up legacy selected run.")
+
+	selected_wave_defs = GameSelection.get_wave_definitions()
+	wave_set = selected_wave_defs.duplicate(true)
+	total_waves = wave_set.size()
+
+	if combat_manager != null and combat_manager.has_method("setup_run"):
+		combat_manager.setup_run({
+			"mode": "legacy",
+			"wave_definitions": wave_set,
+		})
+
+	print("[GameScreen] Legacy wave_set size = ", wave_set.size())
 
 
 

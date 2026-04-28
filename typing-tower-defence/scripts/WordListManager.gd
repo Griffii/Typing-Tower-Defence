@@ -156,17 +156,22 @@ func delete_custom_list(list_id: String) -> bool:
 	if list_id.is_empty():
 		return false
 
+	var list_data: WordListData = _lists_by_id.get(list_id, null)
+	if list_data == null:
+		return false
+
+	if not list_data.is_custom:
+		return false
+
+	_lists_by_id.erase(list_id)
+	_custom_ids.erase(list_id)
+
 	var path := "%s/%s.tres" % [CUSTOM_LISTS_DIR, list_id]
+	if FileAccess.file_exists(path):
+		var err := DirAccess.remove_absolute(path)
+		if err != OK:
+			push_warning("WordLists: failed to delete saved custom list '%s'. Error code: %d" % [path, err])
 
-	if not FileAccess.file_exists(path):
-		return false
-
-	var err := DirAccess.remove_absolute(path)
-	if err != OK:
-		push_error("WordListManager: failed to delete custom list '%s'. Error code: %d" % [path, err])
-		return false
-
-	reload_all()
 	return true
 
 
@@ -178,6 +183,26 @@ func import_csv_as_custom_list(csv_path: String, list_id: String, display_name: 
 
 	return create_custom_list(list_id, display_name, words, category)
 
+
+func import_csv_as_temporary_list(path: String, list_id: String, display_name: String, category: String = "custom") -> bool:
+	var words: Array[String] = _parse_words_from_csv(path)
+
+	if words.is_empty():
+		return false
+
+	var list_data := WordListData.new()
+	list_data.id = _normalize_id(list_id)
+	list_data.display_name = display_name.strip_edges()
+	list_data.category = category
+	list_data.words = _sanitize_words(words, CUSTOM_WORD_MAX_LENGTH)
+	list_data.is_custom = true
+
+	_lists_by_id[list_data.id] = list_data
+
+	if not _custom_ids.has(list_data.id):
+		_custom_ids.append(list_data.id)
+
+	return true
 
 func _load_lists_from_dir(dir_path: String, mark_as_custom: bool) -> void:
 	var dir := DirAccess.open(dir_path)

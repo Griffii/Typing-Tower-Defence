@@ -84,7 +84,7 @@ const TOWER_WORDS: Array[String] = [
 	"forge","guard","haste","hover","laser","level","light","lunge","march","power",
 	"press","quick","range","rapid","reach","ready","reset","scale","scope","shock",
 	"shoot","skill","smash","speed","spike","split","stack","storm","strike","sweep",
-	"swing","track","train","watch","weave","yield","zonal","alert","angle","armor",
+	"swing","track","train","watch","yield","alert","angle","armor",
 
 	"stone","steel","glass","brick","frame","panel","plate","cable","wheel","lever",
 	"motor","gear","chain","joint","pivot","drill","press","torch","flint","spark",
