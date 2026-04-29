@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c8jx1yfih5d8l" path="res://scenes/game/bases/grasslands_castle.tscn" id="2_2v6j6"]
 [ext_resource type="Texture2D" uid="uid://d0w15v7eonj8a" path="res://assets/images/animals/spr_deco_cow_strip4.png" id="4_qh78w"]
 [ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/environment/animals/sheep.tscn" id="5_ius4a"]
+[ext_resource type="PackedScene" uid="uid://8npj02qfrg3f" path="res://scenes/game/player/player.tscn" id="6_ius4a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jpbr0"]
 atlas = ExtResource("4_qh78w")
@@ -109,3 +110,8 @@ position = Vector2(387, 387)
 
 [node name="slot_03" type="Marker2D" parent="TowerContainer" unique_id=1551797275]
 position = Vector2(160, 363)
+
+[node name="Player" parent="." unique_id=1889170284 instance=ExtResource("6_ius4a")]
+unique_name_in_owner = true
+position = Vector2(80, 214)
+scale = Vector2(0.7, 0.7)

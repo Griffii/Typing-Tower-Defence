@@ -10,14 +10,14 @@ signal build_mode_requested
 @onready var repair_button: Button = %RepairButton
 @onready var build_mode_button: Button = %BuildModeButton
 @onready var word_damage_button: Button = %WordDamageButton
-@onready var arrow_damage_button: Button = %ArrowDamageButton
-@onready var arrow_meter_button: Button = %ArrowMeterButton
+@onready var special_damage_button: Button = %SpecialDamageButton
+@onready var special_meter_button: Button = %SpecialMeterButton
 @onready var gold_gain_button: Button = %GoldGainButton
 @onready var next_wave_button: Button = %NextWaveButton
 
 @onready var card_root_word_damage: Control = %CardRoot_WordDamage
-@onready var card_root_arrow_damage: Control = %CardRoot_ArrowDamage
-@onready var card_root_arrow_meter: Control = %CardRoot_ArrowMeter
+@onready var card_root_special_damage: Control = %CardRoot_SpecialDamage
+@onready var card_root_special_meter: Control = %CardRoot_SpecialMeter
 @onready var card_root_gold_gain: Control = %CardRoot_GoldGain
 
 @onready var card_hover_sfx: AudioStreamPlayer2D = %CardHoverSfx
@@ -47,8 +47,8 @@ func _ready() -> void:
 	repair_button.pressed.connect(_on_repair_pressed)
 	build_mode_button.pressed.connect(_on_build_mode_pressed)
 	word_damage_button.pressed.connect(_on_word_damage_pressed)
-	arrow_damage_button.pressed.connect(_on_arrow_damage_pressed)
-	arrow_meter_button.pressed.connect(_on_arrow_meter_pressed)
+	special_damage_button.pressed.connect(_on_special_damage_pressed)
+	special_meter_button.pressed.connect(_on_special_meter_pressed)
 	gold_gain_button.pressed.connect(_on_gold_gain_pressed)
 	next_wave_button.pressed.connect(_on_next_wave_pressed)
 
@@ -117,8 +117,8 @@ func refresh_shop(shop_state: Dictionary, upgrade_defs: Dictionary) -> void:
 func _setup_card_animations() -> void:
 	animated_cards = [
 		card_root_word_damage,
-		card_root_arrow_damage,
-		card_root_arrow_meter,
+		card_root_special_damage,
+		card_root_special_meter,
 		card_root_gold_gain,
 	]
 
@@ -141,18 +141,18 @@ func _setup_card_animations() -> void:
 		_on_card_hover_exited(card_root_word_damage)
 	)
 
-	arrow_damage_button.mouse_entered.connect(func() -> void:
-		_on_card_hover_entered(card_root_arrow_damage)
+	special_damage_button.mouse_entered.connect(func() -> void:
+		_on_card_hover_entered(card_root_special_damage)
 	)
-	arrow_damage_button.mouse_exited.connect(func() -> void:
-		_on_card_hover_exited(card_root_arrow_damage)
+	special_damage_button.mouse_exited.connect(func() -> void:
+		_on_card_hover_exited(card_root_special_damage)
 	)
 
-	arrow_meter_button.mouse_entered.connect(func() -> void:
-		_on_card_hover_entered(card_root_arrow_meter)
+	special_meter_button.mouse_entered.connect(func() -> void:
+		_on_card_hover_entered(card_root_special_meter)
 	)
-	arrow_meter_button.mouse_exited.connect(func() -> void:
-		_on_card_hover_exited(card_root_arrow_meter)
+	special_meter_button.mouse_exited.connect(func() -> void:
+		_on_card_hover_exited(card_root_special_meter)
 	)
 
 	gold_gain_button.mouse_entered.connect(func() -> void:
@@ -186,8 +186,8 @@ func _update_ui() -> void:
 
 	repair_button.text = _build_repair_button_text()
 	word_damage_button.text = _build_upgrade_button_text("word_damage")
-	arrow_damage_button.text = _build_upgrade_button_text("arrow_damage")
-	arrow_meter_button.text = _build_upgrade_button_text("arrow_meter_gain")
+	special_damage_button.text = _build_upgrade_button_text("special_damage")
+	special_meter_button.text = _build_upgrade_button_text("special_meter_gain")
 	gold_gain_button.text = _build_upgrade_button_text("gold_gain")
 
 	build_mode_button.text = "Build Mode"
@@ -195,8 +195,8 @@ func _update_ui() -> void:
 
 	repair_button.disabled = not _can_afford("repair_base")
 	word_damage_button.disabled = _is_upgrade_disabled("word_damage")
-	arrow_damage_button.disabled = _is_upgrade_disabled("arrow_damage")
-	arrow_meter_button.disabled = _is_upgrade_disabled("arrow_meter_gain")
+	special_damage_button.disabled = _is_upgrade_disabled("special_damage")
+	special_meter_button.disabled = _is_upgrade_disabled("special_meter_gain")
 	gold_gain_button.disabled = _is_upgrade_disabled("gold_gain")
 
 	description_label.text = _build_description_text()
@@ -234,16 +234,16 @@ func _build_description_text() -> String:
 	var base_hp: int = int(current_shop_state.get("base_hp", 0))
 	var base_hp_max: int = int(current_shop_state.get("base_hp_max", 0))
 	var word_damage: int = int(current_shop_state.get("word_damage", 0))
-	var arrow_damage: int = int(current_shop_state.get("arrow_damage", 0))
-	var arrow_gain: float = float(current_shop_state.get("arrow_meter_gain_per_word", 0.0))
+	var special_damage: int = int(current_shop_state.get("special_damage", 0))
+	var special_gain: float = float(current_shop_state.get("special_meter_gain_per_word", 0.0))
 	var gold_multiplier: float = float(current_shop_state.get("gold_gain_multiplier", 1.0))
 
-	return "Base HP: %d / %d\nWord Damage: %d\nArrow Damage: %d\nArrow Charge/Word: %.1f\nGold Multiplier: x%.2f" % [
+	return "Base HP: %d / %d\nWord Damage: %d\nSpecial Damage: %d\nSpecial Charge/Word: %.1f\nGold Multiplier: x%.2f" % [
 		base_hp,
 		base_hp_max,
 		word_damage,
-		arrow_damage,
-		arrow_gain,
+		special_damage,
+		special_gain,
 		gold_multiplier
 	]
 
@@ -294,12 +294,12 @@ func _on_word_damage_pressed() -> void:
 	purchase_requested.emit("word_damage")
 
 
-func _on_arrow_damage_pressed() -> void:
-	purchase_requested.emit("arrow_damage")
+func _on_special_damage_pressed() -> void:
+	purchase_requested.emit("special_damage")
 
 
-func _on_arrow_meter_pressed() -> void:
-	purchase_requested.emit("arrow_meter_gain")
+func _on_special_meter_pressed() -> void:
+	purchase_requested.emit("special_meter_gain")
 
 
 func _on_gold_gain_pressed() -> void:

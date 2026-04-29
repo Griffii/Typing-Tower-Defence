@@ -1,8 +1,6 @@
 extends Node2D
 class_name BattlefieldLevel
 
-signal castle_projectile_impact(target_enemy: Node)
-
 const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
 const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
 const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
@@ -12,6 +10,8 @@ const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lig
 @onready var enemy_spawn_marker: Marker2D = %EnemySpawnMarker
 @onready var tower_container: Node = %TowerContainer
 
+@onready var player_character: PlayerCharacter = %Player
+
 var projectile_container: Node = null
 var tower_nodes: Dictionary = {}
 var tower_scene_map: Dictionary = {}
@@ -19,16 +19,15 @@ var tower_scene_map: Dictionary = {}
 var allowed_tower_types: Array[String] = ["arrow"]
 
 
+func get_player_character() -> PlayerCharacter:
+	return player_character
+
+
 func setup_level(shared_projectile_container: Node) -> void:
 	projectile_container = shared_projectile_container
 
-	if castle != null and castle.has_signal("castle_projectile_impact"):
-		if not castle.castle_projectile_impact.is_connected(_on_castle_projectile_impact):
-			castle.castle_projectile_impact.connect(_on_castle_projectile_impact)
-
 
 func reset_level_state() -> void:
-	reset_arrow_meter()
 	clear_all_towers()
 
 
@@ -73,25 +72,6 @@ func get_tower_slots() -> Array[Marker2D]:
 func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
 	return allowed_tower_types.duplicate()
 
-
-func set_arrow_meter(current_value: float, max_value: float) -> void:
-	if castle != null and castle.has_method("set_arrow_meter"):
-		castle.set_arrow_meter(current_value, max_value)
-
-
-func reset_arrow_meter() -> void:
-	if castle != null and castle.has_method("reset_arrow_meter"):
-		castle.reset_arrow_meter()
-
-
-func fire_castle_projectile(target_enemy: Node) -> void:
-	if castle == null or projectile_container == null:
-		return
-
-	if not castle.has_method("fire_castle_projectile"):
-		return
-
-	castle.fire_castle_projectile(target_enemy, projectile_container)
 
 
 func clear_all_towers() -> void:
@@ -166,7 +146,3 @@ func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node
 				return ARROW_TOWER_SCENE
 
 	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
-
-
-func _on_castle_projectile_impact(target_enemy: Node) -> void:
-	castle_projectile_impact.emit(target_enemy)

@@ -16,7 +16,7 @@ enum RunState {
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 
 # Turn this to false before packaging for distribution
-var DEV_MODE: bool = false
+var DEV_MODE: bool = true
 
 var selected_level_scene: PackedScene = null
 var selected_wave_defs: Array = []
@@ -37,11 +37,12 @@ var selected_wave_defs: Array = []
 @onready var typing_manager: Node = %TypingManager
 @onready var combat_manager: Node = %CombatManager
 
-#Dev Stuff
+# Dev Stuff
 @onready var dev_stuff: CanvasLayer = %DevStuff
 @onready var skip_wave_button: Button = %DEBUG_SkipWave
 
 var current_level: BattlefieldLevel = null
+var player_character: PlayerCharacter = null
 
 var run_state: RunState = RunState.PRE_WAVE
 var current_wave_index: int = 0
@@ -60,11 +61,12 @@ func _ready() -> void:
 	_connect_signals()
 	_load_selected_run_content()
 	_reset_run()
-	
+
 	if DEV_MODE:
 		dev_stuff.visible = true
 	else:
 		dev_stuff.visible = false
+
 
 func _connect_signals() -> void:
 	if game_hud != null:
@@ -119,11 +121,14 @@ func _connect_signals() -> void:
 			combat_manager.base_destroyed.connect(_on_base_destroyed)
 		if combat_manager.has_signal("hud_stats_changed"):
 			combat_manager.hud_stats_changed.connect(_on_hud_stats_changed)
-		if combat_manager.has_signal("arrow_meter_changed"):
-			combat_manager.arrow_meter_changed.connect(_on_arrow_meter_changed)
-		if combat_manager.has_signal("arrow_meter_filled"):
-			if not combat_manager.arrow_meter_filled.is_connected(_on_arrow_meter_filled):
-				combat_manager.arrow_meter_filled.connect(_on_arrow_meter_filled)
+
+		if combat_manager.has_signal("special_meter_changed"):
+			combat_manager.special_meter_changed.connect(_on_special_meter_changed)
+
+		if combat_manager.has_signal("special_meter_filled"):
+			if not combat_manager.special_meter_filled.is_connected(_on_special_meter_filled):
+				combat_manager.special_meter_filled.connect(_on_special_meter_filled)
+
 		if combat_manager.has_signal("tower_state_changed"):
 			combat_manager.tower_state_changed.connect(_on_tower_state_changed)
 		if combat_manager.has_signal("base_damaged"):
@@ -191,12 +196,6 @@ func _setup_endless_run() -> void:
 func _setup_campaign_run() -> void:
 	print("[GameScreen] Setting up campaign run.")
 
-	# Placeholder.
-	# Later:
-	# var level_data = GameSession.campaign_level_data
-	# wave_set = level_data.wave_definitions.duplicate(true)
-	# total_waves = wave_set.size()
-
 	wave_set = []
 	total_waves = 0
 
@@ -217,11 +216,12 @@ func _setup_legacy_run() -> void:
 	print("[GameScreen] Legacy wave_set size = ", wave_set.size())
 
 
-
 func load_level(level_scene: PackedScene) -> void:
 	if current_level != null and is_instance_valid(current_level):
 		current_level.queue_free()
 		current_level = null
+
+	player_character = null
 
 	if level_scene == null:
 		push_warning("GameScreen: level_scene was null.")
@@ -238,11 +238,39 @@ func load_level(level_scene: PackedScene) -> void:
 	if current_level.has_method("setup_level"):
 		current_level.setup_level(projectile_container)
 
-	if current_level.has_signal("castle_projectile_impact"):
-		if not current_level.castle_projectile_impact.is_connected(_on_arrow_projectile_impact):
-			current_level.castle_projectile_impact.connect(_on_arrow_projectile_impact)
-
+	_cache_player_character()
+	_connect_player_character_signals()
 	_apply_level_references_to_systems()
+
+
+func _cache_player_character() -> void:
+	player_character = null
+
+	if current_level == null:
+		return
+
+	if not current_level.has_method("get_player_character"):
+		push_warning("GameScreen: current_level has no get_player_character().")
+		return
+
+	player_character = current_level.get_player_character()
+
+	if player_character == null or not is_instance_valid(player_character):
+		push_warning("GameScreen: Level returned no valid PlayerCharacter.")
+		player_character = null
+
+
+func _connect_player_character_signals() -> void:
+	if player_character == null or not is_instance_valid(player_character):
+		return
+
+	if player_character.has_signal("special_projectile_impact"):
+		if not player_character.special_projectile_impact.is_connected(_on_special_projectile_impact):
+			player_character.special_projectile_impact.connect(_on_special_projectile_impact)
+
+	if player_character.has_signal("player_damaged"):
+		if not player_character.player_damaged.is_connected(_on_player_damaged):
+			player_character.player_damaged.connect(_on_player_damaged)
 
 
 func _apply_level_references_to_systems() -> void:
@@ -308,6 +336,9 @@ func _reset_run() -> void:
 
 	if combat_manager != null and combat_manager.has_method("reset_for_new_run"):
 		combat_manager.reset_for_new_run()
+
+	if player_character != null and is_instance_valid(player_character):
+		player_character.reset_special_meter()
 
 	if game_over_overlay != null and game_over_overlay.has_method("hide_overlay"):
 		game_over_overlay.hide_overlay()
@@ -440,11 +471,11 @@ func _on_wave_cleared(wave_index: int) -> void:
 	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
 		return
 
-	if combat_manager != null and combat_manager.has_method("reset_arrow_meter"):
-		combat_manager.reset_arrow_meter()
+	if combat_manager != null and combat_manager.has_method("reset_special_meter"):
+		combat_manager.reset_special_meter()
 
-	if current_level != null and current_level.has_method("reset_arrow_meter"):
-		current_level.reset_arrow_meter()
+	if player_character != null and is_instance_valid(player_character):
+		player_character.reset_special_meter()
 
 	current_wave_index = wave_index + 1
 	_refresh_wave_ui()
@@ -465,13 +496,20 @@ func _on_all_waves_cleared() -> void:
 
 
 func _on_base_damaged(_amount: int) -> void:
-	if current_level != null and current_level.castle != null and current_level.castle.has_method("play_take_damage"):
+	if current_level == null:
+		return
+
+	if current_level.castle != null and current_level.castle.has_method("play_take_damage"):
 		current_level.castle.play_take_damage()
 
 
 func _on_base_repaired(_amount: int) -> void:
-	if current_level != null and current_level.castle != null and current_level.castle.has_method("spawn_repair_burst"):
+	if current_level == null:
+		return
+
+	if current_level.castle != null and current_level.castle.has_method("spawn_repair_burst"):
 		current_level.castle.spawn_repair_burst()
+
 
 func _on_base_destroyed() -> void:
 	if run_state == RunState.DEFEAT or run_state == RunState.VICTORY:
@@ -536,39 +574,54 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 		game_hud.set_gold(current_gold)
 
 	if game_hud.has_method("set_base_hp"):
-		game_hud.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
-	
-	if current_level.castle.has_method("set_base_hp"):
-		current_level.castle.set_base_hp(int(stats.get("base_hp", 0)), int(stats.get("base_hp_max", 0)))
-	
+		game_hud.set_base_hp(
+			int(stats.get("base_hp", 0)),
+			int(stats.get("base_hp_max", 0))
+		)
+
+	if current_level != null and current_level.castle != null:
+		if current_level.castle.has_method("set_base_hp"):
+			current_level.castle.set_base_hp(
+				int(stats.get("base_hp", 0)),
+				int(stats.get("base_hp_max", 0))
+			)
+
 	if is_shop_open:
 		_refresh_shop()
-	
+
 	if is_build_open:
 		_refresh_build()
 
 
-func _on_arrow_meter_changed(current_value: float, max_value: float) -> void:
-	if current_level != null and current_level.has_method("set_arrow_meter"):
-		current_level.set_arrow_meter(current_value, max_value)
+func _on_special_meter_changed(current_value: float, max_value: float) -> void:
+	if player_character == null or not is_instance_valid(player_character):
+		return
+
+	player_character.set_special_meter(current_value, max_value)
 
 
-func _on_arrow_meter_filled() -> void:
+func _on_special_meter_filled() -> void:
 	if spawn_manager == null or not spawn_manager.has_method("get_front_most_enemy"):
 		return
-	if current_level == null or not current_level.has_method("fire_castle_projectile"):
+
+	if player_character == null or not is_instance_valid(player_character):
 		return
 
 	var target_enemy: Node = spawn_manager.get_front_most_enemy()
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
 
-	current_level.fire_castle_projectile(target_enemy)
+	player_character.fire_special_projectile(target_enemy, projectile_container)
 
 
-func _on_arrow_projectile_impact(target_enemy: Node) -> void:
-	if combat_manager != null and combat_manager.has_method("fire_castle_arrow_at_target"):
-		combat_manager.fire_castle_arrow_at_target(target_enemy)
+func _on_special_projectile_impact(target_enemy: Node) -> void:
+	if combat_manager != null and combat_manager.has_method("fire_player_special_at_target"):
+		combat_manager.fire_player_special_at_target(target_enemy)
+
+
+func _on_player_damaged(amount: int) -> void:
+	if combat_manager != null and combat_manager.has_method("apply_base_damage"):
+		combat_manager.apply_base_damage(amount)
 
 
 func debug_skip_wave() -> void:
@@ -774,6 +827,7 @@ func _on_build_return_to_shop_requested() -> void:
 		return
 
 	_set_run_state(RunState.SHOP)
+
 
 func _refresh_build() -> void:
 	if not is_build_open:

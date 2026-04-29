@@ -1,8 +1,6 @@
 [gd_scene format=4 uid="uid://cv0vs0fbr1f4f"]
 
 [ext_resource type="Script" uid="uid://dt4ox5fq1jugt" path="res://scenes/game/bases/castle_main.gd" id="1_16nct"]
-[ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/menu/magic_bar_empty.png" id="4_61rl7"]
-[ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/menu/magic_bar_filled.png" id="5_pvo7f"]
 [ext_resource type="PackedScene" uid="uid://c86wxohinjsip" path="res://scenes/game/bases/castle_health_bar.tscn" id="6_7ahkd"]
 [ext_resource type="AudioStream" uid="uid://ce7yx07342a3i" path="res://assets/sfx/environment/animal_sheep_baa_short.ogg" id="7_l2hp0"]
 [ext_resource type="Texture2D" uid="uid://nou6hqfvsi23" path="res://assets/tilemaps/spr_tileset_sunnysideworld_16px.png" id="27_x568f"]
@@ -1839,28 +1837,12 @@ texture = ExtResource("27_x568f")
 [sub_resource type="TileSet" id="TileSet_61rl7"]
 sources/0 = SubResource("TileSetAtlasSource_mkf5n")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rf8lp"]
-texture = ExtResource("4_61rl7")
-texture_margin_left = 10.034258
-texture_margin_right = 2.0089364
-region_rect = Rect2(0, 0, 50.008907, 11)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nktak"]
-texture = ExtResource("5_pvo7f")
-texture_margin_left = 10.978203
-texture_margin_right = 2.0044343
-region_rect = Rect2(0, 0, 49.99132, 11)
-
 [node name="Castle-SeasideFarm" type="Node2D" unique_id=1460439950]
 script = ExtResource("1_16nct")
 
 [node name="BaseMarker" type="Marker2D" parent="." unique_id=2124206430]
 unique_name_in_owner = true
 position = Vector2(81, 272)
-
-[node name="ArrowSpawnMarker" type="Marker2D" parent="." unique_id=1365120791]
-unique_name_in_owner = true
-position = Vector2(372, 62)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1829161579]
 unique_name_in_owner = true
@@ -1890,18 +1872,6 @@ scale = Vector2(2, 2)
 [node name="Sheep3" parent="SheepContainer" unique_id=1098134074 instance=ExtResource("28_ufdhe")]
 position = Vector2(110, 327)
 scale = Vector2(2, 2)
-
-[node name="ProgressBarRoot" type="Node2D" parent="." unique_id=904749073]
-position = Vector2(8, 367)
-
-[node name="ProgressBar" type="ProgressBar" parent="ProgressBarRoot" unique_id=1059438204]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 20)
-offset_right = 120.0
-offset_bottom = 21.0
-theme_override_styles/background = SubResource("StyleBoxTexture_rf8lp")
-theme_override_styles/fill = SubResource("StyleBoxTexture_nktak")
-show_percentage = false
 
 [node name="CastleHealthBar" parent="." unique_id=390813373 instance=ExtResource("6_7ahkd")]
 unique_name_in_owner = true

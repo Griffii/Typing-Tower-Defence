@@ -17,21 +17,21 @@ const UPGRADES := {
 		"value_per_level": 1,
 		"description": "+{value} typing damage."
 	},
-	"arrow_damage": {
-		"display_name": "Arrow Damage",
+	"special_damage": {
+		"display_name": "Special Damage",
 		"base_cost": 45,
 		"cost_scaling": 25,
 		"max_level": 5,
 		"value_per_level": 4,
-		"description": "+{value} arrow damage."
+		"description": "+{value} special damage."
 	},
-	"arrow_meter_gain": {
-		"display_name": "Arrow Charge",
+	"special_meter_gain": {
+		"display_name": "Special Charge",
 		"base_cost": 45,
 		"cost_scaling": 25,
 		"max_level": 5,
 		"value_per_level": 3,
-		"description": "+{value} arrow meter gain per word."
+		"description": "+{value} special meter gain per word."
 	},
 	"gold_gain": {
 		"display_name": "Gold Gain",

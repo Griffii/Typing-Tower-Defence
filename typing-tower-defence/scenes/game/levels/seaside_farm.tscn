@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://c3y07nmlqop55" path="res://scenes/game/levels/animated_goblin.gd" id="11_f1jwk"]
 [ext_resource type="Texture2D" uid="uid://drpy53jgkf02a" path="res://assets/images/goblin/spr_idle_strip9.png" id="12_c4tgt"]
 [ext_resource type="Texture2D" uid="uid://cwypp2qdi07la" path="res://assets/images/goblin/spr_watering_strip5.png" id="13_a3iyv"]
+[ext_resource type="PackedScene" uid="uid://8npj02qfrg3f" path="res://scenes/game/player/player.tscn" id="15_onrtr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pix2p"]
 shader = ExtResource("2_xd7uw")
@@ -2514,3 +2515,8 @@ curve = SubResource("Curve2D_xd7uw")
 [node name="EnemySpawnMarker" type="Marker2D" parent="." unique_id=1235306939]
 unique_name_in_owner = true
 position = Vector2(1005, 318)
+
+[node name="Player" parent="." unique_id=1889170284 instance=ExtResource("15_onrtr")]
+unique_name_in_owner = true
+position = Vector2(96, 288.00003)
+scale = Vector2(0.7, 0.7)

@@ -4,9 +4,9 @@ signal base_destroyed
 signal base_damaged(amount: int)
 signal base_repaired(amount: int)
 signal hud_stats_changed(stats: Dictionary)
-signal arrow_meter_changed(current_value: float, max_value: float)
 signal enemy_survived_word_hit(enemy: Node)
-signal arrow_meter_filled
+signal special_meter_changed(current_value: float, max_value: float)
+signal special_meter_filled
 signal tower_state_changed
 
 const ShopDefinitions = preload("res://data/shop/shop_definitions.gd")
@@ -14,9 +14,9 @@ const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 
 @export var base_hp_max: int = 100
 @export var word_damage: int = 10
-@export var arrow_damage: int = 10
-@export var arrow_meter_gain_per_word: float = 15.0
-@export var arrow_meter_max: float = 100.0
+@export var special_damage: int = 10
+@export var special_meter_gain_per_word: float = 15.0
+@export var special_meter_max: float = 100.0
 @export var gold_gain_multiplier: float = 1.0
 
 @onready var spawn_manager: Node = %SpawnManager
@@ -24,14 +24,14 @@ const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 var base_hp: int = 100
 
 var gold: int = 0
-var arrow_meter: float = 0.0
+var special_meter: float = 0.0
 
 var base_attackers: Array[Node] = []
 
 var upgrade_levels := {
 	"word_damage": 0,
-	"arrow_damage": 0,
-	"arrow_meter_gain": 0,
+	"special_damage": 0,
+	"special_meter_gain": 0,
 	"gold_gain": 0
 }
 
@@ -57,9 +57,9 @@ func _process(delta: float) -> void:
 func setup_run(run_config: Dictionary) -> void:
 	base_hp_max = int(run_config.get("starting_base_hp", base_hp_max))
 	word_damage = int(run_config.get("word_damage", word_damage))
-	arrow_damage = int(run_config.get("arrow_damage", arrow_damage))
-	arrow_meter_gain_per_word = float(run_config.get("arrow_meter_gain_per_word", arrow_meter_gain_per_word))
-	arrow_meter_max = float(run_config.get("arrow_meter_max", arrow_meter_max))
+	special_damage = int(run_config.get("special_damage", special_damage))
+	special_meter_gain_per_word = float(run_config.get("special_meter_gain_per_word", special_meter_gain_per_word))
+	special_meter_max = float(run_config.get("special_meter_max", special_meter_max))
 	gold_gain_multiplier = float(run_config.get("gold_gain_multiplier", gold_gain_multiplier))
 
 
@@ -75,7 +75,7 @@ func reset_for_new_run() -> void:
 	base_attackers.clear()
 	_reset_tower_state()
 	_emit_hud_stats()
-	reset_arrow_meter()
+	reset_special_meter()
 	tower_state_changed.emit()
 
 
@@ -101,12 +101,12 @@ func resolve_completed_word(target_enemy: Node) -> void:
 
 	target_enemy.apply_damage(word_damage)
 
-	arrow_meter += arrow_meter_gain_per_word
-	if arrow_meter >= arrow_meter_max:
-		arrow_meter = 0.0
-		arrow_meter_filled.emit()
+	special_meter += special_meter_gain_per_word
+	if special_meter >= special_meter_max:
+		special_meter = 0.0
+		special_meter_filled.emit()
 
-	arrow_meter_changed.emit(arrow_meter, arrow_meter_max)
+	special_meter_changed.emit(special_meter, special_meter_max)
 
 	if not is_instance_valid(target_enemy):
 		return
@@ -127,7 +127,7 @@ func resolve_completed_word(target_enemy: Node) -> void:
 	enemy_survived_word_hit.emit(target_enemy)
 
 
-func fire_castle_arrow_at_target(target_enemy: Node) -> void:
+func fire_player_special_at_target(target_enemy: Node) -> void:
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
 
@@ -138,7 +138,7 @@ func fire_castle_arrow_at_target(target_enemy: Node) -> void:
 	if target_enemy.has_method("is_enemy_dead"):
 		was_dead_before = target_enemy.is_enemy_dead()
 
-	target_enemy.apply_damage(arrow_damage)
+	target_enemy.apply_damage(special_damage)
 
 	if not is_instance_valid(target_enemy):
 		return
@@ -148,9 +148,9 @@ func fire_castle_arrow_at_target(target_enemy: Node) -> void:
 			_award_enemy_kill_rewards(target_enemy)
 
 
-func reset_arrow_meter() -> void:
-	arrow_meter = 0.0
-	arrow_meter_changed.emit(arrow_meter, arrow_meter_max)
+func reset_special_meter() -> void:
+	special_meter = 0.0
+	special_meter_changed.emit(special_meter, special_meter_max)
 
 
 func _award_enemy_kill_rewards(enemy: Node) -> void:
@@ -228,12 +228,12 @@ func apply_upgrade_purchase(upgrade_id: String) -> bool:
 			word_damage += int(def.get("value_per_level", 0))
 			upgrade_levels[upgrade_id] = current_level + 1
 
-		"arrow_damage":
-			arrow_damage += int(def.get("value_per_level", 0))
+		"special_damage":
+			special_damage += int(def.get("value_per_level", 0))
 			upgrade_levels[upgrade_id] = current_level + 1
 
-		"arrow_meter_gain":
-			arrow_meter_gain_per_word += float(def.get("value_per_level", 0))
+		"special_meter_gain":
+			special_meter_gain_per_word += float(def.get("value_per_level", 0))
 			upgrade_levels[upgrade_id] = current_level + 1
 
 		"gold_gain":
@@ -241,7 +241,7 @@ func apply_upgrade_purchase(upgrade_id: String) -> bool:
 			upgrade_levels[upgrade_id] = current_level + 1
 
 	_emit_hud_stats()
-	arrow_meter_changed.emit(arrow_meter, arrow_meter_max)
+	special_meter_changed.emit(special_meter, special_meter_max)
 	return true
 
 
@@ -261,8 +261,8 @@ func get_shop_state() -> Dictionary:
 		"base_hp_max": base_hp_max,
 		"upgrade_levels": upgrade_levels.duplicate(true),
 		"word_damage": word_damage,
-		"arrow_damage": arrow_damage,
-		"arrow_meter_gain_per_word": arrow_meter_gain_per_word,
+		"special_damage": special_damage,
+		"special_meter_gain_per_word": special_meter_gain_per_word,
 		"gold_gain_multiplier": gold_gain_multiplier
 	}
 

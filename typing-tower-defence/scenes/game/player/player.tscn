@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://8npj02qfrg3f"]
+
+[ext_resource type="Texture2D" uid="uid://wr1d1gd7tl14" path="res://assets/images/player/16x16 Idle-Sheet.png" id="1_4m2od"]
+[ext_resource type="Script" uid="uid://b7ojwrhl13hnf" path="res://scenes/game/player/player.gd" id="1_abehh"]
+[ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/menu/magic_bar_empty.png" id="3_prej5"]
+[ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/menu/magic_bar_filled.png" id="4_dqfck"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5cse"]
+atlas = ExtResource("1_4m2od")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkoau"]
+atlas = ExtResource("1_4m2od")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abehh"]
+atlas = ExtResource("1_4m2od")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prej5"]
+atlas = ExtResource("1_4m2od")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dqfck"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5cse")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkoau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abehh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prej5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gmc11"]
+texture = ExtResource("3_prej5")
+texture_margin_left = 10.034258
+texture_margin_right = 2.0089364
+region_rect = Rect2(0, 0, 50.008907, 11)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdbv0"]
+texture = ExtResource("4_dqfck")
+texture_margin_left = 10.978203
+texture_margin_right = 2.0044343
+region_rect = Rect2(0, 0, 49.99132, 11)
+
+[node name="Player" type="Node2D" unique_id=1889170284]
+script = ExtResource("1_abehh")
+
+[node name="BodySprite" type="AnimatedSprite2D" parent="." unique_id=1847835603]
+position = Vector2(0, -40)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_dqfck")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.9888624
+
+[node name="ProgressBarRoot" type="Node2D" parent="." unique_id=1362588571]
+position = Vector2(-57, 0)
+
+[node name="SpecialMeterBar" type="ProgressBar" parent="ProgressBarRoot" unique_id=884217863]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 20)
+offset_right = 120.0
+offset_bottom = 21.0
+theme_override_styles/background = SubResource("StyleBoxTexture_gmc11")
+theme_override_styles/fill = SubResource("StyleBoxTexture_gdbv0")
+show_percentage = false
+
+[node name="SpecialSpawnMarker" type="Marker2D" parent="." unique_id=2010550149]
+unique_name_in_owner = true
+position = Vector2(37, -40)

@@ -186,7 +186,7 @@ text = "+ Word
 Damage"
 autowrap_mode = 3
 
-[node name="CardRoot_ArrowDamage" type="Control" parent="." unique_id=2145547706]
+[node name="CardRoot_SpecialDamage" type="Control" parent="." unique_id=2145547706]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
@@ -196,7 +196,7 @@ offset_top = 386.0
 offset_right = 495.0
 offset_bottom = 536.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_ArrowDamage" unique_id=1352035571]
+[node name="CardTexture" type="Panel" parent="CardRoot_SpecialDamage" unique_id=1352035571]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -205,7 +205,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="ArrowDamageButton" type="Button" parent="CardRoot_ArrowDamage" unique_id=1953137594]
+[node name="SpecialDamageButton" type="Button" parent="CardRoot_SpecialDamage" unique_id=1953137594]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
@@ -225,7 +225,7 @@ text = "+ Arrow
 Damage"
 autowrap_mode = 3
 
-[node name="CardRoot_ArrowMeter" type="Control" parent="." unique_id=1685981917]
+[node name="CardRoot_SpecialMeter" type="Control" parent="." unique_id=1685981917]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
@@ -235,7 +235,7 @@ offset_top = 386.0
 offset_right = 595.0
 offset_bottom = 536.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_ArrowMeter" unique_id=300445654]
+[node name="CardTexture" type="Panel" parent="CardRoot_SpecialMeter" unique_id=300445654]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -244,7 +244,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="ArrowMeterButton" type="Button" parent="CardRoot_ArrowMeter" unique_id=1355266849]
+[node name="SpecialMeterButton" type="Button" parent="CardRoot_SpecialMeter" unique_id=1355266849]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
