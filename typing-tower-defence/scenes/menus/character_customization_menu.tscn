@@ -133,11 +133,25 @@ text = "Wand"
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="ItemsScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel" unique_id=920777216]
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/Layout/ItemsPanel" unique_id=2136694859]
 layout_mode = 2
 
-[node name="ItemGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/ItemsScroll" unique_id=924824208]
+[node name="ItemsScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=920777216]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ItemsScroll" unique_id=924824208]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ItemsScroll2" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=1495345826]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ColorGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ItemsScroll2" unique_id=595770825]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="BackButton" type="Button" parent="Root" unique_id=489068411]

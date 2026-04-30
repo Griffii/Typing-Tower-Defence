@@ -4,8 +4,11 @@ extends Button
 
 signal item_selected(slot_id: String, item_id: String)
 
+const CustomizationDefinitions = preload("res://data/player/customization_definitions.gd")
+
 @onready var item_icon: TextureRect = %ItemIcon
 @onready var preview_holder: Control = %PreviewHolder
+@onready var color_swatch: ColorRect = %ColorSwatch
 @onready var name_label: Label = %NameLabel
 
 var slot_id: String = ""
@@ -24,6 +27,12 @@ func _ready() -> void:
 
 	if not pressed.is_connected(_on_pressed):
 		pressed.connect(_on_pressed)
+
+	if PlayerLoadout.has_signal("loadout_changed"):
+		if not PlayerLoadout.loadout_changed.is_connected(_on_loadout_changed):
+			PlayerLoadout.loadout_changed.connect(_on_loadout_changed)
+
+	_setup_name_label()
 
 	if not pending_item_data.is_empty():
 		_apply_setup_data()
@@ -48,10 +57,12 @@ func _apply_setup_data() -> void:
 	var display_name: String = str(pending_item_data.get("display_name", item_id))
 	var item_icon_texture: Texture2D = pending_item_data.get("item_icon", null)
 	var preview_scene: PackedScene = pending_item_data.get("preview_scene", null)
+	var has_color: bool = pending_item_data.has("color")
 
 	if name_label != null:
 		name_label.visible = true
 		name_label.text = display_name
+		_shrink_label_to_fit(name_label)
 
 	_clear_preview()
 
@@ -59,6 +70,8 @@ func _apply_setup_data() -> void:
 		_show_preview_scene(preview_scene)
 	elif item_icon_texture != null:
 		_show_item_icon(item_icon_texture)
+	elif has_color:
+		_show_color_swatch(pending_item_data.get("color", Color.WHITE))
 	else:
 		_hide_visual()
 
@@ -71,22 +84,82 @@ func _apply_setup_data() -> void:
 		tooltip_text = unlock_hint if not unlock_hint.is_empty() else "Locked"
 
 
+func _setup_name_label() -> void:
+	if name_label == null:
+		return
+
+	name_label.clip_text = true
+	name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+
+
+func _shrink_label_to_fit(label: Label) -> void:
+	if label == null:
+		return
+
+	var min_font_size := 8
+	var max_font_size := 16
+	var available_width := label.size.x
+
+	if available_width <= 0.0:
+		await get_tree().process_frame
+		available_width = label.size.x
+
+	if available_width <= 0.0:
+		return
+
+	var font: Font = label.get_theme_font("font")
+	if font == null:
+		return
+
+	var text := label.text
+	var final_size := max_font_size
+
+	for size in range(max_font_size, min_font_size - 1, -1):
+		var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+		if text_width <= available_width:
+			final_size = size
+			break
+
+	label.add_theme_font_size_override("font_size", final_size)
+
+
 func _show_item_icon(texture: Texture2D) -> void:
 	if preview_holder != null:
 		preview_holder.visible = false
+
+	if color_swatch != null:
+		color_swatch.visible = false
 
 	if item_icon == null:
 		return
 
 	item_icon.visible = true
 	item_icon.texture = texture
-	item_icon.modulate = Color.WHITE if is_unlocked else Color.BLACK
+	item_icon.modulate = _get_icon_modulate()
+
+
+func _show_color_swatch(color: Color) -> void:
+	if preview_holder != null:
+		preview_holder.visible = false
+
+	if item_icon != null:
+		item_icon.visible = false
+		item_icon.texture = null
+
+	if color_swatch == null:
+		return
+
+	color_swatch.visible = true
+	color_swatch.color = color if is_unlocked else Color.BLACK
 
 
 func _show_preview_scene(scene: PackedScene) -> void:
 	if item_icon != null:
 		item_icon.visible = false
 		item_icon.texture = null
+
+	if color_swatch != null:
+		color_swatch.visible = false
 
 	if preview_holder == null:
 		return
@@ -103,8 +176,8 @@ func _show_preview_scene(scene: PackedScene) -> void:
 		(preview_instance as Node2D).position = preview_holder.size * 0.5
 		(preview_instance as Node2D).scale = Vector2(0.75, 0.75)
 
-	if not is_unlocked and preview_instance is CanvasItem:
-		(preview_instance as CanvasItem).modulate = Color.BLACK
+	if preview_instance is CanvasItem:
+		(preview_instance as CanvasItem).modulate = _get_icon_modulate()
 
 
 func _hide_visual() -> void:
@@ -114,6 +187,9 @@ func _hide_visual() -> void:
 
 	if preview_holder != null:
 		preview_holder.visible = false
+
+	if color_swatch != null:
+		color_swatch.visible = false
 
 	if name_label != null:
 		name_label.visible = true
@@ -128,6 +204,61 @@ func _clear_preview() -> void:
 	if preview_holder != null:
 		for child in preview_holder.get_children():
 			child.queue_free()
+
+
+func _get_icon_modulate() -> Color:
+	if not is_unlocked:
+		return Color.BLACK
+
+	if pending_item_data.has("color"):
+		return pending_item_data.get("color", Color.WHITE)
+
+	var color_id := _get_equipped_color_for_slot(slot_id)
+
+	if color_id.is_empty():
+		return Color.WHITE
+
+	if slot_id == "body":
+		return CustomizationDefinitions.get_body_color(color_id)
+
+	return CustomizationDefinitions.get_dye_color(color_id)
+
+
+func _get_equipped_color_for_slot(base_slot_id: String) -> String:
+	match base_slot_id:
+		"body":
+			return PlayerLoadout.get_equipped("body_color")
+		"undies":
+			return PlayerLoadout.get_equipped("undies_color")
+		"clothes":
+			return PlayerLoadout.get_equipped("clothes_color")
+		"hair":
+			return PlayerLoadout.get_equipped("hair_color")
+		"hat":
+			return PlayerLoadout.get_equipped("hat_color")
+		"wand":
+			return PlayerLoadout.get_equipped("wand_color")
+		_:
+			return ""
+
+
+func _refresh_visual_modulate() -> void:
+	if item_icon != null and item_icon.visible:
+		item_icon.modulate = _get_icon_modulate()
+
+	if color_swatch != null and color_swatch.visible:
+		if not is_unlocked:
+			color_swatch.color = Color.BLACK
+		elif pending_item_data.has("color"):
+			color_swatch.color = pending_item_data.get("color", Color.WHITE)
+
+	if preview_instance != null and is_instance_valid(preview_instance):
+		if preview_instance is CanvasItem:
+			(preview_instance as CanvasItem).modulate = _get_icon_modulate()
+
+
+func _on_loadout_changed(_loadout: Dictionary) -> void:
+	_refresh_visual_modulate()
 
 
 func _on_pressed() -> void:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df170q4l7qx0k"
-path="res://.godot/imported/undies_girl.png-4b507405ee801b07d726ce6aef92e67e.ctex"
+uid="uid://b0sambnntvt2t"
+path="res://.godot/imported/girl_undies.png-48afba789063bd1de09ffc1bc4b83621.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/undies/undies_girl.png"
-dest_files=["res://.godot/imported/undies_girl.png-4b507405ee801b07d726ce6aef92e67e.ctex"]
+source_file="res://assets/images/player/undies/girl_undies.png"
+dest_files=["res://.godot/imported/girl_undies.png-48afba789063bd1de09ffc1bc4b83621.ctex"]
 
 [params]
 

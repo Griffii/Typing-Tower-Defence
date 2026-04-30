@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp4tu023newqt"
-path="res://.godot/imported/girl-hair-01.png-d049c60671657d0be927ee91e4940664.ctex"
+uid="uid://d3lrxe7gd36mm"
+path="res://.godot/imported/body_01.png-1f02c4c71f57b9bf53559196c0d849f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/hair/girl-hair-01.png"
-dest_files=["res://.godot/imported/girl-hair-01.png-d049c60671657d0be927ee91e4940664.ctex"]
+source_file="res://assets/images/player/bodies/body_01.png"
+dest_files=["res://.godot/imported/body_01.png-1f02c4c71f57b9bf53559196c0d849f9.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://63numggy4j12"
-path="res://.godot/imported/body-01.png-82425a5f04adfb311cbfc43076366dc2.ctex"
+uid="uid://dvqfyi0c673g"
+path="res://.godot/imported/oak_staff.png-962b91a7c5997e8a7590c867147da884.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/bodies/body-01.png"
-dest_files=["res://.godot/imported/body-01.png-82425a5f04adfb311cbfc43076366dc2.ctex"]
+source_file="res://assets/images/player/wands/oak_staff.png"
+dest_files=["res://.godot/imported/oak_staff.png-962b91a7c5997e8a7590c867147da884.ctex"]
 
 [params]
 

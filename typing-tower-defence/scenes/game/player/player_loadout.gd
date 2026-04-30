@@ -6,22 +6,44 @@ signal loadout_changed(loadout: Dictionary)
 var equipped_loadout: Dictionary = {
 	"body": "body_01",
 	"body_color": "skin_01",
+
 	"undies": "boy_undies",
-	"clothes": "clothes_01",
+	"undies_color": "white",
+
+	"clothes": "robe_white",
+	"clothes_color": "blue",
+
 	"hair": "hair_01",
-	"hat": "hat_01",
+	"hair_color": "brown",
+
+	"hat": "wizard_hat",
+	"hat_color": "blue",
+
 	"wand": "wand_01",
+	"wand_color": "brown",
+
 	"spell": "fireball_01"
 }
 
 var unlocked_items: Dictionary = {
 	"body": ["body_01"],
 	"body_color": ["skin_01", "skin_02", "skin_03", "skin_04", "skin_05"],
+
 	"undies": ["boy_undies", "girl_undies"],
-	"clothes": ["clothes_01", "clothes_02"],
+	"undies_color": ["white", "gray"],
+
+	"clothes": ["robe_white"],
+	"clothes_color": ["blue", "red", "green", "white", "gray", "black"],
+
 	"hair": ["hair_01", "hair_02"],
-	"hat": ["hat_01"],
+	"hair_color": ["brown", "black", "blonde"],
+
+	"hat": ["wizard_hat"],
+	"hat_color": ["blue", "red", "green", "white", "gray", "black"],
+
 	"wand": ["wand_01"],
+	"wand_color": ["brown", "black", "white", "gray"],
+
 	"spell": ["fireball_01", "fireball_02"]
 }
 
@@ -35,6 +57,9 @@ func get_equipped(slot_id: String) -> String:
 
 
 func is_unlocked(slot_id: String, item_id: String) -> bool:
+	if item_id == "none":
+		return true
+
 	if not unlocked_items.has(slot_id):
 		return false
 
@@ -45,13 +70,7 @@ func equip(slot_id: String, item_id: String) -> bool:
 	if not equipped_loadout.has(slot_id):
 		return false
 
-	if slot_id == "body" and (item_id.is_empty() or item_id == "none"):
-		return false
-
-	if slot_id == "body_color" and (item_id.is_empty() or item_id == "none"):
-		return false
-
-	if slot_id == "spell" and (item_id.is_empty() or item_id == "none"):
+	if _is_required_slot(slot_id) and (item_id.is_empty() or item_id == "none"):
 		return false
 
 	if item_id != "none" and not is_unlocked(slot_id, item_id):
@@ -105,7 +124,55 @@ func load_loadout() -> void:
 
 			equipped_loadout[key] = loaded_item_id
 
+	_validate_loaded_loadout()
 	loadout_changed.emit(get_loadout())
+
+
+func _validate_loaded_loadout() -> void:
+	for slot_id in equipped_loadout.keys():
+		var item_id: String = str(equipped_loadout[slot_id])
+
+		if _is_required_slot(slot_id) and (item_id.is_empty() or item_id == "none"):
+			equipped_loadout[slot_id] = _get_default_for_slot(slot_id)
+			continue
+
+		if item_id == "none":
+			continue
+
+		if not is_unlocked(slot_id, item_id):
+			equipped_loadout[slot_id] = _get_default_for_slot(slot_id)
+
+
+func _get_default_for_slot(slot_id: String) -> String:
+	match slot_id:
+		"body":
+			return "body_01"
+		"body_color":
+			return "skin_01"
+		"undies":
+			return "boy_undies"
+		"undies_color":
+			return "white"
+		"clothes":
+			return "robe_white"
+		"clothes_color":
+			return "blue"
+		"hair":
+			return "hair_01"
+		"hair_color":
+			return "brown"
+		"hat":
+			return "wizard_hat"
+		"hat_color":
+			return "blue"
+		"wand":
+			return "wand_01"
+		"wand_color":
+			return "brown"
+		"spell":
+			return "fireball_01"
+		_:
+			return ""
 
 
 func _is_required_slot(slot_id: String) -> bool:

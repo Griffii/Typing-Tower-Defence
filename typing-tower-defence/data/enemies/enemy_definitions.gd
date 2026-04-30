@@ -1,5 +1,4 @@
 # res://data/enemies/enemy_definitions.gd
-class_name EnemyDefinitions
 extends RefCounted
 
 const ENEMY_STATS := {

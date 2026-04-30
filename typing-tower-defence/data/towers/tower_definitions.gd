@@ -1,5 +1,4 @@
 extends RefCounted
-class_name TowerDefinitions
 
 const TOWER_TYPES := {
 	"arrow": {

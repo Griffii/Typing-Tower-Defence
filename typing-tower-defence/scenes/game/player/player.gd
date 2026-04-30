@@ -1,4 +1,4 @@
-# res://scripts/game/player/player_character.gd
+# player.gd
 class_name PlayerCharacter
 extends Node2D
 

@@ -109,8 +109,7 @@ unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_kdvvi")
 animation = &"flight"
 autoplay = "flight"
-frame = 1
-frame_progress = 0.5950185
+frame_progress = 0.7136778
 
 [node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=1398991119]
 unique_name_in_owner = true

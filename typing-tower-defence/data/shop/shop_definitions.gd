@@ -1,4 +1,4 @@
-class_name ShopDefinitions
+
 
 const UPGRADES := {
 	"repair_base": {

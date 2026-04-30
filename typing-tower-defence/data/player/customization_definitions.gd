@@ -1,67 +1,47 @@
 # res://data/player/customization_definitions.gd
-class_name CustomizationDefinitions
 
-const ITEM_ICON_BASE_PATH: String = "res://assets/images/player/icons/"
 
 const ITEMS: Dictionary = {
-	"body_color": {
-		"skin_01": {
-			"display_name": "Skin 1",
-			"color": Color("#ffffff"),
-			"unlock_hint": "",
-			"bonuses": {}
-		},
-		"skin_02": {
-			"display_name": "Skin 2",
-			"color": Color("#f2c7a5"),
-			"unlock_hint": "",
-			"bonuses": {}
-		},
-		"skin_03": {
-			"display_name": "Skin 3",
-			"color": Color("#d99a6c"),
-			"unlock_hint": "",
-			"bonuses": {}
-		},
-		"skin_04": {
-			"display_name": "Skin 4",
-			"color": Color("#9b5f3f"),
-			"unlock_hint": "",
-			"bonuses": {}
-		},
-		"skin_05": {
-			"display_name": "Skin 5",
-			"color": Color("#5c3828"),
+	"body": {
+		"body_01": {
+			"display_name": "Body",
+			"texture": preload("res://assets/images/player/bodies/body_01.png"),
+			"available_dyes": ["skin_01", "skin_02", "skin_03", "skin_04", "skin_05"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
 	},
 
+	"body_color": {
+		"skin_01": {"display_name": "Skin 1", "color": Color("#ffffff"), "unlock_hint": "", "bonuses": {}},
+		"skin_02": {"display_name": "Skin 2", "color": Color("#f2c7a5"), "unlock_hint": "", "bonuses": {}},
+		"skin_03": {"display_name": "Skin 3", "color": Color("#d99a6c"), "unlock_hint": "", "bonuses": {}},
+		"skin_04": {"display_name": "Skin 4", "color": Color("#9b5f3f"), "unlock_hint": "", "bonuses": {}},
+		"skin_05": {"display_name": "Skin 5", "color": Color("#5c3828"), "unlock_hint": "", "bonuses": {}}
+	},
+
 	"undies": {
 		"boy_undies": {
 			"display_name": "Boy Undies",
-			"animation_id": "boy_undies",
+			"texture": preload("res://assets/images/player/undies/boy_undies.png"),
+			"available_dyes": ["white", "gray"],
 			"unlock_hint": "",
 			"bonuses": {}
 		},
 		"girl_undies": {
 			"display_name": "Girl Undies",
-			"animation_id": "girl_undies",
+			"texture": preload("res://assets/images/player/undies/girl_undies.png"),
+			"available_dyes": ["white", "gray"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
 	},
 
 	"clothes": {
-		"clothes_01": {
-			"display_name": "Blue Wizard Robe",
-			"animation_id": "clothes_01",
-			"unlock_hint": "",
-			"bonuses": {}
-		},
-		"clothes_02": {
-			"display_name": "Red Wizard Robe",
-			"animation_id": "clothes_02",
+		"robe_white": {
+			"display_name": "Wizard Robe",
+			"texture": preload("res://assets/images/player/clothes/robe_white.png"),
+			"available_dyes": ["blue", "red", "green", "white", "gray", "black"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
@@ -70,22 +50,25 @@ const ITEMS: Dictionary = {
 	"hair": {
 		"hair_01": {
 			"display_name": "Hair 1",
-			"animation_id": "hair_01",
+			"texture": preload("res://assets/images/player/hair/hair_01.png"),
+			"available_dyes": ["brown", "black", "blonde"],
 			"unlock_hint": "",
 			"bonuses": {}
 		},
 		"hair_02": {
 			"display_name": "Hair 2",
-			"animation_id": "hair_02",
+			"texture": preload("res://assets/images/player/hair/hair_02.png"),
+			"available_dyes": ["brown", "black", "blonde"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
 	},
 
 	"hat": {
-		"hat_01": {
-			"display_name": "Blue Wizard Hat",
-			"animation_id": "hat_01",
+		"wizard_hat": {
+			"display_name": "Wizard Hat",
+			"texture": preload("res://assets/images/player/hats/wizard_hat.png"),
+			"available_dyes": ["blue", "red", "green", "white", "gray", "black"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
@@ -93,8 +76,9 @@ const ITEMS: Dictionary = {
 
 	"wand": {
 		"wand_01": {
-			"display_name": "Beginner Wand",
-			"animation_id": "wand_01",
+			"display_name": "Beginner Staff",
+			"texture": preload("res://assets/images/player/wands/oak_staff.png"),
+			"available_dyes": ["brown", "black", "white", "gray"],
 			"unlock_hint": "",
 			"bonuses": {}
 		}
@@ -102,15 +86,20 @@ const ITEMS: Dictionary = {
 }
 
 
-static func has_slot(slot_id: String) -> bool:
-	return ITEMS.has(slot_id)
+const DYES: Dictionary = {
+	"white": {"display_name": "White", "color": Color("#ffffff"), "unlock_hint": ""},
+	"gray": {"display_name": "Gray", "color": Color("#aaaaaa"), "unlock_hint": ""},
+	"blue": {"display_name": "Blue", "color": Color("#4f7cff"), "unlock_hint": ""},
+	"red": {"display_name": "Red", "color": Color("#d94b4b"), "unlock_hint": ""},
+	"green": {"display_name": "Green", "color": Color("#5bbf73"), "unlock_hint": ""},
+	"brown": {"display_name": "Brown", "color": Color("#7a4a2a"), "unlock_hint": ""},
+	"black": {"display_name": "Black", "color": Color("#202020"), "unlock_hint": ""},
+	"blonde": {"display_name": "Blonde", "color": Color("#e8c76f"), "unlock_hint": ""}
+}
 
 
 static func has_item(slot_id: String, item_id: String) -> bool:
-	if not ITEMS.has(slot_id):
-		return false
-
-	return ITEMS[slot_id].has(item_id)
+	return ITEMS.has(slot_id) and ITEMS[slot_id].has(item_id)
 
 
 static func get_item_data(slot_id: String, item_id: String) -> Dictionary:
@@ -119,10 +108,8 @@ static func get_item_data(slot_id: String, item_id: String) -> Dictionary:
 
 	var data: Dictionary = ITEMS[slot_id][item_id].duplicate(true)
 
-	if not data.has("item_icon"):
-		var auto_icon: Texture2D = get_auto_item_icon(item_id)
-		if auto_icon != null:
-			data["item_icon"] = auto_icon
+	if data.has("texture") and not data.has("item_icon"):
+		data["item_icon"] = data["texture"]
 
 	return data
 
@@ -134,19 +121,46 @@ static func get_items_for_slot(slot_id: String) -> Dictionary:
 	return ITEMS[slot_id].duplicate(true)
 
 
-static func get_auto_item_icon(item_id: String) -> Texture2D:
-	var png_path: String = ITEM_ICON_BASE_PATH + item_id + ".png"
-	var webp_path: String = ITEM_ICON_BASE_PATH + item_id + ".webp"
-
-	if ResourceLoader.exists(png_path):
-		return load(png_path)
-
-	if ResourceLoader.exists(webp_path):
-		return load(webp_path)
-
-	return null
+static func get_texture(slot_id: String, item_id: String) -> Texture2D:
+	var data: Dictionary = get_item_data(slot_id, item_id)
+	return data.get("texture", null)
 
 
-static func get_body_color(item_id: String) -> Color:
-	var data: Dictionary = get_item_data("body_color", item_id)
+static func get_body_color(color_id: String) -> Color:
+	var data: Dictionary = get_item_data("body_color", color_id)
 	return data.get("color", Color.WHITE)
+
+
+static func get_dye_data(dye_id: String) -> Dictionary:
+	if not DYES.has(dye_id):
+		return {}
+
+	var data: Dictionary = DYES[dye_id].duplicate(true)
+	data["bonuses"] = {}
+	return data
+
+
+static func get_dye_color(dye_id: String) -> Color:
+	var data: Dictionary = get_dye_data(dye_id)
+	return data.get("color", Color.WHITE)
+
+
+static func get_dye_display_name(dye_id: String) -> String:
+	var data: Dictionary = get_dye_data(dye_id)
+	return str(data.get("display_name", dye_id))
+
+
+static func get_bonuses(slot_id: String, item_id: String) -> Dictionary:
+	var data: Dictionary = get_item_data(slot_id, item_id)
+	return data.get("bonuses", {}).duplicate(true)
+
+
+static func get_available_dyes_for_item(slot_id: String, item_id: String) -> Array[String]:
+	var result: Array[String] = []
+	var data: Dictionary = get_item_data(slot_id, item_id)
+
+	var dyes: Array = data.get("available_dyes", [])
+	for dye_id_variant in dyes:
+		result.append(str(dye_id_variant))
+
+	return result

@@ -1,5 +1,5 @@
 # res://data/player/spell_definitions.gd
-class_name SpellDefinitions
+
 
 const SPELLS: Dictionary = {
 	"fireball": {

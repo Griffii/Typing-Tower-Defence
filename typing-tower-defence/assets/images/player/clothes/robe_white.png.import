@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbm8pxyr16yr6"
-path="res://.godot/imported/boy-hair-01.png-33055357bd68f1c8f8494ac93dec237a.ctex"
+uid="uid://byusa6m3tjw4b"
+path="res://.godot/imported/robe_white.png-317365294363cfe39b11f4dec2a8e4c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/hair/boy-hair-01.png"
-dest_files=["res://.godot/imported/boy-hair-01.png-33055357bd68f1c8f8494ac93dec237a.ctex"]
+source_file="res://assets/images/player/clothes/robe_white.png"
+dest_files=["res://.godot/imported/robe_white.png-317365294363cfe39b11f4dec2a8e4c5.ctex"]
 
 [params]
 
