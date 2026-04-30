@@ -2506,7 +2506,7 @@ alignment = 1
 
 [node name="EndlessButton" type="Button" parent="ButtonBox" unique_id=156142824]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 100)
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2514,13 +2514,14 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
-text = "Endless Mode"
+text = "Endless
+Mode"
 
 [node name="StoryButton" type="Button" parent="ButtonBox" unique_id=945723525]
 unique_name_in_owner = true
@@ -2542,7 +2543,7 @@ text = "Story Mode"
 
 [node name="WordListsButton" type="Button" parent="ButtonBox" unique_id=1784854066]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 100)
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2550,13 +2551,33 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-text = "Word Lists"
+text = "Word
+Lists"
+
+[node name="CharacterButton" type="Button" parent="ButtonBox" unique_id=1470415358]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
+text = "Customize
+Character"
 
 [node name="SettingsButton" type="Button" parent="ButtonBox" unique_id=1598921276]
 unique_name_in_owner = true

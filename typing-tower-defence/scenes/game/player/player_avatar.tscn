@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d3ucbsssjsgbr" path="res://assets/images/player/undies/undies_boy.png" id="3_x0o4k"]
 [ext_resource type="Texture2D" uid="uid://df170q4l7qx0k" path="res://assets/images/player/undies/undies_girl.png" id="4_34wga"]
 [ext_resource type="Texture2D" uid="uid://dr54ojmpjvbw0" path="res://assets/images/player/clothes/blue-robe.png" id="5_x0o4k"]
+[ext_resource type="Texture2D" uid="uid://cqsf0e4rtcpdd" path="res://assets/images/player/clothes/red-robe.png" id="6_34wga"]
 [ext_resource type="Texture2D" uid="uid://bbm8pxyr16yr6" path="res://assets/images/player/hair/boy-hair-01.png" id="6_x0o4k"]
 [ext_resource type="Texture2D" uid="uid://dp4tu023newqt" path="res://assets/images/player/hair/girl-hair-01.png" id="7_34wga"]
 [ext_resource type="Texture2D" uid="uid://fd0enlqj6j" path="res://assets/images/player/hats/wizard-hat-blue.png" id="8_x0o4k"]
@@ -131,6 +132,22 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("5_x0o4k")
 region = Rect2(96, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjtqs"]
+atlas = ExtResource("6_34wga")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqh1j"]
+atlas = ExtResource("6_34wga")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as501"]
+atlas = ExtResource("6_34wga")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quxcl"]
+atlas = ExtResource("6_34wga")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_vjtqs"]
 animations = [{
 "frames": [{
@@ -148,6 +165,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"clothes_01_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjtqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqh1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_as501")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_quxcl")
+}],
+"loop": true,
+"name": &"clothes_02_idle",
 "speed": 5.0
 }]
 
@@ -326,7 +360,6 @@ autoplay = "hair_01_idle"
 
 [node name="HatSprite" type="AnimatedSprite2D" parent="." unique_id=747918421]
 unique_name_in_owner = true
-visible = false
 position = Vector2(0, -64)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_cejow")
@@ -338,5 +371,3 @@ position = Vector2(0, -64)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_76ats")
 animation = &"wand_01_idle"
-frame = 3
-frame_progress = 0.52213013

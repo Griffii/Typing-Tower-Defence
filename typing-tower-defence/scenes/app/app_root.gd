@@ -4,6 +4,7 @@ const MAIN_MENU_SCENE: PackedScene = preload("res://scenes/menus/main_menu.tscn"
 const ENDLESS_SETUP_SCENE: PackedScene = preload("res://scenes/menus/endless_setup_screen.tscn")
 const LEVEL_SELECT_SCENE: PackedScene = preload("res://scenes/menus/level_select.tscn")
 const WORD_LISTS_SCENE: PackedScene = preload("res://scenes/menus/word_list_menu.tscn")
+const CHARACTER_CUSTOMIZE_SCENE: PackedScene = preload("res://scenes/menus/character_customization_menu.tscn")
 const GAME_SCENE: PackedScene = preload("res://scenes/game/game_screen.tscn")
 
 @onready var screen_container: Control = %ScreenContainer
@@ -63,6 +64,8 @@ func _set_and_wire_screen(scene: PackedScene) -> void:
 		_set_level_select()
 	elif scene == WORD_LISTS_SCENE:
 		_set_wordlists_menu()
+	elif scene == CHARACTER_CUSTOMIZE_SCENE:
+		_set_character_customize_menu()
 	elif scene == GAME_SCENE:
 		_set_game_screen()
 	else:
@@ -80,6 +83,9 @@ func _set_main_menu() -> void:
 
 	if menu.has_signal("wordlistsmenu_requested"):
 		menu.wordlistsmenu_requested.connect(_on_word_lists_menu_requested)
+	
+	if menu.has_signal("customizecharactermenu_requested"):
+		menu.customizecharactermenu_requested.connect(_on_customize_menu_requested)
 
 
 func _set_endless_setup_menu() -> void:
@@ -109,6 +115,14 @@ func _set_level_select() -> void:
 		level_select.back_requested.connect(_on_back_to_menu_requested)
 
 
+func _set_character_customize_menu() -> void:
+	var menu: Control = set_screen(CHARACTER_CUSTOMIZE_SCENE)
+	
+	if menu.has_signal("back_requested"):
+		menu.back_requested.connect(_on_back_to_menu_requested)
+
+
+
 func _set_game_screen() -> void:
 	var game: Control = set_screen(GAME_SCENE)
 
@@ -130,6 +144,10 @@ func _on_selection_finished() -> void:
 
 func _on_word_lists_menu_requested() -> void:
 	transition_to_screen(WORD_LISTS_SCENE, "black_swipe_LtoR")
+
+
+func _on_customize_menu_requested() -> void:
+	transition_to_screen(CHARACTER_CUSTOMIZE_SCENE, "black_swipe_LtoR")
 
 
 func _on_back_to_menu_requested() -> void:

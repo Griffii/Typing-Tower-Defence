@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://e86w5yx7bl0"]
+
+[ext_resource type="Texture2D" uid="uid://bqr7xfr6pej58" path="res://assets/images/menu/magic_panel_05.png" id="1_pmic7"]
+[ext_resource type="Script" uid="uid://ckc3m0on0mxn6" path="res://scenes/menus/buttons/customization_item_button.gd" id="1_stk5e"]
+[ext_resource type="Texture2D" uid="uid://iob57q6d42o3" path="res://assets/images/menu/cursorSword_silver.png" id="2_stk5e"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_diqq0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lgoqe"]
+texture = ExtResource("1_pmic7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[node name="CustomizationItemButton" type="Button" unique_id=696456645]
+custom_minimum_size = Vector2(75, 75)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_lgoqe")
+script = ExtResource("1_stk5e")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=652483441]
+custom_minimum_size = Vector2(76, 75)
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 73.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Layout" type="VBoxContainer" parent="MarginContainer" unique_id=367986534]
+layout_mode = 2
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/Layout" unique_id=2070475116]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_stk5e")
+
+[node name="PreviewHolder" type="Control" parent="MarginContainer/Layout" unique_id=1499932574]
+unique_name_in_owner = true
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/Layout" unique_id=479768059]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("3_diqq0")
+theme_override_font_sizes/font_size = 10
+text = "Item Name"
+horizontal_alignment = 1

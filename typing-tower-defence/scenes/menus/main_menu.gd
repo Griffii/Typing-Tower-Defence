@@ -4,6 +4,7 @@ signal play_requested
 signal endless_mode_requested
 signal settings_requested
 signal wordlistsmenu_requested
+signal customizecharactermenu_requested
 
 const LIGHTNING_SCENE: PackedScene = preload("res://scenes/game/projectiles/lightning_projectile.tscn")
 const GRUNT_ENEMY_SCENE: PackedScene = preload("res://scenes/game/enemies/grunt_enemy.tscn")
@@ -22,6 +23,8 @@ const MENU_ENEMY_MOVE_SPEED := 50.0
 @onready var settings_button: Button = %SettingsButton
 @onready var word_lists_button: Button = %WordListsButton
 @onready var story_button: Button = %StoryButton
+@onready var character_button: Button = %CharacterButton
+
 
 @onready var title_label: RichTextLabel = %TitleLabel
 @onready var tower_container: Node2D = %TowerContainer
@@ -43,6 +46,7 @@ func _ready() -> void:
 	endless_button.pressed.connect(_on_endless_mode_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	word_lists_button.pressed.connect(_on_wordlists_pressed)
+	character_button.pressed.connect(_on_customize_pressed)
 	
 	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
@@ -215,3 +219,6 @@ func _on_settings_pressed() -> void:
 
 func _on_wordlists_pressed() -> void:
 	wordlistsmenu_requested.emit()
+
+func _on_customize_pressed() -> void:
+	customizecharactermenu_requested.emit()

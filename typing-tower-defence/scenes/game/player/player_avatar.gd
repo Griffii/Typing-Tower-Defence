@@ -19,6 +19,7 @@ extends Node2D
 @onready var wand_sprite: AnimatedSprite2D = %WandSprite
 
 var equipped_body: String = ""
+var equipped_body_color: String = "skin_01"
 var equipped_undies: String = ""
 var equipped_clothes: String = ""
 var equipped_hair: String = ""
@@ -26,6 +27,15 @@ var equipped_hat: String = ""
 var equipped_wand: String = ""
 
 var current_state: String = "idle"
+
+
+var body_colors: Dictionary = {
+	"skin_01": Color("#ffffff"),
+	"skin_02": Color("#f2c7a5"),
+	"skin_03": Color("#d99a6c"),
+	"skin_04": Color("#9b5f3f"),
+	"skin_05": Color("#5c3828")
+}
 
 
 func _ready() -> void:
@@ -45,6 +55,7 @@ func _ready() -> void:
 # ---------------------------
 func apply_loadout(loadout: Dictionary) -> void:
 	equipped_body = str(loadout.get("body", equipped_body))
+	equipped_body_color = str(loadout.get("body_color", equipped_body_color))
 	equipped_undies = str(loadout.get("undies", equipped_undies))
 	equipped_clothes = str(loadout.get("clothes", equipped_clothes))
 	equipped_hair = str(loadout.get("hair", equipped_hair))
@@ -57,6 +68,7 @@ func apply_loadout(loadout: Dictionary) -> void:
 func get_loadout() -> Dictionary:
 	return {
 		"body": equipped_body,
+		"body_color": equipped_body_color,
 		"undies": equipped_undies,
 		"clothes": equipped_clothes,
 		"hair": equipped_hair,
@@ -69,6 +81,8 @@ func equip_part(slot_id: String, item_id: String) -> void:
 	match slot_id:
 		"body":
 			equipped_body = item_id
+		"body_color":
+			equipped_body_color = item_id
 		"undies":
 			equipped_undies = item_id
 		"clothes":
@@ -100,6 +114,7 @@ func set_state(new_state: String) -> void:
 
 func refresh_visuals() -> void:
 	_play_part_animation(body_sprite, equipped_body, current_state)
+	_apply_body_color()
 	_play_part_animation(undies_sprite, equipped_undies, current_state)
 	_play_part_animation(clothes_sprite, equipped_clothes, current_state)
 	_play_part_animation(hair_sprite, equipped_hair, current_state)
@@ -114,20 +129,32 @@ func _play_part_animation(sprite: AnimatedSprite2D, item_id: String, state: Stri
 	if sprite == null:
 		return
 
-	if item_id.is_empty():
+	if item_id.is_empty() or item_id == "none":
+		sprite.stop()
 		sprite.visible = false
 		return
 
 	var animation_name: String = item_id + "_" + state
 
 	if sprite.sprite_frames == null:
+		sprite.stop()
 		sprite.visible = false
 		return
 
 	if not sprite.sprite_frames.has_animation(animation_name):
+		sprite.stop()
 		sprite.visible = false
 		push_warning("PlayerAvatar: Missing animation: " + animation_name)
 		return
 
 	sprite.visible = true
 	sprite.play(animation_name)
+	sprite.frame = 0
+	sprite.frame_progress = 0.0
+
+func _apply_body_color() -> void:
+	if body_sprite == null:
+		return
+
+	var color: Color = body_colors.get(equipped_body_color, Color.WHITE)
+	body_sprite.modulate = color

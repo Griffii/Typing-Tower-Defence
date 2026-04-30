@@ -2,7 +2,8 @@
 class_name PlayerCharacter
 extends Node2D
 
-const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/fireball_projectile.tscn")
+const SpellDefinitions = preload("res://data/player/spell_definitions.gd")
+const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/fireball_projectile_01.tscn")
 
 signal special_projectile_impact(target_enemy: Node)
 signal player_damaged(amount: int)
@@ -18,9 +19,8 @@ signal player_damaged(amount: int)
 
 func _ready() -> void:
 	_setup_special_meter()
-
-	if avatar != null:
-		avatar.play_idle()
+	_apply_saved_loadout()
+	_apply_equipped_spell()
 
 
 # ---------------------------
@@ -33,6 +33,27 @@ func _setup_special_meter() -> void:
 	special_meter_bar.min_value = 0.0
 	special_meter_bar.max_value = 1.0
 	special_meter_bar.value = 0.0
+
+
+func _apply_saved_loadout() -> void:
+	PlayerLoadout.load_loadout()
+
+	if avatar == null:
+		return
+
+	avatar.apply_loadout(PlayerLoadout.get_loadout())
+	avatar.play_idle()
+
+
+func _apply_equipped_spell() -> void:
+	var spell_id: String = PlayerLoadout.get_equipped("spell")
+	var scene: PackedScene = SpellDefinitions.get_projectile_scene(spell_id)
+
+	if scene == null:
+		special_projectile_scene = DEFAULT_SPECIAL_PROJECTILE_SCENE
+		return
+
+	special_projectile_scene = scene
 
 
 # ---------------------------
@@ -88,6 +109,8 @@ func set_special_projectile_scene(new_scene: PackedScene) -> void:
 
 
 func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> void:
+	_apply_equipped_spell()
+
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
 	if projectile_container == null or not is_instance_valid(projectile_container):

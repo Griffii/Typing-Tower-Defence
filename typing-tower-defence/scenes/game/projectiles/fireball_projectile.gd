@@ -16,6 +16,7 @@ signal projectile_finished
 var target_enemy: Node = null
 var fallback_target_position: Vector2 = Vector2.ZERO
 var has_impacted: bool = false
+var has_finished: bool = false
 var is_flying: bool = false
 var lifetime: float = 0.0
 
@@ -25,6 +26,7 @@ func fire(from_pos: Vector2, target: Node, _duration: float = 1.0, _height: floa
 	target_enemy = target
 	lifetime = 0.0
 	has_impacted = false
+	has_finished = false
 	is_flying = true
 
 	if is_instance_valid(target_enemy) and target_enemy is Node2D:
@@ -89,24 +91,39 @@ func _on_impact() -> void:
 	if explosion_sfx != null:
 		explosion_sfx.play()
 
-	if fireball_sprite != null:
-		rotation = 0.0
-		fireball_sprite.rotation = 0.0
+	if fireball_sprite == null:
+		_finish_after_delay(0.35)
+		return
+
+	rotation = 0.0
+	fireball_sprite.rotation = 0.0
+
+	if fireball_sprite.sprite_frames != null and fireball_sprite.sprite_frames.has_animation("explode"):
+		if not fireball_sprite.animation_finished.is_connected(_on_explosion_finished):
+			fireball_sprite.animation_finished.connect(_on_explosion_finished)
+
 		fireball_sprite.play("explode")
 	else:
-		_finish_after_delay(0.25)
+		_finish_after_delay(0.35)
 
 
 func _on_explosion_finished() -> void:
-	_finish_projectile()
+	_finish_after_delay(0.15)
 
 
 func _finish_after_delay(delay: float) -> void:
+	if has_finished:
+		return
+
 	var timer := get_tree().create_timer(delay)
 	await timer.timeout
 	_finish_projectile()
 
 
 func _finish_projectile() -> void:
+	if has_finished:
+		return
+
+	has_finished = true
 	projectile_finished.emit()
 	queue_free()
