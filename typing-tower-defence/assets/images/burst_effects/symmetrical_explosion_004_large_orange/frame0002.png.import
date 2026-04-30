@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2sh03c7xmhgu"
-path="res://.godot/imported/16x16 Interact-Sheet.png-ca8b8933bd8a3ff46f85549eeb960040.ctex"
+uid="uid://h3yaoxuoitv8"
+path="res://.godot/imported/frame0002.png-330f345697649e3fda17ea79cf111f36.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/16x16 Interact-Sheet.png"
-dest_files=["res://.godot/imported/16x16 Interact-Sheet.png-ca8b8933bd8a3ff46f85549eeb960040.ctex"]
+source_file="res://assets/images/burst_effects/symmetrical_explosion_004_large_orange/frame0002.png"
+dest_files=["res://.godot/imported/frame0002.png-330f345697649e3fda17ea79cf111f36.ctex"]
 
 [params]
 

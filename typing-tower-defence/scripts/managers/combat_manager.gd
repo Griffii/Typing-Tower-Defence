@@ -128,16 +128,21 @@ func resolve_completed_word(target_enemy: Node) -> void:
 
 
 func fire_player_special_at_target(target_enemy: Node) -> void:
+	print("[CombatManager] fire_player_special_at_target: ", target_enemy)
+
 	if target_enemy == null or not is_instance_valid(target_enemy):
+		print("[CombatManager] invalid special target")
 		return
 
 	if not target_enemy.has_method("apply_damage"):
+		print("[CombatManager] target has no apply_damage")
 		return
 
 	var was_dead_before: bool = false
 	if target_enemy.has_method("is_enemy_dead"):
 		was_dead_before = target_enemy.is_enemy_dead()
 
+	print("[CombatManager] applying special damage: ", special_damage)
 	target_enemy.apply_damage(special_damage)
 
 	if not is_instance_valid(target_enemy):

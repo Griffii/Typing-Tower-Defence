@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wr1d1gd7tl14"
-path="res://.godot/imported/16x16 Idle-Sheet.png-8bfca78db2d1204055ffb252730198ec.ctex"
+uid="uid://dgllni2dxq842"
+path="res://.godot/imported/frame0000.png-82074e62054a5b9b362546c323df42d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/16x16 Idle-Sheet.png"
-dest_files=["res://.godot/imported/16x16 Idle-Sheet.png-8bfca78db2d1204055ffb252730198ec.ctex"]
+source_file="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0000.png"
+dest_files=["res://.godot/imported/frame0000.png-82074e62054a5b9b362546c323df42d9.ctex"]
 
 [params]
 

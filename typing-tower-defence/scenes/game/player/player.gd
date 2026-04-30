@@ -2,24 +2,51 @@
 class_name PlayerCharacter
 extends Node2D
 
-const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/castle_arrow_projectile.tscn")
+const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/fireball_projectile.tscn")
 
 signal special_projectile_impact(target_enemy: Node)
 signal player_damaged(amount: int)
 
 @export var special_projectile_scene: PackedScene = DEFAULT_SPECIAL_PROJECTILE_SCENE
-@export var projectile_travel_duration: float = 0.35
-@export var projectile_arc_height: float = 48.0
+@export var projectile_travel_duration: float = 1.0
+@export var projectile_arc_height: float = 0.0
 
+@onready var avatar: PlayerAvatar = %PlayerAvatar
 @onready var special_meter_bar: ProgressBar = %SpecialMeterBar
 @onready var special_spawn_marker: Marker2D = %SpecialSpawnMarker
 
 
 func _ready() -> void:
-	if special_meter_bar != null:
-		special_meter_bar.min_value = 0.0
-		special_meter_bar.max_value = 1.0
-		special_meter_bar.value = 0.0
+	_setup_special_meter()
+
+	if avatar != null:
+		avatar.play_idle()
+
+
+# ---------------------------
+# Setup
+# ---------------------------
+func _setup_special_meter() -> void:
+	if special_meter_bar == null:
+		return
+
+	special_meter_bar.min_value = 0.0
+	special_meter_bar.max_value = 1.0
+	special_meter_bar.value = 0.0
+
+
+# ---------------------------
+# Avatar / Visuals
+# ---------------------------
+func apply_avatar_loadout(loadout: Dictionary) -> void:
+	if avatar == null:
+		return
+
+	avatar.apply_loadout(loadout)
+
+
+func get_avatar() -> PlayerAvatar:
+	return avatar
 
 
 # ---------------------------
@@ -53,6 +80,13 @@ func get_special_spawn_position() -> Vector2:
 # ---------------------------
 # Projectile / Spell Logic
 # ---------------------------
+func set_special_projectile_scene(new_scene: PackedScene) -> void:
+	if new_scene == null:
+		return
+
+	special_projectile_scene = new_scene
+
+
 func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> void:
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
@@ -77,10 +111,11 @@ func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> 
 			projectile_arc_height
 		)
 
+
 func request_level_damage(amount: int) -> void:
 	if amount <= 0:
 		return
-	
+
 	player_damaged.emit(amount)
 
 
@@ -88,4 +123,5 @@ func request_level_damage(amount: int) -> void:
 # Signals
 # ---------------------------
 func _on_special_projectile_impact(target_enemy: Node) -> void:
+	print("[PlayerCharacter] special projectile impact: ", target_enemy)
 	special_projectile_impact.emit(target_enemy)

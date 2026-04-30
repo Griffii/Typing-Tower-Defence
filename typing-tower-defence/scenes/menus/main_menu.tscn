@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://m151o3rgqv1d" path="res://assets/images/towers/Tower-blue.png" id="14_vr0hv"]
 [ext_resource type="Texture2D" uid="uid://dbs106u6c2tv" path="res://assets/images/towers/arrow.png" id="15_25m6f"]
 [ext_resource type="Texture2D" uid="uid://naimgdxyifja" path="res://assets/images/towers/Tower-yellow.png" id="15_a3hrp"]
-[ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/towers/spell_shoosh_sfx.mp3" id="17_25m6f"]
+[ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/spells/spell_shoosh_sfx.mp3" id="17_25m6f"]
 [ext_resource type="AudioStream" uid="uid://cpoaxay8kck0" path="res://assets/sfx/towers/electric_discharge_sfx.mp3" id="18_nkawv"]
 [ext_resource type="AudioStream" uid="uid://b34acd123tgn6" path="res://assets/sfx/towers/arrow_hit.mp3" id="19_w32d4"]
 [ext_resource type="AudioStream" uid="uid://b68w6soxh2uuv" path="res://assets/sfx/towers/arrow_shoot.mp3" id="20_287l7"]

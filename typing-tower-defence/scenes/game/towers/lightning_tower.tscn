@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/menu/magic_bar_filled.png" id="3_a7sus"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="4_noblj"]
 [ext_resource type="Texture2D" uid="uid://bqr7xfr6pej58" path="res://assets/images/menu/magic_panel_05.png" id="6_noblj"]
-[ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/towers/spell_shoosh_sfx.mp3" id="7_a7sus"]
+[ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/spells/spell_shoosh_sfx.mp3" id="7_a7sus"]
 [ext_resource type="AudioStream" uid="uid://cpoaxay8kck0" path="res://assets/sfx/towers/electric_discharge_sfx.mp3" id="8_noblj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bccep"]
