@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://cmcdiuhnjq6f7"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_1p1v0"]
+
+[resource]
+script = ExtResource("1_1p1v0")
+id = "space"
+display_name = "Space"
+category = "general"
+words = Array[String](["space", "star", "planet", "moon", "sun", "comet", "meteor", "asteroid", "galaxy", "nebula", "orbit", "rocket", "satellite", "gravity", "cosmos", "alien", "crater", "eclipse", "telescope", "blackhole", "supernova", "starlight", "spaceship", "astronaut", "universe", "milkyway", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto", "dust", "gas", "ice", "rock", "ring", "rings", "flare", "void", "solar", "lunar", "stellar", "cosmic", "cluster", "constellation", "zodiac", "andromeda", "orion", "launch", "lander", "rover", "probe", "module", "capsule", "station", "mission", "spacesuit", "airlock", "booster", "thruster", "engine", "fuel", "radar", "signal", "antenna", "control", "reentry"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

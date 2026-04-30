@@ -7,5 +7,5 @@ script = ExtResource("1_he3m6")
 id = "school"
 display_name = "School"
 category = "school"
-words = Array[String](["answer", "artroom", "backpack", "blackboard", "bookcase", "campus", "chalk", "classroom", "college", "crayon", "desk", "drawing", "eraser", "example", "exercise", "folder", "grammar", "homework", "lesson", "library", "marker", "notebook", "number", "pencil", "problem", "project", "question", "quiet", "reader", "report", "ruler", "science", "student", "subject", "teacher", "textbook", "timetable", "vocabulary", "whiteboard", "worksheet", "writing", "history", "music", "lunchbox", "schedule", "practice", "speaker", "stationary", "study", "review"])
+words = Array[String](["answer", "artroom", "backpack", "blackboard", "bookcase", "campus", "chalk", "classroom", "college", "crayon", "desk", "drawing", "eraser", "example", "exercise", "folder", "grammar", "homework", "lesson", "library", "marker", "notebook", "number", "pencil", "problem", "project", "question", "quiet", "reader", "report", "ruler", "science", "student", "subject", "teacher", "textbook", "timetable", "vocabulary", "whiteboard", "worksheet", "writing", "history", "music", "lunchbox", "schedule", "practice", "speaker", "stationery", "study", "review"])
 metadata/_custom_type_script = "uid://blmx4awdqm5pt"
