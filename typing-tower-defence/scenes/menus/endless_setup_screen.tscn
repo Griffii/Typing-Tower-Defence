@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://cqi2eoyspmkgn" path="res://assets/images/enemies/soldiers/weapon_03.png" id="11_5253r"]
 [ext_resource type="Texture2D" uid="uid://bmssjb6jyu2px" path="res://assets/images/enemies/soldiers/soldier_02.png" id="12_fkc8u"]
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="13_25s1c"]
+[ext_resource type="Texture2D" uid="uid://dw4qltg2dwc86" path="res://assets/images/menu/card_02.png" id="13_awmu3"]
+[ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="13_fnvk8"]
 [ext_resource type="Texture2D" uid="uid://emfdppmqxmp" path="res://assets/images/enemies/slimes/slime_idle2.png" id="13_taa3s"]
 [ext_resource type="Texture2D" uid="uid://c5t858ksierir" path="res://assets/images/enemies/slimes/slime_jump.png" id="14_snn44"]
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="15_5skhe"]
@@ -185,6 +187,48 @@ animations = [{
 "name": &"idle",
 "speed": 8.0
 }]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nrc65"]
+texture = ExtResource("13_awmu3")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp1at"]
+texture = ExtResource("13_awmu3")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(0.78352344, 0.7835234, 0.7835234, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e0k1d"]
+texture = ExtResource("13_awmu3")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(1, 1, 0.8039216, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_awmu3"]
+texture = ExtResource("13_fnvk8")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c7t6o"]
 texture = ExtResource("15_5skhe")
@@ -517,28 +561,54 @@ columns = 2
 
 [node name="WordListControlsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=719219977]
 layout_mode = 2
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800741804]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nrc65")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mp1at")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e0k1d")
 text = "Enable All"
 
-[node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1198670278]
+[node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800677945]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nrc65")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mp1at")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e0k1d")
 text = "Disable All"
 
-[node name="AddNewWordListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=919066391]
+[node name="AddNewWordListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1674439992]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("2_muvbe")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nrc65")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mp1at")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e0k1d")
 text = "Add New Word List"
 
 [node name="WordListDetailPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=242431919]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_awmu3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel" unique_id=1451818053]
 layout_mode = 2
@@ -546,6 +616,7 @@ layout_mode = 2
 [node name="TotalWordsCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=643149189]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.42935163, 0.42935163, 0.42935163, 1)
 theme_override_fonts/font = ExtResource("13_25s1c")
 text = "Word Count"
 horizontal_alignment = 2
@@ -553,6 +624,7 @@ horizontal_alignment = 2
 [node name="IncludedListsLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListDetailPanel/VBoxContainer" unique_id=821173370]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/default_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
 theme_override_fonts/normal_font = ExtResource("2_muvbe")
 text = "Words, words, words"
 fit_content = true

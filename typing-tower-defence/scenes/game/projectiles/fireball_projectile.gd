@@ -4,7 +4,7 @@ extends Node2D
 signal impact_reached(target_enemy: Node)
 signal projectile_finished
 
-@export var speed: float = 600.0
+@export var speed: float = 800.0
 @export var impact_distance: float = 14.0
 @export var max_lifetime: float = 4.0
 @export var target_offset: Vector2 = Vector2.ZERO

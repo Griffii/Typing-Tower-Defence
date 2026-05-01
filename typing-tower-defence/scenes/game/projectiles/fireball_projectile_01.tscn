@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://btqlgduhutoea" path="res://assets/images/spell_projectiles/fireball_01/PixelartFireBall-11.png" id="15_hceqt"]
 [ext_resource type="Texture2D" uid="uid://cu3rakcmwfrye" path="res://assets/images/spell_projectiles/fireball_01/PixelartFireBall-12.png" id="16_8qd30"]
 [ext_resource type="AudioStream" uid="uid://bpctesc3u073p" path="res://assets/sfx/spells/sound_spark_Fire_Spell_Spit_Fire_03.mp3" id="17_k3kjj"]
-[ext_resource type="AudioStream" uid="uid://oi01l0ls3n3j" path="res://assets/sfx/spells/fireball_impact_01.mp3" id="18_5vnfl"]
+[ext_resource type="AudioStream" uid="uid://bxbnbvqs3n54x" path="res://assets/sfx/spells/dragon-studio-loud-explosion.mp3" id="18_5vnfl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_14k26"]
 atlas = ExtResource("11_4hgbb")

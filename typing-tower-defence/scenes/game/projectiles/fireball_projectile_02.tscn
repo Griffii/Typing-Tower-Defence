@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dobarv00jikb5" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0007.png" id="9_87cqe"]
 [ext_resource type="Texture2D" uid="uid://c2v7r8x2jlr1r" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0008.png" id="10_0613i"]
 [ext_resource type="Texture2D" uid="uid://dqi2ifdq1hyuv" path="res://assets/images/spell_projectiles/fireball_02/Fireball_68x9.png" id="11_dr13h"]
-[ext_resource type="AudioStream" uid="uid://oi01l0ls3n3j" path="res://assets/sfx/spells/fireball_impact_01.mp3" id="13_dr13h"]
+[ext_resource type="AudioStream" uid="uid://bxbnbvqs3n54x" path="res://assets/sfx/spells/dragon-studio-loud-explosion.mp3" id="13_dr13h"]
 [ext_resource type="AudioStream" uid="uid://bpctesc3u073p" path="res://assets/sfx/spells/sound_spark_Fire_Spell_Spit_Fire_03.mp3" id="17_4sibc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mfja6"]

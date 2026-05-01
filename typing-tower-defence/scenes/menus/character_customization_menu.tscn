@@ -1,10 +1,116 @@
 [gd_scene format=3 uid="uid://defo7xtrxfi6s"]
 
 [ext_resource type="Script" uid="uid://bt0dkleney10n" path="res://scenes/menus/character_customization_menu.gd" id="1_0mlbl"]
+[ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_4dwsr"]
 [ext_resource type="PackedScene" uid="uid://0sph3h4ghhey" path="res://scenes/game/player/player_avatar.tscn" id="2_ebh46"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_223qg"]
 [ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="4_4wpy2"]
+[ext_resource type="Texture2D" uid="uid://dtfkclsdftyli" path="res://assets/images/menu/panel-fantasy-01.png" id="4_p2uxk"]
 [ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="5_4dwsr"]
+[ext_resource type="Texture2D" uid="uid://rb4720ggs5up" path="res://assets/images/menu/scroll_label_panel.png" id="5_p2uxk"]
+[ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="6_6sv41"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f4ify"]
+texture = ExtResource("4_p2uxk")
+texture_margin_left = 44.0
+texture_margin_top = 44.0
+texture_margin_right = 44.0
+texture_margin_bottom = 44.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3ubid"]
+texture = ExtResource("5_p2uxk")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(0, 0, 32, 15)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6sv41"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cuyg6"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8hkd"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0k1ti"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phoqo"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nv42j"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wpry6"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xfske"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frbmh"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5f82d"]
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_right = 50.0
+modulate_color = Color(1, 0.7294118, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4dwsr"]
+texture = ExtResource("2_4dwsr")
+texture_margin_left = 31.0
+texture_margin_top = 31.0
+texture_margin_right = 31.0
+texture_margin_bottom = 31.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4dwsr"]
+color = Color(0, 0, 0, 0.6431373)
+thickness = 4
+vertical = true
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2uxk"]
 texture = ExtResource("4_4wpy2")
@@ -82,17 +188,32 @@ alignment = 1
 [node name="PreviewPanel" type="PanelContainer" parent="Root/Layout" unique_id=1422571014]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_f4ify")
 
-[node name="PreviewCenter" type="CenterContainer" parent="Root/Layout/PreviewPanel" unique_id=213704795]
-layout_mode = 2
-
-[node name="PlayerAvatar" parent="Root/Layout/PreviewPanel/PreviewCenter" unique_id=1193445698 instance=ExtResource("2_ebh46")]
+[node name="PlayerAvatar" parent="Root/Layout/PreviewPanel" unique_id=1193445698 instance=ExtResource("2_ebh46")]
 unique_name_in_owner = true
-position = Vector2(148, 400.00003)
+position = Vector2(168, 423.00003)
 scale = Vector2(3, 3)
+
+[node name="NameLabel" type="LineEdit" parent="Root/Layout/PreviewPanel" unique_id=612705210]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.19793725, 0.19793725, 0.19793719, 1)
+theme_override_colors/caret_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxTexture_3ubid")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6sv41")
+text = "Spellicus"
+alignment = 1
+caret_blink = true
 
 [node name="CategoryPanel" type="PanelContainer" parent="Root/Layout" unique_id=1827088886]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cuyg6")
 
 [node name="CategoryButtons" type="VBoxContainer" parent="Root/Layout/CategoryPanel" unique_id=2080182972]
 unique_name_in_owner = true
@@ -101,58 +222,106 @@ alignment = 1
 
 [node name="BodyButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=893778320]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19793689, 0.1979374, 0.19793707, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0k1ti")
 text = "Body"
 
-[node name="UndiesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=247708337]
+[node name="UndiesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=128495507]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-text = "Gender"
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_phoqo")
+text = "Undies"
 
-[node name="ClothesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=911333653]
+[node name="ClothesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=2019299952]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nv42j")
 text = "Clothes"
 
-[node name="HairButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1246649281]
+[node name="HairButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1680743278]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wpry6")
 text = "Hair"
 
-[node name="HatButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=2074814251]
+[node name="HatButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=319478853]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xfske")
 text = "Hat"
 
-[node name="WandButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=138494991]
+[node name="WandButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1818247059]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_frbmh")
 text = "Wand"
 
-[node name="ItemsPanel" type="PanelContainer" parent="Root/Layout" unique_id=796846420]
-custom_minimum_size = Vector2(400, 0)
+[node name="SpellButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1071026931]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5f82d")
+text = "Spell"
+
+[node name="ItemsPanel" type="PanelContainer" parent="Root/Layout" unique_id=796846420]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_4dwsr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Root/Layout/ItemsPanel" unique_id=2136694859]
 layout_mode = 2
+alignment = 1
 
 [node name="ItemsScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=920777216]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 
 [node name="ItemGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ItemsScroll" unique_id=924824208]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+columns = 2
 
-[node name="ItemsScroll2" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=1495345826]
-custom_minimum_size = Vector2(200, 0)
+[node name="VSeparator" type="VSeparator" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=656709845]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_4dwsr")
+
+[node name="ColorScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=1495345826]
+custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 
-[node name="ColorGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ItemsScroll2" unique_id=595770825]
+[node name="ColorGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ColorScroll" unique_id=595770825]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+columns = 2
 
 [node name="BackButton" type="Button" parent="Root" unique_id=489068411]
 unique_name_in_owner = true

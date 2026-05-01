@@ -12,28 +12,83 @@ texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_stk5e"]
+texture = ExtResource("1_pmic7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_diqq0"]
+texture = ExtResource("1_pmic7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+modulate_color = Color(1, 0.80784315, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_20yax"]
+texture = ExtResource("1_pmic7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+modulate_color = Color(1, 1, 0.58431375, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stk5e"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3693056, 0.94686157, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diqq0"]
+bg_color = Color(0, 0, 0, 0.5882353)
+
 [node name="CustomizationItemButton" type="Button" unique_id=696456645]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(100, 100)
 offset_right = 75.0
 offset_bottom = 75.0
 theme_override_styles/normal = SubResource("StyleBoxTexture_lgoqe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_stk5e")
+theme_override_styles/hover = SubResource("StyleBoxTexture_diqq0")
+theme_override_styles/focus = SubResource("StyleBoxTexture_20yax")
 script = ExtResource("1_stk5e")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=652483441]
-custom_minimum_size = Vector2(76, 75)
+[node name="SelectedBorder" type="Panel" parent="." unique_id=1210100379]
+unique_name_in_owner = true
+visible = false
 layout_mode = 0
-offset_right = 66.0
-offset_bottom = 73.0
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stk5e")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=652483441]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
+[node name="LockedPanel" type="Panel" parent="MarginContainer" unique_id=350947701]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_diqq0")
+
 [node name="Layout" type="VBoxContainer" parent="MarginContainer" unique_id=367986534]
 layout_mode = 2
 
 [node name="ImageArea" type="Control" parent="MarginContainer/Layout" unique_id=1371880340]
-custom_minimum_size = Vector2(45, 45)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -41,7 +96,6 @@ mouse_filter = 2
 
 [node name="ItemIcon" type="TextureRect" parent="MarginContainer/Layout/ImageArea" unique_id=2070475116]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(45, 45)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,7 +111,6 @@ texture = ExtResource("2_stk5e")
 unique_name_in_owner = true
 visible = false
 clip_contents = true
-custom_minimum_size = Vector2(45, 45)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,6 +121,7 @@ mouse_filter = 2
 
 [node name="ColorSwatch" type="ColorRect" parent="MarginContainer/Layout/ImageArea" unique_id=1762461764]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

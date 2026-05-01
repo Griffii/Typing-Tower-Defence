@@ -1,7 +1,18 @@
 # res://scripts/autoloads/player_loadout.gd
 extends Node
 
+### UNLOCK ITEMS FROM ANYWHERE WITH THIS SYNTAX
+#
+# PlayerLoadout.unlock_item("hat", "flower_hat")
+# PlayerLoadout.unlock_item("wand", "glass_wand")
+# PlayerLoadout.unlock_item("body_color", "skin_purple")
+#
+##########################################################
+
 signal loadout_changed(loadout: Dictionary)
+signal item_unlocked(slot_id: String, item_id: String)
+
+var player_name: String = "Spellicus"
 
 var equipped_loadout: Dictionary = {
 	"body": "body_01",
@@ -11,16 +22,16 @@ var equipped_loadout: Dictionary = {
 	"undies_color": "white",
 
 	"clothes": "robe_white",
-	"clothes_color": "blue",
+	"clothes_color": "white",
 
 	"hair": "hair_01",
 	"hair_color": "brown",
 
 	"hat": "wizard_hat",
-	"hat_color": "blue",
+	"hat_color": "white",
 
-	"wand": "wand_01",
-	"wand_color": "brown",
+	"wand": "oak_staff",
+	"wand_color": "default",
 
 	"spell": "fireball_01"
 }
@@ -29,20 +40,32 @@ var unlocked_items: Dictionary = {
 	"body": ["body_01"],
 	"body_color": ["skin_01", "skin_02", "skin_03", "skin_04", "skin_05"],
 
-	"undies": ["boy_undies", "girl_undies"],
-	"undies_color": ["white", "gray"],
+	"undies": ["boy_undies", "girl_undies","leotard_undies"],
+	"undies_color": ["white", "beige", "black", "red", "blue", "green"],
 
 	"clothes": ["robe_white"],
-	"clothes_color": ["blue", "red", "green", "white", "gray", "black"],
+	"clothes_color": ["white", "blue", "red", "green", "gray", "black"],
 
 	"hair": ["hair_01", "hair_02"],
-	"hair_color": ["brown", "black", "blonde"],
+	"hair_color": [
+		"white",
+		"blonde",
+		"brown",
+		"dark_brown",
+		"black",
+		"gray",
+		"red",
+		"pink",
+		"blue",
+		"purple"
+	],
 
-	"hat": ["wizard_hat"],
-	"hat_color": ["blue", "red", "green", "white", "gray", "black"],
+	"hat": ["wizard_hat","flower_hat"],
+	"hat_color": ["white", "blue", "red", "green", "gray", "black", "default"],
 
-	"wand": ["wand_01"],
-	"wand_color": ["brown", "black", "white", "gray"],
+
+	"wand": ["oak_staff", "glass_staff"],
+	"wand_color": ["default"],
 
 	"spell": ["fireball_01", "fireball_02"]
 }
@@ -54,6 +77,24 @@ func get_loadout() -> Dictionary:
 
 func get_equipped(slot_id: String) -> String:
 	return str(equipped_loadout.get(slot_id, ""))
+
+func get_player_name() -> String:
+	var cleaned_name := player_name.strip_edges()
+
+	if cleaned_name.is_empty():
+		return "Spellicus"
+
+	return cleaned_name
+
+
+func set_player_name(new_name: String) -> void:
+	var cleaned_name := new_name.strip_edges()
+
+	if cleaned_name.is_empty():
+		cleaned_name = "Spellicus"
+
+	player_name = cleaned_name
+	save_loadout()
 
 
 func is_unlocked(slot_id: String, item_id: String) -> bool:
@@ -94,13 +135,23 @@ func unlock_item(slot_id: String, item_id: String) -> void:
 
 	unlocked_items[slot_id].append(item_id)
 
+	item_unlocked.emit(slot_id, item_id)
+	loadout_changed.emit(get_loadout())
+	save_loadout()
+
 
 func save_loadout() -> void:
+	var save_data := {
+		"player_name": player_name,
+		"equipped_loadout": equipped_loadout,
+		"unlocked_items": unlocked_items
+	}
+
 	var file := FileAccess.open("user://player_loadout.json", FileAccess.WRITE)
 	if file == null:
 		return
 
-	file.store_string(JSON.stringify(equipped_loadout))
+	file.store_string(JSON.stringify(save_data))
 
 
 func load_loadout() -> void:
@@ -115,9 +166,24 @@ func load_loadout() -> void:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 
+	if parsed.has("player_name"):
+		player_name = str(parsed["player_name"]).strip_edges()
+
+		if player_name.is_empty():
+			player_name = "Spellicus"
+
+	if parsed.has("unlocked_items") and typeof(parsed["unlocked_items"]) == TYPE_DICTIONARY:
+		for slot_id in parsed["unlocked_items"].keys():
+			unlocked_items[str(slot_id)] = parsed["unlocked_items"][slot_id]
+
+	var loaded_equipped: Dictionary = parsed
+
+	if parsed.has("equipped_loadout") and typeof(parsed["equipped_loadout"]) == TYPE_DICTIONARY:
+		loaded_equipped = parsed["equipped_loadout"]
+
 	for key in equipped_loadout.keys():
-		if parsed.has(key):
-			var loaded_item_id: String = str(parsed[key])
+		if loaded_equipped.has(key):
+			var loaded_item_id: String = str(loaded_equipped[key])
 
 			if _is_required_slot(key) and (loaded_item_id.is_empty() or loaded_item_id == "none"):
 				continue
@@ -156,7 +222,7 @@ func _get_default_for_slot(slot_id: String) -> String:
 		"clothes":
 			return "robe_white"
 		"clothes_color":
-			return "blue"
+			return "white"
 		"hair":
 			return "hair_01"
 		"hair_color":
@@ -164,11 +230,11 @@ func _get_default_for_slot(slot_id: String) -> String:
 		"hat":
 			return "wizard_hat"
 		"hat_color":
-			return "blue"
+			return "white"
 		"wand":
-			return "wand_01"
+			return "oak_staff"
 		"wand_color":
-			return "brown"
+			return "default"
 		"spell":
 			return "fireball_01"
 		_:

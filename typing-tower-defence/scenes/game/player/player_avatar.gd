@@ -14,13 +14,13 @@ const CustomizationDefinitions = preload("res://data/player/customization_defini
 @export var default_clothes_color: String = "blue"
 
 @export var default_hair: String = "hair_01"
-@export var default_hair_color: String = "brown"
+@export var default_hair_color: String = "black"
 
 @export var default_hat: String = "wizard_hat"
 @export var default_hat_color: String = "blue"
 
-@export var default_wand: String = "wand_01"
-@export var default_wand_color: String = ""
+@export var default_wand: String = "oak_staff"
+@export var default_wand_color: String = "default"
 
 @onready var body_sprite: Sprite2D = %BodySprite
 @onready var undies_sprite: Sprite2D = %UndiesSprite
@@ -202,6 +202,13 @@ func _apply_part(sprite: Sprite2D, slot_id: String, item_id: String, color_id: S
 	sprite.visible = true
 
 	if slot_id == "body":
+		sprite.modulate = CustomizationDefinitions.get_body_color(color_id)
+	else:
+		sprite.modulate = CustomizationDefinitions.get_dye_color(color_id)
+	
+	if color_id == "default" or color_id.is_empty():
+		sprite.modulate = Color.WHITE
+	elif slot_id == "body":
 		sprite.modulate = CustomizationDefinitions.get_body_color(color_id)
 	else:
 		sprite.modulate = CustomizationDefinitions.get_dye_color(color_id)

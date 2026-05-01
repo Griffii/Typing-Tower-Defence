@@ -2,7 +2,7 @@
 
 
 const SPELLS: Dictionary = {
-	"fireball": {
+	"fireball_01": {
 		"display_name": "Fireball",
 		"projectile_scene": preload("res://scenes/game/projectiles/fireball_projectile_01.tscn"),
 		"base_damage": 10

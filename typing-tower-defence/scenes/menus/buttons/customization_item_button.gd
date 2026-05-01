@@ -10,6 +10,9 @@ const CustomizationDefinitions = preload("res://data/player/customization_defini
 @onready var preview_holder: Control = %PreviewHolder
 @onready var color_swatch: ColorRect = %ColorSwatch
 @onready var name_label: Label = %NameLabel
+@onready var selected_border: Panel = %SelectedBorder
+@onready var locked_panel: Panel = %LockedPanel
+
 
 var slot_id: String = ""
 var item_id: String = ""
@@ -75,13 +78,30 @@ func _apply_setup_data() -> void:
 	else:
 		_hide_visual()
 
-	disabled = not is_unlocked
+	disabled = false
+	_update_locked_panel()
 	button_pressed = pending_equipped
+
+	_update_selected_border()
 
 	if is_unlocked:
 		tooltip_text = display_name
 	else:
 		tooltip_text = unlock_hint if not unlock_hint.is_empty() else "Locked"
+
+
+func _update_selected_border() -> void:
+	if selected_border == null:
+		return
+
+	var is_selected := false
+
+	if _is_color_slot(slot_id):
+		is_selected = PlayerLoadout.get_equipped(slot_id) == item_id
+	else:
+		is_selected = PlayerLoadout.get_equipped(slot_id) == item_id
+
+	selected_border.visible = is_selected
 
 
 func _setup_name_label() -> void:
@@ -116,6 +136,7 @@ func _shrink_label_to_fit(label: Label) -> void:
 
 	for size in range(max_font_size, min_font_size - 1, -1):
 		var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+
 		if text_width <= available_width:
 			final_size = size
 			break
@@ -150,7 +171,7 @@ func _show_color_swatch(color: Color) -> void:
 		return
 
 	color_swatch.visible = true
-	color_swatch.color = color if is_unlocked else Color.BLACK
+	color_swatch.color = color
 
 
 func _show_preview_scene(scene: PackedScene) -> void:
@@ -167,6 +188,7 @@ func _show_preview_scene(scene: PackedScene) -> void:
 	preview_holder.visible = true
 
 	preview_instance = scene.instantiate()
+
 	if preview_instance == null:
 		return
 
@@ -179,6 +201,13 @@ func _show_preview_scene(scene: PackedScene) -> void:
 	if preview_instance is CanvasItem:
 		(preview_instance as CanvasItem).modulate = _get_icon_modulate()
 
+
+func set_selected_border_visible(is_visible: bool) -> void:
+	if selected_border == null:
+		await ready
+	
+	if selected_border != null:
+		selected_border.visible = is_visible
 
 func _hide_visual() -> void:
 	if item_icon != null:
@@ -195,6 +224,12 @@ func _hide_visual() -> void:
 		name_label.visible = true
 
 
+func _update_locked_panel() -> void:
+	if locked_panel == null:
+		return
+	
+	locked_panel.visible = not is_unlocked
+
 func _clear_preview() -> void:
 	if preview_instance != null and is_instance_valid(preview_instance):
 		preview_instance.queue_free()
@@ -207,9 +242,6 @@ func _clear_preview() -> void:
 
 
 func _get_icon_modulate() -> Color:
-	if not is_unlocked:
-		return Color.BLACK
-
 	if pending_item_data.has("color"):
 		return pending_item_data.get("color", Color.WHITE)
 
@@ -228,16 +260,22 @@ func _get_equipped_color_for_slot(base_slot_id: String) -> String:
 	match base_slot_id:
 		"body":
 			return PlayerLoadout.get_equipped("body_color")
+
 		"undies":
 			return PlayerLoadout.get_equipped("undies_color")
+
 		"clothes":
 			return PlayerLoadout.get_equipped("clothes_color")
+
 		"hair":
 			return PlayerLoadout.get_equipped("hair_color")
+
 		"hat":
 			return PlayerLoadout.get_equipped("hat_color")
+
 		"wand":
 			return PlayerLoadout.get_equipped("wand_color")
+
 		_:
 			return ""
 
@@ -247,9 +285,7 @@ func _refresh_visual_modulate() -> void:
 		item_icon.modulate = _get_icon_modulate()
 
 	if color_swatch != null and color_swatch.visible:
-		if not is_unlocked:
-			color_swatch.color = Color.BLACK
-		elif pending_item_data.has("color"):
+		if pending_item_data.has("color"):
 			color_swatch.color = pending_item_data.get("color", Color.WHITE)
 
 	if preview_instance != null and is_instance_valid(preview_instance):
@@ -259,10 +295,15 @@ func _refresh_visual_modulate() -> void:
 
 func _on_loadout_changed(_loadout: Dictionary) -> void:
 	_refresh_visual_modulate()
+	_update_selected_border()
 
 
 func _on_pressed() -> void:
 	if not is_unlocked:
 		return
-
+	
 	item_selected.emit(slot_id, item_id)
+
+
+func _is_color_slot(check_slot_id: String) -> bool:
+	return check_slot_id.ends_with("_color")
