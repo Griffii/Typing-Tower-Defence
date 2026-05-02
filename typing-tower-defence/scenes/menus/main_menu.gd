@@ -1,14 +1,16 @@
 extends Control
 
 signal play_requested
+signal levelselectmenu_requested
 signal endless_mode_requested
 signal settings_requested
 signal wordlistsmenu_requested
 signal customizecharactermenu_requested
 
-const LIGHTNING_SCENE: PackedScene = preload("res://scenes/game/projectiles/lightning_projectile.tscn")
-const GRUNT_ENEMY_SCENE: PackedScene = preload("res://scenes/game/enemies/grunt_enemy.tscn")
-const SLIME_ENEMY_SCENE: PackedScene = preload("res://scenes/game/enemies/slime_enemy.tscn")
+
+const LIGHTNING_SCENE: PackedScene = preload("uid://blet6g5uj5s40")
+const GRUNT_ENEMY_SCENE: PackedScene = preload("uid://mxpolmgd3vvh")
+const SLIME_ENEMY_SCENE: PackedScene = preload("uid://pm1jbtqdt8d1")
 
 const MENU_ENEMY_SCENES: Array[PackedScene] = [
 	GRUNT_ENEMY_SCENE,
@@ -24,7 +26,6 @@ const MENU_ENEMY_MOVE_SPEED := 50.0
 @onready var word_lists_button: Button = %WordListsButton
 @onready var story_button: Button = %StoryButton
 @onready var character_button: Button = %CharacterButton
-
 
 @onready var title_label: RichTextLabel = %TitleLabel
 @onready var tower_container: Node2D = %TowerContainer
@@ -42,27 +43,28 @@ var type_color_effect: TypeColorEffect = null
 
 func _ready() -> void:
 	rng.randomize()
-	
+
+	story_button.pressed.connect(_on_story_mode_pressed)
 	endless_button.pressed.connect(_on_endless_mode_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	word_lists_button.pressed.connect(_on_wordlists_pressed)
 	character_button.pressed.connect(_on_customize_pressed)
-	
+
 	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
-	
+
 	title_label.bbcode_enabled = true
 	title_label.scroll_active = false
 	title_label.fit_content = true
-	
+
 	var wave_effect := WaveTextEffect.new()
 	title_label.install_effect(wave_effect)
-	
+
 	type_color_effect = TypeColorEffect.new()
 	title_label.install_effect(type_color_effect)
-	
+
 	_reset_title_text()
-	
+
 	call_deferred("_run_title_cycle")
 	call_deferred("_run_menu_enemy_cycle")
 
@@ -206,19 +208,26 @@ func spawn_lightning() -> void:
 		lightning_instance.position = spawn_pos
 
 
-
 ## Button press signal requests
 func _on_play_pressed() -> void:
 	play_requested.emit()
 
+
+func _on_story_mode_pressed() -> void:
+	levelselectmenu_requested.emit()
+
+
 func _on_endless_mode_pressed() -> void:
 	endless_mode_requested.emit()
+
 
 func _on_settings_pressed() -> void:
 	settings_requested.emit()
 
+
 func _on_wordlists_pressed() -> void:
 	wordlistsmenu_requested.emit()
+
 
 func _on_customize_pressed() -> void:
 	customizecharactermenu_requested.emit()

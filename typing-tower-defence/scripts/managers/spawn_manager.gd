@@ -1,11 +1,11 @@
 extends Node
 
-const GRUNT_SCENE: PackedScene = preload("res://scenes/game/enemies/grunt_enemy.tscn")
-const SCOUT_SCENE: PackedScene = preload("res://scenes/game/enemies/scout_enemy.tscn")
-const TANK_SCENE: PackedScene = preload("res://scenes/game/enemies/tank_enemy.tscn")
-const BOSS_SCENE: PackedScene = preload("res://scenes/game/enemies/boss_enemy.tscn")
-const SLIME_SCENE: PackedScene = preload("res://scenes/game/enemies/slime_enemy.tscn")
-const BOSS_SLIME_SCENE: PackedScene = preload("res://scenes/game/enemies/boss_slime_enemy.tscn")
+const GRUNT_SCENE: PackedScene = preload("uid://mxpolmgd3vvh")
+const SCOUT_SCENE: PackedScene = preload("uid://cgl7lpk5yrt2l")
+const TANK_SCENE: PackedScene = preload("uid://dgyvycrbybuhs")
+const BOSS_SCENE: PackedScene = preload("uid://cgyf85aard03x")
+const SLIME_SCENE: PackedScene = preload("uid://pm1jbtqdt8d1")
+const BOSS_SLIME_SCENE: PackedScene = preload("res://scenes/game/enemies/slimes/boss_slime_enemy.tscn")
 
 const ENEMY_SCENES := {
 	"grunt": GRUNT_SCENE,
@@ -35,6 +35,9 @@ var current_wave_data: Dictionary = {}
 
 var used_words_by_list: Dictionary = {}
 var enemy_spawn_serial: int = 0
+
+var level_enemy_container: Node2D = null
+var enemy_scale: Vector2 = Vector2.ONE
 
 
 func _ready() -> void:
@@ -93,41 +96,35 @@ func reset_for_new_run() -> void:
 
 	active_enemies.clear()
 
-	if enemy_container != null:
+	if level_enemy_container != null and is_instance_valid(level_enemy_container):
+		for child in level_enemy_container.get_children():
+			if is_instance_valid(child):
+				child.queue_free()
+	elif enemy_container != null:
 		for child in enemy_container.get_children():
 			if is_instance_valid(child):
 				child.queue_free()
 
+## SETTERS
 
 func set_enemy_spawn_marker(value: Marker2D) -> void:
 	spawn_marker = value
 
-
 func set_enemy_path(value: Path2D) -> void:
 	enemy_path = value
 
+func set_enemy_container(value: Node2D) -> void:
+	level_enemy_container = value
 
-func begin_wave(_wave_index: int) -> void:
-	spawn_queue.clear()
-	spawn_timer = 0.0
-	wave_in_progress = true
-	waiting_for_wave_enemy_data = false
-	current_wave_spawn_interval = spawn_interval_seconds
-	current_wave_data = {}
-	used_words_by_list.clear()
+func set_enemy_scale(value: Vector2) -> void:
+	enemy_scale = value
 
-	if wave_manager != null and wave_manager.has_method("get_current_wave_data"):
-		current_wave_data = wave_manager.get_current_wave_data()
-		if not current_wave_data.is_empty():
-			current_wave_spawn_interval = float(current_wave_data.get("spawn_interval", spawn_interval_seconds))
 
-	_request_next_wave_enemy()
-
+## GETTERS
 
 func get_active_enemies() -> Array[Node]:
 	_cleanup_invalid_enemies()
 	return active_enemies.duplicate()
-
 
 func get_front_most_enemy() -> Node:
 	_cleanup_invalid_enemies()
@@ -152,6 +149,29 @@ func get_front_most_enemy() -> Node:
 			front_most = enemy_node
 
 	return front_most
+
+func _get_active_enemy_container() -> Node:
+	if level_enemy_container != null and is_instance_valid(level_enemy_container):
+		return level_enemy_container
+
+	return enemy_container
+
+
+func begin_wave(_wave_index: int) -> void:
+	spawn_queue.clear()
+	spawn_timer = 0.0
+	wave_in_progress = true
+	waiting_for_wave_enemy_data = false
+	current_wave_spawn_interval = spawn_interval_seconds
+	current_wave_data = {}
+	used_words_by_list.clear()
+
+	if wave_manager != null and wave_manager.has_method("get_current_wave_data"):
+		current_wave_data = wave_manager.get_current_wave_data()
+		if not current_wave_data.is_empty():
+			current_wave_spawn_interval = float(current_wave_data.get("spawn_interval", spawn_interval_seconds))
+
+	_request_next_wave_enemy()
 
 
 func create_enemy_preview_from_data(enemy_data: Dictionary) -> Node:
@@ -231,10 +251,14 @@ func _can_spawn_next_enemy() -> bool:
 func _spawn_next_enemy_from_queue() -> void:
 	if spawn_queue.is_empty():
 		return
-	if enemy_container == null or not is_instance_valid(enemy_container):
+
+	var active_container: Node = _get_active_enemy_container()
+	if active_container == null or not is_instance_valid(active_container):
 		return
+
 	if spawn_marker == null or not is_instance_valid(spawn_marker):
 		return
+
 	if enemy_path == null or not is_instance_valid(enemy_path):
 		return
 
@@ -243,11 +267,12 @@ func _spawn_next_enemy_from_queue() -> void:
 	var enemy_scene: PackedScene = ENEMY_SCENES.get(enemy_type, GRUNT_SCENE)
 
 	var enemy_instance: Node = enemy_scene.instantiate()
-	enemy_container.add_child(enemy_instance)
+	active_container.add_child(enemy_instance)
 
 	if enemy_instance is Node2D:
 		var enemy_node: Node2D = enemy_instance as Node2D
 		enemy_node.global_position = spawn_marker.global_position
+		enemy_node.scale = enemy_scale
 
 	enemy_spawn_serial += 1
 
@@ -449,9 +474,11 @@ func _cleanup_invalid_enemies() -> void:
 			active_enemies.remove_at(i)
 
 
-func debug_force_spawn_all_remaining_enemies() -> Array[Node]:
-	var spawned_enemies: Array[Node] = []
+##################################################################
+### DEBUG FUNCTIONS - DEV MODE STUFF #############################
+##################################################################
 
+func debug_force_spawn_all_remaining_enemies() -> Array[Node]:
 	if not wave_in_progress:
 		_cleanup_invalid_enemies()
 		return active_enemies.duplicate()
@@ -461,24 +488,22 @@ func debug_force_spawn_all_remaining_enemies() -> Array[Node]:
 
 	while true:
 		while not spawn_queue.is_empty():
-			var before_count: int = active_enemies.size()
-			_spawn_next_enemy_from_queue()
-
-			if active_enemies.size() > before_count:
-				var newest_enemy: Node = active_enemies[active_enemies.size() - 1]
-				if is_instance_valid(newest_enemy):
-					spawned_enemies.append(newest_enemy)
+			_debug_spawn_next_enemy_from_queue()
 
 		if wave_manager == null:
 			break
+
 		if not wave_manager.has_method("has_more_enemies_to_spawn"):
 			break
+
 		if not wave_manager.has_more_enemies_to_spawn():
 			break
 
-		waiting_for_wave_enemy_data = true
 		if wave_manager.has_method("request_next_enemy_spawn"):
 			wave_manager.request_next_enemy_spawn()
+		else:
+			break
+
 		waiting_for_wave_enemy_data = false
 
 	spawn_queue.clear()
@@ -487,3 +512,57 @@ func debug_force_spawn_all_remaining_enemies() -> Array[Node]:
 
 	_cleanup_invalid_enemies()
 	return active_enemies.duplicate()
+
+func _debug_spawn_next_enemy_from_queue() -> void:
+	if spawn_queue.is_empty():
+		return
+
+	var active_container: Node = _get_active_enemy_container()
+	if active_container == null or not is_instance_valid(active_container):
+		return
+
+	if spawn_marker == null or not is_instance_valid(spawn_marker):
+		return
+
+	if enemy_path == null or not is_instance_valid(enemy_path):
+		return
+
+	var enemy_data: Dictionary = spawn_queue.pop_front()
+	var enemy_type: String = str(enemy_data.get("enemy_type", "grunt"))
+	var enemy_scene: PackedScene = ENEMY_SCENES.get(enemy_type, GRUNT_SCENE)
+
+	var enemy_instance: Node = enemy_scene.instantiate()
+	active_container.add_child(enemy_instance)
+
+	if enemy_instance is Node2D:
+		var enemy_node: Node2D = enemy_instance as Node2D
+		enemy_node.global_position = spawn_marker.global_position
+		enemy_node.scale = enemy_scale
+
+	enemy_spawn_serial += 1
+
+	var final_enemy_data: Dictionary = enemy_data.duplicate(true)
+	final_enemy_data["enemy_id"] = "%s_%d" % [enemy_type, enemy_spawn_serial]
+	final_enemy_data["path_points"] = enemy_path.curve.get_baked_points()
+
+	var resolved_list_ids: Array[String] = _resolve_word_list_ids(final_enemy_data)
+	final_enemy_data["resolved_word_list_ids"] = resolved_list_ids
+
+	if not final_enemy_data.has("word") or str(final_enemy_data.get("word", "")).is_empty():
+		final_enemy_data["word"] = get_word_for_enemy_data(final_enemy_data)
+
+	enemy_instance.set_meta("spawn_enemy_data", final_enemy_data)
+
+	if enemy_instance.has_method("setup_enemy"):
+		enemy_instance.setup_enemy(final_enemy_data)
+
+	if enemy_instance.has_signal("enemy_died"):
+		enemy_instance.enemy_died.connect(_on_enemy_died)
+
+	if enemy_instance.has_signal("enemy_reached_base"):
+		enemy_instance.enemy_reached_base.connect(_on_enemy_reached_base)
+
+	active_enemies.append(enemy_instance)
+
+	if wave_manager != null and wave_manager.has_method("notify_enemy_spawned"):
+		wave_manager.notify_enemy_spawned(enemy_instance)

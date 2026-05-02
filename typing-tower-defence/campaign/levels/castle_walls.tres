@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CampaignLevelData" format=3 uid="uid://dapae6xrdvt2b"]
+
+[ext_resource type="Script" uid="uid://b4i1pslklnd2o" path="res://campaign/campaign_level_data.gd" id="1_qjxyo"]
+
+[resource]
+script = ExtResource("1_qjxyo")
+level_id = "castle_walls"
+display_name = "Castle Walls"
+level_order = 1
+level_scene_path = "uid://na1x8ccn5sat"
+wave_data_script_path = "uid://dqdk5gm5obunx"
+enemy_families = Array[String](["soldier"])
+metadata/_custom_type_script = "uid://b4i1pslklnd2o"

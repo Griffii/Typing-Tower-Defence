@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d4bcbs1d1fp1s"]
 
 [ext_resource type="Texture2D" uid="uid://dgduingdo8b6i" path="res://assets/images/enemies/nightborne/NightBorne.png" id="1_6sgb0"]
-[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/word_label_controller.tscn" id="2_o0xp3"]
+[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="2_o0xp3"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_tur8m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h3y0e"]

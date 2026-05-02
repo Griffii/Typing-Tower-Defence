@@ -92,7 +92,7 @@ func _on_impact() -> void:
 		explosion_sfx.play()
 
 	if fireball_sprite == null:
-		_finish_after_delay(0.35)
+		_finish_after_delay(1)
 		return
 
 	rotation = 0.0
@@ -104,7 +104,7 @@ func _on_impact() -> void:
 
 		fireball_sprite.play("explode")
 	else:
-		_finish_after_delay(0.35)
+		_finish_after_delay(1)
 
 
 func _on_explosion_finished() -> void:

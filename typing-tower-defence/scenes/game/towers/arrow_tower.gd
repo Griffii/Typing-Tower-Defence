@@ -21,7 +21,7 @@ var projectile_container: Node = null
 var damage: int = 2
 var attack_interval: float = 0.35
 var projectile_speed: float = 400.0
-var range: float = 250.0
+var tower_range: float = 250.0
 
 var charge_required: int = 3
 var active_duration: float = 5.0
@@ -69,7 +69,7 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 	damage = int(stats.get("damage", 0))
 	attack_interval = float(stats.get("attack_interval", 0.35))
 	projectile_speed = float(stats.get("projectile_speed", 400.0))
-	range = float(stats.get("range", 250.0))
+	tower_range = float(stats.get("tower_range", 250.0))
 	charge_required = int(stats.get("charge_required", 3))
 	active_duration = float(stats.get("duration", 5.0))
 	cooldown_duration = float(stats.get("cooldown", 4.0))
@@ -338,7 +338,7 @@ func _update_range_shape() -> void:
 		circle = CircleShape2D.new()
 		shape_node.shape = circle
 
-	circle.radius = range
+	circle.radius = tower_range
 
 
 func _refresh_targets_from_overlaps() -> void:

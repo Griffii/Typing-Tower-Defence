@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CampaignLevelData" format=3 uid="uid://dg6cjdpq5prxk"]
+
+[ext_resource type="Script" uid="uid://b4i1pslklnd2o" path="res://campaign/campaign_level_data.gd" id="1_yj2pt"]
+
+[resource]
+script = ExtResource("1_yj2pt")
+level_id = "grasslands"
+display_name = "Grasslands"
+level_order = 2
+required_level_id = "castle_walls"
+level_scene_path = "uid://d36h1rtkqgva4"
+wave_data_script_path = "uid://dg48uqi4dwxws"
+enemy_families = Array[String](["soldier", "slime"])
+metadata/_custom_type_script = "uid://b4i1pslklnd2o"

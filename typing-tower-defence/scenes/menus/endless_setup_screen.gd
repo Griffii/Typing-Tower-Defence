@@ -5,12 +5,13 @@ signal back_requested
 
 const ENEMY_GROUP_TO_TYPES := {
 	"soldiers": ["grunt", "scout", "tank", "boss"],
-	"slimes": ["slime", "slime_boss"],
+	"slimes": ["slime", "boss_slime"],
 }
 
 @export var word_list_grid_columns: int = 3
 @export var word_list_button_size: Vector2 = Vector2(100, 80)
 
+@onready var castle_walls_button: Button = %CastleWallsButton
 @onready var grasslands_button: Button = %GrasslandsButton
 @onready var seaside_farm_button: Button = %SeasideFarmButton
 
@@ -50,7 +51,7 @@ func _ready() -> void:
 
 func _create_or_reset_config() -> void:
 	run_config = EndlessRunConfig.new()
-	run_config.map_id = "grasslands"
+	run_config.map_id = "castle_walls"
 	run_config.enabled_enemy_groups = []
 	run_config.selected_word_list_ids = []
 
@@ -76,14 +77,18 @@ func _setup_layout() -> void:
 func _setup_buttons() -> void:
 	map_button_group = ButtonGroup.new()
 
+	_setup_map_button(castle_walls_button)
 	_setup_map_button(grasslands_button)
 	_setup_map_button(seaside_farm_button)
 
 	_setup_toggle_button(soldiers_button)
 	_setup_toggle_button(slimes_button)
 
+	if castle_walls_button != null:
+		castle_walls_button.button_pressed = true
+
 	if grasslands_button != null:
-		grasslands_button.button_pressed = true
+		grasslands_button.button_pressed = false
 
 	if seaside_farm_button != null:
 		seaside_farm_button.button_pressed = false
@@ -112,6 +117,9 @@ func _setup_toggle_button(button: Button) -> void:
 
 
 func _connect_signals() -> void:
+	if castle_walls_button != null and not castle_walls_button.pressed.is_connected(_on_castle_walls_pressed):
+		castle_walls_button.pressed.connect(_on_castle_walls_pressed)
+	
 	if grasslands_button != null and not grasslands_button.pressed.is_connected(_on_grasslands_pressed):
 		grasslands_button.pressed.connect(_on_grasslands_pressed)
 
@@ -241,6 +249,9 @@ func _clear_word_list_grid() -> void:
 
 
 func _refresh_ui_from_config() -> void:
+	if castle_walls_button != null:
+		castle_walls_button.button_pressed = run_config.map_id == "castle_walls"
+	
 	if grasslands_button != null:
 		grasslands_button.button_pressed = run_config.map_id == "grasslands"
 
@@ -394,11 +405,15 @@ func get_enabled_enemy_types() -> Array[String]:
 	return expanded_types
 
 
+func _on_castle_walls_pressed() -> void:
+	run_config.map_id = "castle_walls"
+	_refresh_summary()
+	_refresh_start_button_state()
+
 func _on_grasslands_pressed() -> void:
 	run_config.map_id = "grasslands"
 	_refresh_summary()
 	_refresh_start_button_state()
-
 
 func _on_seaside_farm_pressed() -> void:
 	run_config.map_id = "seaside_farm"
@@ -458,11 +473,14 @@ func _on_start_pressed() -> void:
 		return
 
 	match run_config.map_id:
-		"grasslands":
-			GameSelection.set_level_scene(preload("res://scenes/game/levels/grasslands.tscn"))
-		"seaside_farm":
-			GameSelection.set_level_scene(preload("res://scenes/game/levels/seaside_farm.tscn"))
+		"castle_walls", "grasslands", "seaside_farm":
+			pass
+		_:
+			push_warning("EndlessSetupScreen: Unknown map_id: %s" % run_config.map_id)
+			return
 
-	GameSession.setup_endless(run_config)
+	var finalized_config: EndlessRunConfig = run_config.duplicate(true) as EndlessRunConfig
+
+	GameSession.setup_endless(finalized_config)
 
 	start_requested.emit()

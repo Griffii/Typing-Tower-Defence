@@ -1,3 +1,5 @@
+## Data for various tower types, per level
+
 extends RefCounted
 
 const TOWER_TYPES := {

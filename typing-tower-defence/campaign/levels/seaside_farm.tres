@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CampaignLevelData" format=3 uid="uid://ct1lndhhch1ar"]
+
+[ext_resource type="Script" uid="uid://b4i1pslklnd2o" path="res://campaign/campaign_level_data.gd" id="1_rrhvy"]
+
+[resource]
+script = ExtResource("1_rrhvy")
+level_id = "seaside_farm"
+display_name = "Seaside Farm"
+level_order = 3
+required_level_id = "grasslands"
+level_scene_path = "uid://bx4vrgw3koyaf"
+wave_data_script_path = "uid://y3it0uw61hm3"
+enemy_families = Array[String](["slime"])
+metadata/_custom_type_script = "uid://b4i1pslklnd2o"

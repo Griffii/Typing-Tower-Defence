@@ -5,11 +5,13 @@ const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow
 const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
 const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
 
-@onready var castle: Node = %Castle
+@export var enemy_scale: Vector2 = Vector2.ONE
+
+@onready var protect: Node = %Protect
 @onready var enemy_path: Path2D = %EnemyPath
 @onready var enemy_spawn_marker: Marker2D = %EnemySpawnMarker
+@onready var enemy_container: Node2D = %EnemyContainer
 @onready var tower_container: Node = %TowerContainer
-
 @onready var player_character: PlayerCharacter = %Player
 
 var projectile_container: Node = null
@@ -37,6 +39,14 @@ func get_enemy_path() -> Path2D:
 
 func get_enemy_spawn_marker() -> Marker2D:
 	return enemy_spawn_marker
+
+
+func get_enemy_container() -> Node2D:
+	return enemy_container
+
+
+func get_enemy_scale() -> Vector2:
+	return enemy_scale
 
 
 func get_tower_container() -> Node:
@@ -71,7 +81,6 @@ func get_tower_slots() -> Array[Marker2D]:
 
 func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
 	return allowed_tower_types.duplicate()
-
 
 
 func clear_all_towers() -> void:

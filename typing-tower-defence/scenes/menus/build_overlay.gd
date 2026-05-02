@@ -1,3 +1,6 @@
+## build_overlay.gd
+# Script for the tower build overlay. Create tower scenes at markers as set by the level scene it is a child of.
+
 extends CanvasLayer
 
 signal return_to_shop_requested

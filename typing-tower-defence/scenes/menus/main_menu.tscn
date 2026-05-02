@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="3_8r73w"]
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="4_1hnlc"]
 [ext_resource type="TileSet" uid="uid://381uk2yd5j73" path="res://assets/tilesets/tiny-town-tileset.tres" id="5_imvie"]
-[ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/environment/animals/sheep.tscn" id="6_ng0o5"]
+[ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/animals/sheep.tscn" id="6_ng0o5"]
 [ext_resource type="Texture2D" uid="uid://nou6hqfvsi23" path="res://assets/tilemaps/spr_tileset_sunnysideworld_16px.png" id="6_uxao6"]
 [ext_resource type="Texture2D" uid="uid://d0w15v7eonj8a" path="res://assets/images/animals/spr_deco_cow_strip4.png" id="7_8r73w"]
 [ext_resource type="Texture2D" uid="uid://cwypp2qdi07la" path="res://assets/images/goblin/spr_watering_strip5.png" id="8_bre17"]
@@ -54,16 +54,6 @@ texture_margin_bottom = 8.0
 modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_imvie"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1hnlc"]
-texture = ExtResource("3_8r73w")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8r73w"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8r73w"]
 texture = ExtResource("3_8r73w")
@@ -2504,7 +2494,29 @@ offset_bottom = 452.0
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="EndlessButton" type="Button" parent="ButtonBox" unique_id=156142824]
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonBox" unique_id=709402534]
+layout_mode = 2
+
+[node name="StoryButton" type="Button" parent="ButtonBox/VBoxContainer" unique_id=1575299967]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
+text = "Story
+Mode"
+
+[node name="EndlessButton" type="Button" parent="ButtonBox/VBoxContainer" unique_id=156142824]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
@@ -2522,62 +2534,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
 text = "Endless
 Mode"
-
-[node name="StoryButton" type="Button" parent="ButtonBox" unique_id=945723525]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_1hnlc")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_8r73w")
-disabled = true
-text = "Story Mode"
-
-[node name="WordListsButton" type="Button" parent="ButtonBox" unique_id=1784854066]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-text = "Word
-Lists"
-
-[node name="CharacterButton" type="Button" parent="ButtonBox" unique_id=1470415358]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-text = "Customize
-Character"
 
 [node name="SettingsButton" type="Button" parent="ButtonBox" unique_id=1598921276]
 unique_name_in_owner = true
@@ -2597,6 +2553,47 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
 disabled = true
 text = "Settings"
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="ButtonBox" unique_id=1199491186]
+layout_mode = 2
+
+[node name="WordListsButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=1784854066]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
+text = "Word
+Lists"
+
+[node name="CharacterButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=1470415358]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
+text = "Customize
+Character"
+
 [node name="BGContainer" type="Node2D" parent="." unique_id=1081627366]
 z_index = -1
 
@@ -2612,7 +2609,7 @@ tile_set = ExtResource("5_imvie")
 
 [node name="DetailTiles" type="TileMapLayer" parent="BGContainer" unique_id=1937889800]
 scale = Vector2(2, 2)
-tile_map_data = PackedByteArray("AAABAAAAAAAKAAEAAAABAAEAAAAKAAEAAAAAAAEAAAAKAAEAAAAAAAIAAAAKAAEAAAABAAMAAAAKAAEAAAACAAIAAAAKAAEAAAADAAEAAAAKAAEAAAAEAAAAAAAKAAEAAAAAAAMAAAAKAAEAAAABAAQAAAAKAAIAAAACAAMAAAALAAIAAAAEAAEAAAALAAIAAAADAAAAAAAKAAEAAAACAAAAAAAKAAEAAAACAAEAAAAKAAEAAAABAAIAAAAKAAEAAAAAAAAAAAAKAAEAAAAAAAQAAAALAAIAAAAFAAAAAAALAAEAAAABAAwAAAAFAAIAAAABAAoAAAAJAAQAAAAFAAEAAAAJAAAAAAAFAAIAAAAKAAIAAAAGAAEAAAALAAAAAAAGAAIAAAAKAAIAAAADAAIAAAALAAIAAAAHAAAAAAALAAEAAAAGAAAAAAAJAAEAAAAXAAEAAAAGAAEAAAAYAAEAAAAIAAEAAAAZAAAAAAAGAAEAAAAaAAAAAAAHAAEAAAAaAAEAAAAGAAIAAAAaAAIAAAAGAAEAAAAbAAAAAAAHAAEAAAAbAAEAAAAHAAEAAAAbAAIAAAAHAAEAAAAbAAMAAAAGAAIAAAAcAAAAAAAHAAEAAAAcAAEAAAAHAAEAAAAcAAIAAAAHAAEAAAAcAAMAAAAHAAEAAAAcAAQAAAAGAAIAAAAdAAAAAAAHAAEAAAAdAAEAAAAHAAEAAAAdAAIAAAAHAAEAAAAdAAMAAAAHAAEAAAAdAAQAAAAHAAEAAAAdAAUAAAAHAAIAAAAIAA8AAAAFAAEAAAALAA4AAAAJAAMAAAASAA4AAAAJAAMAAAATAA4AAAAJAAMAAAATAA8AAAAFAAIAAAAUAA4AAAAJAAMAAAAMAA4AAAAJAAMAAAANAA4AAAAJAAMAAAAOAA4AAAAJAAMAAAAPAA4AAAAJAAMAAAAQAA4AAAAJAAMAAAATAAoAAAAJAAMAAAAUAAoAAAAJAAMAAAALAAoAAAAJAAMAAAAMAAoAAAAJAAMAAAANAAoAAAAJAAMAAAAOAAoAAAAKAAYAAAAPAAoAAAAIAAYAAAAQAAoAAAAJAAMAAAARAAoAAAAJAAMAAAASAAoAAAAJAAMAAAARAA4AAAAJAAMAAAAbAA4AAAAKAAgAAAAHAAoAAAAJAAMAAAAHAA4AAAAJAAMAAAAEAAoAAAAIAAMAAAAEAAsAAAAIAAQAAAAEAAwAAAAIAAQAAAAEAA0AAAAIAAQAAAAEAA4AAAAIAAUAAAAFAAoAAAAJAAMAAAAFAA4AAAAJAAMAAAAGAAoAAAAJAAMAAAAGAA4AAAAJAAMAAAAZAAoAAAAKAAMAAAAZAA4AAAAKAAUAAAAKAA4AAAAJAAMAAAAJAA4AAAAJAAMAAAAIAA4AAAAJAAMAAAAIAAoAAAAJAAMAAAAJAAoAAAAJAAMAAAAKAAoAAAAJAAMAAAAVAAoAAAAJAAMAAAAWAAoAAAAJAAMAAAAXAAoAAAAJAAMAAAAYAAoAAAAJAAMAAAAYAA4AAAAJAAMAAAAXAA4AAAAJAAMAAAAWAA4AAAAJAAMAAAAVAA4AAAAJAAMAAAAZAAsAAAAKAAQAAAAZAAwAAAAKAAQAAAAZAA0AAAAKAAQAAAAYAA0AAAABAAAAAAAOAAsAAAAAAAAAAAAdABAAAAAHAAMAAAAcAA8AAAAHAAMAAAAcABAAAAAHAAMAAAAaAA8AAAAHAAMAAAAEAAIAAAAIAAcAAAAEAAMAAAAIAAgAAAA=")
+tile_map_data = PackedByteArray("AAABAAAAAAAKAAEAAAABAAEAAAAKAAEAAAAAAAEAAAAKAAEAAAAAAAIAAAAKAAEAAAABAAMAAAAKAAEAAAACAAIAAAAKAAEAAAADAAEAAAAKAAEAAAAEAAAAAAAKAAEAAAAAAAMAAAAKAAEAAAABAAQAAAAKAAIAAAACAAMAAAALAAIAAAAEAAEAAAALAAIAAAADAAAAAAAKAAEAAAACAAAAAAAKAAEAAAACAAEAAAAKAAEAAAABAAIAAAAKAAEAAAAAAAAAAAAKAAEAAAAAAAQAAAALAAIAAAAFAAAAAAALAAEAAAABAAwAAAAFAAIAAAABAAoAAAAJAAQAAAAFAAEAAAAJAAAAAAAFAAIAAAAKAAIAAAAGAAEAAAALAAAAAAAGAAIAAAAKAAIAAAADAAIAAAALAAIAAAAHAAAAAAALAAEAAAAGAAAAAAAJAAEAAAAXAAEAAAAGAAEAAAAYAAEAAAAIAAEAAAAZAAAAAAAGAAEAAAAaAAAAAAAHAAEAAAAaAAEAAAAGAAIAAAAaAAIAAAAGAAEAAAAbAAAAAAAHAAEAAAAbAAEAAAAHAAEAAAAbAAIAAAAHAAEAAAAbAAMAAAAGAAIAAAAcAAAAAAAHAAEAAAAcAAEAAAAHAAEAAAAcAAIAAAAHAAEAAAAcAAMAAAAHAAEAAAAcAAQAAAAGAAIAAAAdAAAAAAAHAAEAAAAdAAEAAAAHAAEAAAAdAAIAAAAHAAEAAAAdAAMAAAAHAAEAAAAdAAQAAAAHAAEAAAAdAAUAAAAHAAIAAAATAA8AAAAFAAIAAAATAAoAAAAJAAMAAAAUAAoAAAAJAAMAAAALAAoAAAAJAAMAAAAMAAoAAAAJAAMAAAANAAoAAAAJAAMAAAAOAAoAAAAKAAYAAAAPAAoAAAAIAAYAAAAQAAoAAAAJAAMAAAARAAoAAAAJAAMAAAASAAoAAAAJAAMAAAAbAA4AAAAKAAgAAAAHAAoAAAAJAAMAAAAEAAoAAAAIAAMAAAAEAAsAAAAIAAQAAAAEAAwAAAAIAAQAAAAEAA0AAAAIAAQAAAAEAA4AAAAIAAQAAAAFAAoAAAAJAAMAAAAGAAoAAAAJAAMAAAAZAAoAAAAKAAMAAAAZAA4AAAAKAAQAAAAIAAoAAAAJAAMAAAAJAAoAAAAJAAMAAAAKAAoAAAAJAAMAAAAVAAoAAAAJAAMAAAAWAAoAAAAJAAMAAAAXAAoAAAAJAAMAAAAYAAoAAAAJAAMAAAAZAAsAAAAKAAQAAAAZAAwAAAAKAAQAAAAZAA0AAAAKAAQAAAAYAA0AAAABAAAAAAAOAAsAAAAAAAAAAAAdABAAAAAHAAMAAAAcAA8AAAAHAAMAAAAcABAAAAAHAAMAAAAaAA8AAAAHAAMAAAAEAAIAAAAIAAcAAAAEAAMAAAAIAAgAAAAEAA8AAAAIAAQAAAAEABAAAAAIAAQAAAAEABEAAAAIAAQAAAAZAA8AAAAKAAQAAAAZABAAAAAKAAQAAAAZABEAAAAKAAQAAAAHAA8AAAAFAAEAAAA=")
 tile_set = ExtResource("5_imvie")
 
 [node name="SunnylandsTiles" type="TileMapLayer" parent="BGContainer" unique_id=351089131]

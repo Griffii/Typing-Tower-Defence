@@ -2,8 +2,8 @@
 class_name PlayerCharacter
 extends Node2D
 
-const SpellDefinitions = preload("res://data/player/spell_definitions.gd")
-const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/fireball_projectile_01.tscn")
+const SpellDefinitions = preload("uid://d1lsqfjr6ir")
+const DEFAULT_SPECIAL_PROJECTILE_SCENE: PackedScene = preload("uid://cm7ifw74sum0m")
 
 signal special_projectile_impact(target_enemy: Node)
 signal player_damaged(amount: int)

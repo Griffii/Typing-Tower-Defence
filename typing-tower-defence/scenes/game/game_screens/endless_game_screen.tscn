@@ -1,0 +1,162 @@
+[gd_scene format=3 uid="uid://160u44o703f8"]
+
+[ext_resource type="Script" uid="uid://bvef0n4dxcfci" path="res://scenes/game/game_screens/endless_game_screen.gd" id="1_fsvvh"]
+[ext_resource type="PackedScene" uid="uid://bokumkckuakt" path="res://scenes/menus/gamehud.tscn" id="2_726jx"]
+[ext_resource type="PackedScene" uid="uid://c22rn1rytwsq0" path="res://scenes/game/ui/round_countdown.tscn" id="3_82obn"]
+[ext_resource type="PackedScene" uid="uid://r2lmnunso6ux" path="res://scenes/menus/game_over_screen.tscn" id="4_vxl0l"]
+[ext_resource type="PackedScene" uid="uid://bs1hvpqt6or3h" path="res://scenes/menus/shop_menu_overlay.tscn" id="5_xma1j"]
+[ext_resource type="PackedScene" uid="uid://bgic4n30wrv4a" path="res://scenes/menus/build_overlay.tscn" id="6_jf5kf"]
+[ext_resource type="PackedScene" uid="uid://b05r3ewvjg4i4" path="res://scenes/menus/game_menu_overlay.tscn" id="7_2jphr"]
+[ext_resource type="Script" uid="uid://vjtapq4mb3eo" path="res://scripts/managers/wave_manager.gd" id="8_d8i48"]
+[ext_resource type="Script" uid="uid://c3nnrk7jojd3j" path="res://scripts/managers/spawn_manager.gd" id="9_v5vnr"]
+[ext_resource type="Script" uid="uid://d3jb80mi3pwid" path="res://scripts/managers/typing_manager.gd" id="10_qmcfl"]
+[ext_resource type="Script" uid="uid://i0uokjc0q4k" path="res://scripts/managers/combat_manager.gd" id="11_j6kwb"]
+[ext_resource type="AudioStream" uid="uid://dagwp65eftifx" path="res://assets/sfx/menus/correct-ping.ogg" id="12_815xb"]
+[ext_resource type="AudioStream" uid="uid://lj557ih7bune" path="res://assets/sfx/menus/no-sfx.ogg" id="13_caeqd"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="14_pyhpx"]
+[ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="15_g68o6"]
+[ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="16_gu865"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5sw37"]
+texture = ExtResource("15_g68o6")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_60eht"]
+texture = ExtResource("16_gu865")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f7bvm"]
+texture = ExtResource("15_g68o6")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(0.85606754, 0.85606724, 0.85606724, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjqof"]
+texture = ExtResource("15_g68o6")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lrm5"]
+
+[node name="Endless_GameScreen" type="Control" unique_id=1988827291]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fsvvh")
+
+[node name="Battlefield" type="Control" parent="." unique_id=72045045]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 0
+
+[node name="EnemyContainer" type="Node" parent="." unique_id=487878552]
+unique_name_in_owner = true
+
+[node name="ProjectileContainer" type="Node" parent="." unique_id=1736628992 groups=["projectile_container"]]
+unique_name_in_owner = true
+
+[node name="UI" type="Control" parent="." unique_id=206561401]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameHud" parent="UI" unique_id=2066332068 instance=ExtResource("2_726jx")]
+unique_name_in_owner = true
+
+[node name="CountdownOverlay" parent="UI" unique_id=2122675623 instance=ExtResource("3_82obn")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GameOverOverlay" parent="UI" unique_id=1380305430 instance=ExtResource("4_vxl0l")]
+unique_name_in_owner = true
+visible = false
+
+[node name="ShopOverlay" parent="UI" unique_id=2140083217 instance=ExtResource("5_xma1j")]
+unique_name_in_owner = true
+visible = false
+
+[node name="BuildOverlay" parent="UI" unique_id=1554375440 instance=ExtResource("6_jf5kf")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GameMenuOverlay" parent="UI" unique_id=1547500714 instance=ExtResource("7_2jphr")]
+unique_name_in_owner = true
+layer = 2
+visible = false
+
+[node name="Managers" type="Node" parent="." unique_id=828761454]
+
+[node name="WaveManager" type="Node" parent="Managers" unique_id=580472311]
+unique_name_in_owner = true
+script = ExtResource("8_d8i48")
+
+[node name="SpawnManager" type="Node" parent="Managers" unique_id=1714224902]
+unique_name_in_owner = true
+script = ExtResource("9_v5vnr")
+
+[node name="TypingManager" type="Node" parent="Managers" unique_id=987240786]
+unique_name_in_owner = true
+script = ExtResource("10_qmcfl")
+
+[node name="CombatManager" type="Node" parent="Managers" unique_id=649021532]
+unique_name_in_owner = true
+script = ExtResource("11_j6kwb")
+
+[node name="Audio" type="Node" parent="." unique_id=239962183]
+
+[node name="correct-sfx" type="AudioStreamPlayer2D" parent="Audio" unique_id=1839958051]
+unique_name_in_owner = true
+stream = ExtResource("12_815xb")
+volume_db = -15.0
+
+[node name="wrong-sfx" type="AudioStreamPlayer2D" parent="Audio" unique_id=1002116931]
+unique_name_in_owner = true
+stream = ExtResource("13_caeqd")
+
+[node name="DevStuff" type="CanvasLayer" parent="." unique_id=1547193028]
+unique_name_in_owner = true
+
+[node name="DEBUG_SkipWave" type="Button" parent="DevStuff" unique_id=168527252]
+unique_name_in_owner = true
+z_index = 5
+custom_minimum_size = Vector2(100, 40)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 364.0
+offset_top = -258.0
+offset_right = 464.0
+offset_bottom = -218.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("14_pyhpx")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_5sw37")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_60eht")
+theme_override_styles/hover = SubResource("StyleBoxTexture_f7bvm")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_fjqof")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0lrm5")
+text = "Skip Wave"
+
+[connection signal="pressed" from="DevStuff/DEBUG_SkipWave" to="." method="debug_skip_wave"]

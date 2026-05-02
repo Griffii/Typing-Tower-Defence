@@ -1,7 +1,7 @@
 extends Node
 
-const DEFAULT_LEVEL_SCENE: PackedScene = preload("res://scenes/game/levels/grasslands.tscn")
-const DEFAULT_WAVE_SET = preload("res://data/waves/wave_set_01.gd")
+const DEFAULT_LEVEL_SCENE = null
+const DEFAULT_WAVE_SET = null
 
 var selected_level_scene: PackedScene = DEFAULT_LEVEL_SCENE
 var selected_wave_set_script = DEFAULT_WAVE_SET

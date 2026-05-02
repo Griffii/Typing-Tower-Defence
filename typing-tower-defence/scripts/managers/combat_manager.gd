@@ -21,6 +21,13 @@ const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 
 @onready var spawn_manager: Node = %SpawnManager
 
+var run_mode: String = "legacy"
+
+var base_word_damage: int = 10
+var base_special_damage: int = 10
+var base_special_meter_gain_per_word: float = 15.0
+var base_gold_gain_multiplier: float = 1.0
+
 var base_hp: int = 100
 
 var gold: int = 0
@@ -55,12 +62,59 @@ func _process(delta: float) -> void:
 
 
 func setup_run(run_config: Dictionary) -> void:
+	run_mode = String(run_config.get("mode", "legacy"))
+
 	base_hp_max = int(run_config.get("starting_base_hp", base_hp_max))
-	word_damage = int(run_config.get("word_damage", word_damage))
-	special_damage = int(run_config.get("special_damage", special_damage))
-	special_meter_gain_per_word = float(run_config.get("special_meter_gain_per_word", special_meter_gain_per_word))
+
+	base_word_damage = int(run_config.get("word_damage", 10))
+	base_special_damage = int(run_config.get("special_damage", 10))
+	base_special_meter_gain_per_word = float(run_config.get("special_meter_gain_per_word", 15.0))
+	base_gold_gain_multiplier = float(run_config.get("gold_gain_multiplier", 1.0))
+
 	special_meter_max = float(run_config.get("special_meter_max", special_meter_max))
-	gold_gain_multiplier = float(run_config.get("gold_gain_multiplier", gold_gain_multiplier))
+
+	var incoming_upgrade_levels: Dictionary = run_config.get("persistent_upgrade_levels", {})
+
+	upgrade_levels = {
+		"word_damage": int(incoming_upgrade_levels.get("word_damage", 0)),
+		"special_damage": int(incoming_upgrade_levels.get("special_damage", 0)),
+		"special_meter_gain": int(incoming_upgrade_levels.get("special_meter_gain", 0)),
+		"gold_gain": int(incoming_upgrade_levels.get("gold_gain", 0)),
+	}
+
+	_recalculate_player_upgrade_stats()
+
+
+func _recalculate_player_upgrade_stats() -> void:
+	word_damage = base_word_damage
+	special_damage = base_special_damage
+	special_meter_gain_per_word = base_special_meter_gain_per_word
+	gold_gain_multiplier = base_gold_gain_multiplier
+
+	for upgrade_id in upgrade_levels.keys():
+		var level: int = int(upgrade_levels.get(upgrade_id, 0))
+
+		if level <= 0:
+			continue
+
+		if not ShopDefinitions.UPGRADES.has(upgrade_id):
+			continue
+
+		var def: Dictionary = ShopDefinitions.UPGRADES[upgrade_id]
+		var value_per_level: Variant = def.get("value_per_level", 0)
+
+		match upgrade_id:
+			"word_damage":
+				word_damage += int(value_per_level) * level
+
+			"special_damage":
+				special_damage += int(value_per_level) * level
+
+			"special_meter_gain":
+				special_meter_gain_per_word += float(value_per_level) * float(level)
+
+			"gold_gain":
+				gold_gain_multiplier += float(value_per_level) * float(level)
 
 
 func set_available_tower_slots(slot_ids: Array[String]) -> void:
@@ -229,25 +283,22 @@ func apply_upgrade_purchase(upgrade_id: String) -> bool:
 			if applied_repair > 0:
 				base_repaired.emit(applied_repair)
 
-		"word_damage":
-			word_damage += int(def.get("value_per_level", 0))
+		"word_damage", "special_damage", "special_meter_gain", "gold_gain":
 			upgrade_levels[upgrade_id] = current_level + 1
-
-		"special_damage":
-			special_damage += int(def.get("value_per_level", 0))
-			upgrade_levels[upgrade_id] = current_level + 1
-
-		"special_meter_gain":
-			special_meter_gain_per_word += float(def.get("value_per_level", 0))
-			upgrade_levels[upgrade_id] = current_level + 1
-
-		"gold_gain":
-			gold_gain_multiplier += float(def.get("value_per_level", 0))
-			upgrade_levels[upgrade_id] = current_level + 1
+			_recalculate_player_upgrade_stats()
+			_save_persistent_upgrade_if_needed()
 
 	_emit_hud_stats()
 	special_meter_changed.emit(special_meter, special_meter_max)
 	return true
+
+
+func _save_persistent_upgrade_if_needed() -> void:
+	if run_mode != "campaign":
+		return
+
+	if CampaignProgress != null and CampaignProgress.has_method("set_upgrade_levels"):
+		CampaignProgress.set_upgrade_levels(upgrade_levels)
 
 
 func get_upgrade_cost(upgrade_id: String) -> int:

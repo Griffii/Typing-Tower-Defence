@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://5ncf4s20mxcj"]
+
+[ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/menu/card_01.png" id="1_e8k45"]
+[ext_resource type="Script" uid="uid://purswh8c7cwf" path="res://scenes/game/ui/word_label_controller.gd" id="1_l30uu"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_l30uu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l30uu"]
+size = Vector2(71, 45)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e8k45"]
+texture = ExtResource("1_e8k45")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+region_rect = Rect2(8, 0, 48, 64)
+
+[node name="WordLabelController" type="Node2D" unique_id=1934251699]
+z_index = 1
+script = ExtResource("1_l30uu")
+
+[node name="LabelBody" type="CharacterBody2D" parent="." unique_id=258786388]
+unique_name_in_owner = true
+position = Vector2(-37, -48)
+collision_layer = 4
+collision_mask = 4
+motion_mode = 1
+safe_margin = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LabelBody" unique_id=174962011]
+unique_name_in_owner = true
+position = Vector2(35.5, 25.5)
+shape = SubResource("RectangleShape2D_l30uu")
+
+[node name="LabelUI" type="Control" parent="LabelBody" unique_id=1203742195]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = 48.0
+offset_right = 37.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Background" type="PanelContainer" parent="LabelBody/LabelUI" unique_id=1544571669]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -37.0
+offset_top = -45.0
+offset_right = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_e8k45")
+
+[node name="MarginContainer" type="MarginContainer" parent="LabelBody/LabelUI/Background" unique_id=529178237]
+layout_mode = 2
+
+[node name="WordLabel" type="RichTextLabel" parent="LabelBody/LabelUI/Background/MarginContainer" unique_id=719834453]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7647059)
+theme_override_constants/shadow_outline_size = 3
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("2_l30uu")
+theme_override_fonts/bold_font = ExtResource("2_l30uu")
+theme_override_fonts/bold_italics_font = ExtResource("2_l30uu")
+theme_override_fonts/italics_font = ExtResource("2_l30uu")
+theme_override_fonts/mono_font = ExtResource("2_l30uu")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+bbcode_enabled = true
+text = "Word"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1

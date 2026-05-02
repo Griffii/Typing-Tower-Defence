@@ -157,6 +157,23 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_mu18a")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
 text = "Play Again"
 
+[node name="ToMapButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=1563868363]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_74tcy")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_pxy88")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lohbg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_8xsqk")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_mu18a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
+text = "Return to
+World Map"
+
 [node name="FanfareSfx" type="AudioStreamPlayer" parent="." unique_id=126516856]
 unique_name_in_owner = true
 stream = ExtResource("8_pxy88")

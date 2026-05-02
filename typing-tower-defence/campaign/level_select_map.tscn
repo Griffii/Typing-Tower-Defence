@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://0xlvdjakqgnq"]
+
+[ext_resource type="Script" uid="uid://chjvw7pyjwgsy" path="res://campaign/level_select_map.gd" id="1_dyjr0"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_sqqrr"]
+[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="3_eckp3"]
+[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="4_5ew2k"]
+[ext_resource type="PackedScene" uid="uid://na1x8ccn5sat" path="res://scenes/game/levels/castle_walls.tscn" id="5_jckpf"]
+[ext_resource type="PackedScene" uid="uid://d36h1rtkqgva4" path="res://scenes/game/levels/grasslands.tscn" id="6_kj5xb"]
+[ext_resource type="PackedScene" uid="uid://bx4vrgw3koyaf" path="res://scenes/game/levels/seaside_farm.tscn" id="7_evn4y"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ipo3"]
+texture = ExtResource("3_eckp3")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_elm4r"]
+texture = ExtResource("4_5ew2k")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xlltj"]
+texture = ExtResource("3_eckp3")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pgtko"]
+texture = ExtResource("3_eckp3")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3jl8j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wh20i"]
+bg_color = Color(0, 0, 0, 0.50980395)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fitsn"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tapnp"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.99839514, 0.7544304, 0.27873912, 1)
+
+[node name="LevelSelectMap" type="Control" unique_id=598705198]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dyjr0")
+
+[node name="BackButton" type="Button" parent="." unique_id=981169934]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 21.0
+offset_top = 24.0
+offset_right = 121.0
+offset_bottom = 70.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_0ipo3")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_elm4r")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xlltj")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_pgtko")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3jl8j")
+text = "Back"
+
+[node name="CastleWallsContainer" type="MarginContainer" parent="." unique_id=329051178]
+clip_contents = true
+custom_minimum_size = Vector2(200, 120)
+layout_mode = 0
+offset_left = 47.0
+offset_top = 288.0
+offset_right = 247.0
+offset_bottom = 408.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CastleWalls" parent="CastleWallsContainer" unique_id=2103190458 instance=ExtResource("5_jckpf")]
+scale = Vector2(0.22, 0.22)
+
+[node name="CastleWallsButton" type="Button" parent="CastleWallsContainer" unique_id=58052321]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+text = "Castle Walls"
+
+[node name="GrasslandsContainer" type="MarginContainer" parent="." unique_id=430213616]
+clip_contents = true
+custom_minimum_size = Vector2(200, 120)
+layout_mode = 0
+offset_left = 423.0
+offset_top = 357.0
+offset_right = 623.0
+offset_bottom = 477.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Grasslands" parent="GrasslandsContainer" unique_id=1777634157 instance=ExtResource("6_kj5xb")]
+scale = Vector2(0.22, 0.22)
+
+[node name="GrasslandsButton" type="Button" parent="GrasslandsContainer" unique_id=618169889]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+text = "Grasslands"
+
+[node name="SeasideFarmContainer" type="MarginContainer" parent="." unique_id=1613033655]
+clip_contents = true
+custom_minimum_size = Vector2(200, 120)
+layout_mode = 0
+offset_left = 546.0
+offset_top = 50.0
+offset_right = 746.0
+offset_bottom = 170.0
+
+[node name="Seaside_Farm" parent="SeasideFarmContainer" unique_id=1439470031 instance=ExtResource("7_evn4y")]
+scale = Vector2(0.22, 0.22)
+
+[node name="SeasideFarmButton" type="Button" parent="SeasideFarmContainer" unique_id=1553043582]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+text = "Seaside Farm"

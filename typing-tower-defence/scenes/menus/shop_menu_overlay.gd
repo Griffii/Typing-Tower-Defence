@@ -1,3 +1,6 @@
+## shop_mennu_overlay.gd
+# Script for the in game shop that appears between waves and gives access to the build mode
+
 extends CanvasLayer
 
 signal next_wave_requested

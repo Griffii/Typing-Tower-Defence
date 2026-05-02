@@ -3,9 +3,9 @@ extends Control
 
 signal back_requested
 
-const CustomizationDefinitions = preload("res://data/player/customization_definitions.gd")
-const SpellDefinitions = preload("res://data/player/spell_definitions.gd")
-const CUSTOMIZATION_ITEM_BUTTON_SCENE: PackedScene = preload("res://scenes/menus/buttons/customization_item_button.tscn")
+const CustomizationDefinitions = preload("uid://fyq4p4x4jr0h")
+const SpellDefinitions = preload("uid://d1lsqfjr6ir")
+const CUSTOMIZATION_ITEM_BUTTON_SCENE: PackedScene = preload("uid://e86w5yx7bl0")
 
 const DEFAULT_PLAYER_NAME := "Spellicus"
 const NORMAL_CATEGORY_SCALE := Vector2.ONE

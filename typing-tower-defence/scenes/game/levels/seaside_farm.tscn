@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://smfwynpqb8u" path="res://scenes/game/levels/seaside_farm.gd" id="1_xd7uw"]
 [ext_resource type="Shader" uid="uid://dkcy4uwq0oahv" path="res://shaders/water_shader_01.gdshader" id="2_xd7uw"]
 [ext_resource type="Texture2D" uid="uid://d54gn3poylq7" path="res://assets/images/environment/water_texture.png" id="3_4ds0v"]
-[ext_resource type="PackedScene" uid="uid://cv0vs0fbr1f4f" path="res://scenes/game/bases/seaside_farm_castle.tscn" id="3_83f7x"]
+[ext_resource type="PackedScene" uid="uid://cv0vs0fbr1f4f" path="res://scenes/game/bases/seaside_farm_sheep_pen.tscn" id="3_83f7x"]
 [ext_resource type="Texture2D" uid="uid://c1xym1b31hmd6" path="res://assets/images/environment/spr_deco_tree_01_strip4.png" id="6_pyg4l"]
 [ext_resource type="Texture2D" uid="uid://cd37qxn60aorr" path="res://assets/images/environment/spr_deco_tree_02_strip4.png" id="7_3oc8o"]
 [ext_resource type="Texture2D" uid="uid://dfbvqv28n61ku" path="res://assets/images/environment/spr_deco_mushroom_red_01_strip4.png" id="7_qt2p4"]
@@ -2438,7 +2438,7 @@ scale = Vector2(1.5, 1.5)
 tile_map_data = PackedByteArray("AAATAAIAAAAwACIAAAAUAAIAAAAyACIAAAATAAEAAAAwACEAAAAUAAEAAAAyACEAAAARAAEAAAAfACQAAAARAAIAAAAfACUAAAAOAAEAAAAdACQAAAAOAAIAAAAdACUAAAA=")
 tile_set = SubResource("TileSet_2ljfr")
 
-[node name="Castle" parent="." unique_id=1460439950 instance=ExtResource("3_83f7x")]
+[node name="Protect" parent="." unique_id=1460439950 instance=ExtResource("3_83f7x")]
 unique_name_in_owner = true
 
 [node name="PlantsContainer" type="Node2D" parent="." unique_id=1389580166]
@@ -2471,6 +2471,7 @@ frame_progress = 0.43799162
 script = ExtResource("11_f1jwk")
 
 [node name="AlertArea" type="Area2D" parent="AnimalContainer/AnimatedGoblinFishing" unique_id=1550873468]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimalContainer/AnimatedGoblinFishing/AlertArea" unique_id=742414915]
 shape = SubResource("CircleShape2D_08sba")
@@ -2485,6 +2486,7 @@ frame_progress = 0.76383656
 script = ExtResource("11_f1jwk")
 
 [node name="AlertArea" type="Area2D" parent="AnimalContainer/AnimatedGoblinWatering" unique_id=1753638445]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimalContainer/AnimatedGoblinWatering/AlertArea" unique_id=1138961393]
 shape = SubResource("CircleShape2D_08sba")
@@ -2518,5 +2520,8 @@ position = Vector2(1005, 318)
 
 [node name="Player" parent="." unique_id=1889170284 instance=ExtResource("15_onrtr")]
 unique_name_in_owner = true
-position = Vector2(96, 288.00003)
-scale = Vector2(0.7, 0.7)
+position = Vector2(104, 279)
+scale = Vector2(0.6, 0.6)
+
+[node name="EnemyContainer" type="Node2D" parent="." unique_id=566989111]
+unique_name_in_owner = true

@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://c8jx1yfih5d8l"]
+
+[ext_resource type="Script" uid="uid://dt4ox5fq1jugt" path="res://scenes/game/bases/protect_main.gd" id="1_ap3vi"]
+[ext_resource type="Texture2D" uid="uid://2pp06pq88khh" path="res://assets/images/buildings/Monastery.png" id="2_qiilx"]
+[ext_resource type="PackedScene" uid="uid://c86wxohinjsip" path="res://scenes/game/bases/health_bar.tscn" id="3_q6rte"]
+
+[sub_resource type="Animation" id="Animation_4eh77"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualRoot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualRoot:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VisualRoot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_otrwo"]
+resource_name = "take_damage"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualRoot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.20000002, 0.3, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.98984355, 5.4869056e-06, 9.62615e-07, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualRoot:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.20000002, 0.3, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VisualRoot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.20000002, 0.3, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(8, 28), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5d2ab"]
+_data = {
+&"RESET": SubResource("Animation_4eh77"),
+&"take_damage": SubResource("Animation_otrwo")
+}
+
+[node name="Protect-Grasslands" type="Node2D" unique_id=1460439950]
+script = ExtResource("1_ap3vi")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=106027670]
+
+[node name="House" type="Sprite2D" parent="VisualRoot" unique_id=488283384]
+position = Vector2(81, 197)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qiilx")
+
+[node name="BaseMarker" type="Marker2D" parent="." unique_id=2124206430]
+unique_name_in_owner = true
+position = Vector2(81, 272)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1829161579]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_5d2ab")
+
+[node name="HealthBar" parent="." unique_id=390813373 instance=ExtResource("3_q6rte")]
+unique_name_in_owner = true
+offset_left = 25.0
+offset_top = 126.0
+offset_right = 25.0
+offset_bottom = 126.0

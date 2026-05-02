@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/menu/card_01.png" id="2_8e4jm"]
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="3_8e4jm"]
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="4_ixlxq"]
-[ext_resource type="PackedScene" uid="uid://mutayi51c78v" path="res://scenes/menus/gold_tracker.tscn" id="6_2uuwv"]
+[ext_resource type="PackedScene" uid="uid://mutayi51c78v" path="res://scenes/game/ui/gold_tracker.tscn" id="6_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="7_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://bbsbgkdeoma4g" path="res://assets/images/icons/skull_hover.png" id="10_2uuwv"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="10_cq8vo"]

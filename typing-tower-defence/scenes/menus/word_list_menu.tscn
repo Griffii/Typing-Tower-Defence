@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="3_2jdp2"]
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="3_q3mnh"]
 [ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="4_q3mnh"]
-[ext_resource type="PackedScene" uid="uid://dqmi7kaf6mca1" path="res://scenes/menus/add_word_list_popup.tscn" id="6_q3mnh"]
+[ext_resource type="PackedScene" uid="uid://dqmi7kaf6mca1" path="res://scenes/game/ui/add_word_list_popup.tscn" id="6_q3mnh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ilsef"]
 texture = ExtResource("3_2jdp2")

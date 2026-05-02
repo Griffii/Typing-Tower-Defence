@@ -23,6 +23,7 @@ GameSelection="*uid://bwa2ushl5h3ue"
 WordLists="*uid://dss58n4eqpj4b"
 GameSession="*uid://dkr8xqhgtymcr"
 PlayerLoadout="*uid://lpu452r3wg4j"
+CampaignProgress="*uid://dkqp8wqwrso0b"
 
 [display]
 
@@ -39,6 +40,7 @@ enabled=PackedStringArray("res://addons/tile-run-instances/plugin.cfg")
 folder_colors={
 "res://Networking/": "pink",
 "res://assets/": "purple",
+"res://campaign/": "yellow",
 "res://data/": "teal",
 "res://scenes/": "yellow",
 "res://scripts/": "orange"
