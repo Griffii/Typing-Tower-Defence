@@ -48,7 +48,7 @@ border_blend = true
 bg_color = Color(0, 0, 0, 0.5882353)
 
 [node name="CustomizationItemButton" type="Button" unique_id=696456645]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(75, 75)
 offset_right = 75.0
 offset_bottom = 75.0
 theme_override_styles/normal = SubResource("StyleBoxTexture_lgoqe")
@@ -59,22 +59,27 @@ script = ExtResource("1_stk5e")
 
 [node name="SelectedBorder" type="Panel" parent="." unique_id=1210100379]
 unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_stk5e")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=652483441]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 100.0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
 
 [node name="LockedPanel" type="Panel" parent="MarginContainer" unique_id=350947701]
 unique_name_in_owner = true
@@ -86,48 +91,48 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_diqq0")
 
 [node name="Layout" type="VBoxContainer" parent="MarginContainer" unique_id=367986534]
 layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
 
 [node name="ImageArea" type="Control" parent="MarginContainer/Layout" unique_id=1371880340]
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="MarginContainer/Layout/ImageArea" unique_id=2070475116]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Layout/ImageArea" unique_id=72829876]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/Layout/ImageArea/MarginContainer" unique_id=2070475116]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 texture = ExtResource("2_stk5e")
 
-[node name="PreviewHolder" type="Control" parent="MarginContainer/Layout/ImageArea" unique_id=1499932574]
+[node name="PreviewHolder" type="Control" parent="MarginContainer/Layout/ImageArea/MarginContainer" unique_id=1499932574]
 unique_name_in_owner = true
 visible = false
 clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 2
 
-[node name="ColorSwatch" type="ColorRect" parent="MarginContainer/Layout/ImageArea" unique_id=1762461764]
+[node name="ColorSwatch" type="ColorRect" parent="MarginContainer/Layout/ImageArea/MarginContainer" unique_id=1762461764]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 2
 
 [node name="NameLabel" type="Label" parent="MarginContainer/Layout" unique_id=479768059]

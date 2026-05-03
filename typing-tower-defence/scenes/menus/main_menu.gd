@@ -7,7 +7,6 @@ signal settings_requested
 signal wordlistsmenu_requested
 signal customizecharactermenu_requested
 
-
 const LIGHTNING_SCENE: PackedScene = preload("uid://blet6g5uj5s40")
 const GRUNT_ENEMY_SCENE: PackedScene = preload("uid://mxpolmgd3vvh")
 const SLIME_ENEMY_SCENE: PackedScene = preload("uid://pm1jbtqdt8d1")
@@ -20,6 +19,10 @@ const MENU_ENEMY_SCENES: Array[PackedScene] = [
 const TITLE_TEXT := "Typing\nTower Defence!"
 const TITLE_TYPED_COLOR := "6fdc8c"
 const MENU_ENEMY_MOVE_SPEED := 50.0
+
+const BUTTON_NORMAL_SCALE: Vector2 = Vector2.ONE
+const BUTTON_HOVER_SCALE: Vector2 = Vector2(1.05, 1.05)
+const BUTTON_TWEEN_DURATION: float = 0.08
 
 @onready var endless_button: Button = %EndlessButton
 @onready var settings_button: Button = %SettingsButton
@@ -44,11 +47,11 @@ var type_color_effect: TypeColorEffect = null
 func _ready() -> void:
 	rng.randomize()
 
-	story_button.pressed.connect(_on_story_mode_pressed)
-	endless_button.pressed.connect(_on_endless_mode_pressed)
-	settings_button.pressed.connect(_on_settings_pressed)
-	word_lists_button.pressed.connect(_on_wordlists_pressed)
-	character_button.pressed.connect(_on_customize_pressed)
+	_setup_menu_button(story_button, _on_story_mode_pressed)
+	_setup_menu_button(endless_button, _on_endless_mode_pressed)
+	_setup_menu_button(settings_button, _on_settings_pressed)
+	_setup_menu_button(word_lists_button, _on_wordlists_pressed)
+	_setup_menu_button(character_button, _on_customize_pressed)
 
 	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
@@ -67,6 +70,39 @@ func _ready() -> void:
 
 	call_deferred("_run_title_cycle")
 	call_deferred("_run_menu_enemy_cycle")
+
+
+func _setup_menu_button(button: Button, pressed_callable: Callable) -> void:
+	if button == null:
+		return
+
+	button.pivot_offset = button.size * 0.5
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+	if not button.pressed.is_connected(pressed_callable):
+		button.pressed.connect(pressed_callable)
+
+	if not button.mouse_entered.is_connected(_on_menu_button_mouse_entered.bind(button)):
+		button.mouse_entered.connect(_on_menu_button_mouse_entered.bind(button))
+
+	if not button.mouse_exited.is_connected(_on_menu_button_mouse_exited.bind(button)):
+		button.mouse_exited.connect(_on_menu_button_mouse_exited.bind(button))
+
+
+func _on_menu_button_mouse_entered(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	var tween := create_tween()
+	tween.tween_property(button, "scale", BUTTON_HOVER_SCALE, BUTTON_TWEEN_DURATION)
+
+
+func _on_menu_button_mouse_exited(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	var tween := create_tween()
+	tween.tween_property(button, "scale", BUTTON_NORMAL_SCALE, BUTTON_TWEEN_DURATION)
 
 
 func _reset_title_text() -> void:
@@ -208,7 +244,6 @@ func spawn_lightning() -> void:
 		lightning_instance.position = spawn_pos
 
 
-## Button press signal requests
 func _on_play_pressed() -> void:
 	play_requested.emit()
 

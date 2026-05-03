@@ -21,6 +21,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ModalContainer" type="Control" parent="." unique_id=2054906535]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="Scene_Transition" parent="." unique_id=1611063102 instance=ExtResource("2_ujsvu")]
 unique_name_in_owner = true
 visible = false

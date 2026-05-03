@@ -4,7 +4,10 @@ extends Button
 
 signal item_selected(slot_id: String, item_id: String)
 
-const CustomizationDefinitions = preload("res://data/player/customization_definitions.gd")
+const CustomizationDefinitions = preload("uid://fyq4p4x4jr0h") ##"res://data/player/customization_definitions.gd"
+
+const PREVIEW_WINDOW_SIZE: Vector2 = Vector2(40, 40)
+const PREVIEW_SCENE_SCALE: Vector2 = Vector2(0.45, 0.45)
 
 @onready var item_icon: TextureRect = %ItemIcon
 @onready var preview_holder: Control = %PreviewHolder
@@ -194,9 +197,17 @@ func _show_preview_scene(scene: PackedScene) -> void:
 
 	preview_holder.add_child(preview_instance)
 
+	await get_tree().process_frame
+
+	var holder_size: Vector2 = preview_holder.size
+
+	if holder_size.x <= 0.0 or holder_size.y <= 0.0:
+		holder_size = PREVIEW_WINDOW_SIZE
+
 	if preview_instance is Node2D:
-		(preview_instance as Node2D).position = preview_holder.size * 0.5
-		(preview_instance as Node2D).scale = Vector2(0.75, 0.75)
+		var node_2d := preview_instance as Node2D
+		node_2d.position = holder_size * 0.5
+		node_2d.scale = PREVIEW_SCENE_SCALE
 
 	if preview_instance is CanvasItem:
 		(preview_instance as CanvasItem).modulate = _get_icon_modulate()

@@ -4,6 +4,7 @@ extends Control
 
 signal back_to_menu_requested
 signal return_to_map_requested
+signal word_lists_requested
 
 enum RunState {
 	PRE_WAVE,
@@ -124,6 +125,8 @@ func _connect_signals() -> void:
 			game_menu_overlay.back_to_menu_requested.connect(_on_back_to_menu_pressed)
 		if game_menu_overlay.has_signal("resume_requested"):
 			game_menu_overlay.resume_requested.connect(_on_game_menu_resume_requested)
+		if game_menu_overlay.has_signal("word_lists_requested"):
+			game_menu_overlay.word_lists_requested.connect(_on_word_lists_requested)
 
 	if shop_overlay != null:
 		if shop_overlay.has_signal("purchase_requested"):
@@ -705,6 +708,10 @@ func _on_play_again_requested() -> void:
 	get_tree().paused = false
 	_reset_run()
 
+
+func _on_word_lists_requested() -> void:
+	word_lists_requested.emit()
+	
 
 func _on_return_to_map_requested() -> void:
 	get_tree().paused = false

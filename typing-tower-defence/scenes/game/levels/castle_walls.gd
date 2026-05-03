@@ -1,7 +1,7 @@
 extends BattlefieldLevel
 
 func _ready() -> void:
-	enemy_scale = Vector2(0.75, 0.75)
+	enemy_scale = Vector2(0.65, 0.65)
 
 	allowed_tower_types = ["arrow"]
 

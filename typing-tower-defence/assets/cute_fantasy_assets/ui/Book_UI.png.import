@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u34lfaekt32x"
-path="res://.godot/imported/Waterfall_2.png-037de5f062bcde0e5076d1140c497cc7.ctex"
+uid="uid://brdf40xlbra6f"
+path="res://.godot/imported/Book_UI.png-42e662ffb4001b228616f6c95870153d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cute_fantasy_assets/environment/Waterfall_2.png"
-dest_files=["res://.godot/imported/Waterfall_2.png-037de5f062bcde0e5076d1140c497cc7.ctex"]
+source_file="res://assets/cute_fantasy_assets/ui/Book_UI.png"
+dest_files=["res://.godot/imported/Book_UI.png-42e662ffb4001b228616f6c95870153d.ctex"]
 
 [params]
 

@@ -10,7 +10,9 @@ const CAMPAIGN_GAME_SCENE: PackedScene = preload("uid://ds243ews64l1a")
 
 @onready var screen_container: Control = %ScreenContainer
 @onready var scene_transition: CanvasLayer = %Scene_Transition
+@onready var modal_container: Control = %ModalContainer
 
+var current_modal: CanvasLayer = null
 var current_screen: Control = null
 var is_transitioning: bool = false
 
@@ -76,8 +78,6 @@ func _set_and_wire_screen(scene: PackedScene) -> void:
 		_set_endless_setup_menu()
 	elif scene == LEVEL_SELECT_SCENE:
 		_set_level_select()
-	elif scene == WORD_LISTS_SCENE:
-		_set_wordlists_menu()
 	elif scene == CHARACTER_CUSTOMIZE_SCENE:
 		_set_character_customize_menu()
 	elif scene == ENDLESS_GAME_SCENE:
@@ -115,10 +115,13 @@ func _set_endless_setup_menu() -> void:
 
 
 func _set_wordlists_menu() -> void:
-	var menu: Control = set_screen(WORD_LISTS_SCENE)
-
+	var menu: CanvasLayer = show_modal(WORD_LISTS_SCENE)
+	
+	if menu == null:
+		return
+	
 	if menu.has_signal("back_requested"):
-		menu.back_requested.connect(_on_back_to_menu_requested)
+		menu.back_requested.connect(_on_word_lists_modal_closed)
 
 
 func _set_level_select() -> void:
@@ -143,6 +146,8 @@ func _set_endless_game_screen() -> void:
 
 	if game.has_signal("back_to_menu_requested"):
 		game.back_to_menu_requested.connect(_on_back_to_menu_requested)
+	if game.has_signal("word_lists_requested"):
+		game.word_lists_requested.connect(_on_word_lists_menu_requested)
 
 
 func _set_campaign_game_screen() -> void:
@@ -150,9 +155,10 @@ func _set_campaign_game_screen() -> void:
 
 	if game.has_signal("back_to_menu_requested"):
 		game.back_to_menu_requested.connect(_on_back_to_menu_requested)
-
 	if game.has_signal("return_to_map_requested"):
 		game.return_to_map_requested.connect(_on_return_to_map_requested)
+	if game.has_signal("word_lists_requested"):
+		game.word_lists_requested.connect(_on_word_lists_menu_requested)
 
 
 
@@ -172,8 +178,10 @@ func _on_selection_finished() -> void:
 
 
 func _on_word_lists_menu_requested() -> void:
-	transition_to_screen(WORD_LISTS_SCENE, "black_swipe_LtoR")
+	_set_wordlists_menu()
 
+func _on_word_lists_modal_closed() -> void:
+	close_current_modal_immediate()
 
 func _on_customize_menu_requested() -> void:
 	transition_to_screen(CHARACTER_CUSTOMIZE_SCENE, "black_swipe_LtoR")
@@ -189,3 +197,26 @@ func _on_back_to_menu_requested() -> void:
 		GameSelection.reset_to_defaults()
 
 	transition_to_screen(MAIN_MENU_SCENE, "black_swipe_RtoL")
+
+
+
+func show_modal(scene: PackedScene) -> CanvasLayer:
+	close_current_modal_immediate()
+
+	var instance: CanvasLayer = scene.instantiate() as CanvasLayer
+
+	if instance == null:
+		push_warning("AppRoot: Modal scene is not a CanvasLayer.")
+		return null
+
+	add_child(instance)
+	current_modal = instance
+
+	return instance
+
+
+func close_current_modal_immediate() -> void:
+	if current_modal != null and is_instance_valid(current_modal):
+		current_modal.queue_free()
+	
+	current_modal = null

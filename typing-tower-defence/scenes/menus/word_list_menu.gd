@@ -1,15 +1,22 @@
-extends Control
+extends CanvasLayer
 
 signal back_requested
+
+const WORD_LIST_BUTTON_STYLE: StyleBox = preload("uid://bmr1ksc4wvr2x")
+const WORD_LIST_BUTTON_FONT: Font = preload("uid://bxnlee350xbyr")
+const WORD_LIST_BUTTON_STYLE_HOVER: StyleBox = preload("uid://c5u114ergurlo")
+const WORD_LIST_BUTTON_STYLE_SELECTED: StyleBox = preload("uid://b0atmd5c8kiuy")
+
+const WORD_LIST_BUTTON_HOVER_SCALE: Vector2 = Vector2(1.04, 1.04)
+const WORD_LIST_BUTTON_NORMAL_SCALE: Vector2 = Vector2.ONE
 
 @export var word_list_grid_columns: int = 3
 @export var word_list_button_size: Vector2 = Vector2(100, 80)
 @export var detail_word_columns: int = 4
 
-@export var word_list_button_normal: StyleBox
-@export var word_list_button_hover: StyleBox
-@export var word_list_button_pressed: StyleBox
-@export var word_list_button_focused: StyleBox
+@export var button_font: Font = WORD_LIST_BUTTON_FONT
+@export var button_font_size: int = 14
+@export var button_font_color: Color = Color.BLACK
 
 @onready var word_list_scroll: ScrollContainer = %WordListScroll
 @onready var word_list_grid: GridContainer = %WordListGrid
@@ -24,17 +31,24 @@ signal back_requested
 @onready var detail_words_text: RichTextLabel = %DetailWordsText
 @onready var delete_list_button: Button = %DeleteListButton
 
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+
 var _focused_list_id: String = ""
 var _word_list_buttons_by_id: Dictionary = {}
+var _is_closing: bool = false
+var _previous_pause_state: bool = false
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_previous_pause_state = get_tree().paused
+	get_tree().paused = true
 
 	_setup_layout()
 	_connect_signals()
 	_build_word_list_grid()
 	_refresh_detail_panel()
+	_play_open_animation()
 
 
 func _setup_layout() -> void:
@@ -42,12 +56,12 @@ func _setup_layout() -> void:
 		word_list_scroll.clip_contents = true
 		word_list_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		word_list_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		word_list_scroll.custom_minimum_size = Vector2(400, 300)
 
 	if word_list_grid != null:
 		word_list_grid.columns = word_list_grid_columns
 		word_list_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		word_list_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		word_list_grid.clip_contents = false
 
 	if detail_words_text != null:
 		detail_words_text.bbcode_enabled = false
@@ -55,7 +69,6 @@ func _setup_layout() -> void:
 		detail_words_text.scroll_active = true
 		detail_words_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		detail_words_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		detail_words_text.custom_minimum_size = Vector2(420, 300)
 		detail_words_text.visible = true
 
 
@@ -74,6 +87,51 @@ func _connect_signals() -> void:
 			add_word_list_popup.word_list_created.connect(_on_word_list_created)
 
 
+func _play_open_animation() -> void:
+	if animation_player == null:
+		return
+
+	if animation_player.has_animation("open_menu"):
+		animation_player.play("open_menu")
+
+
+func _play_close_animation_and_emit_back() -> void:
+	if _is_closing:
+		return
+
+	_is_closing = true
+	_set_buttons_disabled(true)
+
+	if animation_player != null and animation_player.has_animation("close_menu"):
+		animation_player.play("close_menu")
+		await animation_player.animation_finished
+
+	get_tree().paused = _previous_pause_state
+	back_requested.emit()
+
+
+func _set_buttons_disabled(disabled: bool) -> void:
+	if back_button != null:
+		back_button.disabled = disabled
+
+	if delete_list_button != null:
+		delete_list_button.disabled = disabled
+
+	if add_new_word_list_button != null:
+		add_new_word_list_button.disabled = disabled
+
+	for button in _word_list_buttons_by_id.values():
+		if button != null and is_instance_valid(button):
+			button.disabled = disabled
+
+
+func _exit_tree() -> void:
+	if _is_closing:
+		return
+
+	get_tree().paused = _previous_pause_state
+
+
 func _build_word_list_grid() -> void:
 	_clear_word_list_grid()
 	_word_list_buttons_by_id.clear()
@@ -87,14 +145,23 @@ func _build_word_list_grid() -> void:
 
 	for list_data in lists:
 		var button := Button.new()
+
 		button.custom_minimum_size = word_list_button_size
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.size_flags_vertical = Control.SIZE_FILL
-		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.toggle_mode = false
-		button.text = list_data.display_name
 
-		_apply_word_list_button_style(button)
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.toggle_mode = true
+		button.text = list_data.display_name
+		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		button.pivot_offset = word_list_button_size * 0.5
+
+		button.mouse_entered.connect(_on_word_list_button_mouse_entered.bind(button))
+		button.mouse_exited.connect(_on_word_list_button_mouse_exited.bind(button))
+
+		var is_selected: bool = _focused_list_id == list_data.id
+		button.button_pressed = is_selected
+		_apply_word_list_button_style(button, is_selected)
 
 		button.pressed.connect(_on_word_list_pressed.bind(list_data.id))
 
@@ -167,21 +234,48 @@ func _clear_word_list_grid() -> void:
 		child.queue_free()
 
 
-func _apply_word_list_button_style(button: Button) -> void:
+func _apply_word_list_button_style(button: Button, is_selected: bool) -> void:
 	if button == null:
 		return
 
-	if word_list_button_normal != null:
-		button.add_theme_stylebox_override("normal", word_list_button_normal)
+	var base_style: StyleBox = WORD_LIST_BUTTON_STYLE_SELECTED if is_selected else WORD_LIST_BUTTON_STYLE
+	var hover_style: StyleBox = WORD_LIST_BUTTON_STYLE_SELECTED if is_selected else WORD_LIST_BUTTON_STYLE_HOVER
 
-	if word_list_button_hover != null:
-		button.add_theme_stylebox_override("hover", word_list_button_hover)
+	button.add_theme_stylebox_override("normal", base_style)
+	button.add_theme_stylebox_override("hover", hover_style)
+	button.add_theme_stylebox_override("pressed", WORD_LIST_BUTTON_STYLE_SELECTED)
+	button.add_theme_stylebox_override("focus", hover_style)
+	button.add_theme_stylebox_override("disabled", WORD_LIST_BUTTON_STYLE)
 
-	if word_list_button_pressed != null:
-		button.add_theme_stylebox_override("pressed", word_list_button_pressed)
+	if button_font != null:
+		button.add_theme_font_override("font", button_font)
 
-	if word_list_button_focused != null:
-		button.add_theme_stylebox_override("focus", word_list_button_focused)
+	button.add_theme_font_size_override("font_size", button_font_size)
+
+	button.add_theme_color_override("font_color", button_font_color)
+	button.add_theme_color_override("font_hover_color", button_font_color)
+	button.add_theme_color_override("font_pressed_color", button_font_color)
+	button.add_theme_color_override("font_focus_color", button_font_color)
+	button.add_theme_color_override("font_hover_pressed_color", button_font_color)
+	button.add_theme_color_override("font_disabled_color", button_font_color)
+
+
+func _on_word_list_button_mouse_entered(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	button.z_index = 10
+	var tween := create_tween()
+	tween.tween_property(button, "scale", WORD_LIST_BUTTON_HOVER_SCALE, 0.08)
+
+
+func _on_word_list_button_mouse_exited(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	button.z_index = 0
+	var tween := create_tween()
+	tween.tween_property(button, "scale", WORD_LIST_BUTTON_NORMAL_SCALE, 0.08)
 
 
 func _refresh_word_list_button_states() -> void:
@@ -192,15 +286,12 @@ func _refresh_word_list_button_states() -> void:
 		if button == null or list_data == null:
 			continue
 
-		var is_focused: bool = _focused_list_id == list_id
+		var is_selected: bool = _focused_list_id == list_id
 
 		button.text = list_data.display_name
-		button.button_pressed = false
+		button.button_pressed = is_selected
 
-		if is_focused:
-			button.modulate = Color(0.9, 0.9, 1.0, 1.0)
-		else:
-			button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		_apply_word_list_button_style(button, is_selected)
 
 
 func _refresh_detail_panel() -> void:
@@ -244,6 +335,9 @@ func _build_word_grid_text(words: Array[String]) -> String:
 
 
 func _on_word_list_pressed(list_id: String) -> void:
+	if _is_closing:
+		return
+
 	if _focused_list_id == list_id:
 		return
 
@@ -253,6 +347,9 @@ func _on_word_list_pressed(list_id: String) -> void:
 
 
 func _on_delete_list_pressed() -> void:
+	if _is_closing:
+		return
+
 	if _focused_list_id.is_empty():
 		return
 
@@ -279,6 +376,9 @@ func _on_delete_list_pressed() -> void:
 
 
 func _on_add_new_word_list_pressed() -> void:
+	if _is_closing:
+		return
+
 	if add_word_list_popup == null:
 		return
 
@@ -289,6 +389,9 @@ func _on_add_new_word_list_pressed() -> void:
 
 
 func _on_word_list_created(list_id: String) -> void:
+	if _is_closing:
+		return
+
 	_focused_list_id = list_id
 	_build_word_list_grid()
 	_refresh_word_list_button_states()
@@ -296,4 +399,4 @@ func _on_word_list_created(list_id: String) -> void:
 
 
 func _on_back_pressed() -> void:
-	back_requested.emit()
+	_play_close_animation_and_emit_back()

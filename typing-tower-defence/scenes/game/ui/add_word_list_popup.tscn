@@ -1,44 +1,163 @@
 [gd_scene format=3 uid="uid://dqmi7kaf6mca1"]
 
 [ext_resource type="Script" uid="uid://pvdw3hrs0c5j" path="res://scenes/game/ui/add_word_list_popup.gd" id="1_o5c6k"]
+[ext_resource type="Texture2D" uid="uid://cu41173875ncd" path="res://assets/images/menu/magic_panel_01.png" id="1_wo75y"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_kpxvd"]
+[ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="3_x2n7x"]
+[ext_resource type="Texture2D" uid="uid://bqr7xfr6pej58" path="res://assets/images/menu/magic_panel_05.png" id="4_qw0hy"]
+[ext_resource type="Texture2D" uid="uid://cwjwt08hrw6ds" path="res://assets/images/menu/magic_panel_03.png" id="4_tk1sq"]
+[ext_resource type="Texture2D" uid="uid://dw4qltg2dwc86" path="res://assets/images/menu/card_02.png" id="4_x2n7x"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qw0hy"]
+texture = ExtResource("1_wo75y")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wlq51"]
+texture = ExtResource("4_tk1sq")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qw0hy"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1bglx"]
+texture = ExtResource("4_qw0hy")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tk1sq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tk1sq"]
+texture = ExtResource("4_x2n7x")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uv16j"]
+texture = ExtResource("4_x2n7x")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(0.78352344, 0.7835234, 0.7835234, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2ihm"]
+texture = ExtResource("4_x2n7x")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(1, 1, 0.8039216, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uv16j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2ihm"]
 
 [node name="AddWordListPopup" type="PopupPanel" unique_id=983429506]
 transparent_bg = false
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(400, 300)
+size = Vector2i(400, 327)
 visible = true
+theme_override_styles/panel = SubResource("StyleBoxTexture_qw0hy")
 script = ExtResource("1_o5c6k")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=373706057]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 396.0
-offset_bottom = 296.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 385.0
+offset_bottom = 312.0
 alignment = 1
 
 [node name="WordListNameInput" type="LineEdit" parent="VBoxContainer" unique_id=228000153]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "Word List Name"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0.92156863, 0.92156863, 0.92156863, 0.74509805)
+theme_override_colors/caret_color = Color(0.017732361, 0.01773239, 0.017732479, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_kpxvd")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_wlq51")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qw0hy")
+placeholder_text = "Type Word List Name Here"
 alignment = 1
+caret_blink = true
 
 [node name="WordListWordsInput" type="TextEdit" parent="VBoxContainer" unique_id=1074709430]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_colors/caret_color = Color(0.017732333, 0.01773242, 0.017732358, 1)
+theme_override_colors/font_color = Color(0.19793689, 0.1979374, 0.19793707, 1)
+theme_override_colors/font_placeholder_color = Color(0.23392498, 0.23392567, 0.23392522, 0.6)
+theme_override_fonts/font = ExtResource("3_x2n7x")
+theme_override_styles/normal = SubResource("StyleBoxTexture_1bglx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tk1sq")
 placeholder_text = "seperate, words, with, commas"
+caret_blink = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1846833482]
 layout_mode = 2
+theme_override_constants/separation = 14
 alignment = 1
 
-[node name="SaveWordListButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1873850301]
+[node name="SaveWordListButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1735723988]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_kpxvd")
+theme_override_styles/normal = SubResource("StyleBoxTexture_tk1sq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_uv16j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_p2ihm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_uv16j")
 text = "Save"
 
-[node name="CancelWordListButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1928745478]
+[node name="CancelWordListButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=264311285]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_kpxvd")
+theme_override_styles/normal = SubResource("StyleBoxTexture_tk1sq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_uv16j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_p2ihm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p2ihm")
 text = "Cancel"

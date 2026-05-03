@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://bmr1ksc4wvr2x"]
+
+[ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="1_nh2xm"]
+
+[resource]
+texture = ExtResource("1_nh2xm")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0

@@ -8,8 +8,13 @@ const SpellDefinitions = preload("uid://d1lsqfjr6ir")
 const CUSTOMIZATION_ITEM_BUTTON_SCENE: PackedScene = preload("uid://e86w5yx7bl0")
 
 const DEFAULT_PLAYER_NAME := "Spellicus"
+
 const NORMAL_CATEGORY_SCALE := Vector2.ONE
-const SELECTED_CATEGORY_SCALE := Vector2(1.12, 1.12)
+const SELECTED_CATEGORY_SCALE := Vector2(1.05, 1.05)
+const HOVER_CATEGORY_SCALE := Vector2(1.1, 1.1)
+const HOVER_SELECTED_CATEGORY_SCALE := Vector2(1.1, 1.1)
+
+const CATEGORY_TWEEN_DURATION := 0.08
 
 @onready var avatar_preview: PlayerAvatar = %PlayerAvatar
 @onready var category_buttons: VBoxContainer = %CategoryButtons
@@ -17,6 +22,7 @@ const SELECTED_CATEGORY_SCALE := Vector2(1.12, 1.12)
 @onready var color_grid: GridContainer = %ColorGrid
 @onready var back_button: Button = %BackButton
 @onready var name_label: LineEdit = %NameLabel
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var current_slot: String = "clothes"
 
@@ -52,6 +58,8 @@ func _ready() -> void:
 		avatar_preview.apply_loadout(PlayerLoadout.get_loadout())
 
 	_show_slot_items(current_slot)
+	
+	_play_open_animation()
 
 
 func _bind_existing_category_buttons() -> void:
@@ -73,6 +81,10 @@ func _bind_existing_category_buttons() -> void:
 
 		if not button.pressed.is_connected(_on_category_pressed.bind(slot_id)):
 			button.pressed.connect(_on_category_pressed.bind(slot_id))
+		if not button.mouse_entered.is_connected(_on_category_button_mouse_entered.bind(slot_id)):
+			button.mouse_entered.connect(_on_category_button_mouse_entered.bind(slot_id))
+		if not button.mouse_exited.is_connected(_on_category_button_mouse_exited.bind(slot_id)):
+			button.mouse_exited.connect(_on_category_button_mouse_exited.bind(slot_id))
 
 	_update_category_button_visuals()
 
@@ -130,11 +142,51 @@ func _update_category_button_visuals() -> void:
 		if button == null:
 			continue
 
-		if slot_id == current_slot:
-			button.scale = SELECTED_CATEGORY_SCALE
-		else:
-			button.scale = NORMAL_CATEGORY_SCALE
+		var target_scale := NORMAL_CATEGORY_SCALE
 
+		if slot_id == current_slot:
+			target_scale = SELECTED_CATEGORY_SCALE
+
+		button.scale = target_scale
+
+func _on_category_button_mouse_entered(slot_id: String) -> void:
+	var button: Button = category_button_map.get(slot_id, null)
+
+	if button == null:
+		return
+
+	var target_scale := HOVER_CATEGORY_SCALE
+
+	if slot_id == current_slot:
+		target_scale = HOVER_SELECTED_CATEGORY_SCALE
+
+	var tween := create_tween()
+	tween.tween_property(
+		button,
+		"scale",
+		target_scale,
+		CATEGORY_TWEEN_DURATION
+	)
+
+
+func _on_category_button_mouse_exited(slot_id: String) -> void:
+	var button: Button = category_button_map.get(slot_id, null)
+
+	if button == null:
+		return
+
+	var target_scale := NORMAL_CATEGORY_SCALE
+
+	if slot_id == current_slot:
+		target_scale = SELECTED_CATEGORY_SCALE
+
+	var tween := create_tween()
+	tween.tween_property(
+		button,
+		"scale",
+		target_scale,
+		CATEGORY_TWEEN_DURATION
+	)
 
 func _clear_item_grid() -> void:
 	if item_grid == null:
@@ -373,7 +425,7 @@ func _refresh_name_label() -> void:
 
 
 func _on_back_pressed() -> void:
-	back_requested.emit()
+	_play_close_animation_and_emit_back()
 
 
 func _is_color_slot(slot_id: String) -> bool:
@@ -461,3 +513,41 @@ func _save_name_input() -> void:
 
 	name_label.text = cleaned_name
 	PlayerLoadout.set_player_name(cleaned_name)
+
+
+func _play_open_animation() -> void:
+	if animation_player == null:
+		return
+
+	if animation_player.has_animation("open_menu"):
+		animation_player.play("open_menu")
+
+
+func _play_close_animation_and_emit_back() -> void:
+	_set_menu_buttons_disabled(true)
+
+	if animation_player != null and animation_player.has_animation("close_menu"):
+		animation_player.play("close_menu")
+		await animation_player.animation_finished
+
+	back_requested.emit()
+
+
+func _set_menu_buttons_disabled(disabled: bool) -> void:
+	if back_button != null:
+		back_button.disabled = disabled
+
+	if name_label != null:
+		name_label.editable = not disabled
+
+	for button in category_button_map.values():
+		if button != null and is_instance_valid(button):
+			button.disabled = disabled
+
+	for child in item_grid.get_children():
+		if child is Button:
+			child.disabled = disabled
+
+	for child in color_grid.get_children():
+		if child is Button:
+			child.disabled = disabled

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dearlqrhepsfb"
-path="res://.godot/imported/Waterfall_1.png-c6a5389237d45ea554ec3868e95b3b94.ctex"
+uid="uid://nrquugf2fo1i"
+path="res://.godot/imported/TX Tileset Wall.png-092b8cb6d263521dac563dbee45ab51b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cute_fantasy_assets/environment/Waterfall_1.png"
-dest_files=["res://.godot/imported/Waterfall_1.png-c6a5389237d45ea554ec3868e95b3b94.ctex"]
+source_file="res://assets/tilemaps/TX Tileset Wall.png"
+dest_files=["res://.godot/imported/TX Tileset Wall.png-092b8cb6d263521dac563dbee45ab51b.ctex"]
 
 [params]
 

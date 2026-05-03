@@ -1,14 +1,30 @@
 [gd_scene format=3 uid="uid://defo7xtrxfi6s"]
 
 [ext_resource type="Script" uid="uid://bt0dkleney10n" path="res://scenes/menus/character_customization_menu.gd" id="1_0mlbl"]
+[ext_resource type="Texture2D" uid="uid://d165oo05xr54f" path="res://assets/images/menu/seamless-tartan-plaid-red.jpg" id="2_3ubid"]
 [ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_4dwsr"]
 [ext_resource type="PackedScene" uid="uid://0sph3h4ghhey" path="res://scenes/game/player/player_avatar.tscn" id="2_ebh46"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_223qg"]
-[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="4_4wpy2"]
 [ext_resource type="Texture2D" uid="uid://dtfkclsdftyli" path="res://assets/images/menu/panel-fantasy-01.png" id="4_p2uxk"]
-[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="5_4dwsr"]
-[ext_resource type="Texture2D" uid="uid://rb4720ggs5up" path="res://assets/images/menu/scroll_label_panel.png" id="5_p2uxk"]
 [ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="6_6sv41"]
+[ext_resource type="Texture2D" uid="uid://cly140miwtr7n" path="res://assets/cute_fantasy_assets/ui/UI_Ribbons.png" id="6_cuyg6"]
+[ext_resource type="Texture2D" uid="uid://brdf40xlbra6f" path="res://assets/cute_fantasy_assets/ui/Book_UI.png" id="8_6sv41"]
+[ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="8_p2uxk"]
+[ext_resource type="AudioStream" uid="uid://b887neunyf6da" path="res://assets/sfx/menus/Paper_01.mp3" id="10_tqbf4"]
+[ext_resource type="AudioStream" uid="uid://bldwj3xauyf52" path="res://assets/sfx/menus/Paper_02.mp3" id="11_3ubid"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f0k2f"]
+texture = ExtResource("2_3ubid")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frbmh"]
+texture = ExtResource("8_6sv41")
+region_rect = Rect2(248, 6, 224, 133)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5f82d"]
+texture = ExtResource("8_6sv41")
+region_rect = Rect2(488, 150, 224, 133)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f4ify"]
 texture = ExtResource("4_p2uxk")
@@ -16,16 +32,30 @@ texture_margin_left = 44.0
 texture_margin_top = 44.0
 texture_margin_right = 44.0
 texture_margin_bottom = 44.0
+modulate_color = Color(0.4506483, 0.4506483, 0.45064825, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3ubid"]
-texture = ExtResource("5_p2uxk")
-texture_margin_left = 10.0
-texture_margin_top = 8.0
-texture_margin_right = 10.0
-texture_margin_bottom = 7.0
-region_rect = Rect2(0, 0, 32, 15)
+texture = ExtResource("6_cuyg6")
+texture_margin_left = 24.0
+texture_margin_top = 12.0
+texture_margin_right = 24.0
+texture_margin_bottom = 8.0
+expand_margin_bottom = 10.0
+region_rect = Rect2(8, 1, 64, 20)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6sv41"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4dwsr"]
+texture = ExtResource("2_4dwsr")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4dwsr"]
+color = Color(0, 0, 0, 0.6431373)
+thickness = 4
+vertical = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cuyg6"]
 
@@ -35,7 +65,7 @@ texture_margin_left = 7.0
 texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
-expand_margin_right = 50.0
+expand_margin_left = 50.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0k1ti"]
 texture = ExtResource("6_6sv41")
@@ -43,291 +73,456 @@ texture_margin_left = 7.0
 texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phoqo"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nv42j"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wpry6"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xfske"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frbmh"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5f82d"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_right = 50.0
-modulate_color = Color(1, 0.7294118, 1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4dwsr"]
-texture = ExtResource("2_4dwsr")
-texture_margin_left = 31.0
-texture_margin_top = 31.0
-texture_margin_right = 31.0
-texture_margin_bottom = 31.0
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_4dwsr"]
-color = Color(0, 0, 0, 0.6431373)
-thickness = 4
-vertical = true
+expand_margin_left = 50.0
+modulate_color = Color(0.9019737, 0.8661228, 0.6144088, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2uxk"]
-texture = ExtResource("4_4wpy2")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+texture = ExtResource("6_6sv41")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+expand_margin_left = 50.0
+modulate_color = Color(1, 1, 1, 0.5882353)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6sv41"]
-texture = ExtResource("5_4dwsr")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqbf4"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cuyg6"]
-texture = ExtResource("4_4wpy2")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phoqo"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 2.0
+texture_margin_right = 10.0
+texture_margin_bottom = 2.0
+expand_margin_left = 50.0
+region_rect = Rect2(944, 31, 22, 18)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tqbf4"]
-texture = ExtResource("4_4wpy2")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gj5la"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 2.0
+texture_margin_right = 10.0
+texture_margin_bottom = 2.0
+expand_margin_left = 50.0
+region_rect = Rect2(944, 31, 22, 18)
+modulate_color = Color(1, 1, 0.81960785, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j7lkb"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 2.0
+texture_margin_right = 10.0
+texture_margin_bottom = 2.0
+expand_margin_left = 50.0
+region_rect = Rect2(944, 31, 22, 18)
+modulate_color = Color(1, 1, 1, 0.5882353)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ubid"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nv42j"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 3.0
+texture_margin_right = 10.0
+texture_margin_bottom = 3.0
+expand_margin_left = 50.0
+region_rect = Rect2(1136, 30, 22, 20)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wpry6"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 2.0
+texture_margin_right = 10.0
+texture_margin_bottom = 2.0
+expand_margin_left = 50.0
+region_rect = Rect2(1136, 30, 22, 20)
+modulate_color = Color(1, 1, 0.81960785, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xfske"]
+texture = ExtResource("8_6sv41")
+texture_margin_top = 2.0
+texture_margin_right = 10.0
+texture_margin_bottom = 2.0
+expand_margin_left = 50.0
+region_rect = Rect2(1136, 30, 22, 20)
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6sv41"]
+texture = ExtResource("8_p2uxk")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 250, 28, 31)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cuyg6"]
+texture = ExtResource("8_p2uxk")
+texture_margin_left = 4.0
+texture_margin_top = 6.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(442, 248, 28, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tqbf4"]
+texture = ExtResource("8_p2uxk")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(202, 250, 28, 31)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s7fkg"]
+texture = ExtResource("8_p2uxk")
+texture_margin_left = 4.0
+texture_margin_top = 3.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 251, 28, 30)
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gj5la"]
+
+[sub_resource type="Animation" id="Animation_f4ify"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BookContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a8hkd"]
+resource_name = "close_menu"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("close_sfx:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 540)]
+}
+
+[sub_resource type="Animation" id="Animation_0k1ti"]
+resource_name = "open_menu"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("open_sfx:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 540), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_phoqo"]
+_data = {
+&"RESET": SubResource("Animation_f4ify"),
+&"close_menu": SubResource("Animation_a8hkd"),
+&"open_menu": SubResource("Animation_0k1ti")
+}
 
 [node name="CharacterCustomizationMenu" type="Control" unique_id=210064768]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -0.00012207031
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0mlbl")
 
-[node name="Root" type="MarginContainer" parent="." unique_id=1120070986]
+[node name="BGTexture" type="Panel" parent="." unique_id=1540492491]
+z_index = -1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
+theme_override_styles/panel = SubResource("StyleBoxTexture_f0k2f")
 
-[node name="Layout" type="HBoxContainer" parent="Root" unique_id=807510884]
-layout_mode = 2
-alignment = 1
+[node name="BookContainer" type="Control" parent="." unique_id=1288675001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -0.00012207031
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="PreviewPanel" type="PanelContainer" parent="Root/Layout" unique_id=1422571014]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
+[node name="BookBG" type="Panel" parent="BookContainer" unique_id=1847657633]
+z_index = -1
+custom_minimum_size = Vector2(900, 500)
+layout_mode = 0
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 930.0
+offset_bottom = 520.00024
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxTexture_frbmh")
+
+[node name="BookBGCoverColor" type="Panel" parent="BookContainer/BookBG" unique_id=1629716646]
+custom_minimum_size = Vector2(900, 500)
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 500.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxTexture_5f82d")
+
+[node name="PreviewPanel" type="PanelContainer" parent="BookContainer" unique_id=1422571014]
+custom_minimum_size = Vector2(340, 400)
+layout_mode = 0
+offset_left = 89.0
+offset_top = 58.0
+offset_right = 429.0
+offset_bottom = 458.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_f4ify")
 
-[node name="PlayerAvatar" parent="Root/Layout/PreviewPanel" unique_id=1193445698 instance=ExtResource("2_ebh46")]
+[node name="PlayerAvatar" parent="BookContainer/PreviewPanel" unique_id=1193445698 instance=ExtResource("2_ebh46")]
 unique_name_in_owner = true
-position = Vector2(168, 423.00003)
+position = Vector2(160, 375.00003)
 scale = Vector2(3, 3)
 
-[node name="NameLabel" type="LineEdit" parent="Root/Layout/PreviewPanel" unique_id=612705210]
+[node name="NameLabel" type="LineEdit" parent="BookContainer" unique_id=612705210]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 50)
-layout_mode = 2
+layout_mode = 0
+offset_left = 135.0
+offset_top = 433.0
+offset_right = 385.0
+offset_bottom = 483.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(0.19793725, 0.19793725, 0.19793719, 1)
 theme_override_colors/caret_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxTexture_3ubid")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6sv41")
 text = "Spellicus"
 alignment = 1
 caret_blink = true
 
-[node name="CategoryPanel" type="PanelContainer" parent="Root/Layout" unique_id=1827088886]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_cuyg6")
-
-[node name="CategoryButtons" type="VBoxContainer" parent="Root/Layout/CategoryPanel" unique_id=2080182972]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="BodyButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=893778320]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19793689, 0.1979374, 0.19793707, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_0k1ti")
-text = "Body"
-
-[node name="UndiesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=128495507]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_phoqo")
-text = "Undies"
-
-[node name="ClothesButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=2019299952]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_nv42j")
-text = "Clothes"
-
-[node name="HairButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1680743278]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_wpry6")
-text = "Hair"
-
-[node name="HatButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=319478853]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_xfske")
-text = "Hat"
-
-[node name="WandButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1818247059]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_frbmh")
-text = "Wand"
-
-[node name="SpellButton" type="Button" parent="Root/Layout/CategoryPanel/CategoryButtons" unique_id=1071026931]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5f82d")
-text = "Spell"
-
-[node name="ItemsPanel" type="PanelContainer" parent="Root/Layout" unique_id=796846420]
-custom_minimum_size = Vector2(440, 0)
-layout_mode = 2
+[node name="ItemsPanel" type="PanelContainer" parent="BookContainer" unique_id=796846420]
+custom_minimum_size = Vector2(300, 410)
+layout_mode = 0
+offset_left = 526.0
+offset_top = 52.0
+offset_right = 880.0
+offset_bottom = 462.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_4dwsr")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Root/Layout/ItemsPanel" unique_id=2136694859]
+[node name="HBoxContainer" type="HBoxContainer" parent="BookContainer/ItemsPanel" unique_id=2136694859]
 layout_mode = 2
+theme_override_constants/separation = 2
 alignment = 1
 
-[node name="ItemsScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=920777216]
-custom_minimum_size = Vector2(220, 0)
+[node name="ItemsScroll" type="ScrollContainer" parent="BookContainer/ItemsPanel/HBoxContainer" unique_id=920777216]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="ItemGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ItemsScroll" unique_id=924824208]
+[node name="ItemGrid" type="GridContainer" parent="BookContainer/ItemsPanel/HBoxContainer/ItemsScroll" unique_id=924824208]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 columns = 2
 
-[node name="VSeparator" type="VSeparator" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=656709845]
+[node name="VSeparator" type="VSeparator" parent="BookContainer/ItemsPanel/HBoxContainer" unique_id=656709845]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_4dwsr")
 
-[node name="ColorScroll" type="ScrollContainer" parent="Root/Layout/ItemsPanel/HBoxContainer" unique_id=1495345826]
-custom_minimum_size = Vector2(220, 0)
+[node name="ColorScroll" type="ScrollContainer" parent="BookContainer/ItemsPanel/HBoxContainer" unique_id=1495345826]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="ColorGrid" type="GridContainer" parent="Root/Layout/ItemsPanel/HBoxContainer/ColorScroll" unique_id=595770825]
+[node name="ColorGrid" type="GridContainer" parent="BookContainer/ItemsPanel/HBoxContainer/ColorScroll" unique_id=595770825]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 columns = 2
 
-[node name="BackButton" type="Button" parent="Root" unique_id=489068411]
+[node name="CategoryPanel" type="PanelContainer" parent="BookContainer" unique_id=1827088886]
+z_index = -1
+layout_mode = 0
+offset_left = 886.0
+offset_top = 8.0
+offset_right = 953.0
+offset_bottom = 524.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cuyg6")
+
+[node name="CategoryButtons" type="VBoxContainer" parent="BookContainer/CategoryPanel" unique_id=2080182972]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="BodyButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=893778320]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_disabled_color = Color(0.19607843, 0.19607843, 0.19607843, 0.47058824)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_a8hkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0k1ti")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_p2uxk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqbf4")
+text = "Body"
+
+[node name="UndiesButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=128495507]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Undies"
+
+[node name="ClothesButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=1074507489]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Clothes"
+
+[node name="HairButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=1088481098]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Hair"
+
+[node name="HatButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=2111409060]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Hats"
+
+[node name="WandButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=499956590]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Wands"
+
+[node name="SpellButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=634198541]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("3_223qg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nv42j")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nv42j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wpry6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xfske")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+text = "Spells"
+
+[node name="BackButton" type="Button" parent="BookContainer" unique_id=724852060]
 unique_name_in_owner = true
 z_index = 1
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 0
+offset_left = 22.0
+offset_top = 13.0
+offset_right = 92.0
+offset_bottom = 53.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_default_cursor_shape = 2
@@ -335,10 +530,20 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxTexture_p2uxk")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6sv41")
-theme_override_styles/hover = SubResource("StyleBoxTexture_cuyg6")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_tqbf4")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_6sv41")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cuyg6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tqbf4")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_s7fkg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_gj5la")
 text = "Back"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1283714950]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_phoqo")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1410214123]
+stream = ExtResource("10_tqbf4")
+
+[node name="close_sfx" type="AudioStreamPlayer2D" parent="." unique_id=714543974]
+stream = ExtResource("11_3ubid")

@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dlo0enhqcutvr" path="res://scenes/menus/endless_setup_screen.gd" id="1_vhn6x"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_muvbe"]
-[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="3_25s1c"]
+[ext_resource type="Texture2D" uid="uid://chxi1oykccj5i" path="res://assets/images/menu/seamless-tartan-plaid-green.jpg" id="2_nrc65"]
 [ext_resource type="PackedScene" uid="uid://na1x8ccn5sat" path="res://scenes/game/levels/castle_walls.tscn" id="3_nrc65"]
-[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="4_rux53"]
 [ext_resource type="PackedScene" uid="uid://d36h1rtkqgva4" path="res://scenes/game/levels/grasslands.tscn" id="5_fnvk8"]
 [ext_resource type="PackedScene" uid="uid://bx4vrgw3koyaf" path="res://scenes/game/levels/seaside_farm.tscn" id="6_awmu3"]
 [ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/enemies/soldiers/soldier_01.png" id="7_nrc65"]
@@ -22,6 +21,13 @@
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="16_tnddm"]
 [ext_resource type="Texture2D" uid="uid://bm3bbs2s8c15" path="res://assets/images/menu/confirm.png" id="17_27671"]
 [ext_resource type="PackedScene" uid="uid://dqmi7kaf6mca1" path="res://scenes/game/ui/add_word_list_popup.tscn" id="19_rux53"]
+[ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="20_awmu3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_snn44"]
+texture = ExtResource("2_nrc65")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.6872149, 0.68721503, 0.6872149, 0.5882353)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0k1d"]
 bg_color = Color(0, 0, 0, 0.50980395)
@@ -287,53 +293,40 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_621w1"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7420c"]
-texture = ExtResource("3_25s1c")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_em6pk"]
+texture = ExtResource("20_awmu3")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2a4q0"]
-texture = ExtResource("4_rux53")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5253r"]
+texture = ExtResource("20_awmu3")
+texture_margin_left = 4.0
+texture_margin_top = 6.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(442, 248, 28, 30)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3j7xl"]
-texture = ExtResource("3_25s1c")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fkc8u"]
+texture = ExtResource("20_awmu3")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(202, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5wnyx"]
-texture = ExtResource("3_25s1c")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_taa3s"]
+texture = ExtResource("20_awmu3")
+texture_margin_left = 4.0
+texture_margin_top = 3.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 251, 28, 30)
+modulate_color = Color(1, 1, 1, 0.5882353)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a2qnp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snn44"]
 
 [node name="EndlessSetupScreen" type="Control" unique_id=1503643063]
 layout_mode = 3
@@ -343,6 +336,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vhn6x")
+
+[node name="BGTexture" type="Panel" parent="." unique_id=1224092353]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_snn44")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=565760538]
 layout_mode = 1
@@ -422,6 +425,7 @@ scale = Vector2(0.22, 0.22)
 [node name="CastleWallsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/CastleWallsContainer" unique_id=1955090044]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
@@ -444,6 +448,7 @@ scale = Vector2(0.22, 0.22)
 [node name="GrasslandsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/GrasslandsContainer" unique_id=1227614111]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
@@ -464,6 +469,7 @@ scale = Vector2(0.22, 0.22)
 [node name="SeasideFarmButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/LevelsMainContainer/LevelsBox/SeasideFarmContainer" unique_id=1028136473]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
@@ -504,6 +510,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
+[node name="PanelDimmer" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=1363561055]
+layout_mode = 2
+
 [node name="Soldier01" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=889065322]
 position = Vector2(30, 94)
 scale = Vector2(3, 3)
@@ -539,6 +548,7 @@ texture = ExtResource("12_fkc8u")
 [node name="SoldiersButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SoldiersContainer" unique_id=543322497]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
@@ -550,6 +560,9 @@ text = "Soldiers"
 
 [node name="SlimesContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox" unique_id=892449717]
 custom_minimum_size = Vector2(200, 120)
+layout_mode = 2
+
+[node name="PanelDimmer" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=1492052307]
 layout_mode = 2
 
 [node name="SlimeDemo" type="AnimatedSprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=203240255]
@@ -570,6 +583,7 @@ flip_h = true
 [node name="SlimesButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/LevelsAndEnemiesButtons/EnemyMainContainer/EnemiesBox/SlimesContainer" unique_id=1393493277]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
@@ -597,11 +611,19 @@ horizontal_alignment = 1
 
 [node name="WordListScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=1797078358]
 unique_name_in_owner = true
-clip_contents = false
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 
-[node name="WordListGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListScroll" unique_id=1250535535]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListScroll" unique_id=931237168]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="WordListGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListScroll/MarginContainer" unique_id=1250535535]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 2
@@ -614,6 +636,7 @@ alignment = 1
 [node name="EnableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800741804]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
@@ -628,6 +651,7 @@ text = "Enable All"
 [node name="DisableAllButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1800677945]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
@@ -642,6 +666,7 @@ text = "Disable All"
 [node name="AddNewWordListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/WordListControlsContainer" unique_id=1674439992]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_focus_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
@@ -714,10 +739,10 @@ text = "Ready"
 icon = ExtResource("17_27671")
 expand_icon = true
 
-[node name="BackButton" type="Button" parent="MarginContainer" unique_id=1820640198]
+[node name="BackButton" type="Button" parent="MarginContainer" unique_id=2053334261]
 unique_name_in_owner = true
 z_index = 1
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -726,12 +751,12 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_muvbe")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxTexture_7420c")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_2a4q0")
-theme_override_styles/hover = SubResource("StyleBoxTexture_3j7xl")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_5wnyx")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_a2qnp")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_em6pk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5253r")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fkc8u")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_taa3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_snn44")
 text = "Back"
 
 [node name="AddWordListPopup" parent="." unique_id=983429506 instance=ExtResource("19_rux53")]

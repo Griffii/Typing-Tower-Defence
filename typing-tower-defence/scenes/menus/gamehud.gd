@@ -5,6 +5,9 @@ signal game_menu_pressed
 signal text_submitted(text: String)
 signal text_changed(text: String)
 
+const GAME_MENU_HOVER_OFFSET: Vector2 = Vector2(5.0, 0.0)
+const GAME_MENU_TWEEN_DURATION: float = 0.1
+
 @onready var wave_label: Label = %WaveLabel
 @onready var status_label: Label = %StatusLabel
 
@@ -18,10 +21,17 @@ signal text_changed(text: String)
 @onready var feedback_label: Label = %FeedbackLabel
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
 
+var game_menu_button_base_position: Vector2 = Vector2.ZERO
+var game_menu_button_tween: Tween = null
+
 
 func _ready() -> void:
+	game_menu_button_base_position = game_menu_button.position
+
 	start_wave_button.pressed.connect(_on_start_wave_button_pressed)
 	game_menu_button.pressed.connect(_on_game_menu_button_pressed)
+	game_menu_button.mouse_entered.connect(_on_game_menu_button_mouse_entered)
+	game_menu_button.mouse_exited.connect(_on_game_menu_button_mouse_exited)
 
 	input_field.text_changed.connect(_on_input_field_text_changed)
 	input_field.text_submitted.connect(_on_input_field_text_submitted)
@@ -43,6 +53,27 @@ func _on_game_menu_button_pressed() -> void:
 	game_menu_pressed.emit()
 
 
+func _on_game_menu_button_mouse_entered() -> void:
+	_tween_game_menu_button(game_menu_button_base_position + GAME_MENU_HOVER_OFFSET)
+
+
+func _on_game_menu_button_mouse_exited() -> void:
+	_tween_game_menu_button(game_menu_button_base_position)
+
+
+func _tween_game_menu_button(target_position: Vector2) -> void:
+	if game_menu_button_tween != null:
+		game_menu_button_tween.kill()
+
+	game_menu_button_tween = create_tween()
+	game_menu_button_tween.tween_property(
+		game_menu_button,
+		"position",
+		target_position,
+		GAME_MENU_TWEEN_DURATION
+	)
+
+
 func _on_input_field_text_changed(new_text: String) -> void:
 	typing_sfx_player.play()
 	text_changed.emit(new_text)
@@ -54,7 +85,6 @@ func _on_input_field_text_submitted(text: String) -> void:
 
 func set_wave_text(current_wave: int, total_waves: int) -> void:
 	wave_label.text = "Wave %d / %d" % [current_wave, total_waves]
-
 
 
 func set_base_hp(current_hp: int, max_hp: int) -> void:

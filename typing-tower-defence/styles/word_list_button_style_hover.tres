@@ -1,0 +1,12 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://c5u114ergurlo"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lh1ub"]
+load_path = "res://.godot/imported/card_03.png-86c414d9253e7b531c9a3642ae14441e.ctex"
+
+[resource]
+texture = SubResource("CompressedTexture2D_lh1ub")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+modulate_color = Color(1, 1, 0.74509805, 1)

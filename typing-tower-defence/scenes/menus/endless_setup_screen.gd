@@ -3,6 +3,14 @@ extends Control
 signal start_requested
 signal back_requested
 
+const WORD_LIST_BUTTON_STYLE: StyleBox = preload("uid://bmr1ksc4wvr2x")
+const WORD_LIST_BUTTON_STYLE_HOVER: StyleBox = preload("uid://c5u114ergurlo")
+const WORD_LIST_BUTTON_STYLE_SELECTED: StyleBox = preload("uid://b0atmd5c8kiuy")
+const WORD_LIST_BUTTON_FONT: Font = preload("uid://bxnlee350xbyr")
+
+const WORD_LIST_BUTTON_HOVER_SCALE: Vector2 = Vector2(1.04, 1.04)
+const WORD_LIST_BUTTON_NORMAL_SCALE: Vector2 = Vector2.ONE
+
 const ENEMY_GROUP_TO_TYPES := {
 	"soldiers": ["grunt", "scout", "tank", "boss"],
 	"slimes": ["slime", "boss_slime"],
@@ -10,6 +18,10 @@ const ENEMY_GROUP_TO_TYPES := {
 
 @export var word_list_grid_columns: int = 3
 @export var word_list_button_size: Vector2 = Vector2(100, 80)
+
+@export var word_list_button_font: Font = WORD_LIST_BUTTON_FONT
+@export var word_list_button_font_size: int = 14
+@export var word_list_button_font_color: Color = Color.BLACK
 
 @onready var castle_walls_button: Button = %CastleWallsButton
 @onready var grasslands_button: Button = %GrasslandsButton
@@ -66,6 +78,7 @@ func _setup_layout() -> void:
 		word_list_grid.columns = word_list_grid_columns
 		word_list_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		word_list_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		word_list_grid.clip_contents = false
 
 	if included_lists_label != null:
 		included_lists_label.fit_content = true
@@ -119,7 +132,7 @@ func _setup_toggle_button(button: Button) -> void:
 func _connect_signals() -> void:
 	if castle_walls_button != null and not castle_walls_button.pressed.is_connected(_on_castle_walls_pressed):
 		castle_walls_button.pressed.connect(_on_castle_walls_pressed)
-	
+
 	if grasslands_button != null and not grasslands_button.pressed.is_connected(_on_grasslands_pressed):
 		grasslands_button.pressed.connect(_on_grasslands_pressed)
 
@@ -170,10 +183,17 @@ func _build_word_list_grid() -> void:
 		button.size_flags_vertical = Control.SIZE_FILL
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.toggle_mode = true
+		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		button.pivot_offset = word_list_button_size * 0.5
+
+		button.mouse_entered.connect(_on_word_list_button_mouse_entered.bind(button))
+		button.mouse_exited.connect(_on_word_list_button_mouse_exited.bind(button))
 
 		var is_selected: bool = run_config.selected_word_list_ids.has(list_data.id)
 		button.button_pressed = is_selected
 		button.text = _get_word_list_button_text(list_data)
+
+		_apply_word_list_button_style(button, is_selected)
 
 		button.pressed.connect(_on_word_list_pressed.bind(list_data.id))
 
@@ -248,10 +268,54 @@ func _clear_word_list_grid() -> void:
 		child.queue_free()
 
 
+func _apply_word_list_button_style(button: Button, is_selected: bool) -> void:
+	if button == null:
+		return
+
+	var base_style: StyleBox = WORD_LIST_BUTTON_STYLE_SELECTED if is_selected else WORD_LIST_BUTTON_STYLE
+	var hover_style: StyleBox = WORD_LIST_BUTTON_STYLE_SELECTED if is_selected else WORD_LIST_BUTTON_STYLE_HOVER
+
+	button.add_theme_stylebox_override("normal", base_style)
+	button.add_theme_stylebox_override("hover", hover_style)
+	button.add_theme_stylebox_override("pressed", WORD_LIST_BUTTON_STYLE_SELECTED)
+	button.add_theme_stylebox_override("focus", hover_style)
+	button.add_theme_stylebox_override("disabled", WORD_LIST_BUTTON_STYLE)
+
+	if word_list_button_font != null:
+		button.add_theme_font_override("font", word_list_button_font)
+
+	button.add_theme_font_size_override("font_size", word_list_button_font_size)
+
+	button.add_theme_color_override("font_color", word_list_button_font_color)
+	button.add_theme_color_override("font_hover_color", word_list_button_font_color)
+	button.add_theme_color_override("font_pressed_color", word_list_button_font_color)
+	button.add_theme_color_override("font_focus_color", word_list_button_font_color)
+	button.add_theme_color_override("font_hover_pressed_color", word_list_button_font_color)
+	button.add_theme_color_override("font_disabled_color", word_list_button_font_color)
+
+
+func _on_word_list_button_mouse_entered(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	button.z_index = 10
+	var tween := create_tween()
+	tween.tween_property(button, "scale", WORD_LIST_BUTTON_HOVER_SCALE, 0.08)
+
+
+func _on_word_list_button_mouse_exited(button: Button) -> void:
+	if button == null or not is_instance_valid(button):
+		return
+
+	button.z_index = 0
+	var tween := create_tween()
+	tween.tween_property(button, "scale", WORD_LIST_BUTTON_NORMAL_SCALE, 0.08)
+
+
 func _refresh_ui_from_config() -> void:
 	if castle_walls_button != null:
 		castle_walls_button.button_pressed = run_config.map_id == "castle_walls"
-	
+
 	if grasslands_button != null:
 		grasslands_button.button_pressed = run_config.map_id == "grasslands"
 
@@ -283,10 +347,7 @@ func _refresh_word_list_button_states() -> void:
 		button.button_pressed = is_selected
 		button.text = _get_word_list_button_text(list_data)
 
-		if is_selected:
-			button.modulate = Color(0.85, 1.0, 0.85, 1.0)
-		else:
-			button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		_apply_word_list_button_style(button, is_selected)
 
 
 func _refresh_word_list_summary() -> void:
@@ -410,10 +471,12 @@ func _on_castle_walls_pressed() -> void:
 	_refresh_summary()
 	_refresh_start_button_state()
 
+
 func _on_grasslands_pressed() -> void:
 	run_config.map_id = "grasslands"
 	_refresh_summary()
 	_refresh_start_button_state()
+
 
 func _on_seaside_farm_pressed() -> void:
 	run_config.map_id = "seaside_farm"

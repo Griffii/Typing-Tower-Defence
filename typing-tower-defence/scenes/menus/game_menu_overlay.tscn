@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://cjl8i2wp56gfh" path="res://scenes/menus/game_menu_overlay.gd" id="1_aj1up"]
 [ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_l8ubc"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_t26sy"]
-[ext_resource type="Texture2D" uid="uid://bcnxf7smfd0r6" path="res://assets/images/menu/buttonSquare_brown.png" id="4_ruhq5"]
-[ext_resource type="Texture2D" uid="uid://dqjc2e26onl3v" path="res://assets/images/menu/buttonSquare_brown_pressed.png" id="5_70638"]
+[ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="4_n0hkp"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_c1bcm"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_ynrey"]
 
@@ -49,53 +48,40 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v63te"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ii5cx"]
-texture = ExtResource("4_ruhq5")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8ubc"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lek62"]
-texture = ExtResource("5_70638")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pmu7m"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 4.0
+texture_margin_top = 6.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(442, 248, 28, 30)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gtng1"]
-texture = ExtResource("4_ruhq5")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dwxbi"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(202, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lht4m"]
-texture = ExtResource("4_ruhq5")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t8ffp"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 4.0
+texture_margin_top = 3.0
+texture_margin_right = 4.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(58, 251, 28, 30)
+modulate_color = Color(1, 1, 1, 0.5882353)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nog3d"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0g41r"]
 
 [node name="GameMenuOverlay" type="CanvasLayer" unique_id=1547500714]
 script = ExtResource("1_aj1up")
@@ -118,10 +104,6 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_rgwd3")
 
 [node name="Margin" type="MarginContainer" parent="Panel" unique_id=262327052]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
 [node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1871379043]
 layout_mode = 2
@@ -190,12 +172,12 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_q1uu0")
 theme_override_styles/hover = SubResource("StyleBoxTexture_8uelp")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_hymvl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_v63te")
-disabled = true
 text = "View Word Lists"
 
-[node name="BackButton" type="Button" parent="Panel/Margin" unique_id=1923509388]
+[node name="BackButton" type="Button" parent="Panel/Margin" unique_id=605056298]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 0)
+z_index = 1
+custom_minimum_size = Vector2(70, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -204,10 +186,10 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("3_t26sy")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxTexture_ii5cx")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lek62")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gtng1")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_lht4m")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_nog3d")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_l8ubc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pmu7m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dwxbi")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_t8ffp")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0g41r")
 text = "Back"
