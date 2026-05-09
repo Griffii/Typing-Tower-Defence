@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cwypp2qdi07la" path="res://assets/images/goblin/spr_watering_strip5.png" id="8_bre17"]
 [ext_resource type="Texture2D" uid="uid://drpy53jgkf02a" path="res://assets/images/goblin/spr_idle_strip9.png" id="9_88kup"]
 [ext_resource type="Texture2D" uid="uid://bpd5he02lyqyx" path="res://assets/cute_fantasy_assets/ground_tiles/Cobble_Road_transparent.png" id="9_jygr6"]
-[ext_resource type="Script" uid="uid://c3y07nmlqop55" path="res://scenes/game/levels/animated_goblin.gd" id="10_bh4e2"]
+[ext_resource type="Script" uid="uid://c3y07nmlqop55" path="res://scenes/game/creatures/animated_goblin.gd" id="10_bh4e2"]
 [ext_resource type="Texture2D" uid="uid://cd37qxn60aorr" path="res://assets/images/environment/spr_deco_tree_02_strip4.png" id="11_3w8rc"]
 [ext_resource type="Texture2D" uid="uid://d2b30uagnywwk" path="res://assets/images/goblin/spr_dig_strip13.png" id="11_88kup"]
 [ext_resource type="Texture2D" uid="uid://m151o3rgqv1d" path="res://assets/images/towers/Tower-blue.png" id="14_vr0hv"]
@@ -2663,6 +2663,47 @@ offset_bottom = 456.0
 theme_override_constants/separation = 18
 alignment = 1
 
+[node name="VBoxContainer3" type="VBoxContainer" parent="ButtonBox" unique_id=502918779]
+layout_mode = 2
+
+[node name="TutorialButton" type="Button" parent="ButtonBox/VBoxContainer3" unique_id=608472731]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
+text = "Training
+Room"
+
+[node name="CharacterButton" type="Button" parent="ButtonBox/VBoxContainer3" unique_id=1470415358]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_ovrgc")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
+text = "Customize
+Character"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="ButtonBox" unique_id=709402534]
 layout_mode = 2
 
@@ -2704,24 +2745,6 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
 text = "Endless
 Mode"
 
-[node name="SettingsButton" type="Button" parent="ButtonBox" unique_id=1598921276]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ovrgc")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
-theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-disabled = true
-text = "Settings"
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="ButtonBox" unique_id=1199491186]
 layout_mode = 2
 
@@ -2744,7 +2767,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
 text = "Word
 Lists"
 
-[node name="CharacterButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=1470415358]
+[node name="SettingsButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=709044820]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
@@ -2758,10 +2781,10 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxTexture_ng0o5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_6bivr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_50h1w")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_8r73w")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ng0o5")
-text = "Customize
-Character"
+theme_override_styles/disabled = SubResource("StyleBoxTexture_imvie")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_imvie")
+disabled = true
+text = "Settings"
 
 [node name="BGContainer" type="Node2D" parent="." unique_id=1081627366]
 z_index = -1

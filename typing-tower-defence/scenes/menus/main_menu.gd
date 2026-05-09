@@ -3,6 +3,7 @@ extends Control
 signal play_requested
 signal levelselectmenu_requested
 signal endless_mode_requested
+signal training_room_requested
 signal settings_requested
 signal wordlistsmenu_requested
 signal customizecharactermenu_requested
@@ -29,6 +30,7 @@ const BUTTON_TWEEN_DURATION: float = 0.08
 @onready var word_lists_button: Button = %WordListsButton
 @onready var story_button: Button = %StoryButton
 @onready var character_button: Button = %CharacterButton
+@onready var tutorial_button: Button = %TutorialButton
 
 @onready var title_label: RichTextLabel = %TitleLabel
 @onready var tower_container: Node2D = %TowerContainer
@@ -49,6 +51,7 @@ func _ready() -> void:
 
 	_setup_menu_button(story_button, _on_story_mode_pressed)
 	_setup_menu_button(endless_button, _on_endless_mode_pressed)
+	_setup_menu_button(tutorial_button, _on_training_room_pressed)
 	_setup_menu_button(settings_button, _on_settings_pressed)
 	_setup_menu_button(word_lists_button, _on_wordlists_pressed)
 	_setup_menu_button(character_button, _on_customize_pressed)
@@ -167,6 +170,7 @@ func _spawn_menu_enemy() -> void:
 		return
 
 	var enemy_scene: PackedScene = MENU_ENEMY_SCENES[rng.randi_range(0, MENU_ENEMY_SCENES.size() - 1)]
+
 	if enemy_scene == null:
 		return
 
@@ -254,6 +258,10 @@ func _on_story_mode_pressed() -> void:
 
 func _on_endless_mode_pressed() -> void:
 	endless_mode_requested.emit()
+
+
+func _on_training_room_pressed() -> void:
+	training_room_requested.emit()
 
 
 func _on_settings_pressed() -> void:

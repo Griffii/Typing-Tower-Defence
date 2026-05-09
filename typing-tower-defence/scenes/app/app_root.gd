@@ -7,6 +7,7 @@ const WORD_LISTS_SCENE: PackedScene = preload("uid://b3dwhhkipwc5c")
 const CHARACTER_CUSTOMIZE_SCENE: PackedScene = preload("uid://defo7xtrxfi6s")
 const ENDLESS_GAME_SCENE: PackedScene = preload("uid://160u44o703f8")
 const CAMPAIGN_GAME_SCENE: PackedScene = preload("uid://ds243ews64l1a")
+const TRAINING_ROOM_GAME_SCENE: PackedScene = preload("uid://dly0hhr52vbhj")
 
 @onready var screen_container: Control = %ScreenContainer
 @onready var scene_transition: CanvasLayer = %Scene_Transition
@@ -84,24 +85,29 @@ func _set_and_wire_screen(scene: PackedScene) -> void:
 		_set_endless_game_screen()
 	elif scene == CAMPAIGN_GAME_SCENE:
 		_set_campaign_game_screen()
+	elif scene == TRAINING_ROOM_GAME_SCENE:
+		_set_training_room_game_screen()
 	else:
 		set_screen(scene)
 
 
 func _set_main_menu() -> void:
 	var menu: Control = set_screen(MAIN_MENU_SCENE)
-	
+
 	if menu.has_signal("levelselectmenu_requested"):
 		menu.levelselectmenu_requested.connect(_on_level_select_menu_requested)
-	
+
 	if menu.has_signal("endless_mode_requested"):
 		menu.endless_mode_requested.connect(_on_endless_mode_requested)
-	
+
 	if menu.has_signal("wordlistsmenu_requested"):
 		menu.wordlistsmenu_requested.connect(_on_word_lists_menu_requested)
-	
+
 	if menu.has_signal("customizecharactermenu_requested"):
 		menu.customizecharactermenu_requested.connect(_on_customize_menu_requested)
+
+	if menu.has_signal("training_room_requested"):
+		menu.training_room_requested.connect(_on_training_room_requested)
 
 
 func _set_endless_setup_menu() -> void:
@@ -116,10 +122,10 @@ func _set_endless_setup_menu() -> void:
 
 func _set_wordlists_menu() -> void:
 	var menu: CanvasLayer = show_modal(WORD_LISTS_SCENE)
-	
+
 	if menu == null:
 		return
-	
+
 	if menu.has_signal("back_requested"):
 		menu.back_requested.connect(_on_word_lists_modal_closed)
 
@@ -146,6 +152,7 @@ func _set_endless_game_screen() -> void:
 
 	if game.has_signal("back_to_menu_requested"):
 		game.back_to_menu_requested.connect(_on_back_to_menu_requested)
+
 	if game.has_signal("word_lists_requested"):
 		game.word_lists_requested.connect(_on_word_lists_menu_requested)
 
@@ -155,22 +162,44 @@ func _set_campaign_game_screen() -> void:
 
 	if game.has_signal("back_to_menu_requested"):
 		game.back_to_menu_requested.connect(_on_back_to_menu_requested)
+
 	if game.has_signal("return_to_map_requested"):
 		game.return_to_map_requested.connect(_on_return_to_map_requested)
+
 	if game.has_signal("word_lists_requested"):
 		game.word_lists_requested.connect(_on_word_lists_menu_requested)
 
+
+func _set_training_room_game_screen() -> void:
+	var game: Control = set_screen(TRAINING_ROOM_GAME_SCENE)
+
+	if game.has_signal("back_to_menu_requested"):
+		game.back_to_menu_requested.connect(_on_back_to_menu_requested)
+
+	if game.has_signal("word_lists_requested"):
+		game.word_lists_requested.connect(_on_word_lists_menu_requested)
 
 
 func _on_return_to_map_requested() -> void:
 	get_tree().paused = false
 	transition_to_screen(LEVEL_SELECT_SCENE, "black_swipe_RtoL")
 
+
 func _on_level_select_menu_requested() -> void:
 	transition_to_screen(LEVEL_SELECT_SCENE, "black_swipe_LtoR")
 
+
 func _on_endless_mode_requested() -> void:
 	transition_to_screen(ENDLESS_SETUP_SCENE, "black_swipe_LtoR")
+
+
+func _on_training_room_requested() -> void:
+	get_tree().paused = false
+
+	if GameSession != null and GameSession.has_method("setup_legacy"):
+		GameSession.setup_legacy()
+
+	transition_to_screen(TRAINING_ROOM_GAME_SCENE, "black_swipe_LtoR")
 
 
 func _on_selection_finished() -> void:
@@ -180,8 +209,10 @@ func _on_selection_finished() -> void:
 func _on_word_lists_menu_requested() -> void:
 	_set_wordlists_menu()
 
+
 func _on_word_lists_modal_closed() -> void:
 	close_current_modal_immediate()
+
 
 func _on_customize_menu_requested() -> void:
 	transition_to_screen(CHARACTER_CUSTOMIZE_SCENE, "black_swipe_LtoR")
@@ -197,7 +228,6 @@ func _on_back_to_menu_requested() -> void:
 		GameSelection.reset_to_defaults()
 
 	transition_to_screen(MAIN_MENU_SCENE, "black_swipe_RtoL")
-
 
 
 func show_modal(scene: PackedScene) -> CanvasLayer:
@@ -218,5 +248,5 @@ func show_modal(scene: PackedScene) -> CanvasLayer:
 func close_current_modal_immediate() -> void:
 	if current_modal != null and is_instance_valid(current_modal):
 		current_modal.queue_free()
-	
+
 	current_modal = null

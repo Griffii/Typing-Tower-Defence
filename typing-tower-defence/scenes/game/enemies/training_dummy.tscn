@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://bg8qo3ksq3cxl"]
+
+[ext_resource type="Script" uid="uid://doyspfx7nrv22" path="res://scenes/game/enemies/training_dummy.gd" id="1_5ilb8"]
+[ext_resource type="Texture2D" uid="uid://c6ksaxpa8jd1r" path="res://assets/images/enemies/training_dummy/Training Dummy Sprite Sheet.png" id="1_f2dj3"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_n8k24"]
+[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="3_o0ccj"]
+[ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="4_moyrj"]
+[ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="5_5ilb8"]
+[ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="6_euo34"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2dj3"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_moyrj"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ilb8"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euo34"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhgo7"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ujjq"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8k24"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0ccj"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfcm0"]
+atlas = ExtResource("1_f2dj3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_moyrj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2dj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_moyrj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ilb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euo34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhgo7")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ujjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8k24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0ccj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfcm0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="TrainingDummy" type="CharacterBody2D" unique_id=585909820]
+script = ExtResource("1_5ilb8")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=574897776]
+unique_name_in_owner = true
+
+[node name="Body" type="AnimatedSprite2D" parent="VisualRoot" unique_id=1899011212]
+unique_name_in_owner = true
+position = Vector2(0, -36)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_moyrj")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.9758013
+
+[node name="LabelRoot" type="Node2D" parent="." unique_id=222451963 groups=["enemy"]]
+unique_name_in_owner = true
+
+[node name="HpLabel" type="Label" parent="LabelRoot" unique_id=2094866817]
+unique_name_in_owner = true
+offset_left = -21.0
+offset_top = 5.0
+offset_right = 21.0
+offset_bottom = 28.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44313726)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_n8k24")
+text = "10"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=284956463]
+unique_name_in_owner = true
+position = Vector2(0, -97)
+
+[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("3_o0ccj")]
+unique_name_in_owner = true
+position = Vector2(0, -78)
+
+[node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=2046593178]
+unique_name_in_owner = true
+stream = ExtResource("4_moyrj")
+
+[node name="death-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1119710449]
+unique_name_in_owner = true
+stream = ExtResource("5_5ilb8")
+
+[node name="hit-sfx" type="AudioStreamPlayer2D" parent="." unique_id=800291747]
+unique_name_in_owner = true
+stream = ExtResource("6_euo34")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1458636917]
+unique_name_in_owner = true

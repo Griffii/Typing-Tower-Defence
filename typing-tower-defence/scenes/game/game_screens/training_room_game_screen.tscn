@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://dly0hhr52vbhj"]
+
+[ext_resource type="Script" uid="uid://dmuuu13y8kger" path="res://scenes/game/game_screens/training_room_game_screen.gd" id="1_5ro3b"]
+[ext_resource type="PackedScene" uid="uid://cdnmjcfhcev7k" path="res://scenes/game/levels/training_room.tscn" id="1_85frr"]
+[ext_resource type="PackedScene" uid="uid://bokumkckuakt" path="res://scenes/menus/gamehud.tscn" id="2_kmje8"]
+[ext_resource type="PackedScene" uid="uid://c22rn1rytwsq0" path="res://scenes/game/ui/round_countdown.tscn" id="3_5ro3b"]
+[ext_resource type="PackedScene" uid="uid://r2lmnunso6ux" path="res://scenes/menus/game_over_screen.tscn" id="4_aysbf"]
+[ext_resource type="PackedScene" uid="uid://bs1hvpqt6or3h" path="res://scenes/menus/shop_menu_overlay.tscn" id="5_dk5dp"]
+[ext_resource type="PackedScene" uid="uid://bgic4n30wrv4a" path="res://scenes/menus/build_overlay.tscn" id="6_pxbqb"]
+[ext_resource type="PackedScene" uid="uid://b05r3ewvjg4i4" path="res://scenes/menus/game_menu_overlay.tscn" id="7_8edqs"]
+[ext_resource type="Script" uid="uid://vjtapq4mb3eo" path="res://scripts/managers/wave_manager.gd" id="8_2lxj7"]
+[ext_resource type="PackedScene" uid="uid://bxtvbt0ut71y2" path="res://scenes/game/dialogue/dialogue_overlay.tscn" id="8_aysbf"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="8_dk5dp"]
+[ext_resource type="Script" uid="uid://c3nnrk7jojd3j" path="res://scripts/managers/spawn_manager.gd" id="9_mdmmd"]
+[ext_resource type="Script" uid="uid://d3jb80mi3pwid" path="res://scripts/managers/typing_manager.gd" id="10_f6wsf"]
+[ext_resource type="PackedScene" uid="uid://dnssl8pqd0pt5" path="res://scenes/menus/training_word_list_overlay.tscn" id="11_dk5dp"]
+[ext_resource type="Script" uid="uid://i0uokjc0q4k" path="res://scripts/managers/combat_manager.gd" id="11_iclrm"]
+
+[node name="TrainingRoomGameScreen" type="Control" unique_id=1055634615]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5ro3b")
+
+[node name="Battlefield" type="Control" parent="." unique_id=224244533]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TrainingRoomLevel" parent="Battlefield" unique_id=1145876909 instance=ExtResource("1_85frr")]
+unique_name_in_owner = true
+
+[node name="EnemyContainer" type="Node" parent="." unique_id=1178346055]
+unique_name_in_owner = true
+
+[node name="ProjectileContainer" type="Node" parent="." unique_id=644274326 groups=["projectile_container"]]
+unique_name_in_owner = true
+
+[node name="UI" type="Control" parent="." unique_id=1532766300]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameHud" parent="UI" unique_id=2066332068 instance=ExtResource("2_kmje8")]
+unique_name_in_owner = true
+
+[node name="CountdownOverlay" parent="UI" unique_id=30536367 instance=ExtResource("3_5ro3b")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GameOverOverlay" parent="UI" unique_id=2079985304 instance=ExtResource("4_aysbf")]
+unique_name_in_owner = true
+visible = false
+
+[node name="ShopOverlay" parent="UI" unique_id=2140083217 instance=ExtResource("5_dk5dp")]
+unique_name_in_owner = true
+visible = false
+
+[node name="BuildOverlay" parent="UI" unique_id=1554375440 instance=ExtResource("6_pxbqb")]
+unique_name_in_owner = true
+visible = false
+
+[node name="TrainingWordListOverlay" parent="UI" unique_id=77975747 instance=ExtResource("11_dk5dp")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GoalLabel" type="Label" parent="UI" unique_id=1475253313]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 95.0
+offset_top = 18.0
+offset_right = 203.0
+offset_bottom = 43.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("8_dk5dp")
+theme_override_font_sizes/font_size = 20
+text = "Status label"
+horizontal_alignment = 1
+
+[node name="DialogueOverlay" parent="UI" unique_id=211241507 instance=ExtResource("8_aysbf")]
+unique_name_in_owner = true
+visible = false
+
+[node name="GameMenuOverlay" parent="UI" unique_id=1547500714 instance=ExtResource("7_8edqs")]
+unique_name_in_owner = true
+layer = 2
+visible = false
+
+[node name="Managers" type="Node" parent="." unique_id=1661103383]
+
+[node name="WaveManager" type="Node" parent="Managers" unique_id=4907794]
+unique_name_in_owner = true
+script = ExtResource("8_2lxj7")
+
+[node name="SpawnManager" type="Node" parent="Managers" unique_id=1692483417]
+unique_name_in_owner = true
+script = ExtResource("9_mdmmd")
+
+[node name="TypingManager" type="Node" parent="Managers" unique_id=1578310041]
+unique_name_in_owner = true
+script = ExtResource("10_f6wsf")
+
+[node name="CombatManager" type="Node" parent="Managers" unique_id=1672380312]
+unique_name_in_owner = true
+script = ExtResource("11_iclrm")

@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://d0w15v7eonj8a" path="res://assets/images/animals/spr_deco_cow_strip4.png" id="8_qt2p4"]
 [ext_resource type="Texture2D" uid="uid://c1qd808w4a3gk" path="res://assets/images/goblin/spr_reeling_strip13.png" id="9_08sba"]
 [ext_resource type="Texture2D" uid="uid://dtu3uotsxn0ur" path="res://assets/images/goblin/spr_waiting_strip9.png" id="10_onrtr"]
-[ext_resource type="Script" uid="uid://c3y07nmlqop55" path="res://scenes/game/levels/animated_goblin.gd" id="11_f1jwk"]
+[ext_resource type="Script" uid="uid://c3y07nmlqop55" path="res://scenes/game/creatures/animated_goblin.gd" id="11_f1jwk"]
 [ext_resource type="Texture2D" uid="uid://drpy53jgkf02a" path="res://assets/images/goblin/spr_idle_strip9.png" id="12_c4tgt"]
 [ext_resource type="Texture2D" uid="uid://cwypp2qdi07la" path="res://assets/images/goblin/spr_watering_strip5.png" id="13_a3iyv"]
 [ext_resource type="PackedScene" uid="uid://8npj02qfrg3f" path="res://scenes/game/player/player.tscn" id="15_onrtr"]
