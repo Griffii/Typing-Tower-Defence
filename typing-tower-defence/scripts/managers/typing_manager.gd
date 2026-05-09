@@ -1,3 +1,4 @@
+# res://scripts/game/managers/typing_manager.gd
 extends Node
 
 signal target_locked(target_enemy: Node)
@@ -5,24 +6,33 @@ signal target_released(target_enemy: Node)
 signal target_changed(target_enemy: Node)
 signal word_completed(target_enemy: Node)
 signal input_cleared
+signal special_used
 
 @onready var spawn_manager: Node = %SpawnManager
 
-var current_level: BattlefieldLevel = null
+var current_level: Node = null
 var tower_container: Node = null
+var enemy_container: Node = null
 
 var is_active: bool = false
 var active_target: Node = null
 var input_buffer: String = ""
 
 
+# ---------------------------
+# LEVEL SETUP
+# ---------------------------
 
-func set_level(level: BattlefieldLevel) -> void:
+func set_level(level: Node) -> void:
 	current_level = level
 	tower_container = null
+	enemy_container = null
 
 	if current_level != null and current_level.has_method("get_tower_container"):
 		tower_container = current_level.get_tower_container()
+
+	if current_level != null and current_level.has_method("get_enemy_container"):
+		enemy_container = current_level.get_enemy_container()
 
 
 func reset_for_new_run() -> void:
@@ -54,6 +64,10 @@ func cancel_current_target() -> void:
 	_clear_target()
 	input_cleared.emit()
 
+
+# ---------------------------
+# INPUT PROCESSING
+# ---------------------------
 
 func process_input_text(text: String) -> void:
 	if not is_active:
@@ -89,6 +103,10 @@ func process_input_text(text: String) -> void:
 			_clear_target()
 
 
+# ---------------------------
+# TARGET SELECTION
+# ---------------------------
+
 func _find_best_target_for_input(input_text: String) -> Node:
 	if input_text.is_empty():
 		return null
@@ -110,17 +128,31 @@ func _find_best_target_for_input(input_text: String) -> Node:
 
 
 func _collect_enemy_candidates(input_text: String, candidates: Array[Node]) -> void:
-	if spawn_manager == null or not spawn_manager.has_method("get_active_enemies"):
-		return
+	var enemies: Array[Node] = []
 
-	var enemies_variant: Variant = spawn_manager.get_active_enemies()
-	if typeof(enemies_variant) != TYPE_ARRAY:
-		return
+	if spawn_manager != null and spawn_manager.has_method("get_active_enemies"):
+		var enemies_variant: Variant = spawn_manager.get_active_enemies()
 
-	var enemies: Array = enemies_variant as Array
+		if typeof(enemies_variant) == TYPE_ARRAY:
+			for enemy in enemies_variant:
+				if enemy is Node:
+					enemies.append(enemy)
+
+	if enemies.is_empty() and enemy_container != null and is_instance_valid(enemy_container):
+		for child in enemy_container.get_children():
+			if child is Node:
+				enemies.append(child)
+
+	if enemies.is_empty():
+		for enemy in get_tree().get_nodes_in_group("enemies"):
+			if enemy is Node:
+				enemies.append(enemy)
 
 	for enemy in enemies:
 		if not is_instance_valid(enemy):
+			continue
+
+		if enemy.has_method("is_enemy_dead") and enemy.is_enemy_dead():
 			continue
 
 		if not enemy.has_method("get_current_word"):
@@ -132,6 +164,8 @@ func _collect_enemy_candidates(input_text: String, candidates: Array[Node]) -> v
 
 		if word.begins_with(input_text):
 			candidates.append(enemy)
+
+	candidates.sort_custom(_sort_enemy_priority)
 
 
 func _collect_tower_candidates(input_text: String, candidates: Array[Node]) -> void:
@@ -159,10 +193,11 @@ func _collect_tower_candidates(input_text: String, candidates: Array[Node]) -> v
 			candidates.append(child)
 
 
+# ---------------------------
+# SORTING
+# ---------------------------
+
 func _sort_enemy_priority(a: Node, b: Node) -> bool:
-	# First-spawned enemy should win - In the case of NPC combat
-	# SpawnManager.get_active_enemies() is assumed to preserve spawn order.
-	# Stable fallback: instance id.
 	return a.get_instance_id() < b.get_instance_id()
 
 
@@ -178,6 +213,10 @@ func _sort_tower_priority(a: Node, b: Node) -> bool:
 
 	return a_node.global_position.x < b_node.global_position.x
 
+
+# ---------------------------
+# TARGET STATE
+# ---------------------------
 
 func _set_active_target(new_target: Node) -> void:
 	if active_target == new_target:

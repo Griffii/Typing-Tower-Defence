@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://grbb4dukyogw"]
+
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="1_h7qyf"]
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="2_ut00y"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_fgkiy"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_fgkiy"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_k4w2m"]
+
+[sub_resource type="Resource" id="Resource_iphve"]
+script = ExtResource("1_h7qyf")
+metadata/_custom_type_script = "uid://bm2xra0mbn2u7"
+
+[resource]
+script = ExtResource("2_ut00y")
+speakers = Array[ExtResource("3_fgkiy")]([ExtResource("4_fgkiy"), ExtResource("5_k4w2m")])
+lines = Array[ExtResource("1_h7qyf")]([SubResource("Resource_iphve")])
+metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

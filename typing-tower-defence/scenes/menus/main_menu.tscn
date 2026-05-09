@@ -2668,7 +2668,7 @@ layout_mode = 2
 
 [node name="TutorialButton" type="Button" parent="ButtonBox/VBoxContainer3" unique_id=608472731]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2687,7 +2687,7 @@ Room"
 
 [node name="CharacterButton" type="Button" parent="ButtonBox/VBoxContainer3" unique_id=1470415358]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2709,7 +2709,7 @@ layout_mode = 2
 
 [node name="StoryButton" type="Button" parent="ButtonBox/VBoxContainer" unique_id=1575299967]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2728,7 +2728,7 @@ Mode"
 
 [node name="EndlessButton" type="Button" parent="ButtonBox/VBoxContainer" unique_id=156142824]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2750,7 +2750,7 @@ layout_mode = 2
 
 [node name="WordListsButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=1784854066]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
@@ -2769,7 +2769,7 @@ Lists"
 
 [node name="SettingsButton" type="Button" parent="ButtonBox/VBoxContainer2" unique_id=709044820]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+custom_minimum_size = Vector2(130, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_default_cursor_shape = 2

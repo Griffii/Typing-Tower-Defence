@@ -1,0 +1,30 @@
+
+
+[gd_resource type="DialogueSequenceData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/dialogue/dialogue_sequence_data.gd" id="1"]
+[ext_resource type="DialogueSpeakerData" path="res://data/dialogue/speakers/jisho.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/dialogue/dialogue_line_data.gd" id="3"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("3")
+speaker = ExtResource("2")
+text = "Your magic is simple. Type the word above an enemy to damage it."
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("3")
+speaker = ExtResource("2")
+text = "Try it out! You can blast these training dummies, they don't mind."
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("3")
+speaker = ExtResource("2")
+text = "Destroy one training dummy."
+
+[resource]
+script = ExtResource("1")
+lines = [
+SubResource("1"),
+SubResource("2"),
+SubResource("3")
+]

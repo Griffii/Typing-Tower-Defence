@@ -33,6 +33,8 @@ var base_hp: int = 100
 var gold: int = 0
 var special_meter: float = 0.0
 
+var replacement_word_provider: Node = null
+
 var base_attackers: Array[Node] = []
 
 var upgrade_levels := {
@@ -49,6 +51,7 @@ var tower_types: Dictionary = {}
 
 func _ready() -> void:
 	add_to_group("combat_manager")
+
 
 func _process(delta: float) -> void:
 	for i in range(base_attackers.size() - 1, -1, -1):
@@ -83,6 +86,14 @@ func setup_run(run_config: Dictionary) -> void:
 	}
 
 	_recalculate_player_upgrade_stats()
+
+
+func set_replacement_word_provider(provider: Node) -> void:
+	replacement_word_provider = provider
+
+
+func clear_replacement_word_provider() -> void:
+	replacement_word_provider = null
 
 
 func _recalculate_player_upgrade_stats() -> void:
@@ -170,15 +181,34 @@ func resolve_completed_word(target_enemy: Node) -> void:
 			_award_enemy_kill_rewards(target_enemy)
 		return
 
-	if spawn_manager != null and spawn_manager.has_method("get_replacement_word_for_enemy"):
-		var new_word: String = String(spawn_manager.get_replacement_word_for_enemy(target_enemy))
+	var new_word: String = _get_replacement_word_for_target(target_enemy)
 
+	if not new_word.is_empty():
 		if target_enemy.has_method("assign_new_word"):
 			target_enemy.assign_new_word(new_word)
 		elif target_enemy.has_method("set_word"):
 			target_enemy.set_word(new_word)
 
 	enemy_survived_word_hit.emit(target_enemy)
+
+
+func _get_replacement_word_for_target(target_enemy: Node) -> String:
+	if replacement_word_provider != null and is_instance_valid(replacement_word_provider):
+		if replacement_word_provider.has_method("get_replacement_word_for_enemy"):
+			var provider_word: String = String(replacement_word_provider.get_replacement_word_for_enemy(target_enemy))
+			if not provider_word.is_empty():
+				return provider_word
+
+	if spawn_manager != null and spawn_manager.has_method("get_replacement_word_for_enemy"):
+		var spawn_word: String = String(spawn_manager.get_replacement_word_for_enemy(target_enemy))
+		if not spawn_word.is_empty():
+			return spawn_word
+
+	if target_enemy != null and is_instance_valid(target_enemy):
+		if target_enemy.has_method("get_current_word"):
+			return String(target_enemy.get_current_word())
+
+	return ""
 
 
 func fire_player_special_at_target(target_enemy: Node) -> void:

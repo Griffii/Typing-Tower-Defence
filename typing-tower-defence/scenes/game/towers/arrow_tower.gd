@@ -1,5 +1,7 @@
 extends Node2D
 
+signal tower_finished_firing(slot_id: String)
+
 const TOWER_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectiles/tower_arrow_projectile.tscn")
 const WordLists = preload("res://data/word_lists/word_lists.gd")
 
@@ -43,15 +45,24 @@ var typing_progress_text: String = ""
 
 func _ready() -> void:
 	if range_area != null:
-		range_area.body_entered.connect(_on_range_body_entered)
-		range_area.body_exited.connect(_on_range_body_exited)
-	
+		if not range_area.body_entered.is_connected(_on_range_body_entered):
+			range_area.body_entered.connect(_on_range_body_entered)
+
+		if not range_area.body_exited.is_connected(_on_range_body_exited):
+			range_area.body_exited.connect(_on_range_body_exited)
+
+		if not range_area.area_entered.is_connected(_on_range_area_entered):
+			range_area.area_entered.connect(_on_range_area_entered)
+
+		if not range_area.area_exited.is_connected(_on_range_area_exited):
+			range_area.area_exited.connect(_on_range_area_exited)
+
 	if word_label != null:
 		word_label.bbcode_enabled = true
 		word_label.fit_content = true
 		word_label.scroll_active = false
 		word_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	
+
 	_assign_new_word()
 	_update_ui()
 	set_process(false)
@@ -76,6 +87,7 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 	effect_type = String(stats.get("effect", "rapid_fire"))
 
 	_update_range_shape()
+
 	await get_tree().physics_frame
 	_refresh_targets_from_overlaps()
 
@@ -84,6 +96,12 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 
 	_update_ui()
 	set_process(damage > 0)
+
+
+func set_override_range(new_range: float) -> void:
+	tower_range = new_range
+	_update_range_shape()
+	_refresh_targets_from_overlaps()
 
 
 func _process(delta: float) -> void:
@@ -125,6 +143,7 @@ func _process(delta: float) -> void:
 func get_current_word() -> String:
 	if tower_state != TowerState.IDLE:
 		return ""
+
 	return current_word
 
 
@@ -164,6 +183,8 @@ func _activate_tower() -> void:
 	attack_cooldown = 0.0
 	current_word = ""
 	typing_progress_text = ""
+
+	_refresh_targets_from_overlaps()
 	_update_ui()
 
 
@@ -174,6 +195,8 @@ func _enter_cooldown_state() -> void:
 	current_word = ""
 	typing_progress_text = ""
 	_update_ui()
+
+	tower_finished_firing.emit(slot_id)
 
 
 func _enter_idle_state() -> void:
@@ -257,22 +280,26 @@ func _update_ui() -> void:
 			progress_bar.value = float(current_charge)
 
 		TowerState.ACTIVE:
-			word_label.visible = false
+			if word_label != null:
+				word_label.visible = false
+
 			progress_bar.modulate = Color(1, 1, 1, 1)
 			progress_bar.max_value = active_duration
 			progress_bar.value = max(state_timer, 0.0)
 
 		TowerState.COOLDOWN:
-			word_label.visible = false
+			if word_label != null:
+				word_label.visible = false
+
 			progress_bar.modulate = Color(1, 1, 1, 0.35)
 			progress_bar.max_value = cooldown_duration
 			progress_bar.value = max(state_timer, 0.0)
 
 
-
 func _cleanup_targets() -> void:
 	for i in range(targets_in_range.size() - 1, -1, -1):
 		var target := targets_in_range[i]
+
 		if not is_instance_valid(target):
 			targets_in_range.remove_at(i)
 			continue
@@ -282,17 +309,36 @@ func _cleanup_targets() -> void:
 
 
 func _get_nearest_target_in_range() -> Node2D:
+	_cleanup_targets()
+
 	var nearest: Node2D = null
 	var nearest_distance := INF
 	var origin: Vector2 = projectile_spawn.global_position
+	var candidates: Array[Node] = []
 
 	for target in targets_in_range:
-		if not is_instance_valid(target):
-			continue
-		if target.has_method("is_enemy_dead") and target.is_enemy_dead():
+		candidates.append(target)
+
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if not candidates.has(enemy):
+			candidates.append(enemy)
+
+	for candidate in candidates:
+		if not is_instance_valid(candidate):
 			continue
 
+		if not (candidate is Node2D):
+			continue
+
+		if candidate.has_method("is_enemy_dead") and candidate.is_enemy_dead():
+			continue
+
+		var target := candidate as Node2D
 		var dist := origin.distance_to(target.global_position)
+
+		if dist > tower_range:
+			continue
+
 		if dist < nearest_distance:
 			nearest_distance = dist
 			nearest = target
@@ -347,16 +393,20 @@ func _refresh_targets_from_overlaps() -> void:
 	if range_area == null:
 		return
 
-	var overlapping_bodies = range_area.get_overlapping_bodies()
-	for body in overlapping_bodies:
+	for body in range_area.get_overlapping_bodies():
 		_try_add_target(body)
+
+	for area in range_area.get_overlapping_areas():
+		_try_add_target(area)
 
 
 func _try_add_target(node: Node) -> void:
 	if node == null or not is_instance_valid(node):
 		return
+
 	if not (node is Node2D):
 		return
+
 	if not node.is_in_group("enemies"):
 		return
 
@@ -371,13 +421,16 @@ func _try_add_target(node: Node) -> void:
 func _try_remove_target(node: Node) -> void:
 	if node == null or not is_instance_valid(node):
 		return
+
 	if not (node is Node2D):
 		return
+
 	if not node.is_in_group("enemies"):
 		return
 
 	var enemy := node as Node2D
 	var index := targets_in_range.find(enemy)
+
 	if index != -1:
 		targets_in_range.remove_at(index)
 
@@ -388,6 +441,14 @@ func _on_range_body_entered(body: Node) -> void:
 
 func _on_range_body_exited(body: Node) -> void:
 	_try_remove_target(body)
+
+
+func _on_range_area_entered(area: Area2D) -> void:
+	_try_add_target(area)
+
+
+func _on_range_area_exited(area: Area2D) -> void:
+	_try_remove_target(area)
 
 
 func set_targeted(targeted: bool) -> void:

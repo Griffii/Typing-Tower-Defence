@@ -12,7 +12,7 @@ const TOWER_UPGRADE_NODE_SCENE: PackedScene = preload("res://scenes/game/towers/
 @onready var return_button: Button = %ReturnToShopButton
 @onready var slot_node_container: Node2D = %SlotNodeContainer
 
-var _current_level: BattlefieldLevel = null
+var _current_level: Node = null
 var _slot_markers: Dictionary = {}
 var _slot_nodes: Dictionary = {}
 var _current_build_state: Dictionary = {}
@@ -27,7 +27,7 @@ func _ready() -> void:
 		return_button.pressed.connect(_on_return_pressed)
 
 
-func set_level(level: BattlefieldLevel) -> void:
+func set_level(level: Node) -> void:
 	print("[BuildOverlay] set_level() level=", level, " class=", level.get_class() if level != null else "null")
 
 	_current_level = level

@@ -1,0 +1,41 @@
+[gd_resource type="DialogueSequenceData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/dialogue/dialogue_sequence_data.gd" id="1"]
+[ext_resource type="DialogueSpeakerData" path="res://data/dialogue/speakers/jisho.tres" id="2"]
+[ext_resource type="DialogueSpeakerData" path="res://data/dialogue/speakers/player.tres" id="3"]
+[ext_resource type="Script" path="res://data/dialogue/dialogue_line_data.gd" id="4"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("4")
+speaker = ExtResource("2")
+text = "Defeating enemies gives you gold."
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("4")
+speaker = ExtResource("2")
+text = "Gold lets you improve your magic and build defenses."
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("4")
+speaker = ExtResource("3")
+text = "So stronger enemies are worth more?"
+
+[sub_resource type="Resource" id="4"]
+script = ExtResource("4")
+speaker = ExtResource("2")
+text = "Usually. Dangerous enemies tend to carry better rewards."
+
+[sub_resource type="Resource" id="5"]
+script = ExtResource("4")
+speaker = ExtResource("2")
+text = "Make 100 gold."
+
+[resource]
+script = ExtResource("1")
+lines = [
+SubResource("1"),
+SubResource("2"),
+SubResource("3"),
+SubResource("4"),
+SubResource("5")
+]

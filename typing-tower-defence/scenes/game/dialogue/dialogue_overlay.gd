@@ -187,6 +187,48 @@ func _focus_speaker(active_speaker_id: String) -> void:
 		speaker_focus_tweens[speaker_id] = tween
 
 
+func start_from_raw_data(raw_data: Dictionary) -> void:
+	var sequence := DialogueSequenceData.new()
+
+	var raw_speakers: Array = raw_data.get("speakers", [])
+	var raw_lines: Array = raw_data.get("lines", [])
+
+	for speaker_data in raw_speakers:
+		if not (speaker_data is Dictionary):
+			continue
+
+		var speaker := DialogueSpeakerData.new()
+		speaker.speaker_id = str(speaker_data.get("speaker_id", ""))
+		speaker.display_name = str(speaker_data.get("display_name", ""))
+		speaker.default_position = str(speaker_data.get("default_position", "left"))
+		speaker.use_player_name = bool(speaker_data.get("use_player_name", false))
+
+		var avatar_scene: PackedScene = speaker_data.get("avatar_scene", null)
+		if avatar_scene != null:
+			speaker.avatar_scene = avatar_scene
+
+		var dialogue_box_style: StyleBox = speaker_data.get("dialogue_box_style", null)
+		if dialogue_box_style != null:
+			speaker.dialogue_box_style = dialogue_box_style
+
+		var name_color: Color = speaker_data.get("name_color", Color.TRANSPARENT)
+		speaker.name_color = name_color
+
+		sequence.speakers.append(speaker)
+
+	for line_data in raw_lines:
+		if not (line_data is Dictionary):
+			continue
+
+		var line := DialogueLineData.new()
+		line.speaker_id = str(line_data.get("speaker_id", ""))
+		line.text = str(line_data.get("text", ""))
+
+		sequence.lines.append(line)
+
+	start(sequence)
+
+
 func _start_typing_text(text: String) -> void:
 	if typing_tween != null and typing_tween.is_valid():
 		typing_tween.kill()

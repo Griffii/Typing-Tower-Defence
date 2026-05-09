@@ -1,7 +1,7 @@
 # res://scripts/autoloads/player_loadout.gd
 extends Node
 
-### UNLOCK ITEMS FROM ANYWHERE WITH THIS SYNTAX
+### UNLOCK ITEMS FROM ANYWHERE WITH THIS SYNTAX ##########
 #
 # PlayerLoadout.unlock_item("hat", "flower_hat")
 # PlayerLoadout.unlock_item("wand", "glass_wand")

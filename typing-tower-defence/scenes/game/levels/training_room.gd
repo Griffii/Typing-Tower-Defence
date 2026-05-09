@@ -2,13 +2,16 @@
 class_name TrainingRoomLevel
 extends Node2D
 
+signal tower_finished_firing(slot_id: String)
+signal training_dummy_died(dummy: Node, marker_id: String)
+
 const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
 const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
 const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
 
 @export var training_dummy_scene: PackedScene
 @export var enemy_scale: Vector2 = Vector2.ONE
-@export var allowed_tower_types: Array[String] = ["arrow", "lightning"]
+@export var allowed_tower_types: Array[String] = ["arrow"] ## No lightning towers, for now
 
 @onready var dummy_marker_1: Marker2D = %DummyMarker1
 @onready var dummy_marker_2: Marker2D = %DummyMarker2
@@ -100,6 +103,8 @@ func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
 func set_word_pool(words: Array[String]) -> void:
 	current_word_pool = words.duplicate()
 
+func get_replacement_word_for_enemy(_enemy: Node) -> String:
+	return _get_random_word()
 
 func _get_random_word() -> String:
 	if current_word_pool.is_empty():
@@ -160,9 +165,9 @@ func spawn_dummy(marker_id: String) -> TrainingDummy:
 		"enemy_id": "training_dummy_%s_%d" % [marker_id, Time.get_ticks_msec()],
 		"marker_id": marker_id,
 		"word": _get_random_word(),
-		"max_hp": 50,
-		"reward_score": 10,
-		"reward_gold": 10,
+		"max_hp": 30,
+		"reward_score": 15,
+		"reward_gold": 15,
 	})
 
 	if not dummy.enemy_died.is_connected(_on_dummy_died):
@@ -209,6 +214,8 @@ func _on_dummy_died(dummy: Node) -> void:
 		return
 
 	active_dummies.erase(marker_id)
+
+	training_dummy_died.emit(dummy, marker_id)
 
 	if respawn_enabled:
 		_respawn_after_delay(marker_id)
@@ -302,6 +309,13 @@ func refresh_all_towers(combat_manager: Node) -> void:
 
 		if tower.has_method("setup_tower"):
 			tower.setup_tower(slot_id, combat_manager, projectile_container)
+			
+			if tower.has_method("set_override_range"):
+				tower.set_override_range(999.0)
+			
+			if tower.has_signal("tower_finished_firing"):
+				if not tower.tower_finished_firing.is_connected(_on_tower_finished_firing):
+					tower.tower_finished_firing.connect(_on_tower_finished_firing)
 
 	var stale_slots: Array[String] = []
 
@@ -320,6 +334,7 @@ func refresh_all_towers(combat_manager: Node) -> void:
 		tower_nodes.erase(stale_slot_id)
 
 
+
 func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node = null) -> PackedScene:
 	if combat_manager != null and combat_manager.has_method("get_tower_type"):
 		var tower_type: String = str(combat_manager.get_tower_type(slot_id))
@@ -331,3 +346,7 @@ func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node
 				return ARROW_TOWER_SCENE
 
 	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
+
+
+func _on_tower_finished_firing(slot_id: String) -> void:
+	tower_finished_firing.emit(slot_id)

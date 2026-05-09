@@ -3,6 +3,8 @@ extends Node
 
 signal campaign_progress_changed
 
+var tutorial_completed = false;
+
 var completed_levels: Dictionary = {}
 
 var upgrade_levels: Dictionary = {

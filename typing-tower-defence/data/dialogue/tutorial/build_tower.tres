@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://4hbvjyaex21q"]
+
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="1_tke7a"]
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="2_r76wg"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_n2onr"]
+
+[resource]
+script = ExtResource("2_r76wg")
+metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

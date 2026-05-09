@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
 [ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
 [ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_jrf0p"]
-[ext_resource type="Resource" uid="uid://e6y2i0x4piqv" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_jrf0p"]
-[ext_resource type="Resource" uid="uid://2wxn3tc7dwll" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_q258p"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_jrf0p"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_q258p"]
 
 [sub_resource type="Resource" id="Line_0"]
 script = ExtResource("2_line")

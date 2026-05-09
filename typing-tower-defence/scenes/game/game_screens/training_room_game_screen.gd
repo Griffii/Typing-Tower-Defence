@@ -9,9 +9,9 @@ enum TrainingStep {
 	INTRO,
 	DESTROY_ONE_DUMMY,
 	USE_SPECIAL,
-	MAKE_100_GOLD_A,
+	MAKE_50_GOLD,
 	BUY_UPGRADE,
-	MAKE_100_GOLD_B,
+	MAKE_70_GOLD,
 	BUILD_TOWER,
 	CHARGE_TOWER,
 	DEFEAT_5_STRONG,
@@ -27,7 +27,135 @@ enum TrainingRunState {
 	PAUSED,
 }
 
-const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
+const SHOP_DEFINITIONS = preload("uid://bkilul3ytxi2o")
+const DIALOGUE_OVERLAY_SCENE: PackedScene = preload("uid://bxtvbt0ut71y2")
+
+const JISHO_AVATAR_SCENE: PackedScene = preload("uid://b807kf2rrb0yt")
+const PLAYER_AVATAR_SCENE: PackedScene = preload("uid://8npj02qfrg3f")
+
+const TUTORIAL_SPEAKERS: Array[Dictionary] = [
+	{
+		"speaker_id": "jisho",
+		"display_name": "Jisho",
+		"default_position": "right",
+		"avatar_scene": JISHO_AVATAR_SCENE,
+		"name_color": Color(1.0, 0.784, 1.0, 1.0),
+	},
+	{
+		"speaker_id": "player",
+		"display_name": "Player",
+		"default_position": "left",
+		"avatar_scene": PLAYER_AVATAR_SCENE,
+		"use_player_name": true,
+		"name_color": Color(1.0, 1.0, 0.784, 1.0),
+	},
+]
+
+const INTRO_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Welcome to the training room."},
+		{"speaker_id": "jisho", "text": "I am Jisho. Your magical grimoire, and best friend!"},
+		{"speaker_id": "player", "text": "Oh."},
+		{"speaker_id": "jisho", "text": "Yes. Also, change your name now if you want. Just don't pick something weird."},
+	]
+}
+
+const DESTROY_ONE_DUMMY_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Casting spells is simple! Type the word above an enemy to damage it."},
+		{"speaker_id": "jisho", "text": "You channel your magic through typing."},
+		{"speaker_id": "player", "text": "K."},
+		{"speaker_id": "jisho", "text": "Don't overthink it. Try to destroy a training dummy."},
+	]
+}
+
+const USE_SPECIAL_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Nice!"},
+		{"speaker_id": "jisho", "text": "As you cast spells, your special bar fills."},
+		{"speaker_id": "jisho", "text": "When it is full, your magic releases a stronger attack."},
+		{"speaker_id": "player", "text": "Neat."},
+		{"speaker_id": "jisho", "text": "Correct. Fill up the bar and fireball these strawmen!"},
+	]
+}
+
+const MAKE_50_GOLD_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "HAHAHA! BURN!!!!."},
+		{"speaker_id": "jisho", "text": "Ehem... anyway."},
+		{"speaker_id": "jisho", "text": "Defeating enemies gives you gold."},
+		{"speaker_id": "jisho", "text": "You can use that gold to improve your magic damage and special skill."},
+		{"speaker_id": "player", "text": "Cool."},
+		{"speaker_id": "jisho", "text": "Very. Make some money and let's get dripped out."},
+	]
+}
+
+const BUY_UPGRADE_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Nice job. Let's check out the shop."},
+		{"speaker_id": "jisho", "text": "Upgrades improve your power for this run."},
+		{"speaker_id": "jisho", "text": "This is practice, so these upgrades will not follow you outside this room."},
+		{"speaker_id": "player", "text": "Huh."},
+		{"speaker_id": "jisho", "text": "Buy any upgrade."},
+	]
+}
+
+const MAKE_70_GOLD_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Good. Now test your upgrade."},
+		{"speaker_id": "jisho", "text": "The rhythm is simple: defeat enemies, earn gold, improve your spells."},
+		{"speaker_id": "jisho", "text": "Make some more gold and I'll show you another cool trick."},
+	]
+}
+
+const BUILD_TOWER_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Next: towers!"},
+		{"speaker_id": "jisho", "text": "Towers can be summoned with magic to help you fight."},
+		{"speaker_id": "jisho", "text": "They cost gold, but once built, they give you another way to control the battle."},
+		{"speaker_id": "jisho", "text": "Build an arrow tower."},
+	]
+}
+
+const CHARGE_TOWER_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Cool right?! But, a tower is not useful by itself."},
+		{"speaker_id": "jisho", "text": "You must charge it with magic before it can activate."},
+		{"speaker_id": "jisho", "text": "Type the word shown on the tower to feed it power."},
+		{"speaker_id": "jisho", "text": "You have to choose what to focus on, burning enemies or charging your towers."},
+	]
+}
+
+const DEFEAT_STRONG_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "Some creatures resist simple magic."},
+		{"speaker_id": "jisho", "text": "That means you must type longer or more difficult words to affect them."},
+		{"speaker_id": "player", "text": "Oh..."},
+		{"speaker_id": "jisho", "text": "Should be easy for you, let's try."},
+	]
+}
+
+const FINAL_DIALOGUE: Dictionary = {
+	"speakers": TUTORIAL_SPEAKERS,
+	"lines": [
+		{"speaker_id": "jisho", "text": "That's about everything."},
+		{"speaker_id": "jisho", "text": "There are many different creatures to fight out there."},
+		{"speaker_id": "jisho", "text": "As you explore, you may discover new magic, towers, enemies, and stranger things."},
+		{"speaker_id": "player", "text": "Huh."},
+		{"speaker_id": "jisho", "text": "Do not touch anything glowing unless I say so."},
+		{"speaker_id": "jisho", "text": "Feel free to practice here as long as you like."},
+		{"speaker_id": "jisho", "text": "Use the menu in the top left to leave the training room when you are ready."},
+	]
+}
 
 @onready var training_room_level: TrainingRoomLevel = %TrainingRoomLevel
 
@@ -36,7 +164,8 @@ const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 @onready var shop_overlay: CanvasLayer = %ShopOverlay
 @onready var build_overlay: CanvasLayer = %BuildOverlay
 @onready var training_word_list_overlay: TrainingWordListOverlay = %TrainingWordListOverlay
-@onready var dialogue_overlay: CanvasLayer = %DialogueOverlay
+
+@onready var word_list_change_button: Button = %WordListChangeButton
 
 @onready var projectile_container: Node = %ProjectileContainer
 @onready var typing_manager: Node = %TypingManager
@@ -51,7 +180,6 @@ var previous_run_state: TrainingRunState = TrainingRunState.ACTIVE
 var selected_training_word_list_ids: Array[String] = ["easy"]
 
 var current_gold: int = 0
-var gold_at_goal_start: int = 0
 var strong_enemies_defeated: int = 0
 
 var is_game_menu_open: bool = false
@@ -65,12 +193,12 @@ func _ready() -> void:
 	_setup_training_room()
 	_connect_signals()
 	await get_tree().process_frame
-	_start_intro()
 
+	if CampaignProgress != null and CampaignProgress.tutorial_completed:
+		_start_free_practice()
+	else:
+		_start_intro()
 
-# ---------------------------
-# SETUP
-# ---------------------------
 
 func _setup_training_room() -> void:
 	get_tree().paused = false
@@ -81,6 +209,9 @@ func _setup_training_room() -> void:
 
 	player_character = training_room_level.get_player_character()
 
+	if training_room_level.has_method("setup_level"):
+		training_room_level.setup_level(projectile_container)
+
 	training_room_level.set_respawn_enabled(false)
 	training_room_level.set_word_pool(_get_words_from_list_ids(["easy"]))
 	training_room_level.clear_dummies()
@@ -89,10 +220,12 @@ func _setup_training_room() -> void:
 	_bind_managers_to_level()
 	_connect_player_signals()
 
+	_set_word_list_change_button_visible(false)
 	_hide_game_menu()
 	_hide_shop()
 	_hide_build()
 	_hide_training_word_list_overlay()
+	
 
 	_set_goal_text("")
 	_set_status_text("Training.")
@@ -141,6 +274,9 @@ func _bind_managers_to_level() -> void:
 		if combat_manager.has_method("set_player"):
 			combat_manager.set_player(training_room_level.get_player_character())
 
+		if combat_manager.has_method("set_replacement_word_provider"):
+			combat_manager.set_replacement_word_provider(training_room_level)
+
 	if build_overlay != null:
 		if build_overlay.has_method("set_level"):
 			build_overlay.set_level(training_room_level)
@@ -184,6 +320,14 @@ func _connect_signals() -> void:
 		if build_overlay.has_signal("tower_purchase_requested") and not build_overlay.tower_purchase_requested.is_connected(_on_build_tower_purchase_requested):
 			build_overlay.tower_purchase_requested.connect(_on_build_tower_purchase_requested)
 
+	if training_room_level != null:
+		if training_room_level.has_signal("tower_finished_firing"):
+			if not training_room_level.tower_finished_firing.is_connected(_on_training_tower_finished_firing):
+				training_room_level.tower_finished_firing.connect(_on_training_tower_finished_firing)
+		if training_room_level.has_signal("training_dummy_died"):
+			if not training_room_level.training_dummy_died.is_connected(_on_training_dummy_died):
+				training_room_level.training_dummy_died.connect(_on_training_dummy_died)
+
 	if training_word_list_overlay != null:
 		if training_word_list_overlay.has_signal("word_pool_changed") and not training_word_list_overlay.word_pool_changed.is_connected(_on_training_word_pool_changed):
 			training_word_list_overlay.word_pool_changed.connect(_on_training_word_pool_changed)
@@ -210,6 +354,10 @@ func _connect_signals() -> void:
 
 		if combat_manager.has_signal("tower_state_changed") and not combat_manager.tower_state_changed.is_connected(_on_tower_state_changed):
 			combat_manager.tower_state_changed.connect(_on_tower_state_changed)
+	
+	if word_list_change_button != null:
+		if not word_list_change_button.pressed.is_connected(_on_word_list_change_button_pressed):
+			word_list_change_button.pressed.connect(_on_word_list_change_button_pressed)
 
 
 func _connect_player_signals() -> void:
@@ -220,10 +368,6 @@ func _connect_player_signals() -> void:
 		if not player_character.special_projectile_impact.is_connected(_on_special_projectile_impact):
 			player_character.special_projectile_impact.connect(_on_special_projectile_impact)
 
-
-# ---------------------------
-# RUN STATE
-# ---------------------------
 
 func _set_run_state(new_state: TrainingRunState) -> void:
 	run_state = new_state
@@ -263,9 +407,21 @@ func _set_run_state(new_state: TrainingRunState) -> void:
 			_set_status_text("Paused.")
 
 
-# ---------------------------
-# HUD / TYPING
-# ---------------------------
+
+
+func _set_word_list_change_button_visible(enabled: bool) -> void:
+	if word_list_change_button != null:
+		word_list_change_button.visible = enabled
+		word_list_change_button.disabled = not enabled
+
+
+func _on_word_list_change_button_pressed() -> void:
+	if current_step != TrainingStep.FREE_PRACTICE:
+		return
+
+	_show_training_word_list_overlay()
+	
+
 
 func _on_hud_text_changed(text: String) -> void:
 	if run_state != TrainingRunState.ACTIVE:
@@ -360,10 +516,6 @@ func _on_hud_stats_changed(stats: Dictionary) -> void:
 	_check_gold_goals()
 
 
-# ---------------------------
-# SPECIAL
-# ---------------------------
-
 func _on_special_meter_changed(current_value: float, max_value: float) -> void:
 	if player_character == null or not is_instance_valid(player_character):
 		return
@@ -415,10 +567,6 @@ func _get_front_most_training_enemy() -> Node:
 	return null
 
 
-# ---------------------------
-# GAME MENU
-# ---------------------------
-
 func _on_game_menu_pressed() -> void:
 	if is_game_menu_open:
 		return
@@ -457,10 +605,6 @@ func _hide_game_menu() -> void:
 	if game_menu_overlay != null and game_menu_overlay.has_method("hide_overlay"):
 		game_menu_overlay.hide_overlay()
 
-
-# ---------------------------
-# SHOP
-# ---------------------------
 
 func _show_shop() -> void:
 	is_shop_open = true
@@ -543,10 +687,6 @@ func _set_shop_mode_upgrades_only() -> void:
 		shop_overlay.set_upgrade_buttons_enabled(true)
 
 
-# ---------------------------
-# BUILD
-# ---------------------------
-
 func _show_build() -> void:
 	is_build_open = true
 
@@ -623,13 +763,7 @@ func _on_tower_state_changed() -> void:
 	if is_shop_open:
 		_refresh_shop()
 
-	if current_step == TrainingStep.CHARGE_TOWER:
-		_complete_charge_tower_goal()
 
-
-# ---------------------------
-# TRAINING WORD LIST OVERLAY
-# ---------------------------
 
 func _show_training_word_list_overlay() -> void:
 	if training_word_list_overlay != null:
@@ -653,53 +787,44 @@ func _on_training_word_pool_changed(words: Array[String], selected_ids: Array[St
 	training_room_level.reset_dummies_with_word_pool(words, 2)
 
 
-# ---------------------------
-# DIALOGUE
-# ---------------------------
-
-func _play_dialogue(lines: Array[Dictionary]) -> void:
+func _play_dialogue(dialogue_data: Dictionary) -> void:
 	_set_run_state(TrainingRunState.DIALOGUE)
 
 	if training_room_level != null:
 		training_room_level.set_respawn_enabled(false)
 
-	if dialogue_overlay == null:
+	if dialogue_data.is_empty():
+		push_warning("TrainingRoomGameScreen: dialogue_data was empty.")
 		return
 
-	dialogue_overlay.visible = true
-	dialogue_overlay.process_mode = Node.PROCESS_MODE_ALWAYS
+	if DIALOGUE_OVERLAY_SCENE == null:
+		push_warning("TrainingRoomGameScreen: DIALOGUE_OVERLAY_SCENE is null.")
+		return
 
-	if dialogue_overlay.has_method("play_dialogue"):
-		await dialogue_overlay.play_dialogue(lines)
-	elif dialogue_overlay.has_method("start_dialogue"):
-		dialogue_overlay.start_dialogue(lines)
+	var overlay: DialogueOverlay = DIALOGUE_OVERLAY_SCENE.instantiate() as DialogueOverlay
 
-		if dialogue_overlay.has_signal("dialogue_finished"):
-			await dialogue_overlay.dialogue_finished
-	elif dialogue_overlay.has_method("start_from_lines"):
-		dialogue_overlay.start_from_lines(lines)
+	if overlay == null:
+		push_warning("TrainingRoomGameScreen: Dialogue overlay scene does not use DialogueOverlay.")
+		return
 
-		if dialogue_overlay.has_signal("dialogue_finished"):
-			await dialogue_overlay.dialogue_finished
+	add_child(overlay)
+	overlay.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	if overlay.has_method("start_from_raw_data"):
+		overlay.start_from_raw_data(dialogue_data)
 	else:
-		push_warning("TrainingRoomGameScreen: DialogueOverlay needs play_dialogue(), start_dialogue(), or start_from_lines().")
+		push_warning("TrainingRoomGameScreen: DialogueOverlay missing start_from_raw_data().")
+		overlay.queue_free()
+		return
 
-	dialogue_overlay.visible = false
+	await overlay.dialogue_finished
 
 
-# ---------------------------
-# TRAINING FLOW
-# ---------------------------
 
 func _start_intro() -> void:
 	current_step = TrainingStep.INTRO
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Welcome to the training room."},
-		{"speaker": "Jisho", "text": "I am Jisho. This is where you learn how to survive."},
-		{"speaker": "Player", "text": "Survive?"},
-		{"speaker": "Jisho", "text": "Yes. Also, change your name now if you want. Names are powerful. Mostly for menus."},
-	])
+	await _play_dialogue(INTRO_DIALOGUE)
 
 	_start_destroy_one_dummy_goal()
 
@@ -707,10 +832,7 @@ func _start_intro() -> void:
 func _start_destroy_one_dummy_goal() -> void:
 	current_step = TrainingStep.DESTROY_ONE_DUMMY
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Your magic is simple. Type the word above an enemy to damage it."},
-		{"speaker": "Jisho", "text": "Destroy one training dummy."},
-	])
+	await _play_dialogue(DESTROY_ONE_DUMMY_DIALOGUE)
 
 	_set_goal_text("Goal: Destroy 1 training dummy")
 	_set_run_state(TrainingRunState.ACTIVE)
@@ -718,8 +840,6 @@ func _start_destroy_one_dummy_goal() -> void:
 	training_room_level.set_respawn_enabled(false)
 	training_room_level.set_word_pool(_get_words_from_list_ids(["easy"]))
 	training_room_level.spawn_one_dummy()
-
-	_listen_for_next_dummy_death(_complete_destroy_one_dummy_goal)
 
 
 func _complete_destroy_one_dummy_goal() -> void:
@@ -732,10 +852,7 @@ func _complete_destroy_one_dummy_goal() -> void:
 func _start_use_special_goal() -> void:
 	current_step = TrainingStep.USE_SPECIAL
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Good. Now attack multiple enemies."},
-		{"speaker": "Jisho", "text": "As you type, your special bar fills. When it is full, use your special attack."},
-	])
+	await _play_dialogue(USE_SPECIAL_DIALOGUE)
 
 	_set_goal_text("Goal: Use your special")
 	_set_run_state(TrainingRunState.ACTIVE)
@@ -753,15 +870,11 @@ func _complete_use_special_goal() -> void:
 
 
 func _start_make_gold_goal_a() -> void:
-	current_step = TrainingStep.MAKE_100_GOLD_A
-	gold_at_goal_start = current_gold
+	current_step = TrainingStep.MAKE_50_GOLD
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Defeating enemies gives you gold."},
-		{"speaker": "Jisho", "text": "Gold lets you buy upgrades and build defenses."},
-	])
+	await _play_dialogue(MAKE_50_GOLD_DIALOGUE)
 
-	_set_goal_text("Goal: Make 100 gold")
+	_set_goal_text("Goal: Make 50 gold")
 	_set_run_state(TrainingRunState.ACTIVE)
 
 	training_room_level.set_respawn_enabled(true)
@@ -770,17 +883,17 @@ func _start_make_gold_goal_a() -> void:
 
 
 func _check_gold_goals() -> void:
-	if current_step == TrainingStep.MAKE_100_GOLD_A:
-		if current_gold - gold_at_goal_start >= 100:
+	if current_step == TrainingStep.MAKE_50_GOLD:
+		if current_gold >= 50:
 			_complete_make_gold_goal_a()
 
-	elif current_step == TrainingStep.MAKE_100_GOLD_B:
-		if current_gold - gold_at_goal_start >= 100:
+	elif current_step == TrainingStep.MAKE_70_GOLD:
+		if current_gold >= 70:
 			_complete_make_gold_goal_b()
 
 
 func _complete_make_gold_goal_a() -> void:
-	if current_step != TrainingStep.MAKE_100_GOLD_A:
+	if current_step != TrainingStep.MAKE_50_GOLD:
 		return
 
 	_start_buy_upgrade_goal()
@@ -789,10 +902,7 @@ func _complete_make_gold_goal_a() -> void:
 func _start_buy_upgrade_goal() -> void:
 	current_step = TrainingStep.BUY_UPGRADE
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Now open the shop."},
-		{"speaker": "Jisho", "text": "Buy any upgrade. Build mode is disabled for now."},
-	])
+	await _play_dialogue(BUY_UPGRADE_DIALOGUE)
 
 	_set_goal_text("Goal: Buy an upgrade")
 
@@ -812,15 +922,11 @@ func _complete_buy_upgrade_goal() -> void:
 
 
 func _start_make_gold_goal_b() -> void:
-	current_step = TrainingStep.MAKE_100_GOLD_B
-	gold_at_goal_start = current_gold
+	current_step = TrainingStep.MAKE_70_GOLD
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Good. Now test your upgrade."},
-		{"speaker": "Jisho", "text": "Make 100 more gold."},
-	])
+	await _play_dialogue(MAKE_70_GOLD_DIALOGUE)
 
-	_set_goal_text("Goal: Make 100 gold again")
+	_set_goal_text("Goal: Make 70 gold")
 	_set_run_state(TrainingRunState.ACTIVE)
 
 	training_room_level.set_respawn_enabled(true)
@@ -829,7 +935,7 @@ func _start_make_gold_goal_b() -> void:
 
 
 func _complete_make_gold_goal_b() -> void:
-	if current_step != TrainingStep.MAKE_100_GOLD_B:
+	if current_step != TrainingStep.MAKE_70_GOLD:
 		return
 
 	_start_build_tower_goal()
@@ -838,11 +944,7 @@ func _complete_make_gold_goal_b() -> void:
 func _start_build_tower_goal() -> void:
 	current_step = TrainingStep.BUILD_TOWER
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Next: towers."},
-		{"speaker": "Jisho", "text": "Use gold and magic to build towers. They help defeat enemies."},
-		{"speaker": "Jisho", "text": "Buy a tower now. Regular upgrades are disabled."},
-	])
+	await _play_dialogue(BUILD_TOWER_DIALOGUE)
 
 	_set_goal_text("Goal: Build a tower")
 
@@ -864,10 +966,7 @@ func _complete_build_tower_goal() -> void:
 func _start_charge_tower_goal() -> void:
 	current_step = TrainingStep.CHARGE_TOWER
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "A tower is not useful by itself."},
-		{"speaker": "Jisho", "text": "Charge it with magic. Type tower words until it activates."},
-	])
+	await _play_dialogue(CHARGE_TOWER_DIALOGUE)
 
 	_set_goal_text("Goal: Charge the tower")
 	_set_run_state(TrainingRunState.ACTIVE)
@@ -888,11 +987,7 @@ func _start_defeat_strong_goal() -> void:
 	current_step = TrainingStep.DEFEAT_5_STRONG
 	strong_enemies_defeated = 0
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "Stronger creatures resist weak magic."},
-		{"speaker": "Jisho", "text": "That means you must type longer and more difficult words to affect them."},
-		{"speaker": "Jisho", "text": "Defeat five strong dummies."},
-	])
+	await _play_dialogue(DEFEAT_STRONG_DIALOGUE)
 
 	_set_goal_text("Goal: Defeat 5 strong enemies (0 / 5)")
 	_set_run_state(TrainingRunState.ACTIVE)
@@ -900,8 +995,6 @@ func _start_defeat_strong_goal() -> void:
 	training_room_level.set_respawn_enabled(true)
 	training_room_level.set_word_pool(_get_words_from_list_ids(["hard"]))
 	training_room_level.spawn_two_dummies()
-
-	_listen_for_dummy_deaths(_on_strong_dummy_died)
 
 
 func _on_strong_dummy_died() -> void:
@@ -925,13 +1018,7 @@ func _complete_defeat_strong_goal() -> void:
 func _start_final_dialogue() -> void:
 	current_step = TrainingStep.FINAL_DIALOGUE
 
-	await _play_dialogue([
-		{"speaker": "Jisho", "text": "That's about everything."},
-		{"speaker": "Jisho", "text": "There are lots of different creatures to fight out there."},
-		{"speaker": "Jisho", "text": "As you explore, you may discover new types of magic, towers, enemies, and all sorts of things."},
-		{"speaker": "Jisho", "text": "Feel free to practice here as long as you like."},
-		{"speaker": "Jisho", "text": "Use the menu in the top left to leave the training room when you're ready."},
-	])
+	await _play_dialogue(FINAL_DIALOGUE)
 
 	_start_free_practice()
 
@@ -940,19 +1027,17 @@ func _start_free_practice() -> void:
 	current_step = TrainingStep.FREE_PRACTICE
 	selected_training_word_list_ids = ["easy"]
 
+	if CampaignProgress != null:
+		CampaignProgress.tutorial_completed = true
+
 	_set_goal_text("Free Practice")
 	_set_run_state(TrainingRunState.ACTIVE)
+	_set_word_list_change_button_visible(true)
 
 	training_room_level.set_respawn_enabled(true)
 	training_room_level.set_word_pool(_get_words_from_list_ids(selected_training_word_list_ids))
 	training_room_level.spawn_two_dummies()
 
-	_show_training_word_list_overlay()
-
-
-# ---------------------------
-# WORD LISTS
-# ---------------------------
 
 func _get_words_from_list_ids(list_ids: Array[String]) -> Array[String]:
 	var words: Array[String] = []
@@ -980,10 +1065,6 @@ func _get_words_from_list_ids(list_ids: Array[String]) -> Array[String]:
 
 	return words
 
-
-# ---------------------------
-# DUMMY DEATH LISTENERS
-# ---------------------------
 
 func _listen_for_next_dummy_death(callback: Callable) -> void:
 	await get_tree().process_frame
@@ -1013,10 +1094,22 @@ func _on_any_training_dummy_died(_enemy: Node, callback: Callable) -> void:
 		_listen_for_dummy_deaths(callback)
 
 
-# ---------------------------
-# MISC
-# ---------------------------
-
 func _set_goal_text(text: String) -> void:
 	if goal_label != null:
 		goal_label.text = text
+
+
+func _on_training_tower_finished_firing(_slot_id: String) -> void:
+	if current_step != TrainingStep.CHARGE_TOWER:
+		return
+	
+	_complete_charge_tower_goal()
+
+
+func _on_training_dummy_died(_dummy: Node, _marker_id: String) -> void:
+	match current_step:
+		TrainingStep.DESTROY_ONE_DUMMY:
+			_complete_destroy_one_dummy_goal()
+
+		TrainingStep.DEFEAT_5_STRONG:
+			_on_strong_dummy_died()
