@@ -29,14 +29,14 @@ const ITEMS: Dictionary = {
 
 	"undies": {
 		"boy_undies": {
-			"display_name": "Boy Undies",
+			"display_name": "Shorts",
 			"texture": preload("res://assets/images/player/undies/boy_undies.png"),
 			"available_dyes": ["white", "beige", "black", "red", "blue", "green"],
 			"unlock_hint": "",
 			"bonuses": {}
 		},
 		"girl_undies": {
-			"display_name": "Girl Undies",
+			"display_name": "Two Piece",
 			"texture": preload("res://assets/images/player/undies/girl_undies.png"),
 			"available_dyes": ["white", "beige", "black", "red", "blue", "green"],
 			"unlock_hint": "",

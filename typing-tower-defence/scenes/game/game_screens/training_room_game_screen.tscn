@@ -13,38 +13,74 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="8_dk5dp"]
 [ext_resource type="Script" uid="uid://c3nnrk7jojd3j" path="res://scripts/managers/spawn_manager.gd" id="9_mdmmd"]
 [ext_resource type="Script" uid="uid://d3jb80mi3pwid" path="res://scripts/managers/typing_manager.gd" id="10_f6wsf"]
-[ext_resource type="Texture2D" uid="uid://dah20pnitiiee" path="res://assets/cute_fantasy_assets/ui/UI_ALL.png" id="10_pxbqb"]
+[ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="10_pxbqb"]
 [ext_resource type="PackedScene" uid="uid://dnssl8pqd0pt5" path="res://scenes/menus/training_word_list_overlay.tscn" id="11_dk5dp"]
 [ext_resource type="Script" uid="uid://i0uokjc0q4k" path="res://scripts/managers/combat_manager.gd" id="11_iclrm"]
+[ext_resource type="Texture2D" uid="uid://cly140miwtr7n" path="res://assets/cute_fantasy_assets/ui/UI_Ribbons.png" id="17_8edqs"]
+[ext_resource type="Texture2D" uid="uid://vncglk8wko12" path="res://assets/images/menu/UI books & more.png" id="18_2lxj7"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8edqs"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dk5dp"]
 texture = ExtResource("10_pxbqb")
-texture_margin_top = 3.0
-texture_margin_right = 10.0
-texture_margin_bottom = 3.0
-region_rect = Rect2(1087, 2222, 27, 20)
+texture_margin_left = 24.0
+texture_margin_top = 8.0
+texture_margin_right = 24.0
+texture_margin_bottom = 8.0
+region_rect = Rect2(1256, 56, 32, 32)
+modulate_color = Color(1, 1, 1, 0.84313726)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2lxj7"]
-texture = ExtResource("10_pxbqb")
-texture_margin_top = 3.0
-texture_margin_right = 10.0
-texture_margin_bottom = 3.0
-region_rect = Rect2(1135, 2222, 27, 20)
-modulate_color = Color(1, 0.78431374, 1, 1)
+texture = ExtResource("17_8edqs")
+texture_margin_left = 24.0
+texture_margin_top = 12.0
+texture_margin_right = 24.0
+texture_margin_bottom = 8.0
+expand_margin_bottom = 10.0
+region_rect = Rect2(8, 1, 64, 20)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdmmd"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mdmmd"]
-texture = ExtResource("10_pxbqb")
-texture_margin_top = 3.0
-texture_margin_right = 10.0
-texture_margin_bottom = 3.0
-region_rect = Rect2(1135, 2222, 27, 20)
+texture = ExtResource("18_2lxj7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(656, 16, 48, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f6wsf"]
+texture = ExtResource("18_2lxj7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(656, 16, 48, 64)
+modulate_color = Color(1, 0.8627451, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iclrm"]
+texture = ExtResource("18_2lxj7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(656, 16, 48, 64)
+modulate_color = Color(1, 1, 0.84313726, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6dvfd"]
+texture = ExtResource("18_2lxj7")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(656, 16, 48, 64)
 modulate_color = Color(1, 1, 1, 0.5882353)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f6wsf"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8gkif"]
 
 [node name="TrainingRoomGameScreen" type="Control" unique_id=1055634615]
 layout_mode = 3
 anchors_preset = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_5ro3b")
 
 [node name="Battlefield" type="Control" parent="." unique_id=224244533]
@@ -90,42 +126,6 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[node name="GoalLabel" type="Label" parent="UI" unique_id=1475253313]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 95.0
-offset_top = 18.0
-offset_right = 203.0
-offset_bottom = 43.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
-theme_override_fonts/font = ExtResource("8_dk5dp")
-theme_override_font_sizes/font_size = 20
-text = "Status label"
-horizontal_alignment = 1
-
-[node name="WordListChangeButton" type="Button" parent="UI" unique_id=1037826105]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(90, 40)
-layout_mode = 0
-offset_left = 869.0
-offset_top = 12.0
-offset_right = 967.0
-offset_bottom = 52.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("8_dk5dp")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxTexture_8edqs")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8edqs")
-theme_override_styles/hover = SubResource("StyleBoxTexture_2lxj7")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_mdmmd")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_f6wsf")
-text = "Word Lists"
-
 [node name="DialogueOverlay" parent="UI" unique_id=211241507 instance=ExtResource("8_aysbf")]
 unique_name_in_owner = true
 visible = false
@@ -152,3 +152,66 @@ script = ExtResource("10_f6wsf")
 [node name="CombatManager" type="Node" parent="Managers" unique_id=1672380312]
 unique_name_in_owner = true
 script = ExtResource("11_iclrm")
+
+[node name="NameInputContainer" type="CanvasLayer" parent="." unique_id=1979701265]
+unique_name_in_owner = true
+
+[node name="PanelContainer" type="PanelContainer" parent="NameInputContainer" unique_id=405074707]
+custom_minimum_size = Vector2(250, 140)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -70.0
+offset_right = 157.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_dk5dp")
+
+[node name="MarginContainer" type="MarginContainer" parent="NameInputContainer/PanelContainer" unique_id=477401750]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="NameInputLine" type="LineEdit" parent="NameInputContainer/PanelContainer/MarginContainer" unique_id=148104384]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.19793725, 0.19793725, 0.19793719, 1)
+theme_override_colors/caret_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("8_dk5dp")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_2lxj7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mdmmd")
+placeholder_text = "Name goes here"
+alignment = 1
+caret_blink = true
+
+[node name="NameOkayButton" type="Button" parent="NameInputContainer/PanelContainer/MarginContainer" unique_id=731722167]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+theme_override_colors/font_focus_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+theme_override_colors/font_pressed_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+theme_override_colors/font_hover_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+theme_override_fonts/font = ExtResource("8_dk5dp")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_mdmmd")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_f6wsf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iclrm")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6dvfd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8gkif")
+text = "Ok"

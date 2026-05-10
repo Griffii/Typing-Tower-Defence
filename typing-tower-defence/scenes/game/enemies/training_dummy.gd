@@ -123,9 +123,9 @@ func die() -> void:
 
 	_spawn_coin_burst_effect()
 
-	if death_sfx != null:
-		death_sfx.play()
-
+	# Stop idle anim
+	body.pause()
+	
 	if animation_player != null and animation_player.has_animation("die"):
 		animation_player.stop()
 		animation_player.play("die")

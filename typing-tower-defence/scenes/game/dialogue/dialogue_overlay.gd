@@ -86,12 +86,12 @@ func _apply_line(line: DialogueLineData) -> void:
 	if speaker == null:
 		push_warning("DialogueOverlay: Missing speaker for line: " + line.speaker_id)
 		name_label.text = ""
-		full_line_text = line.text
+		full_line_text = _resolve_dynamic_text(line.text)
 		_start_typing_text(full_line_text)
 		return
 
 	name_label.text = _resolve_speaker_name(speaker)
-	full_line_text = line.text
+	full_line_text = _resolve_dynamic_text(line.text)
 
 	_apply_dialogue_style(speaker)
 	_focus_speaker(line.speaker_id)
@@ -104,6 +104,13 @@ func _resolve_speaker_name(speaker: DialogueSpeakerData) -> String:
 
 	return speaker.display_name
 
+
+func _resolve_dynamic_text(raw_text: String) -> String:
+	var result: String = raw_text
+
+	result = result.replace("{player_name}", PlayerLoadout.player_name)
+
+	return result
 
 func _load_speakers() -> void:
 	_clear_speakers()
@@ -199,9 +206,13 @@ func start_from_raw_data(raw_data: Dictionary) -> void:
 
 		var speaker := DialogueSpeakerData.new()
 		speaker.speaker_id = str(speaker_data.get("speaker_id", ""))
-		speaker.display_name = str(speaker_data.get("display_name", ""))
 		speaker.default_position = str(speaker_data.get("default_position", "left"))
 		speaker.use_player_name = bool(speaker_data.get("use_player_name", false))
+
+		if speaker.use_player_name:
+			speaker.display_name = PlayerLoadout.player_name
+		else:
+			speaker.display_name = str(speaker_data.get("display_name", ""))
 
 		var avatar_scene: PackedScene = speaker_data.get("avatar_scene", null)
 		if avatar_scene != null:

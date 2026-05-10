@@ -5,8 +5,6 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_74tcy"]
 [ext_resource type="Texture2D" uid="uid://dtfkclsdftyli" path="res://assets/images/menu/panel-fantasy-01.png" id="2_w6af8"]
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="3_dilvs"]
-[ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_8xsqk"]
-[ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_mu18a"]
 [ext_resource type="AudioStream" uid="uid://uw7s61mg3r77" path="res://assets/sfx/menus/fanfare.mp3" id="8_pxy88"]
 [ext_resource type="AudioStream" uid="uid://b2w7yrhi4xs8x" path="res://assets/sfx/menus/fail-sound-effect.mp3" id="9_8xsqk"]
 
@@ -43,29 +41,6 @@ texture_margin_bottom = 7.0
 modulate_color = Color(1, 1, 1, 0.5882353)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxy88"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lohbg"]
-texture = ExtResource("7_mu18a")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8xsqk"]
-texture = ExtResource("6_8xsqk")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-modulate_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu18a"]
-texture = ExtResource("6_8xsqk")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
 
 [node name="GameOver_Screen" type="CanvasLayer" unique_id=2079985304]
 script = ExtResource("1_agkj2")
@@ -158,7 +133,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_l25w8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
 text = "Main Menu"
 
-[node name="PlayAgainButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=957839554]
+[node name="PlayAgainButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=2093039057]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(240, 60)
 layout_mode = 2
@@ -168,13 +143,13 @@ theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_74tcy")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxTexture_pxy88")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lohbg")
-theme_override_styles/hover = SubResource("StyleBoxTexture_8xsqk")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_mu18a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pxy88")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ruc62")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_l25w8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
 text = "Play Again"
 
-[node name="ToMapButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=1563868363]
+[node name="ToMapButton" type="Button" parent="CenterWrap/Panel/Margin/VBox/ButtonsRow" unique_id=1759370960]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(240, 60)
 layout_mode = 2
@@ -184,9 +159,9 @@ theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_74tcy")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxTexture_pxy88")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lohbg")
-theme_override_styles/hover = SubResource("StyleBoxTexture_8xsqk")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_mu18a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pxy88")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ruc62")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_l25w8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_pxy88")
 text = "Return to
 World Map"

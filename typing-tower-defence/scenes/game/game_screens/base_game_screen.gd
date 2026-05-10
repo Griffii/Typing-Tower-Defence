@@ -22,8 +22,11 @@ enum RunState {
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 const DIALOGUE_OVERLAY_SCENE: PackedScene = preload("res://scenes/game/dialogue/dialogue_overlay.tscn")
 
-var DEV_MODE: bool = true
-
+##########################################################################
+######### CHANGE THIS BEFORE EXPORTING - PLEASE FOR THE LOVE OF GOD ######
+##########################################################################
+var DEV_MODE: bool = false
+###########################################################################
 var selected_level_scene: PackedScene = null
 var selected_wave_defs: Array = []
 

@@ -7,6 +7,7 @@ signal word_lists_requested
 
 enum TrainingStep {
 	INTRO,
+	SET_NAME,
 	DESTROY_ONE_DUMMY,
 	USE_SPECIAL,
 	MAKE_50_GOLD,
@@ -57,17 +58,18 @@ const INTRO_DIALOGUE: Dictionary = {
 		{"speaker_id": "jisho", "text": "Welcome to the training room."},
 		{"speaker_id": "jisho", "text": "I am Jisho. Your magical grimoire, and best friend!"},
 		{"speaker_id": "player", "text": "Oh."},
-		{"speaker_id": "jisho", "text": "Yes. Also, change your name now if you want. Just don't pick something weird."},
+		{"speaker_id": "jisho", "text": "What should I call you?"},
 	]
 }
 
 const DESTROY_ONE_DUMMY_DIALOGUE: Dictionary = {
 	"speakers": TUTORIAL_SPEAKERS,
 	"lines": [
-		{"speaker_id": "jisho", "text": "Casting spells is simple! Type the word above an enemy to damage it."},
+		{"speaker_id": "jisho", "text": "Really? {player_name}? If you say so."},
+		{"speaker_id": "jisho", "text": "Anyway! Casting spells is simple!"},
 		{"speaker_id": "jisho", "text": "You channel your magic through typing."},
-		{"speaker_id": "player", "text": "K."},
-		{"speaker_id": "jisho", "text": "Don't overthink it. Try to destroy a training dummy."},
+		{"speaker_id": "player", "text": "Ok."},
+		{"speaker_id": "jisho", "text": "Don't overthink it, just type the words you see. Try it on this training dummy."},
 	]
 }
 
@@ -76,9 +78,9 @@ const USE_SPECIAL_DIALOGUE: Dictionary = {
 	"lines": [
 		{"speaker_id": "jisho", "text": "Nice!"},
 		{"speaker_id": "jisho", "text": "As you cast spells, your special bar fills."},
-		{"speaker_id": "jisho", "text": "When it is full, your magic releases a stronger attack."},
+		{"speaker_id": "jisho", "text": "When it is full, your will release a special magic attack."},
 		{"speaker_id": "player", "text": "Neat."},
-		{"speaker_id": "jisho", "text": "Correct. Fill up the bar and fireball these strawmen!"},
+		{"speaker_id": "jisho", "text": "Correct. Fill up the bar and fireball those strawmen!"},
 	]
 }
 
@@ -87,10 +89,12 @@ const MAKE_50_GOLD_DIALOGUE: Dictionary = {
 	"lines": [
 		{"speaker_id": "jisho", "text": "HAHAHA! BURN!!!!."},
 		{"speaker_id": "jisho", "text": "Ehem... anyway."},
-		{"speaker_id": "jisho", "text": "Defeating enemies gives you gold."},
+		{"speaker_id": "jisho", "text": "As you discover more spells you will be able to change the effect of your sepcial skill."},
+		{"speaker_id": "jisho", "text": "Defeating enemies also gives you gold."},
+		{"speaker_id": "jisho", "text": "Don't ask me where they keep it."},
 		{"speaker_id": "jisho", "text": "You can use that gold to improve your magic damage and special skill."},
 		{"speaker_id": "player", "text": "Cool."},
-		{"speaker_id": "jisho", "text": "Very. Make some money and let's get dripped out."},
+		{"speaker_id": "jisho", "text": "Very. Now let's make some money and get dripped out."},
 	]
 }
 
@@ -101,14 +105,15 @@ const BUY_UPGRADE_DIALOGUE: Dictionary = {
 		{"speaker_id": "jisho", "text": "Upgrades improve your power for this run."},
 		{"speaker_id": "jisho", "text": "This is practice, so these upgrades will not follow you outside this room."},
 		{"speaker_id": "player", "text": "Huh."},
-		{"speaker_id": "jisho", "text": "Buy any upgrade."},
+		{"speaker_id": "jisho", "text": "Try picking an upgrade. I recommend special skill damage."},
+		{"speaker_id": "jisho", "text": "The bigger the fireball, the cleaner the bones."},
 	]
 }
 
 const MAKE_70_GOLD_DIALOGUE: Dictionary = {
 	"speakers": TUTORIAL_SPEAKERS,
 	"lines": [
-		{"speaker_id": "jisho", "text": "Good. Now test your upgrade."},
+		{"speaker_id": "jisho", "text": "Good. You must be feeling stronger already!"},
 		{"speaker_id": "jisho", "text": "The rhythm is simple: defeat enemies, earn gold, improve your spells."},
 		{"speaker_id": "jisho", "text": "Make some more gold and I'll show you another cool trick."},
 	]
@@ -120,7 +125,7 @@ const BUILD_TOWER_DIALOGUE: Dictionary = {
 		{"speaker_id": "jisho", "text": "Next: towers!"},
 		{"speaker_id": "jisho", "text": "Towers can be summoned with magic to help you fight."},
 		{"speaker_id": "jisho", "text": "They cost gold, but once built, they give you another way to control the battle."},
-		{"speaker_id": "jisho", "text": "Build an arrow tower."},
+		{"speaker_id": "jisho", "text": "Try building an arrow tower."},
 	]
 }
 
@@ -130,7 +135,7 @@ const CHARGE_TOWER_DIALOGUE: Dictionary = {
 		{"speaker_id": "jisho", "text": "Cool right?! But, a tower is not useful by itself."},
 		{"speaker_id": "jisho", "text": "You must charge it with magic before it can activate."},
 		{"speaker_id": "jisho", "text": "Type the word shown on the tower to feed it power."},
-		{"speaker_id": "jisho", "text": "You have to choose what to focus on, burning enemies or charging your towers."},
+		{"speaker_id": "jisho", "text": "You have to choose what to focus on, attacking enemies or charging your towers."},
 	]
 }
 
@@ -139,7 +144,7 @@ const DEFEAT_STRONG_DIALOGUE: Dictionary = {
 	"lines": [
 		{"speaker_id": "jisho", "text": "Some creatures resist simple magic."},
 		{"speaker_id": "jisho", "text": "That means you must type longer or more difficult words to affect them."},
-		{"speaker_id": "player", "text": "Oh..."},
+		{"speaker_id": "player", "text": "Oh."},
 		{"speaker_id": "jisho", "text": "Should be easy for you, let's try."},
 	]
 }
@@ -153,6 +158,8 @@ const FINAL_DIALOGUE: Dictionary = {
 		{"speaker_id": "player", "text": "Huh."},
 		{"speaker_id": "jisho", "text": "Do not touch anything glowing unless I say so."},
 		{"speaker_id": "jisho", "text": "Feel free to practice here as long as you like."},
+		{"speaker_id": "jisho", "text": "You can freely change the word lists for the training dummies in this training room."},
+		{"speaker_id": "jisho", "text": "Click the 'Word Lists' button in the top right to see the options."},
 		{"speaker_id": "jisho", "text": "Use the menu in the top left to leave the training room when you are ready."},
 	]
 }
@@ -165,13 +172,15 @@ const FINAL_DIALOGUE: Dictionary = {
 @onready var build_overlay: CanvasLayer = %BuildOverlay
 @onready var training_word_list_overlay: TrainingWordListOverlay = %TrainingWordListOverlay
 
-@onready var word_list_change_button: Button = %WordListChangeButton
 
 @onready var projectile_container: Node = %ProjectileContainer
 @onready var typing_manager: Node = %TypingManager
 @onready var combat_manager: Node = %CombatManager
 
-@onready var goal_label: Label = %GoalLabel
+@onready var name_input_container: CanvasLayer = %NameInputContainer
+@onready var name_input_line: LineEdit = %NameInputLine
+@onready var name_okay_button: Button = %NameOkayButton
+
 
 var current_step: TrainingStep = TrainingStep.INTRO
 var run_state: TrainingRunState = TrainingRunState.DIALOGUE
@@ -221,6 +230,7 @@ func _setup_training_room() -> void:
 	_connect_player_signals()
 
 	_set_word_list_change_button_visible(false)
+	name_input_container.visible = false
 	_hide_game_menu()
 	_hide_shop()
 	_hide_build()
@@ -292,6 +302,9 @@ func _connect_signals() -> void:
 
 		if game_hud.has_signal("text_submitted") and not game_hud.text_submitted.is_connected(_on_hud_text_submitted):
 			game_hud.text_submitted.connect(_on_hud_text_submitted)
+		
+		if game_hud.has_signal("word_list_change_pressed") and not game_hud.word_list_change_pressed.is_connected(_on_word_list_change_button_pressed):
+			game_hud.word_list_change_pressed.connect(_on_word_list_change_button_pressed)
 
 	if game_menu_overlay != null:
 		if game_menu_overlay.has_signal("back_to_menu_requested") and not game_menu_overlay.back_to_menu_requested.is_connected(_on_back_to_menu_pressed):
@@ -355,9 +368,12 @@ func _connect_signals() -> void:
 		if combat_manager.has_signal("tower_state_changed") and not combat_manager.tower_state_changed.is_connected(_on_tower_state_changed):
 			combat_manager.tower_state_changed.connect(_on_tower_state_changed)
 	
-	if word_list_change_button != null:
-		if not word_list_change_button.pressed.is_connected(_on_word_list_change_button_pressed):
-			word_list_change_button.pressed.connect(_on_word_list_change_button_pressed)
+	if name_okay_button != null:
+		if not name_okay_button.pressed.is_connected(_on_name_okay_button_pressed):
+			name_okay_button.pressed.connect(_on_name_okay_button_pressed)
+		if name_input_line != null:
+			if not name_input_line.text_submitted.is_connected(_on_name_input_submitted):
+				name_input_line.text_submitted.connect(_on_name_input_submitted)
 
 
 func _connect_player_signals() -> void:
@@ -410,9 +426,8 @@ func _set_run_state(new_state: TrainingRunState) -> void:
 
 
 func _set_word_list_change_button_visible(enabled: bool) -> void:
-	if word_list_change_button != null:
-		word_list_change_button.visible = enabled
-		word_list_change_button.disabled = not enabled
+	if game_hud != null and game_hud.has_method("set_word_list_change_button_visible"):
+		game_hud.set_word_list_change_button_visible(enabled)
 
 
 func _on_word_list_change_button_pressed() -> void:
@@ -826,6 +841,56 @@ func _start_intro() -> void:
 
 	await _play_dialogue(INTRO_DIALOGUE)
 
+	_start_set_name_goal()
+
+
+func _start_set_name_goal() -> void:
+	current_step = TrainingStep.SET_NAME
+
+	_set_goal_text("Goal: Set your name")
+	_set_run_state(TrainingRunState.DIALOGUE)
+
+	if name_input_container != null:
+		name_input_container.visible = true
+
+	if name_input_line != null:
+		name_input_line.text = ""
+		name_input_line.placeholder_text = PlayerLoadout.player_name
+		name_input_line.grab_focus()
+		name_input_line.caret_column = 0
+
+
+func _on_name_okay_button_pressed() -> void:
+	if current_step != TrainingStep.SET_NAME:
+		return
+
+	if name_input_line == null:
+		return
+
+	var new_name: String = name_input_line.text.strip_edges()
+
+	if new_name.is_empty():
+		new_name = name_input_line.placeholder_text.strip_edges()
+
+	if new_name.is_empty():
+		new_name = "Spellicus"
+
+	PlayerLoadout.set_player_name(new_name)
+
+	_complete_set_name_goal()
+
+
+func _on_name_input_submitted(_text: String) -> void:
+	_on_name_okay_button_pressed()
+
+
+func _complete_set_name_goal() -> void:
+	if current_step != TrainingStep.SET_NAME:
+		return
+
+	if name_input_container != null:
+		name_input_container.visible = false
+
 	_start_destroy_one_dummy_goal()
 
 
@@ -1095,8 +1160,15 @@ func _on_any_training_dummy_died(_enemy: Node, callback: Callable) -> void:
 
 
 func _set_goal_text(text: String) -> void:
-	if goal_label != null:
-		goal_label.text = text
+	if game_hud == null:
+		return
+
+	if text.strip_edges().is_empty():
+		if game_hud.has_method("clear_goal_text"):
+			game_hud.clear_goal_text()
+	else:
+		if game_hud.has_method("set_goal_text"):
+			game_hud.set_goal_text(text)
 
 
 func _on_training_tower_finished_firing(_slot_id: String) -> void:

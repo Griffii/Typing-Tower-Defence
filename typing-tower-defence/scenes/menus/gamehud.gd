@@ -4,12 +4,17 @@ signal start_wave_pressed
 signal game_menu_pressed
 signal text_submitted(text: String)
 signal text_changed(text: String)
+signal word_list_change_pressed
 
 const GAME_MENU_HOVER_OFFSET: Vector2 = Vector2(5.0, 0.0)
 const GAME_MENU_TWEEN_DURATION: float = 0.1
 
 @onready var wave_label: Label = %WaveLabel
 @onready var status_label: Label = %StatusLabel
+@onready var goal_label: Label = %GoalLabel
+
+# For use in the training room
+@onready var word_list_change_button: Button = %WordListChangeButton
 
 @onready var start_wave_button: Button = %StartWaveButton
 @onready var game_menu_button: Button = %GameMenuButton
@@ -38,6 +43,13 @@ func _ready() -> void:
 
 	input_field.editable = false
 	feedback_label.visible = false
+	
+	goal_label.visible = false
+	word_list_change_button.visible = false
+	word_list_change_button.disabled = true
+
+	if not word_list_change_button.pressed.is_connected(_on_word_list_change_button_pressed):
+		word_list_change_button.pressed.connect(_on_word_list_change_button_pressed)
 
 	show_start_wave_button("Start Wave")
 	set_wave_text(1, 1)
@@ -139,3 +151,22 @@ func _focus_input() -> void:
 
 	input_field.grab_focus()
 	input_field.caret_column = input_field.text.length()
+
+
+func set_goal_text(text: String) -> void:
+	goal_label.text = text
+	goal_label.visible = not text.strip_edges().is_empty()
+
+
+func clear_goal_text() -> void:
+	goal_label.text = ""
+	goal_label.visible = false
+
+
+func set_word_list_change_button_visible(enabled: bool) -> void:
+	word_list_change_button.visible = enabled
+	word_list_change_button.disabled = not enabled
+
+
+func _on_word_list_change_button_pressed() -> void:
+	word_list_change_pressed.emit()
