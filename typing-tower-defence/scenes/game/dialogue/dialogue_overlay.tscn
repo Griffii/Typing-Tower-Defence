@@ -75,6 +75,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_o46lv"]
 resource_name = "close_dialogue"
+length = 0.8
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -83,7 +84,7 @@ tracks/0/path = NodePath("DimBackground:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.8, 1),
+"times": PackedFloat32Array(0.6, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -95,7 +96,7 @@ tracks/1/path = NodePath("DialogueBoxContainer/DialogueBox:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5, 0.8),
+"times": PackedFloat32Array(0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1, 1e-05)]
@@ -107,10 +108,10 @@ tracks/2/path = NodePath("AvatarLayer:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 537)]
+"values": [Vector2(0, 0), Vector2(0, 400)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -119,7 +120,7 @@ tracks/3/path = NodePath("DialogueBoxContainer/NameLabel:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.100000024),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1e-05, 1)]
@@ -127,6 +128,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_3yv1t"]
 resource_name = "open_dialogue"
+length = 0.8
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -159,10 +161,10 @@ tracks/2/path = NodePath("AvatarLayer:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0.5, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 537), Vector2(0, 0)]
+"values": [Vector2(0, 400), Vector2(0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -201,32 +203,9 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -0.00012207031
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="LeftMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1660934310]
-unique_name_in_owner = true
-position = Vector2(285, 282)
-
-[node name="LeftMarker1" type="Marker2D" parent="AvatarLayer" unique_id=255255571]
-unique_name_in_owner = true
-position = Vector2(207, 393)
-
-[node name="CenterMarker2" type="Marker2D" parent="AvatarLayer" unique_id=640173939]
-unique_name_in_owner = true
-position = Vector2(524, 285)
-
-[node name="CenterMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1828286948]
-unique_name_in_owner = true
-position = Vector2(471, 393)
-
-[node name="RightMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1101247962]
-unique_name_in_owner = true
-position = Vector2(841, 394)
-
-[node name="RightMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1500617371]
-unique_name_in_owner = true
-position = Vector2(767, 394)
 
 [node name="OffscreenRightMarker" type="Marker2D" parent="AvatarLayer" unique_id=1140660566]
 unique_name_in_owner = true
@@ -235,6 +214,30 @@ position = Vector2(1219, 394)
 [node name="OffscreenLeftMarker" type="Marker2D" parent="AvatarLayer" unique_id=1884138659]
 unique_name_in_owner = true
 position = Vector2(-189, 393)
+
+[node name="RightMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1101247962]
+unique_name_in_owner = true
+position = Vector2(841, 249)
+
+[node name="RightMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1500617371]
+unique_name_in_owner = true
+position = Vector2(767, 382)
+
+[node name="CenterMarker2" type="Marker2D" parent="AvatarLayer" unique_id=640173939]
+unique_name_in_owner = true
+position = Vector2(524, 249)
+
+[node name="CenterMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1828286948]
+unique_name_in_owner = true
+position = Vector2(471, 381)
+
+[node name="LeftMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1660934310]
+unique_name_in_owner = true
+position = Vector2(285, 246)
+
+[node name="LeftMarker1" type="Marker2D" parent="AvatarLayer" unique_id=255255571]
+unique_name_in_owner = true
+position = Vector2(207, 381)
 
 [node name="DialogueBoxContainer" type="Node2D" parent="." unique_id=1930014514]
 
@@ -269,14 +272,17 @@ theme_override_font_sizes/bold_italics_font_size = 22
 theme_override_font_sizes/italics_font_size = 22
 theme_override_font_sizes/mono_font_size = 22
 
-[node name="PromptLabel" type="Label" parent="DialogueBoxContainer/DialogueBox" unique_id=1057783420]
+[node name="PromptLabel" type="RichTextLabel" parent="DialogueBoxContainer/DialogueBox" unique_id=1724305441]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 25)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme_override_colors/font_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
-theme_override_fonts/font = ExtResource("4_3yv1t")
-text = "Click / Enter"
+theme_override_colors/default_color = Color(0.60933036, 0.60933006, 0.60932994, 1)
+theme_override_fonts/normal_font = ExtResource("4_3yv1t")
+bbcode_enabled = true
+text = "[wave amp=6 freq=2]Press to continue[/wave]  "
+horizontal_alignment = 2
 
 [node name="NameLabel" type="Label" parent="DialogueBoxContainer" unique_id=846426990]
 unique_name_in_owner = true

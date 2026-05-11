@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dqrtgka0xm2xe"]
+
+[ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/animals/sheep.tscn" id="1_eog73"]
+
+[node name="SheepAvatar" type="Node2D" unique_id=850057405]
+
+[node name="Sheep" parent="." unique_id=1144505600 instance=ExtResource("1_eog73")]
+position = Vector2(0, -25)
+scale = Vector2(3, 3)
+frame_progress = 0.006836949
+flip_h = true

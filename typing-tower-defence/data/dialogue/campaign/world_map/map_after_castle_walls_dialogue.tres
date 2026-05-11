@@ -1,9 +1,115 @@
-[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://fx2frbanayqo"]
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://rhigu87a04lh"]
 
-[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="1_f4pmd"]
-[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="2_n1706"]
-[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_hp1tq"]
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_speaker"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_player"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_jisho"]
+[ext_resource type="Resource" uid="uid://dngxi6yqgjaga" path="res://data/dialogue/speakers/king_speaker_data.tres" id="6_king"]
+
+[sub_resource type="Resource" id="Line_0"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "People of the kingdom, hear me!"
+add_speakers = Array[String](["player", "jisho", "king"])
+move_speakers = {
+"jisho": "left_2",
+"king": "right_1",
+"player": "left_1"
+}
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "The Gem of Creation has been stolen from the royal vault."
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "Saborus has fled with it, and every hour he keeps it brings our world closer to ruin."
+
+[sub_resource type="Resource" id="Line_3"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "{player_name}, you fought bravely at the Castle Walls."
+move_speakers = {
+"king": "center_1"
+}
+
+[sub_resource type="Resource" id="Line_4"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "I ask you now: find where Saborus is hiding the gem before it is too late."
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Uhh..."
+
+[sub_resource type="Resource" id="Line_6"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Your Majesty, consider it already done!"
+
+[sub_resource type="Resource" id="Line_7"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "With my genius, our enemies shall be found, cornered, and preferably set on fire."
+
+[sub_resource type="Resource" id="Line_8"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "What?"
+
+[sub_resource type="Resource" id="Line_9"]
+script = ExtResource("2_line")
+speaker_id = "king"
+text = "Excellent. Go carefully. The fate of the kingdom now moves with you."
+
+[sub_resource type="Resource" id="Line_10"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "We will not fail you!"
+move_speakers = {
+"king": "offscreen_right"
+}
+
+[sub_resource type="Resource" id="Line_11"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "All right, first question: where does a psycho dark magic Speller keep their evil base?"
+remove_speakers = Array[String](["king"])
+move_speakers = {
+"jisho": "right_1"
+}
+
+[sub_resource type="Resource" id="Line_12"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Umm..."
+
+[sub_resource type="Resource" id="Line_13"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Exactly. We follow the tracks."
+
+[sub_resource type="Resource" id="Line_14"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "The minions fled east out of the city, toward the grasslands."
+
+[sub_resource type="Resource" id="Line_16"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "We start there."
+
+[sub_resource type="Resource" id="Line_17"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Fine."
 
 [resource]
-script = ExtResource("2_n1706")
+script = ExtResource("1_sequence")
+speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho"), ExtResource("6_king")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12"), SubResource("Line_13"), SubResource("Line_14"), SubResource("Line_16"), SubResource("Line_17")])
 metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

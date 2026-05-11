@@ -9,4 +9,5 @@ speaker_id = "player"
 display_name = "Player"
 use_player_name = true
 avatar_scene = ExtResource("1_c55qt")
+default_position = "offscreen_left"
 metadata/_custom_type_script = "uid://bpi837hrngfsy"

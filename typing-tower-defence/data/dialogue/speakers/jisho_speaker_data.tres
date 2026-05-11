@@ -8,6 +8,6 @@ script = ExtResource("1_script")
 speaker_id = "jisho"
 display_name = "Jisho"
 avatar_scene = ExtResource("2_avatar")
-default_position = "right"
+default_position = "offscreen_left"
 name_color = Color(1, 0.78431374, 0.99215686, 1)
 metadata/_custom_type_script = "uid://bpi837hrngfsy"

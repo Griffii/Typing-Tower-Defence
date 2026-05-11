@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DialogueSpeakerData" format=3 uid="uid://l8dde8lo8w6i"]
 
-[ext_resource type="PackedScene" uid="uid://baji5cxistid" path="res://scenes/game/dialogue/avatars/friendly_soldier.tscn" id="1_limc7"]
+[ext_resource type="PackedScene" uid="uid://baji5cxistid" path="res://scenes/game/dialogue/avatars/friendly_soldier_avatar.tscn" id="1_limc7"]
 [ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="1_script"]
 
 [resource]

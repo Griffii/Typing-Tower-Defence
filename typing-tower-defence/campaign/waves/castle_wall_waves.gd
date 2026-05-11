@@ -10,6 +10,8 @@ func get_wave_definitions() -> Array:
 				_enemy("grunt", ["easy"]),
 				_enemy("grunt", ["easy"]),
 				_enemy("grunt", ["easy"]),
+				_enemy("grunt", ["easy"]),
+				_enemy("grunt", ["easy"]),
 			],
 		},
 		{
@@ -18,7 +20,9 @@ func get_wave_definitions() -> Array:
 			"enemies": [
 				_enemy("grunt", ["easy"]),
 				_enemy("grunt", ["easy"]),
+				_enemy("scout", ["easy", "medium"]),
 				_enemy("grunt", ["easy"]),
+				_enemy("scout", ["easy", "medium"]),
 				_enemy("grunt", ["easy"]),
 			],
 		},
@@ -26,9 +30,11 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 1.45,
 			"wave_word_list_ids": ["easy", "medium"],
 			"enemies": [
-				_enemy("grunt", ["easy"]),
-				_enemy("grunt", ["easy"]),
+				_enemy("grunt", ["easy", "medium"]),
+				_enemy("grunt", ["easy", "medium"]),
 				_enemy("scout", ["easy", "medium"]),
+				_enemy("grunt", ["medium"]),
+				_enemy("grunt", ["medium"]),
 				_enemy("grunt", ["medium"]),
 			],
 		},
@@ -37,10 +43,12 @@ func get_wave_definitions() -> Array:
 			"wave_word_list_ids": ["medium"],
 			"enemies": [
 				_enemy("grunt", ["medium"]),
-				_enemy("scout", ["medium"]),
-				_enemy("grunt", ["medium"]),
+				_enemy("scout", ["easy"]),
+				_enemy("grunt", ["easy"]),
 				_enemy("scout", ["medium"]),
 				_enemy("grunt", ["easy", "medium"]),
+				_enemy("grunt", ["medium"]),
+				_enemy("grunt", ["medium"]),
 			],
 		},
 		{
@@ -53,6 +61,8 @@ func get_wave_definitions() -> Array:
 				_enemy("grunt", ["medium"]),
 				_enemy("scout", ["medium"]),
 				_enemy("boss", ["medium"]),
+				_enemy("grunt", ["easy", "medium"]),
+				_enemy("grunt", ["easy", "medium"]),
 			],
 		},
 	]

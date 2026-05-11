@@ -9,7 +9,12 @@
 [sub_resource type="Resource" id="Line_0"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "{player_name}, hurry! The city is under attack!"
+text = "Hurry, {player_name}! The city is under attack!"
+add_speakers = Array[String](["player", "jisho"])
+move_speakers = {
+"jisho": "left_2",
+"player": "left_1"
+}
 
 [sub_resource type="Resource" id="Line_1"]
 script = ExtResource("2_line")
@@ -19,7 +24,7 @@ text = "Uh oh."
 [sub_resource type="Resource" id="Line_2"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "The evil speller Saborus has sent his minions to steal the Gem of Creation from the castle!"
+text = "The evil Speller Saborus has sent his minions to steal the Gem of Creation from the castle!"
 
 [sub_resource type="Resource" id="Line_3"]
 script = ExtResource("2_line")

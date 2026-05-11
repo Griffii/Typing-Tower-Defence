@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csrxxtqvftbf"
-path="res://.godot/imported/jisho_placeholder.png-4957934f826e334b667e6af3ee5d2297.ctex"
+uid="uid://8iw341kdefes"
+path="res://.godot/imported/under-construction-man.png-f9f217579022988e237e45b1ea4334c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/jisho_placeholder.png"
-dest_files=["res://.godot/imported/jisho_placeholder.png-4957934f826e334b667e6af3ee5d2297.ctex"]
+source_file="res://assets/images/map/under-construction-man.png"
+dest_files=["res://.godot/imported/under-construction-man.png-f9f217579022988e237e45b1ea4334c4.ctex"]
 
 [params]
 

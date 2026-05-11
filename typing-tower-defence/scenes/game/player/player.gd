@@ -12,6 +12,8 @@ signal player_damaged(amount: int)
 @export var projectile_travel_duration: float = 1.0
 @export var projectile_arc_height: float = 0.0
 
+@export var show_special_meter: bool = true
+
 @onready var avatar: PlayerAvatar = %PlayerAvatar
 @onready var special_meter_bar: ProgressBar = %SpecialMeterBar
 @onready var special_spawn_marker: Marker2D = %SpecialSpawnMarker
@@ -19,6 +21,7 @@ signal player_damaged(amount: int)
 
 func _ready() -> void:
 	_setup_special_meter()
+	set_special_meter_visible(show_special_meter)
 	_apply_saved_loadout()
 	_apply_equipped_spell()
 
@@ -81,6 +84,13 @@ func set_special_meter(current_value: float, max_value: float) -> void:
 	special_meter_bar.value = clampf(current_value, 0.0, special_meter_bar.max_value)
 
 
+func set_special_meter_visible(enabled: bool) -> void:
+	if special_meter_bar == null:
+		return
+
+	special_meter_bar.visible = enabled
+
+
 func reset_special_meter() -> void:
 	if special_meter_bar == null:
 		return
@@ -113,8 +123,10 @@ func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> 
 
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
+
 	if projectile_container == null or not is_instance_valid(projectile_container):
 		return
+
 	if special_projectile_scene == null:
 		return
 

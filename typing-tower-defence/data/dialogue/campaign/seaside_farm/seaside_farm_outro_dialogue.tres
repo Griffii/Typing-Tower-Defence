@@ -1,0 +1,150 @@
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://i84s0s3bsq06"]
+
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_speaker"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_player"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_jisho"]
+[ext_resource type="Resource" uid="uid://c2hxq3nlp7txs" path="res://data/dialogue/speakers/goblin_speaker_data.tres" id="6_goblin"]
+[ext_resource type="Resource" uid="uid://dw18x5eyfknq5" path="res://data/dialogue/speakers/sheep_speaker_data.tres" id="7_sheep"]
+
+[sub_resource type="Resource" id="Line_0"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "You saved them! You saved our sheep!"
+add_speakers = Array[String](["player", "jisho", "goblin", "sheep"])
+move_speakers = {
+"goblin": "right_1",
+"jisho": "left_2",
+"player": "left_1",
+"sheep": "center_1"
+}
+flip_speakers = {
+"sheep": true
+}
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_3"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "Thank you, brave spell person and loud book!"
+
+[sub_resource type="Resource" id="Line_4"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "I am the illustrious and anointed magical grimoire Jisho!"
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "And this is {player_name}."
+
+[sub_resource type="Resource" id="Line_7"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Hi."
+
+[sub_resource type="Resource" id="Line_8"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "We saw the evil Speller's creatures pass before the slimes came."
+
+[sub_resource type="Resource" id="Line_9"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "They were moving deeper inland, toward the dark woods."
+
+[sub_resource type="Resource" id="Line_10"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Of course. Evil mages love creepy, damp, dark places."
+
+[sub_resource type="Resource" id="Line_11"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+flip_speakers = {
+"sheep": true
+}
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_12"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "Please, take a sheep as thanks!"
+
+[sub_resource type="Resource" id="Line_13"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah?"
+flip_speakers = {
+"sheep": false
+}
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_14"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "No."
+
+[sub_resource type="Resource" id="Line_15"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Wait."
+
+[sub_resource type="Resource" id="Line_16"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "A sheep could be useful."
+
+[sub_resource type="Resource" id="Line_17"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "How?"
+
+[sub_resource type="Resource" id="Line_18"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Distraction."
+
+[sub_resource type="Resource" id="Line_19"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+flip_speakers = {
+"sheep": true
+}
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_20"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "We graciously accept this tactical sheep."
+
+[sub_resource type="Resource" id="Line_21"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "Wonderful! This is Thistle. Take good care of him!"
+
+[sub_resource type="Resource" id="Line_22"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Come, {player_name}, Thistle. To the dark woods!"
+
+[sub_resource type="Resource" id="Line_23"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+display_name_override = "Thistle"
+text = "Baaah..."
+sfx_id = "SheepBaa"
+
+[resource]
+script = ExtResource("1_sequence")
+speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho"), ExtResource("6_goblin"), ExtResource("7_sheep")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_3"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12"), SubResource("Line_13"), SubResource("Line_14"), SubResource("Line_15"), SubResource("Line_16"), SubResource("Line_17"), SubResource("Line_18"), SubResource("Line_19"), SubResource("Line_20"), SubResource("Line_21"), SubResource("Line_22"), SubResource("Line_23")])
+metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

@@ -3,6 +3,7 @@ class_name DialogueOverlay
 extends CanvasLayer
 
 signal dialogue_finished
+signal dialogue_sfx_requested(sfx_id: String)
 
 const AVATAR_BASE_SCALE: Vector2 = Vector2(3.0, 3.0)
 const AVATAR_FOCUSED_SCALE: Vector2 = Vector2(3.18, 3.18)
@@ -27,7 +28,7 @@ const TYPE_CHARACTERS_PER_SECOND: float = 45.0
 @onready var dialogue_box: PanelContainer = %DialogueBox
 @onready var name_label: Label = %NameLabel
 @onready var dialogue_text: RichTextLabel = %DialogueText
-@onready var prompt_label: Label = %PromptLabel
+@onready var prompt_label: RichTextLabel = %PromptLabel
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var dialogue_data: DialogueSequenceData = null
@@ -99,10 +100,16 @@ func _apply_line(line: DialogueLineData) -> void:
 		push_warning("DialogueOverlay: Missing speaker for line: " + line.speaker_id)
 		name_label.text = ""
 		full_line_text = _resolve_dynamic_text(line.text)
+		_play_line_sfx(line)
 		_start_typing_text(full_line_text)
 		return
 
-	name_label.text = _resolve_speaker_name(speaker)
+	var display_name_override: String = str(_get_resource_property_or_default(line, "display_name_override", ""))
+	if display_name_override.strip_edges().is_empty():
+		name_label.text = _resolve_speaker_name(speaker)
+	else:
+		name_label.text = display_name_override
+	
 	full_line_text = _resolve_dynamic_text(line.text)
 
 	_apply_dialogue_style(speaker)
@@ -112,6 +119,7 @@ func _apply_line(line: DialogueLineData) -> void:
 		focus_id = line.speaker_id
 
 	_focus_speaker(focus_id)
+	_play_line_sfx(line)
 	_start_typing_text(full_line_text)
 
 
@@ -126,16 +134,13 @@ func _apply_line_stage_directions(line: DialogueLineData) -> void:
 
 	for speaker_id in add_speakers:
 		var speaker_id_string: String = str(speaker_id)
-		var target_marker_id: String = "left_1"
+		var spawn_marker_id: String = "offscreen_left"
 
-		if move_speakers.has(speaker_id_string):
-			target_marker_id = str(move_speakers[speaker_id_string])
-		else:
-			var speaker: DialogueSpeakerData = dialogue_data.get_speaker(speaker_id_string)
-			if speaker != null:
-				target_marker_id = speaker.default_position
+		var speaker: DialogueSpeakerData = dialogue_data.get_speaker(speaker_id_string)
+		if speaker != null:
+			spawn_marker_id = speaker.default_position
 
-		_add_speaker(speaker_id_string, target_marker_id)
+		_add_speaker(speaker_id_string, spawn_marker_id)
 
 	for speaker_id in flip_speakers.keys():
 		_set_speaker_flip_state(str(speaker_id), bool(flip_speakers[speaker_id]))
@@ -213,9 +218,12 @@ func _add_speaker(speaker_id: String, marker_id: String) -> void:
 	var instance: Node = speaker.avatar_scene.instantiate()
 	speaker_instances[speaker_id] = instance
 	speaker_flip_states[speaker_id] = false
-
+	
 	marker.add_child(instance)
-
+	
+	if instance.has_method("set_special_meter_visible"):
+		instance.set_special_meter_visible(false)
+	
 	if instance is Node2D:
 		var node_2d: Node2D = instance as Node2D
 		node_2d.position = Vector2.ZERO
@@ -467,6 +475,7 @@ func start_from_raw_data(raw_data: Dictionary) -> void:
 		_set_resource_property_if_exists(line, "move_speakers", line_data.get("move_speakers", {}))
 		_set_resource_property_if_exists(line, "flip_speakers", line_data.get("flip_speakers", {}))
 		_set_resource_property_if_exists(line, "focus_speaker_id", str(line_data.get("focus_speaker_id", "")))
+		_set_resource_property_if_exists(line, "sfx_id", str(line_data.get("sfx_id", "")))
 
 		sequence.lines.append(line)
 
@@ -536,3 +545,12 @@ func _finish_dialogue() -> void:
 
 	dialogue_finished.emit()
 	queue_free()
+
+
+func _play_line_sfx(line: DialogueLineData) -> void:
+	var sfx_id: String = str(_get_resource_property_or_default(line, "sfx_id", ""))
+
+	if sfx_id.strip_edges().is_empty():
+		return
+
+	dialogue_sfx_requested.emit(sfx_id)

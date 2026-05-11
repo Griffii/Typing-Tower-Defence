@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerData" format=3 uid="uid://dngxi6yqgjaga"]
+
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="1_3cc6t"]
+[ext_resource type="PackedScene" uid="uid://desjgmqkyxw2w" path="res://scenes/game/dialogue/avatars/king_avatar.tscn" id="1_lfiqx"]
+
+[resource]
+script = ExtResource("1_3cc6t")
+speaker_id = "king"
+display_name = "The King"
+avatar_scene = ExtResource("1_lfiqx")
+default_position = "right"
+name_color = Color(1, 1, 0, 1)
+metadata/_custom_type_script = "uid://bpi837hrngfsy"

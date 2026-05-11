@@ -11,6 +11,11 @@
 script = ExtResource("2_line")
 speaker_id = "jisho"
 text = "YES! FLEE, YOU COWARDS! RUN FROM THE FIRE!"
+add_speakers = Array[String](["player", "jisho"])
+move_speakers = {
+"jisho": "left_2",
+"player": "left_1"
+}
 
 [sub_resource type="Resource" id="Line_2"]
 script = ExtResource("2_line")
@@ -93,7 +98,7 @@ text = "YES, BAD!"
 [sub_resource type="Resource" id="Line_17"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "If Saborus reaches the outer kingdoms, he could raise armies, monsters... perhaps even dragons!"
+text = "If Saborus reaches the outer kingdoms, he could raise armies, monsters... anything!!!"
 
 [sub_resource type="Resource" id="Line_19"]
 script = ExtResource("2_line")
@@ -105,13 +110,8 @@ script = ExtResource("2_line")
 speaker_id = "jisho"
 text = "Good. Then we march to the castle at once."
 
-[sub_resource type="Resource" id="Line_21"]
-script = ExtResource("2_line")
-speaker_id = "player"
-text = "Fine."
-
 [resource]
 script = ExtResource("1_sequence")
 speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho"), ExtResource("6_o8jua")])
-lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_2"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12"), SubResource("Line_13"), SubResource("Line_14"), SubResource("Line_15"), SubResource("Line_16"), SubResource("Line_17"), SubResource("Line_19"), SubResource("Line_20"), SubResource("Line_21")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_2"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12"), SubResource("Line_13"), SubResource("Line_14"), SubResource("Line_15"), SubResource("Line_16"), SubResource("Line_17"), SubResource("Line_19"), SubResource("Line_20")])
 metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

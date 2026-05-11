@@ -10,38 +10,31 @@
 script = ExtResource("2_line")
 speaker_id = "jisho"
 text = "{player_name}! Wake up!"
+add_speakers = Array[String](["player", "jisho"])
 move_speakers = {
-"jisho": "left_2"
+"jisho": "center_1"
 }
 
 [sub_resource type="Resource" id="Line_1"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
 text = "Something is happening outside!"
-move_speakers = {
-"jisho": "right_1"
-}
 
 [sub_resource type="Resource" id="Line_2"]
 script = ExtResource("2_line")
 speaker_id = "player"
 text = "Huh?"
+move_speakers = {
+"player": "left_1"
+}
 
 [sub_resource type="Resource" id="Line_3"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
 text = "It sounds bad... let's get to the Castle Walls and check it out!"
 
-[sub_resource type="Resource" id="Line_4"]
-script = ExtResource("2_line")
-speaker_id = "player"
-move_speakers = {
-"jisho": "offscreen_right",
-"player": "offscreen_right"
-}
-
 [resource]
 script = ExtResource("1_sequence")
 speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho")])
-lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_4")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3")])
 metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

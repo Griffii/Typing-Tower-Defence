@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://b1ui71efd3l2a"]
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://dhvmt4epqox88"]
 
 [ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
 [ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
@@ -9,80 +9,78 @@
 [sub_resource type="Resource" id="Line_0"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "Hold on... look at the ground."
+text = "An old church. It's rather peaceful out here."
 add_speakers = Array[String](["player", "jisho"])
 move_speakers = {
 "jisho": "left_2",
 "player": "left_1"
 }
 
-[sub_resource type="Resource" id="Line_1"]
-script = ExtResource("2_line")
-speaker_id = "player"
-text = "Goo."
-
 [sub_resource type="Resource" id="Line_2"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "Exactly. A massive slime trail."
+text = "Look!"
+move_speakers = {
+"jisho": "center_2"
+}
 
 [sub_resource type="Resource" id="Line_3"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "The creatures are moving toward the coast."
+text = "Those are Saborus's minions, and they are coming this way!"
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Why are they attacking this place?"
 
 [sub_resource type="Resource" id="Line_6"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "You know... the more I think about these slimes, the more fascinating they become."
+text = "We must protect the church, and get some answers from whoever survives."
 
 [sub_resource type="Resource" id="Line_7"]
 script = ExtResource("2_line")
 speaker_id = "player"
-text = "Huh."
+text = "Ok."
 
 [sub_resource type="Resource" id="Line_8"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "Could multiple slimes merge together into one enormous super slime?"
+text = "Wait. What are those things with them?"
 
 [sub_resource type="Resource" id="Line_9"]
 script = ExtResource("2_line")
-speaker_id = "jisho"
-text = "Do they possess magical potential? Could they cast spells?"
+speaker_id = "player"
+text = "Goo?"
 
-[sub_resource type="Resource" id="Line_13"]
+[sub_resource type="Resource" id="Line_10"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "Could they be cooked?"
+text = "Slimes."
+
+[sub_resource type="Resource" id="Line_12"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Saborus must already be channeling the Gem of Creation to create new minions."
+
+[sub_resource type="Resource" id="Line_14"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Dang."
 
 [sub_resource type="Resource" id="Line_15"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "Imagine it. Slime jelly."
+text = "Dang indeed. Also very flammable, I hope."
 
 [sub_resource type="Resource" id="Line_16"]
 script = ExtResource("2_line")
 speaker_id = "jisho"
-text = "A delicious magical dessert that boosts spellcasting power!"
-
-[sub_resource type="Resource" id="Line_17"]
-script = ExtResource("2_line")
-speaker_id = "player"
-text = "No."
-
-[sub_resource type="Resource" id="Line_18"]
-script = ExtResource("2_line")
-speaker_id = "jisho"
-text = "You lack vision, {player_name}."
-
-[sub_resource type="Resource" id="Line_19"]
-script = ExtResource("2_line")
-speaker_id = "jisho"
-text = "Come on. The trail leads to the seaside."
+text = "Get ready, {player_name}. They're coming."
 
 [resource]
 script = ExtResource("1_sequence")
 speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho")])
-lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_13"), SubResource("Line_15"), SubResource("Line_16"), SubResource("Line_17"), SubResource("Line_18"), SubResource("Line_19")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_5"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_12"), SubResource("Line_14"), SubResource("Line_15"), SubResource("Line_16")])
 metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

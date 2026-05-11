@@ -23,6 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://ce0fg7nc6mb3r" path="res://assets/cute_fantasy_assets/trees/Small_Oak_Tree.png" id="18_4llbq"]
 [ext_resource type="Texture2D" uid="uid://pfa1fxg11w8g" path="res://assets/cute_fantasy_assets/trees/Small_Spruce_Tree.png" id="19_sfxpj"]
 [ext_resource type="AudioStream" uid="uid://dswkfvn67fkia" path="res://assets/bgm/FarBeyond Studio - Freebies Vol. 1 - 01 - Enchanted Woods (CC-BY 4.0).ogg" id="23_wn0pe"]
+[ext_resource type="Texture2D" uid="uid://8iw341kdefes" path="res://assets/images/map/under-construction-man.png" id="24_sfxpj"]
+[ext_resource type="Texture2D" uid="uid://b3gygwiipn2r1" path="res://assets/images/map/traffic-cone-pixel-art.png" id="25_bqijh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dyjr0"]
 texture = ExtResource("3_yj03c")
@@ -796,3 +798,60 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
 theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
 text = "Seaside Farm"
+
+[node name="ConstructionStuff" type="Node2D" parent="MapContent" unique_id=245247680]
+
+[node name="UnderConstructionMan" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=1783271950]
+position = Vector2(1127, 277)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("24_sfxpj")
+
+[node name="TrafficConePixelArt" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=1469282270]
+position = Vector2(989.3, 136.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt2" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=623144853]
+position = Vector2(994.3, 168.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt3" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=1258905498]
+position = Vector2(982.3, 200.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt4" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=793108709]
+position = Vector2(996.3, 224.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt5" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=87260306]
+position = Vector2(984.3, 251.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt6" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=554163646]
+position = Vector2(996.3, 278.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt7" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=39363682]
+position = Vector2(979.3, 309.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt8" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=618592309]
+position = Vector2(996.3, 337.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt9" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=729321410]
+position = Vector2(980, 366.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")
+
+[node name="TrafficConePixelArt10" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=2122838309]
+position = Vector2(998.3, 390.3)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("25_bqijh")

@@ -7,10 +7,12 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 1.35,
 			"wave_word_list_ids": ["easy", "medium"],
 			"enemies": [
+				_enemy("scout", ["easy"]),
 				_enemy("grunt", ["easy"]),
 				_enemy("slime", ["easy"]),
 				_enemy("grunt", ["medium"]),
 				_enemy("slime", ["medium"]),
+				_enemy("scout", ["medium"]),
 				_enemy("scout", ["medium"]),
 			],
 		},
@@ -18,6 +20,8 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 1.25,
 			"wave_word_list_ids": ["medium"],
 			"enemies": [
+				_enemy("slime", ["easy"]),
+				_enemy("slime", ["easy"]),
 				_enemy("slime", ["medium"]),
 				_enemy("grunt", ["medium"]),
 				_enemy("scout", ["medium"]),
@@ -29,6 +33,9 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 1.15,
 			"wave_word_list_ids": ["medium", "hard"],
 			"enemies": [
+				_enemy("scout", ["easy"]),
+				_enemy("slime", ["easy"]),
+				_enemy("slime", ["easy"]),
 				_enemy("grunt", ["medium"]),
 				_enemy("slime", ["medium"]),
 				_enemy("scout", ["medium", "hard"]),
@@ -41,6 +48,7 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 1.05,
 			"wave_word_list_ids": ["medium", "hard"],
 			"enemies": [
+				_enemy("scout", ["easy"]),
 				_enemy("slime", ["medium"]),
 				_enemy("slime", ["hard"]),
 				_enemy("scout", ["hard"]),
@@ -54,6 +62,7 @@ func get_wave_definitions() -> Array:
 			"spawn_interval": 0.95,
 			"wave_word_list_ids": ["hard"],
 			"enemies": [
+				_enemy("scout", ["easy"]),
 				_enemy("grunt", ["hard"]),
 				_enemy("scout", ["hard"]),
 				_enemy("tank", ["hard"]),

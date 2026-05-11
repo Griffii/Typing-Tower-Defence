@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://dkcy4uwq0oahv" path="res://shaders/water_shader_01.gdshader" id="2_xd7uw"]
 [ext_resource type="Texture2D" uid="uid://d54gn3poylq7" path="res://assets/images/environment/water_texture.png" id="3_4ds0v"]
 [ext_resource type="PackedScene" uid="uid://cv0vs0fbr1f4f" path="res://scenes/game/bases/seaside_farm_sheep_pen.tscn" id="3_83f7x"]
+[ext_resource type="AudioStream" uid="uid://ce7yx07342a3i" path="res://assets/sfx/environment/animal_sheep_baa_short.ogg" id="3_c4tgt"]
 [ext_resource type="Texture2D" uid="uid://c1xym1b31hmd6" path="res://assets/images/environment/spr_deco_tree_01_strip4.png" id="6_pyg4l"]
 [ext_resource type="Texture2D" uid="uid://cd37qxn60aorr" path="res://assets/images/environment/spr_deco_tree_02_strip4.png" id="7_3oc8o"]
 [ext_resource type="Texture2D" uid="uid://dfbvqv28n61ku" path="res://assets/images/environment/spr_deco_mushroom_red_01_strip4.png" id="7_qt2p4"]
@@ -2193,6 +2194,11 @@ script = ExtResource("1_xd7uw")
 unique_name_in_owner = true
 stream = ExtResource("2_f1jwk")
 volume_db = -12.0
+
+[node name="SheepBaa" type="AudioStreamPlayer" parent="." unique_id=920518929]
+unique_name_in_owner = true
+stream = ExtResource("3_c4tgt")
+bus = &"SFX"
 
 [node name="WaterTexture" type="Sprite2D" parent="." unique_id=1286891996]
 texture_repeat = 2

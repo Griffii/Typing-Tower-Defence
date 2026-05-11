@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://d05b40ii5egig"]
+
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_speaker"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_player"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_jisho"]
+[ext_resource type="Resource" uid="uid://c2hxq3nlp7txs" path="res://data/dialogue/speakers/goblin_speaker_data.tres" id="6_goblin"]
+[ext_resource type="Resource" uid="uid://dw18x5eyfknq5" path="res://data/dialogue/speakers/sheep_speaker_data.tres" id="7_sheep"]
+
+[sub_resource type="Resource" id="Line_0"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "Help! HELP! Monsters are coming to eat our sheep!"
+add_speakers = Array[String](["player", "jisho", "goblin", "sheep"])
+move_speakers = {
+"goblin": "right_1",
+"jisho": "left_2",
+"player": "left_1",
+"sheep": "center_1"
+}
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_4"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "A goblin sheep farm?"
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Neat."
+
+[sub_resource type="Resource" id="Line_7"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+flip_speakers = {
+"sheep": true
+}
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_8"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "We must help them!"
+
+[sub_resource type="Resource" id="Line_9"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "No villain, monster, or questionable jelly creature shall harm these fluffy creatures."
+
+[sub_resource type="Resource" id="Line_10"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Right."
+
+[sub_resource type="Resource" id="Line_11"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Wait... I only see slimes coming."
+
+[sub_resource type="Resource" id="Line_12"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "No soldiers..."
+
+[sub_resource type="Resource" id="Line_15"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Do you think the slimes ate all the soldier minions?"
+
+[sub_resource type="Resource" id="Line_16"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Yuck."
+
+[sub_resource type="Resource" id="Line_17"]
+script = ExtResource("2_line")
+speaker_id = "goblin"
+text = "The slimes are coming! Their goo will get all over the wool!"
+
+[sub_resource type="Resource" id="Line_18"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+text = "Baaah!"
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_19"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Tragic. Sticky wool is no laughing matter."
+
+[sub_resource type="Resource" id="Line_20"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Ready yourself, {player_name}. Let's defend the farm."
+
+[resource]
+script = ExtResource("1_sequence")
+speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho"), ExtResource("6_goblin"), ExtResource("7_sheep")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_2"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12"), SubResource("Line_15"), SubResource("Line_16"), SubResource("Line_17"), SubResource("Line_18"), SubResource("Line_19"), SubResource("Line_20")])
+metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

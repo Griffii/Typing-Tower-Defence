@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://d15nlclq6qgue"]
+
+[ext_resource type="Texture2D" uid="uid://drpy53jgkf02a" path="res://assets/images/goblin/spr_idle_strip9.png" id="1_04x3r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lx4o1"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24h2h"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qarvx"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(192, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv7sj"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(288, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0dgda"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(384, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtpkq"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(480, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1qqj"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(576, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fih6q"]
+atlas = ExtResource("1_04x3r")
+region = Rect2(672, 0, 96, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d8key"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lx4o1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24h2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qarvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pv7sj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0dgda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtpkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1qqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fih6q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="GoblinAvatar" type="Node2D" unique_id=1691761207]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=116534279]
+position = Vector2(0, -21)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_d8key")
+autoplay = "default"
+frame_progress = 0.9655646
+flip_h = true

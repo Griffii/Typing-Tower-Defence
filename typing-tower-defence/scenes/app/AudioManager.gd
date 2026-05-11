@@ -37,6 +37,8 @@ func play_music(stream: AudioStream, fade_time: float = 1.0, volume_db: float = 
 	if music_tween != null and music_tween.is_valid():
 		music_tween.kill()
 
+	_set_stream_loop_enabled(stream, true)
+
 	inactive_music_player.stream = stream
 	inactive_music_player.volume_db = -40.0
 	inactive_music_player.play()
@@ -68,3 +70,12 @@ func stop_music(fade_time: float = 1.0) -> void:
 
 	active_music_player.stop()
 	current_music = null
+
+
+func _set_stream_loop_enabled(stream: AudioStream, enabled: bool) -> void:
+	if stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = enabled
+	elif stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = enabled
+	elif stream is AudioStreamWAV:
+		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD if enabled else AudioStreamWAV.LOOP_DISABLED

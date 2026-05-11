@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://desjgmqkyxw2w"]
+
+[ext_resource type="Texture2D" uid="uid://cmvwj8dxk7xiy" path="res://assets/images/npcs/the_king_sprite.png" id="1_r5ifr"]
+
+[node name="FriendlySoldier" type="Node2D" unique_id=879220872]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1326906055]
+position = Vector2(0, -58)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_r5ifr")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b807kf2rrb0yt"]
 
-[ext_resource type="Texture2D" uid="uid://csrxxtqvftbf" path="res://assets/images/player/jisho_placeholder.png" id="1_reovt"]
+[ext_resource type="Texture2D" uid="uid://csrxxtqvftbf" path="res://assets/images/npcs/jisho_placeholder.png" id="1_reovt"]
 
 [sub_resource type="Animation" id="Animation_reovt"]
 length = 0.001

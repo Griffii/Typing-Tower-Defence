@@ -429,6 +429,10 @@ func _set_run_state(new_state: RunState) -> void:
 			_show_game_over(false)
 
 
+####################################################################################################
+#### DIALOGUE FUNCTIONS ############################################################################
+####################################################################################################
+
 func play_intro_dialogue(dialogue_data: DialogueSequenceData, next_state: RunState = RunState.PRE_WAVE) -> void:
 	_play_dialogue_data(dialogue_data, RunState.INTRO_DIALOGUE, next_state)
 
@@ -459,6 +463,7 @@ func _play_dialogue_data(dialogue_data: DialogueSequenceData, dialogue_state: Ru
 	active_dialogue_scene.process_mode = Node.PROCESS_MODE_ALWAYS
 
 	_connect_dialogue_finished_signal(active_dialogue_scene)
+	_connect_dialogue_sfx_signal(active_dialogue_scene)
 
 	if active_dialogue_scene.has_method("start"):
 		active_dialogue_scene.call_deferred("start", dialogue_data)
@@ -506,6 +511,43 @@ func _is_dialogue_state() -> bool:
 		or run_state == RunState.OUTRO_DIALOGUE
 		or run_state == RunState.DIALOGUE
 	)
+
+func _connect_dialogue_sfx_signal(dialogue_scene: Node) -> void:
+	if dialogue_scene == null:
+		return
+
+	if not dialogue_scene.has_signal("dialogue_sfx_requested"):
+		return
+
+	var sfx_callable: Callable = Callable(self, "_on_dialogue_sfx_requested")
+
+	if not dialogue_scene.is_connected("dialogue_sfx_requested", sfx_callable):
+		dialogue_scene.connect("dialogue_sfx_requested", sfx_callable)
+
+
+func _on_dialogue_sfx_requested(sfx_id: String) -> void:
+	var clean_sfx_id: String = sfx_id.strip_edges()
+
+	if clean_sfx_id.is_empty():
+		return
+
+	var sfx_player: AudioStreamPlayer = null
+
+	if current_level != null:
+		sfx_player = current_level.find_child(clean_sfx_id, true, false) as AudioStreamPlayer
+
+	if sfx_player == null:
+		sfx_player = find_child(clean_sfx_id, true, false) as AudioStreamPlayer
+
+	if sfx_player == null:
+		push_warning("BaseGameScreen: Dialogue SFX not found: " + clean_sfx_id)
+		return
+
+	sfx_player.play()
+
+####################################################################################################
+
+
 
 
 func _refresh_wave_ui() -> void:

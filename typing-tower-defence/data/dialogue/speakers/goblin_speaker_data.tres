@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DialogueSpeakerData" format=3 uid="uid://c2hxq3nlp7txs"]
+
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="1_im5qi"]
+[ext_resource type="PackedScene" uid="uid://d15nlclq6qgue" path="res://scenes/game/dialogue/avatars/goblin_avatar.tscn" id="1_rloos"]
+
+[resource]
+script = ExtResource("1_im5qi")
+speaker_id = "goblin"
+display_name = "Goblin"
+avatar_scene = ExtResource("1_rloos")
+default_position = "right"
+name_color = Color(0.24313726, 0.5372549, 0.28235295, 1)
+metadata/_custom_type_script = "uid://bpi837hrngfsy"

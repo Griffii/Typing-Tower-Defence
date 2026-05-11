@@ -1,9 +1,96 @@
-[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://b357ctye6xato"]
+[gd_resource type="Resource" script_class="DialogueSequenceData" format=3 uid="uid://yu08ofow2o6v"]
 
-[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="1_fnykv"]
-[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="2_240mv"]
-[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_o6wpx"]
+[ext_resource type="Script" uid="uid://dc1y2b2f7yhje" path="res://data/dialogue/dialogue_sequence_data.gd" id="1_sequence"]
+[ext_resource type="Script" uid="uid://bm2xra0mbn2u7" path="res://data/dialogue/dialogue_line_data.gd" id="2_line"]
+[ext_resource type="Script" uid="uid://bpi837hrngfsy" path="res://data/dialogue/dialogue_speaker_data.gd" id="3_speaker"]
+[ext_resource type="Resource" uid="uid://dgnwns6tacp4j" path="res://data/dialogue/speakers/player_speaker_data.tres" id="4_player"]
+[ext_resource type="Resource" uid="uid://cvbt7cg5mp1dq" path="res://data/dialogue/speakers/jisho_speaker_data.tres" id="5_jisho"]
+[ext_resource type="Resource" uid="uid://dw18x5eyfknq5" path="res://data/dialogue/speakers/sheep_speaker_data.tres" id="6_sheep"]
+
+[sub_resource type="Resource" id="Line_0"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Greetings, brave player!"
+add_speakers = Array[String](["player", "jisho", "sheep"])
+move_speakers = {
+"jisho": "center_1"
+}
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Yes you, with the excellent typing skills."
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Thank you for playing the game to this point."
+
+[sub_resource type="Resource" id="Line_3"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "That is all the game dev gods have cooked up so far."
+
+[sub_resource type="Resource" id="Line_4"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "But they should be adding lots more soon."
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "One day, we shall defeat the Evil Saborus and save the kingdom!"
+
+[sub_resource type="Resource" id="Line_6"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Even if it costs us Thistle's life!"
+
+[sub_resource type="Resource" id="Line_7"]
+script = ExtResource("2_line")
+speaker_id = "sheep"
+display_name_override = "Thistle"
+text = "Baaah!"
+add_speakers = Array[String](["sheep"])
+move_speakers = {
+"sheep": "right_1"
+}
+flip_speakers = {
+"sheep": true
+}
+sfx_id = "SheepBaa"
+
+[sub_resource type="Resource" id="Line_8"]
+script = ExtResource("2_line")
+speaker_id = "player"
+text = "Thanks."
+add_speakers = Array[String](["player"])
+move_speakers = {
+"player": "left_1"
+}
+
+[sub_resource type="Resource" id="Line_9"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "For now, try Endless Mode and experiment with adding your own word lists!"
+
+[sub_resource type="Resource" id="Line_10"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "Or visit the devs at GriffiiGames.com to join our Discord and share your suggestions."
+
+[sub_resource type="Resource" id="Line_11"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "We would love to hear your impressions on the game."
+
+[sub_resource type="Resource" id="Line_12"]
+script = ExtResource("2_line")
+speaker_id = "jisho"
+text = "See you all soon, and bye for now!"
 
 [resource]
-script = ExtResource("2_240mv")
+script = ExtResource("1_sequence")
+speakers = Array[ExtResource("3_speaker")]([ExtResource("4_player"), ExtResource("5_jisho"), ExtResource("6_sheep")])
+lines = Array[ExtResource("2_line")]([SubResource("Line_0"), SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_4"), SubResource("Line_5"), SubResource("Line_6"), SubResource("Line_7"), SubResource("Line_8"), SubResource("Line_9"), SubResource("Line_10"), SubResource("Line_11"), SubResource("Line_12")])
 metadata/_custom_type_script = "uid://dc1y2b2f7yhje"

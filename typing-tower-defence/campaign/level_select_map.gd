@@ -9,8 +9,8 @@ const DIALOGUE_OVERLAY_SCENE: PackedScene = preload("uid://bxtvbt0ut71y2")
 
 const MAP_INTRO_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_intro_dialogue.tres")
 const MAP_AFTER_CASTLE_WALLS_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_after_castle_walls_dialogue.tres")
-const MAP_AFTER_GRASSLANDS_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_after_grasslands_dialogue.tres")
-const MAP_AFTER_SEASIDE_FARM_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_after_seaside_farm_dialogue.tres")
+const MAP_AFTER_GRASSLANDS_DIALOGUE: DialogueSequenceData = preload("uid://b1ui71efd3l2a")
+const MAP_AFTER_SEASIDE_FARM_DIALOGUE: DialogueSequenceData = preload("uid://b357ctye6xato")
 
 const BUTTON_BASE_SCALE: Vector2 = Vector2.ONE
 const BUTTON_HOVER_SCALE: Vector2 = Vector2(1.08, 1.08)
@@ -28,7 +28,6 @@ const MAP_MAX_X: float = 0.0
 @onready var castle_walls_container: MarginContainer = %CastleWallsContainer
 @onready var grasslands_container: MarginContainer = %GrasslandsContainer
 @onready var seaside_farm_container: MarginContainer = %SeasideFarmContainer
-
 
 var buttons_by_level_id: Dictionary = {}
 var button_tweens: Dictionary = {}
@@ -347,11 +346,34 @@ func _play_dialogue_sequence(sequence: DialogueSequenceData) -> void:
 
 	add_child(overlay)
 	overlay.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	if overlay.has_signal("dialogue_sfx_requested"):
+		if not overlay.dialogue_sfx_requested.is_connected(_on_dialogue_sfx_requested):
+			overlay.dialogue_sfx_requested.connect(_on_dialogue_sfx_requested)
+
 	overlay.start(sequence)
 
 	await overlay.dialogue_finished
 
 	dialogue_is_playing = false
+
+
+func _on_dialogue_sfx_requested(sfx_id: String) -> void:
+	var clean_sfx_id: String = sfx_id.strip_edges()
+
+	print("LevelSelectMap Dialogue SFX requested: ", clean_sfx_id)
+
+	if clean_sfx_id.is_empty():
+		return
+
+	var sfx_player: AudioStreamPlayer = find_child(clean_sfx_id, true, false) as AudioStreamPlayer
+
+	if sfx_player == null:
+		push_warning("LevelSelectMap: Dialogue SFX not found: " + clean_sfx_id)
+		return
+
+	print("LevelSelectMap playing Dialogue SFX: ", sfx_player.name)
+	sfx_player.play()
 
 
 func _has_seen_map_dialogue(flag_id: String) -> bool:

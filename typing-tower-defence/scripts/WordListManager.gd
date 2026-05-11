@@ -16,6 +16,8 @@ const BUILTIN_WORD_LISTS: Array[WordListData] = [
 	preload("res://data/word_lists/mediumwords.tres"),
 	preload("res://data/word_lists/placenames.tres"),
 	preload("res://data/word_lists/school.tres"),
+	preload("res://data/word_lists/space.tres")
+	
 ]
 
 const BUILTIN_LISTS_DIR := "res://data/word_lists"

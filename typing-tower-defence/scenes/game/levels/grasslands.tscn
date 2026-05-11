@@ -56,6 +56,7 @@ script = ExtResource("1_2v6j6")
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=865135594]
 unique_name_in_owner = true
 stream = ExtResource("2_n6djo")
+volume_db = -8.0
 parameters/looping = true
 
 [node name="GroundTiles" type="TileMapLayer" parent="." unique_id=136972214]
