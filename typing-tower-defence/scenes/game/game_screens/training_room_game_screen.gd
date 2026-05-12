@@ -90,7 +90,7 @@ const MAKE_50_GOLD_DIALOGUE: Dictionary = {
 	"lines": [
 		{"speaker_id": "jisho", "text": "HAHAHA! BURN!!!!."},
 		{"speaker_id": "jisho", "text": "Ehem... anyway."},
-		{"speaker_id": "jisho", "text": "As you discover more spells you will be able to change the effect of your sepcial skill."},
+		{"speaker_id": "jisho", "text": "As you discover more spells you will be able to change the effect of your special skill."},
 		{"speaker_id": "jisho", "text": "Defeating enemies also gives you gold."},
 		{"speaker_id": "jisho", "text": "Don't ask me where they keep it."},
 		{"speaker_id": "jisho", "text": "You can use that gold to improve your magic damage and special skill."},
