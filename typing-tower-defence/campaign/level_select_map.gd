@@ -10,7 +10,7 @@ const DIALOGUE_OVERLAY_SCENE: PackedScene = preload("uid://bxtvbt0ut71y2")
 const MAP_INTRO_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_intro_dialogue.tres")
 const MAP_AFTER_CASTLE_WALLS_DIALOGUE: DialogueSequenceData = preload("res://data/dialogue/campaign/world_map/map_after_castle_walls_dialogue.tres")
 const MAP_AFTER_GRASSLANDS_DIALOGUE: DialogueSequenceData = preload("uid://b1ui71efd3l2a")
-const MAP_AFTER_SEASIDE_FARM_DIALOGUE: DialogueSequenceData = preload("uid://b357ctye6xato")
+const MAP_AFTER_SEASIDE_FARM_DIALOGUE: DialogueSequenceData = preload("uid://yu08ofow2o6v")
 
 const BUTTON_BASE_SCALE: Vector2 = Vector2.ONE
 const BUTTON_HOVER_SCALE: Vector2 = Vector2(1.08, 1.08)

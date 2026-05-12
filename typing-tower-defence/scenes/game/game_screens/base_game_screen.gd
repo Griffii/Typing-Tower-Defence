@@ -23,11 +23,6 @@ enum RunState {
 const SHOP_DEFINITIONS = preload("res://data/shop/shop_definitions.gd")
 const DIALOGUE_OVERLAY_SCENE: PackedScene = preload("res://scenes/game/dialogue/dialogue_overlay.tscn")
 
-##########################################################################
-######### CHANGE THIS BEFORE EXPORTING - PLEASE FOR THE LOVE OF GOD ######
-##########################################################################
-var DEV_MODE: bool = true
-###########################################################################
 var selected_level_scene: PackedScene = null
 var selected_wave_defs: Array = []
 
@@ -71,6 +66,7 @@ var current_gold: int = 0
 
 
 func _ready() -> void:
+	_connect_game_flags()
 	_connect_signals()
 	_load_run_content()
 	_setup_run_mode()
@@ -78,12 +74,21 @@ func _ready() -> void:
 	_apply_run_upgrades()
 	_set_dev_visibility()
 
+func _connect_game_flags() -> void:
+	if GameFlags == null:
+		return
+
+	if not GameFlags.dev_mode_changed.is_connected(_on_dev_mode_changed):
+		GameFlags.dev_mode_changed.connect(_on_dev_mode_changed)
 
 func _set_dev_visibility() -> void:
 	if dev_stuff == null:
 		return
 
-	dev_stuff.visible = DEV_MODE
+	dev_stuff.visible = GameFlags.is_dev_mode_enabled()
+
+func _on_dev_mode_changed(_is_enabled: bool) -> void:
+	_set_dev_visibility()
 
 
 func _load_run_content() -> void:

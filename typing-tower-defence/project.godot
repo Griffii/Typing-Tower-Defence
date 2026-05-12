@@ -25,6 +25,7 @@ GameSession="*uid://dkr8xqhgtymcr"
 PlayerLoadout="*uid://lpu452r3wg4j"
 CampaignProgress="*uid://dkqp8wqwrso0b"
 AudioManager="*uid://bxkgnqvmq6yhe"
+GameFlags="*uid://dh53mlb0kab44"
 
 [display]
 

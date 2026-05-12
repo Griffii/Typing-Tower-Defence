@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://bldwj3xauyf52" path="res://assets/sfx/menus/Paper_02.mp3" id="3_da10i"]
 [ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="3_kffdn"]
 [ext_resource type="FontFile" uid="uid://ds1n8n0fogrlw" path="res://assets/fonts/MagicSchoolOne.ttf" id="3_qnuys"]
+[ext_resource type="Texture2D" uid="uid://cu41173875ncd" path="res://assets/images/menu/magic_panel_01.png" id="4_eoonq"]
+[ext_resource type="FontFile" uid="uid://dfafj6dmhu6ti" path="res://assets/fonts/ud-digi-kyokasho-n-b.ttf" id="4_mcc4n"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jjfif"]
 texture = ExtResource("1_s2d1y")
@@ -36,6 +38,31 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(1019, 107, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l0eij"]
+texture = ExtResource("4_eoonq")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_udegp"]
+texture = ExtResource("4_eoonq")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+modulate_color = Color(1, 1, 0.80784315, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hg0fu"]
+texture = ExtResource("4_eoonq")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_udegp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcc4n"]
 texture = ExtResource("3_kffdn")
@@ -198,7 +225,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0, 0.59607846, 0.8627451, 1)
-theme_override_colors/font_shadow_color = Color(0, 0.4117647, 0.6666667, 0.78431374)
+theme_override_colors/font_shadow_color = Color(1.8049032e-07, 0.1890938, 0.3223944, 0.78431374)
 theme_override_fonts/font = ExtResource("3_qnuys")
 theme_override_font_sizes/font_size = 48
 text = "Grand Grimoire Jisho"
@@ -336,6 +363,24 @@ custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 bus_name = "Typing_SFX"
+
+[node name="DevModeToggleButton" type="Button" parent="BookContainer/RightPanel/MarginContainer" unique_id=422499413]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_mcc4n")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_l0eij")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_l0eij")
+theme_override_styles/hover = SubResource("StyleBoxTexture_udegp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_l0eij")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hg0fu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_udegp")
+text = "Dev Mode: On"
 
 [node name="BackButton" type="Button" parent="BookContainer" unique_id=650318142]
 unique_name_in_owner = true
