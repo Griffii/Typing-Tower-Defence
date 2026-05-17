@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ocj6cpttt7w7"
-path="res://.godot/imported/hair_02.png-8425d39c23633b00ab5fb60d815794e3.ctex"
+path="res://.godot/imported/hair_02.png-fa74a8be71af07a0bb3e8ca34ef34a3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/ChibiBody/hair/hair_02.png"
-dest_files=["res://.godot/imported/hair_02.png-8425d39c23633b00ab5fb60d815794e3.ctex"]
+source_file="res://assets/images/player/LowPixelBody/hair/hair_02.png"
+dest_files=["res://.godot/imported/hair_02.png-fa74a8be71af07a0bb3e8ca34ef34a3c.ctex"]
 
 [params]
 

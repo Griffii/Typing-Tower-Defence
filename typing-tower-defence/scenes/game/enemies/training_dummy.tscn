@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="3_o0ccj"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="6_euo34"]
 [ext_resource type="AudioStream" uid="uid://d24jf6dbia7jp" path="res://assets/sfx/enemies/cardboard box hit 4.wav" id="6_moyrj"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/bases/enemy_health_bar.tscn" id="7_5ilb8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f2dj3"]
 atlas = ExtResource("1_f2dj3")
@@ -288,6 +289,7 @@ unique_name_in_owner = true
 
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=2094866817]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 5.0
 offset_right = 21.0
@@ -329,3 +331,11 @@ libraries/ = SubResource("AnimationLibrary_bhgo7")
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=603788394]
 position = Vector2(0, -34.5)
 shape = SubResource("RectangleShape2D_5ilb8")
+
+[node name="HealthBar" parent="." unique_id=970504870 instance=ExtResource("7_5ilb8")]
+unique_name_in_owner = true
+offset_left = -19.0
+offset_top = 0.0
+offset_right = -19.0
+offset_bottom = 0.0
+scale = Vector2(0.7, 0.2)

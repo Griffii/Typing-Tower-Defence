@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://nou6hqfvsi23" path="res://assets/tilemaps/spr_tileset_sunnysideworld_16px.png" id="1_ekq4y"]
 [ext_resource type="Script" uid="uid://smfwynpqb8u" path="res://scenes/game/levels/seaside_farm.gd" id="1_xd7uw"]
-[ext_resource type="AudioStream" uid="uid://5jffiyd5a1g1" path="res://assets/bgm/JDSherbert - Ambiences Music Pack - Desert Sirocco.ogg" id="2_f1jwk"]
 [ext_resource type="Shader" uid="uid://dkcy4uwq0oahv" path="res://shaders/water_shader_01.gdshader" id="2_xd7uw"]
 [ext_resource type="Texture2D" uid="uid://d54gn3poylq7" path="res://assets/images/environment/water_texture.png" id="3_4ds0v"]
 [ext_resource type="PackedScene" uid="uid://cv0vs0fbr1f4f" path="res://scenes/game/bases/seaside_farm_sheep_pen.tscn" id="3_83f7x"]
@@ -2192,7 +2191,6 @@ script = ExtResource("1_xd7uw")
 
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=1627240824]
 unique_name_in_owner = true
-stream = ExtResource("2_f1jwk")
 volume_db = -12.0
 
 [node name="SheepBaa" type="AudioStreamPlayer" parent="." unique_id=920518929]

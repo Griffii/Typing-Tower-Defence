@@ -1622,6 +1622,9 @@ position = Vector2(600, 220)
 [node name="slot_02" type="Marker2D" parent="TowerContainer" unique_id=920394866]
 position = Vector2(272, 215)
 
+[node name="slot_03" type="Marker2D" parent="TowerContainer" unique_id=1897210622]
+position = Vector2(783, 199)
+
 [node name="Protect" parent="." unique_id=1460439950 instance=ExtResource("3_squuo")]
 unique_name_in_owner = true
 

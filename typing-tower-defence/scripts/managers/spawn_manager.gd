@@ -460,6 +460,9 @@ func _on_enemy_died(enemy: Node) -> void:
 	var index: int = active_enemies.find(enemy)
 	if index != -1:
 		active_enemies.remove_at(index)
+	
+	if combat_manager != null and combat_manager.has_method("award_enemy_kill_rewards"):
+		combat_manager.award_enemy_kill_rewards(enemy)
 
 	if combat_manager != null and combat_manager.has_method("unregister_enemy_at_base"):
 		combat_manager.unregister_enemy_at_base(enemy)

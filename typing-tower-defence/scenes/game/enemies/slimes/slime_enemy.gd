@@ -23,17 +23,10 @@ var slime_color: String = "blue"
 func _apply_visuals() -> void:
 	var hash_source: String = enemy_id
 	if hash_source.is_empty():
-		hash_source = "%s_%s_%d" % [enemy_type, current_word, get_instance_id()]
-
+		hash_source = "%s_%d" % [enemy_type, get_instance_id()]
+	
 	var hash_value: int = abs(hash_source.hash())
 	slime_color = SLIME_COLORS[hash_value % SLIME_COLORS.size()]
-
-	if slime_sprite == null:
-		return
-
-	var idle_anim := "%s_idle" % slime_color
-	if slime_sprite.sprite_frames != null and slime_sprite.sprite_frames.has_animation(idle_anim):
-		slime_sprite.play(idle_anim)
 
 
 func _play_walk_animation() -> void:
@@ -126,10 +119,6 @@ func die() -> void:
 
 	is_dead = true
 	velocity = Vector2.ZERO
-	clear_typing_feedback()
-
-	current_target = null
-	targets_in_range.clear()
 	
 	_spawn_coin_burst_effect()
 	
@@ -185,8 +174,6 @@ func _apply_facing() -> void:
 	if visual_root != null:
 		visual_root.scale.x = -1.0
 
-	if label_root != null:
-		label_root.scale.x = 1.0
 
 
 func _get_current_animation_duration(sprite: AnimatedSprite2D, anim_name: String) -> float:

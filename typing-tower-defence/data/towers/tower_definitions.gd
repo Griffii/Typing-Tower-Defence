@@ -1,45 +1,38 @@
-## Data for various tower types, per level
-
+## Data for various portal/tower types, per level
 extends RefCounted
 
 const TOWER_TYPES := {
-	"arrow": {
-		"display_name": "Arrow Tower",
-		"description": "Rapid physical attacks with strong sustained damage.",
+	"basic_magic_turret": {
+		"display_name": "Magic Turret",
+		"description": "A basic magic crystal that fires small beams at the nearest enemy.",
 		"icon": preload("uid://fw68dporkcpi"),
 		"levels": [
 			{
 				"cost": 60,
-				"charge_required": 3,
-				"duration": 5.0,
-				"cooldown": 4.0,
-				"effect": "rapid_fire",
-				"damage": 4,
-				"attack_interval": 0.45,
+				"effect": "magic_beam",
+				"damage": 6,
+				"attack_interval": .8,
 				"projectile_speed": 420.0,
-				"range": 220.0
+				"range": 220.0,
+				"time_added_per_word": 1.0
 			},
 			{
 				"cost": 95,
-				"charge_required": 3,
-				"duration": 5.0,
-				"cooldown": 4.0,
-				"effect": "rapid_fire",
-				"damage": 5,
-				"attack_interval": 0.40,
+				"effect": "magic_beam",
+				"damage": 8,
+				"attack_interval": 0.7,
 				"projectile_speed": 450.0,
-				"range": 230.0
+				"range": 230.0,
+				"time_added_per_word": 2.0
 			},
 			{
 				"cost": 140,
-				"charge_required": 3,
-				"duration": 5.0,
-				"cooldown": 4.0,
-				"effect": "rapid_fire",
-				"damage": 6,
-				"attack_interval": 0.36,
+				"effect": "magic_beam",
+				"damage": 10,
+				"attack_interval": 0.6,
 				"projectile_speed": 480.0,
-				"range": 240.0
+				"range": 240.0,
+				"time_added_per_word": 3.0
 			}
 		]
 	},
@@ -51,33 +44,30 @@ const TOWER_TYPES := {
 		"levels": [
 			{
 				"cost": 75,
-				"charge_required": 5,
-				"duration": 0.6,
-				"cooldown": 4.5,
 				"effect": "lightning_burst",
-				"damage": 18,
+				"damage": 8,
+				"attack_interval": 2.0,
 				"targets_per_burst": 5,
-				"range": 99999.0
+				"range": 220.0,
+				"time_added_per_word": 1.0
 			},
 			{
 				"cost": 115,
-				"charge_required": 5,
-				"duration": 0.6,
-				"cooldown": 4.2,
 				"effect": "lightning_burst",
-				"damage": 24,
+				"damage": 10,
+				"attack_interval": 1.5,
 				"targets_per_burst": 6,
-				"range": 99999.0
+				"range": 230.0,
+				"time_added_per_word": 2.0
 			},
 			{
 				"cost": 165,
-				"charge_required": 5,
-				"duration": 0.6,
-				"cooldown": 3.8,
 				"effect": "lightning_burst",
-				"damage": 30,
+				"damage": 12,
+				"attack_interval": 1.0,
 				"targets_per_burst": 7,
-				"range": 99999.0
+				"range": 240.0,
+				"time_added_per_word": 3.0
 			}
 		]
 	}

@@ -74,6 +74,7 @@ func _ready() -> void:
 	_apply_run_upgrades()
 	_set_dev_visibility()
 
+
 func _connect_game_flags() -> void:
 	if GameFlags == null:
 		return
@@ -89,6 +90,7 @@ func _set_dev_visibility() -> void:
 
 func _on_dev_mode_changed(_is_enabled: bool) -> void:
 	_set_dev_visibility()
+
 
 
 func _load_run_content() -> void:
@@ -194,6 +196,9 @@ func _connect_signals() -> void:
 			typing_manager.word_completed.connect(_on_word_completed)
 		if typing_manager.has_signal("input_cleared"):
 			typing_manager.input_cleared.connect(_on_typing_input_cleared)
+		if typing_manager.has_signal("word_completed"):
+			if not typing_manager.word_completed.is_connected(combat_manager.notify_typing_target_word_completed):
+				typing_manager.word_completed.connect(combat_manager.notify_typing_target_word_completed)
 	
 	if skip_wave_button != null:
 		if not skip_wave_button.pressed.is_connected(debug_skip_wave):
@@ -308,7 +313,7 @@ func _reset_run() -> void:
 	is_game_menu_open = false
 	is_shop_open = false
 	is_build_open = false
-	current_gold = 0
+	current_gold = 60 #Give player enough gold to buy one tower
 	previous_run_state_before_dialogue = RunState.PRE_WAVE
 	dialogue_next_state = RunState.PRE_WAVE
 
@@ -363,9 +368,9 @@ func _set_run_state(new_state: RunState) -> void:
 	match run_state:
 		RunState.PRE_WAVE:
 			_disable_typing()
-			_show_start_wave_button("Start Wave")
-			_set_status_text("Press Start Wave when ready.")
-			_hide_shop()
+			_hide_start_wave_button()
+			_set_status_text("Prepare your defense.")
+			_show_shop()
 			_hide_build()
 
 		RunState.COUNTDOWN:
@@ -952,7 +957,7 @@ func _refresh_shop() -> void:
 
 
 func _on_shop_purchase_requested(upgrade_id: String) -> void:
-	if run_state != RunState.SHOP:
+	if run_state != RunState.SHOP and run_state != RunState.PRE_WAVE:
 		return
 	if combat_manager == null or not combat_manager.has_method("apply_upgrade_purchase"):
 		return
@@ -963,7 +968,7 @@ func _on_shop_purchase_requested(upgrade_id: String) -> void:
 
 
 func _on_shop_build_mode_requested() -> void:
-	if run_state != RunState.SHOP:
+	if run_state != RunState.SHOP and run_state != RunState.PRE_WAVE:
 		return
 
 	_set_run_state(RunState.BUILD)
@@ -973,10 +978,15 @@ func _on_shop_next_wave_requested() -> void:
 	if not run_active:
 		return
 
-	if run_state != RunState.SHOP:
+	if run_state != RunState.SHOP and run_state != RunState.PRE_WAVE:
+		return
+
+	if not _has_at_least_one_built_tower():
+		_set_status_text("Build at least one tower first.")
 		return
 
 	_set_run_state(RunState.COUNTDOWN)
+
 	if countdown_overlay != null and countdown_overlay.has_method("play_countdown"):
 		countdown_overlay.play_countdown(3, 1.0)
 
@@ -1002,7 +1012,10 @@ func _on_build_return_to_shop_requested() -> void:
 	if run_state != RunState.BUILD:
 		return
 
-	_set_run_state(RunState.SHOP)
+	if current_wave_index <= 0:
+		_set_run_state(RunState.PRE_WAVE)
+	else:
+		_set_run_state(RunState.SHOP)
 
 
 func _refresh_build() -> void:
@@ -1039,3 +1052,19 @@ func _on_tower_state_changed() -> void:
 
 	if is_shop_open:
 		_refresh_shop()
+
+
+
+func _has_at_least_one_built_tower() -> bool:
+	if combat_manager == null or not combat_manager.has_method("get_build_state"):
+		return false
+
+	var build_state: Dictionary = combat_manager.get_build_state()
+	var slots: Dictionary = build_state.get("slots", {})
+
+	for slot_id in slots.keys():
+		var slot_data: Dictionary = slots[slot_id]
+		if bool(slot_data.get("is_built", false)):
+			return true
+
+	return false

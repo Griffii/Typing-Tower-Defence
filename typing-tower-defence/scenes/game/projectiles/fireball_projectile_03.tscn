@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://dlda6ydil1wqt"]
+
+[ext_resource type="Script" uid="uid://bj3b2s8wvhdlg" path="res://scenes/game/projectiles/fireball_projectile.gd" id="1_o247a"]
+[ext_resource type="Texture2D" uid="uid://dgllni2dxq842" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0000.png" id="2_4fh25"]
+[ext_resource type="Texture2D" uid="uid://dddxou652ucn3" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0001.png" id="3_6pwjx"]
+[ext_resource type="Texture2D" uid="uid://bowrq55ynidvw" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0002.png" id="4_fftjs"]
+[ext_resource type="Texture2D" uid="uid://o3tdk8assgc0" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0003.png" id="5_hooa2"]
+[ext_resource type="Texture2D" uid="uid://d3ppiwbd7e1r2" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0004.png" id="6_dhjfe"]
+[ext_resource type="Texture2D" uid="uid://pn2h5xpv65cg" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0005.png" id="7_ha3mr"]
+[ext_resource type="Texture2D" uid="uid://br1i2jw01yggb" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0006.png" id="8_u5syr"]
+[ext_resource type="Texture2D" uid="uid://dobarv00jikb5" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0007.png" id="9_umuxk"]
+[ext_resource type="Texture2D" uid="uid://c2v7r8x2jlr1r" path="res://assets/images/burst_effects/stylized_explosion_001_large_yellow/frame0008.png" id="10_hgpt8"]
+[ext_resource type="Texture2D" uid="uid://td4026o3o5jj" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-1.png" id="11_o247a"]
+[ext_resource type="Texture2D" uid="uid://dxlo41fswle1i" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-2.png" id="12_4fh25"]
+[ext_resource type="Texture2D" uid="uid://jvubnqk2cqih" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-3.png" id="13_6pwjx"]
+[ext_resource type="Texture2D" uid="uid://cl1hgnfb2ha37" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-4.png" id="14_fftjs"]
+[ext_resource type="Texture2D" uid="uid://d2yvtjmtqxod0" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-5.png" id="15_hooa2"]
+[ext_resource type="Texture2D" uid="uid://c751sk3crjctv" path="res://assets/images/spell_projectiles/fireball_03/PixelartFireBall-6.png" id="16_dhjfe"]
+[ext_resource type="AudioStream" uid="uid://bpctesc3u073p" path="res://assets/sfx/spells/sound_spark_Fire_Spell_Spit_Fire_03.mp3" id="17_2rp8e"]
+[ext_resource type="AudioStream" uid="uid://c6rrusho2a3hi" path="res://assets/sfx/spells/explosion-01.ogg" id="18_vn0n0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha3mr"]
+atlas = ExtResource("11_o247a")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5syr"]
+atlas = ExtResource("12_4fh25")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umuxk"]
+atlas = ExtResource("13_6pwjx")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgpt8"]
+atlas = ExtResource("14_fftjs")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4y460"]
+atlas = ExtResource("15_hooa2")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cruje"]
+atlas = ExtResource("16_dhjfe")
+region = Rect2(0, 0, 74, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kdvvi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4fh25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6pwjx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fftjs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hooa2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dhjfe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ha3mr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_u5syr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_umuxk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_hgpt8")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ha3mr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5syr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_umuxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgpt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4y460")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cruje")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 30.0
+}]
+
+[node name="FireballProjectile_01" type="Node2D" unique_id=1510425965]
+script = ExtResource("1_o247a")
+
+[node name="FireballSprite" type="AnimatedSprite2D" parent="." unique_id=2109604757]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_kdvvi")
+animation = &"flight"
+autoplay = "flight"
+
+[node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=1398991119]
+unique_name_in_owner = true
+stream = ExtResource("17_2rp8e")
+
+[node name="ExplosionSfx" type="AudioStreamPlayer2D" parent="." unique_id=1753667198]
+unique_name_in_owner = true
+stream = ExtResource("18_vn0n0")
+volume_db = 10.0

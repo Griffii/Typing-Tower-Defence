@@ -4,10 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/enemies/soldiers/soldier_01.png" id="2_8diex"]
 [ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/enemies/soldiers/weapon_01.png" id="3_kpt4l"]
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/enemies/soldiers/shield.png" id="4_1aatg"]
-[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_8g6i5"]
-[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="6_fpbj4"]
 [ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_u4ii5"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_s8oqu"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/bases/enemy_health_bar.tscn" id="8_5jixs"]
 [ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="8_vfbyj"]
 
 [sub_resource type="Animation" id="Animation_1vxcc"]
@@ -157,34 +156,22 @@ tracks/11/keys = {
 tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("LabelRoot:visible")
+tracks/12/path = NodePath("hit-sfx:playing")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("hit-sfx:playing")
+tracks/13/path = NodePath("death-sfx:playing")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/14/type = "value"
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/path = NodePath("death-sfx:playing")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -378,22 +365,10 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("LabelRoot:visible")
+tracks/9/path = NodePath("death-sfx:playing")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("death-sfx:playing")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -546,29 +521,6 @@ position = Vector2(-15, 12.999999)
 scale = Vector2(2, 2)
 texture = ExtResource("4_1aatg")
 
-[node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
-unique_name_in_owner = true
-
-[node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
-unique_name_in_owner = true
-offset_left = -21.0
-offset_top = 21.0
-offset_right = 21.0
-offset_bottom = 44.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44313726)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("5_8g6i5")
-text = "10"
-horizontal_alignment = 1
-
-[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=732622195]
-unique_name_in_owner = true
-position = Vector2(0, -55)
-
-[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("6_fpbj4")]
-unique_name_in_owner = true
-position = Vector2(0, -33)
-
 [node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1599622870]
 unique_name_in_owner = true
 stream = ExtResource("6_u4ii5")
@@ -591,3 +543,16 @@ libraries/ = SubResource("AnimationLibrary_lld82")
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=990227414]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_0x1wx")
+
+[node name="HealthBar" parent="." unique_id=970504870 instance=ExtResource("8_5jixs")]
+unique_name_in_owner = true
+offset_left = -17.0
+offset_top = 19.0
+offset_right = -17.0
+offset_bottom = 19.0
+scale = Vector2(0.55, 0.1)
+
+[node name="FloatingDamageNumberMarker" type="Marker2D" parent="." unique_id=814454266]
+unique_name_in_owner = true
+position = Vector2(-1.9073486e-06, -16.999996)
+scale = Vector2(0.55, 0.1)

@@ -7,13 +7,24 @@ extends Enemy
 @onready var death_sfx: AudioStreamPlayer2D = %"death-sfx"
 @onready var hit_sfx: AudioStreamPlayer2D = %"hit-sfx"
 
+# Word/typing nodes removed from Enemy, so TrainingDummy owns them directly.
+@onready var label_root: Node2D = %LabelRoot
+@onready var label_anchor: Marker2D = %LabelAnchor
+@onready var word_label_controller: WordLabelController = %WordLabelController
+
+
 var marker_id: String = ""
 var is_finishing_death: bool = false
+
+var current_word: String = ""
+var is_targeted: bool = false
+var word_completion_damage: int = 10
 
 
 func _ready() -> void:
 	add_to_group("enemies")
 	add_to_group("training_dummies")
+	add_to_group("typing_targets")
 
 	max_hp = 30
 	current_hp = 30
@@ -22,6 +33,7 @@ func _ready() -> void:
 	reward_gold = 15
 	base_attack_damage = 0
 	base_attack_interval = 999.0
+	word_completion_damage = 10
 
 	if word_label_controller != null:
 		word_label_controller.set_anchor(label_anchor)
@@ -42,6 +54,7 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 
 	reward_score = int(enemy_data.get("reward_score", 15))
 	reward_gold = int(enemy_data.get("reward_gold", 15))
+	word_completion_damage = int(enemy_data.get("word_completion_damage", 10))
 
 	move_speed = 0.0
 	base_attack_damage = 0
@@ -58,8 +71,6 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 	is_attack_anim_active = false
 	is_damage_anim_active = false
 	base_attack_timer = 0.0
-	current_target = null
-	targets_in_range.clear()
 
 	if word_label_controller != null:
 		word_label_controller.set_anchor(label_anchor)
@@ -71,6 +82,68 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 func _physics_process(_delta: float) -> void:
 	velocity = Vector2.ZERO
 
+
+# ---------------------------
+# Typing target interface
+# ---------------------------
+
+func get_current_word() -> String:
+	return current_word
+
+
+func can_accept_word() -> bool:
+	return not is_dead and not current_word.is_empty()
+
+
+func complete_current_word() -> void:
+	if not can_accept_word():
+		return
+
+	clear_typing_feedback()
+	take_damage(word_completion_damage)
+
+
+func set_word(new_word: String) -> void:
+	current_word = new_word
+	clear_typing_feedback()
+
+
+func assign_new_word(new_word: String) -> void:
+	set_word(new_word)
+
+
+func set_targeted(targeted: bool) -> void:
+	is_targeted = targeted
+
+	if word_label_controller != null:
+		word_label_controller.set_targeted(targeted)
+
+	clear_typing_feedback()
+
+
+func set_typing_progress(typed_text: String) -> void:
+	if word_label_controller != null:
+		word_label_controller.set_typing_progress(typed_text)
+
+
+func clear_typing_feedback() -> void:
+	_update_labels()
+
+
+# ---------------------------
+# UI
+# ---------------------------
+
+func _update_labels() -> void:
+	if word_label_controller != null:
+		word_label_controller.set_word(current_word)
+		word_label_controller.set_targeted(is_targeted)
+
+
+
+# ---------------------------
+# Animations
+# ---------------------------
 
 func _play_spawn_animation() -> void:
 	if animation_player != null and animation_player.has_animation("spawn"):
@@ -118,14 +191,14 @@ func die() -> void:
 	velocity = Vector2.ZERO
 	clear_typing_feedback()
 
-	current_target = null
-	targets_in_range.clear()
-
 	_spawn_coin_burst_effect()
 
-	# Stop idle anim
-	body.pause()
-	
+	if body != null:
+		body.pause()
+
+	if death_sfx != null:
+		death_sfx.play()
+
 	if animation_player != null and animation_player.has_animation("die"):
 		animation_player.stop()
 		animation_player.play("die")

@@ -3,11 +3,9 @@
 [ext_resource type="Script" uid="uid://bxhscqsmysjah" path="res://scenes/game/enemies/slimes/slime_enemy.gd" id="1_gpub4"]
 [ext_resource type="Texture2D" uid="uid://b6t87h2tpobri" path="res://assets/images/enemies/slimes/slime_swallow.png" id="1_n8q8v"]
 [ext_resource type="Texture2D" uid="uid://cnheu2nvp2xti" path="res://assets/images/enemies/slimes/slime_die.png" id="2_gpub4"]
-[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_nemmd"]
 [ext_resource type="Texture2D" uid="uid://lg1pqq533b4r" path="res://assets/images/enemies/slimes/slime_hit.png" id="3_t2hb6"]
 [ext_resource type="Texture2D" uid="uid://bhhsjeyjd3utp" path="res://assets/images/enemies/slimes/slime_idle1.png" id="4_7cpak"]
 [ext_resource type="Texture2D" uid="uid://cpfy7kgenmns0" path="res://assets/images/enemies/slimes/slime_move.png" id="5_ebhn5"]
-[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="8_t2hb6"]
 [ext_resource type="AudioStream" uid="uid://bcr61d0htxom7" path="res://assets/sfx/enemies/slime_goop_01.mp3" id="9_t2hb6"]
 [ext_resource type="AudioStream" uid="uid://dijs5pxd6kmaf" path="res://assets/sfx/enemies/slime_die.mp3" id="10_7cpak"]
 [ext_resource type="AudioStream" uid="uid://cjpjkhidpb5qi" path="res://assets/sfx/enemies/slime_goop_02.mp3" id="11_ebhn5"]
@@ -2084,30 +2082,6 @@ sprite_frames = SubResource("SpriteFrames_etyes")
 animation = &"orange_walk"
 offset = Vector2(0, -8)
 
-[node name="LabelRoot" type="Node2D" parent="." unique_id=1744058454 groups=["enemy"]]
-unique_name_in_owner = true
-
-[node name="HpLabel" type="Label" parent="LabelRoot" unique_id=83419371]
-unique_name_in_owner = true
-offset_left = -21.0
-offset_top = 21.0
-offset_right = 21.0
-offset_bottom = 44.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44313726)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("2_nemmd")
-text = "10"
-horizontal_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=1763439223]
-unique_name_in_owner = true
-position = Vector2(0, -113)
-
-[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("8_t2hb6")]
-unique_name_in_owner = true
-position = Vector2(0, -94)
-
 [node name="AttackSfx" type="AudioStreamPlayer2D" parent="." unique_id=1560836194]
 unique_name_in_owner = true
 stream = ExtResource("9_t2hb6")
@@ -2126,3 +2100,7 @@ bus = &"SFX"
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=1290610819]
 position = Vector2(-2.5, -30.5)
 shape = SubResource("RectangleShape2D_t2hb6")
+
+[node name="FloatingDamageNumberMarker" type="Marker2D" parent="." unique_id=1217367961]
+unique_name_in_owner = true
+position = Vector2(0, -92)

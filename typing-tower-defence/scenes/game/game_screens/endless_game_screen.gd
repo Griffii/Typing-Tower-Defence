@@ -24,6 +24,9 @@ func _load_run_content() -> void:
 
 	load_level(level_scene)
 
+	if combat_manager != null and combat_manager.has_method("apply_tower_word_pool_to_existing_portals"):
+		combat_manager.apply_tower_word_pool_to_existing_portals()
+
 
 func _setup_run_mode() -> void:
 	print("[EndlessGameScreen] Setting up endless run.")
@@ -45,13 +48,14 @@ func _setup_run_mode() -> void:
 	total_waves = wave_set.size()
 
 	if total_waves <= 0:
-		push_warning("EndlessGameScreen: generated 0 waves. Check enabled enemies and selected word lists.")
+		push_warning("EndlessGameScreen: generated 0 waves. Check enabled enemies.")
 
 	if combat_manager != null and combat_manager.has_method("setup_run"):
 		combat_manager.setup_run({
 			"mode": "endless",
 			"wave_definitions": wave_set,
 			"run_config": config,
+			"tower_word_list_ids": config.selected_word_list_ids,
 			"persistent_upgrade_levels": {
 				"word_damage": 0,
 				"special_damage": 0,
@@ -62,7 +66,7 @@ func _setup_run_mode() -> void:
 
 	print("[EndlessGameScreen] Map ID: ", config.map_id)
 	print("[EndlessGameScreen] Enemy groups: ", config.enabled_enemy_groups)
-	print("[EndlessGameScreen] Word lists: ", config.selected_word_list_ids)
+	print("[EndlessGameScreen] Tower word lists: ", config.selected_word_list_ids)
 	print("[EndlessGameScreen] Endless waves generated: ", total_waves)
 
 
@@ -80,7 +84,7 @@ func _get_level_scene_for_map_id(map_id: String) -> PackedScene:
 
 func _get_run_mode_name() -> String:
 	return "endless"
-	
+
 
 func _apply_run_upgrades() -> void:
 	pass

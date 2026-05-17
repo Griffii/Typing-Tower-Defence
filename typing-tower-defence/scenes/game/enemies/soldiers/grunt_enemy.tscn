@@ -4,11 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://b6lh1rtpfa1vn" path="res://assets/images/enemies/soldiers/soldier_01.png" id="2_wysbr"]
 [ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/enemies/soldiers/weapon_01.png" id="3_btfwy"]
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/enemies/soldiers/shield.png" id="4_jja6d"]
-[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_mi6ti"]
-[ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="5_wysbr"]
 [ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_vbw0u"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_rr3is"]
 [ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="8_pd8my"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/bases/enemy_health_bar.tscn" id="8_sqv65"]
 
 [sub_resource type="Animation" id="Animation_1vxcc"]
 length = 0.001
@@ -177,18 +176,6 @@ tracks/13/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(3, 3)]
-}
-tracks/14/type = "value"
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/path = NodePath("LabelRoot:visible")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_2iljp"]
@@ -387,18 +374,6 @@ tracks/9/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("LabelRoot:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_5dgaa"]
 resource_name = "take_damage"
@@ -545,30 +520,6 @@ position = Vector2(-15, 12.999999)
 scale = Vector2(2, 2)
 texture = ExtResource("4_jja6d")
 
-[node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
-unique_name_in_owner = true
-
-[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=641645112]
-unique_name_in_owner = true
-position = Vector2(0, -56)
-
-[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("5_wysbr")]
-unique_name_in_owner = true
-position = Vector2(0, -33)
-
-[node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
-unique_name_in_owner = true
-offset_left = -21.0
-offset_top = 21.0
-offset_right = 21.0
-offset_bottom = 44.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44313726)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("5_mi6ti")
-text = "10"
-horizontal_alignment = 1
-metadata/_edit_use_anchors_ = true
-
 [node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1599622870]
 unique_name_in_owner = true
 stream = ExtResource("6_vbw0u")
@@ -590,3 +541,15 @@ libraries/ = SubResource("AnimationLibrary_kusb3")
 
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=990227414]
 shape = SubResource("RectangleShape2D_0x1wx")
+
+[node name="FloatingDamageNumberMarker" type="Marker2D" parent="." unique_id=1133600197]
+unique_name_in_owner = true
+position = Vector2(0, -21)
+
+[node name="HealthBar" parent="." unique_id=970504870 instance=ExtResource("8_sqv65")]
+unique_name_in_owner = true
+offset_left = -20.0
+offset_top = 24.0
+offset_right = -20.0
+offset_bottom = 24.0
+scale = Vector2(0.7, 0.2)

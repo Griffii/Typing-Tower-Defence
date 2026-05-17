@@ -12,6 +12,8 @@ signal tower_state_changed
 const ShopDefinitions = preload("res://data/shop/shop_definitions.gd")
 const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 
+const WORD_LISTS_DIR := "res://data/word_lists/"
+
 @export var base_hp_max: int = 100
 @export var word_damage: int = 10
 @export var special_damage: int = 10
@@ -29,12 +31,10 @@ var base_special_meter_gain_per_word: float = 15.0
 var base_gold_gain_multiplier: float = 1.0
 
 var base_hp: int = 100
-
-var gold: int = 0
+var gold: int = 60
 var special_meter: float = 0.0
 
 var replacement_word_provider: Node = null
-
 var base_attackers: Array[Node] = []
 
 var upgrade_levels := {
@@ -47,6 +47,9 @@ var upgrade_levels := {
 var available_tower_slots: Array[String] = []
 var tower_levels: Dictionary = {}
 var tower_types: Dictionary = {}
+
+var tower_word_list_ids: Array[String] = []
+var tower_word_pool: Array[String] = []
 
 
 func _ready() -> void:
@@ -85,8 +88,154 @@ func setup_run(run_config: Dictionary) -> void:
 		"gold_gain": int(incoming_upgrade_levels.get("gold_gain", 0)),
 	}
 
+	_set_tower_word_list_ids_from_run_config(run_config)
+	_rebuild_tower_word_pool()
 	_recalculate_player_upgrade_stats()
 
+
+# ---------------------------
+# Tower / portal word pool
+# ---------------------------
+
+func _set_tower_word_list_ids_from_run_config(run_config: Dictionary) -> void:
+	tower_word_list_ids.clear()
+
+	var ids: Variant = run_config.get("tower_word_list_ids", [])
+
+	if ids is Array:
+		for raw_id in ids:
+			var clean_id := str(raw_id).strip_edges()
+			if not clean_id.is_empty() and not tower_word_list_ids.has(clean_id):
+				tower_word_list_ids.append(clean_id)
+
+	if not tower_word_list_ids.is_empty():
+		return
+
+	var wave_definitions: Variant = run_config.get("wave_definitions", [])
+	if not (wave_definitions is Array):
+		return
+
+	for wave in wave_definitions:
+		if not (wave is Dictionary):
+			continue
+
+		var wave_ids: Variant = wave.get("tower_word_list_ids", wave.get("wave_word_list_ids", []))
+		if not (wave_ids is Array):
+			continue
+
+		for raw_wave_id in wave_ids:
+			var wave_id := str(raw_wave_id).strip_edges()
+			if not wave_id.is_empty() and not tower_word_list_ids.has(wave_id):
+				tower_word_list_ids.append(wave_id)
+
+
+func _rebuild_tower_word_pool() -> void:
+	tower_word_pool.clear()
+
+	for list_id in tower_word_list_ids:
+		var words: Array[String] = _get_words_from_word_list_id(list_id)
+
+		for word in words:
+			var clean_word := str(word).strip_edges()
+			if clean_word.is_empty():
+				continue
+			if not tower_word_pool.has(clean_word):
+				tower_word_pool.append(clean_word)
+
+	if tower_word_pool.is_empty():
+		push_warning("CombatManager: tower_word_pool was empty. Falling back to 'magic'.")
+		tower_word_pool.append("magic")
+
+
+func _get_words_from_word_list_id(list_id: String) -> Array[String]:
+	var list_data: WordListData = _load_word_list_data(list_id)
+
+	if list_data == null:
+		push_warning("CombatManager: Could not load word list id: %s" % list_id)
+		return []
+
+	return list_data.words.duplicate()
+
+
+func _load_word_list_data(list_id: String) -> WordListData:
+	var clean_id := list_id.strip_edges()
+	if clean_id.is_empty():
+		return null
+
+	var direct_path := WORD_LISTS_DIR + clean_id + ".tres"
+
+	if ResourceLoader.exists(direct_path):
+		var direct_resource := load(direct_path)
+		if direct_resource is WordListData:
+			return direct_resource as WordListData
+
+	var dir := DirAccess.open(WORD_LISTS_DIR)
+	if dir == null:
+		push_warning("CombatManager: Could not open word list directory: %s" % WORD_LISTS_DIR)
+		return null
+
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+
+	while not file_name.is_empty():
+		if not dir.current_is_dir() and file_name.ends_with(".tres"):
+			var path := WORD_LISTS_DIR + file_name
+			var resource := load(path)
+
+			if resource is WordListData:
+				var word_list := resource as WordListData
+				if word_list.id == clean_id:
+					dir.list_dir_end()
+					return word_list
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+	return null
+
+
+func set_tower_word_list_ids(new_ids: Array[String]) -> void:
+	tower_word_list_ids.clear()
+
+	for raw_id in new_ids:
+		var clean_id := str(raw_id).strip_edges()
+		if not clean_id.is_empty() and not tower_word_list_ids.has(clean_id):
+			tower_word_list_ids.append(clean_id)
+
+	_rebuild_tower_word_pool()
+	apply_tower_word_pool_to_existing_portals()
+
+
+func set_tower_word_pool(new_pool: Array[String]) -> void:
+	tower_word_pool.clear()
+
+	for word in new_pool:
+		var clean_word := str(word).strip_edges()
+		if not clean_word.is_empty() and not tower_word_pool.has(clean_word):
+			tower_word_pool.append(clean_word)
+
+	if tower_word_pool.is_empty():
+		tower_word_pool.append("magic")
+
+	apply_tower_word_pool_to_existing_portals()
+
+
+func apply_word_pool_to_portal(portal: Node) -> void:
+	if portal == null or not is_instance_valid(portal):
+		return
+
+	if portal.has_method("set_word_pool"):
+		portal.set_word_pool(tower_word_pool)
+
+
+func apply_tower_word_pool_to_existing_portals() -> void:
+	for portal in get_tree().get_nodes_in_group("portals"):
+		apply_word_pool_to_portal(portal)
+
+
+# ---------------------------
+# Replacement word provider
+# ---------------------------
 
 func set_replacement_word_provider(provider: Node) -> void:
 	replacement_word_provider = provider
@@ -95,6 +244,29 @@ func set_replacement_word_provider(provider: Node) -> void:
 func clear_replacement_word_provider() -> void:
 	replacement_word_provider = null
 
+
+func _get_replacement_word_for_target(target_enemy: Node) -> String:
+	if replacement_word_provider != null and is_instance_valid(replacement_word_provider):
+		if replacement_word_provider.has_method("get_replacement_word_for_enemy"):
+			var provider_word: String = String(replacement_word_provider.get_replacement_word_for_enemy(target_enemy))
+			if not provider_word.is_empty():
+				return provider_word
+
+	if spawn_manager != null and spawn_manager.has_method("get_replacement_word_for_enemy"):
+		var spawn_word: String = String(spawn_manager.get_replacement_word_for_enemy(target_enemy))
+		if not spawn_word.is_empty():
+			return spawn_word
+
+	if target_enemy != null and is_instance_valid(target_enemy):
+		if target_enemy.has_method("get_current_word"):
+			return String(target_enemy.get_current_word())
+
+	return ""
+
+
+# ---------------------------
+# Upgrade stats
+# ---------------------------
 
 func _recalculate_player_upgrade_stats() -> void:
 	word_damage = base_word_damage
@@ -128,6 +300,10 @@ func _recalculate_player_upgrade_stats() -> void:
 				gold_gain_multiplier += float(value_per_level) * float(level)
 
 
+# ---------------------------
+# Run state
+# ---------------------------
+
 func set_available_tower_slots(slot_ids: Array[String]) -> void:
 	available_tower_slots = slot_ids.duplicate()
 	_reset_tower_state()
@@ -136,7 +312,7 @@ func set_available_tower_slots(slot_ids: Array[String]) -> void:
 
 func reset_for_new_run() -> void:
 	base_hp = base_hp_max
-	gold = 0
+	gold = 60 #Give player enough gold to buy one tower
 	base_attackers.clear()
 	_reset_tower_state()
 	_emit_hud_stats()
@@ -153,32 +329,25 @@ func _reset_tower_state() -> void:
 		tower_types[slot_id] = ""
 
 
+# ---------------------------
+# Typing / damage
+# ---------------------------
+
 func resolve_completed_word(target_enemy: Node) -> void:
 	if target_enemy == null or not is_instance_valid(target_enemy):
 		return
 
+	_gain_special_meter_from_word()
+
 	if not target_enemy.has_method("apply_damage"):
 		return
 
-	var was_dead_before: bool = false
-	if target_enemy.has_method("is_enemy_dead"):
-		was_dead_before = target_enemy.is_enemy_dead()
-
 	target_enemy.apply_damage(word_damage)
-
-	special_meter += special_meter_gain_per_word
-	if special_meter >= special_meter_max:
-		special_meter = 0.0
-		special_meter_filled.emit()
-
-	special_meter_changed.emit(special_meter, special_meter_max)
 
 	if not is_instance_valid(target_enemy):
 		return
 
 	if target_enemy.has_method("is_enemy_dead") and target_enemy.is_enemy_dead():
-		if not was_dead_before:
-			_award_enemy_kill_rewards(target_enemy)
 		return
 
 	var new_word: String = _get_replacement_word_for_target(target_enemy)
@@ -192,23 +361,18 @@ func resolve_completed_word(target_enemy: Node) -> void:
 	enemy_survived_word_hit.emit(target_enemy)
 
 
-func _get_replacement_word_for_target(target_enemy: Node) -> String:
-	if replacement_word_provider != null and is_instance_valid(replacement_word_provider):
-		if replacement_word_provider.has_method("get_replacement_word_for_enemy"):
-			var provider_word: String = String(replacement_word_provider.get_replacement_word_for_enemy(target_enemy))
-			if not provider_word.is_empty():
-				return provider_word
+func notify_typing_target_word_completed(_target: Node) -> void:
+	_gain_special_meter_from_word()
 
-	if spawn_manager != null and spawn_manager.has_method("get_replacement_word_for_enemy"):
-		var spawn_word: String = String(spawn_manager.get_replacement_word_for_enemy(target_enemy))
-		if not spawn_word.is_empty():
-			return spawn_word
 
-	if target_enemy != null and is_instance_valid(target_enemy):
-		if target_enemy.has_method("get_current_word"):
-			return String(target_enemy.get_current_word())
+func _gain_special_meter_from_word() -> void:
+	special_meter += special_meter_gain_per_word
 
-	return ""
+	if special_meter >= special_meter_max:
+		special_meter = 0.0
+		special_meter_filled.emit()
+
+	special_meter_changed.emit(special_meter, special_meter_max)
 
 
 func fire_player_special_at_target(target_enemy: Node) -> void:
@@ -218,29 +382,43 @@ func fire_player_special_at_target(target_enemy: Node) -> void:
 		print("[CombatManager] invalid special target")
 		return
 
-	if not target_enemy.has_method("apply_damage"):
-		print("[CombatManager] target has no apply_damage")
+	if not target_enemy.has_method("apply_damage") and not target_enemy.has_method("take_damage"):
+		print("[CombatManager] target has no damage method")
 		return
 
-	var was_dead_before: bool = false
-	if target_enemy.has_method("is_enemy_dead"):
-		was_dead_before = target_enemy.is_enemy_dead()
-
 	print("[CombatManager] applying special damage: ", special_damage)
-	target_enemy.apply_damage(special_damage)
+
+	if target_enemy.has_method("take_damage"):
+		target_enemy.take_damage(special_damage)
+	else:
+		target_enemy.apply_damage(special_damage)
 
 	if not is_instance_valid(target_enemy):
 		return
 
-	if target_enemy.has_method("is_enemy_dead") and target_enemy.is_enemy_dead():
-		if not was_dead_before:
-			_award_enemy_kill_rewards(target_enemy)
 
 
 func reset_special_meter() -> void:
 	special_meter = 0.0
 	special_meter_changed.emit(special_meter, special_meter_max)
 
+
+func apply_tower_hit(target_enemy: Node, damage_amount: int) -> void:
+	if target_enemy == null or not is_instance_valid(target_enemy):
+		return
+
+	if target_enemy.has_method("take_damage"):
+		target_enemy.take_damage(damage_amount)
+	elif target_enemy.has_method("apply_damage"):
+		target_enemy.apply_damage(damage_amount)
+
+
+# ---------------------------
+# Gold / enemy rewards
+# ---------------------------
+
+func award_enemy_kill_rewards(enemy: Node) -> void:
+	_award_enemy_kill_rewards(enemy)
 
 func _award_enemy_kill_rewards(enemy: Node) -> void:
 	var reward_gold: int = 0
@@ -252,6 +430,10 @@ func _award_enemy_kill_rewards(enemy: Node) -> void:
 	gold += int(round(reward_gold * gold_gain_multiplier))
 	_emit_hud_stats()
 
+
+# ---------------------------
+# Base
+# ---------------------------
 
 func register_enemy_at_base(enemy: Node) -> void:
 	if enemy == null or not is_instance_valid(enemy):
@@ -285,6 +467,18 @@ func apply_base_damage(amount: int) -> void:
 	if base_hp <= 0:
 		base_destroyed.emit()
 
+
+func _emit_hud_stats() -> void:
+	hud_stats_changed.emit({
+		"gold": gold,
+		"base_hp": base_hp,
+		"base_hp_max": base_hp_max
+	})
+
+
+# ---------------------------
+# Shop upgrades
+# ---------------------------
 
 func apply_upgrade_purchase(upgrade_id: String) -> bool:
 	if not ShopDefinitions.UPGRADES.has(upgrade_id):
@@ -353,15 +547,9 @@ func get_shop_state() -> Dictionary:
 	}
 
 
-func _emit_hud_stats() -> void:
-	hud_stats_changed.emit({
-		"gold": gold,
-		"base_hp": base_hp,
-		"base_hp_max": base_hp_max
-	})
-
-
-### Tower API #####
+# ---------------------------
+# Tower API
+# ---------------------------
 
 func has_tower_slot(slot_id: String) -> bool:
 	return tower_levels.has(slot_id)
@@ -385,6 +573,10 @@ func get_tower_stats(slot_id: String) -> Dictionary:
 		return {}
 
 	return TowerDefinitions.get_level_data(tower_type, level)
+
+
+func get_portal_stats(slot_id: String) -> Dictionary:
+	return get_tower_stats(slot_id)
 
 
 func get_max_tower_level(slot_id: String) -> int:
@@ -472,19 +664,3 @@ func get_build_state() -> Dictionary:
 		"gold": gold,
 		"slots": slot_state
 	}
-
-
-func apply_tower_hit(target_enemy: Node, damage_amount: int) -> void:
-	if target_enemy == null or not is_instance_valid(target_enemy):
-		return
-
-	var was_dead_before := false
-	if target_enemy.has_method("is_enemy_dead"):
-		was_dead_before = target_enemy.is_enemy_dead()
-
-	if target_enemy.has_method("apply_damage"):
-		target_enemy.apply_damage(damage_amount)
-
-	if target_enemy.has_method("is_enemy_dead") and target_enemy.is_enemy_dead():
-		if not was_dead_before:
-			_award_enemy_kill_rewards(target_enemy)

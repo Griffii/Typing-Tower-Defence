@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqqw5jmv0qjha"
-path="res://.godot/imported/leotard_undies.png-9c497449f700a7672a90086e9280b894.ctex"
+path="res://.godot/imported/leotard_undies.png-e4320753b390fd96f6129edfaf3d4d17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/ChibiBody/undies/leotard_undies.png"
-dest_files=["res://.godot/imported/leotard_undies.png-9c497449f700a7672a90086e9280b894.ctex"]
+source_file="res://assets/images/player/LowPixelBody/undies/leotard_undies.png"
+dest_files=["res://.godot/imported/leotard_undies.png-e4320753b390fd96f6129edfaf3d4d17.ctex"]
 
 [params]
 

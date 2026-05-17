@@ -1,4 +1,4 @@
-# res://scripts/game/enemies/soldier_enemy.gd
+## soldier_enemy.gd
 class_name SoldierEnemy
 extends Enemy
 
@@ -24,7 +24,7 @@ const WEAPON_TEXTURES: Array[String] = [
 func _apply_visuals() -> void:
 	var hash_source: String = enemy_id
 	if hash_source.is_empty():
-		hash_source = "%s_%s_%d" % [enemy_type, current_word, get_instance_id()]
+		hash_source = "%s_%d" % [enemy_type, get_instance_id()]
 
 	var hash_value: int = abs(hash_source.hash())
 
@@ -101,10 +101,6 @@ func die() -> void:
 
 	is_dead = true
 	velocity = Vector2.ZERO
-	clear_typing_feedback()
-
-	current_target = null
-	targets_in_range.clear()
 
 	_spawn_coin_burst_effect()
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0sambnntvt2t"
-path="res://.godot/imported/girl_undies.png-78d25da9ec16ff54746c5e4800af211d.ctex"
+path="res://.godot/imported/girl_undies.png-fda30b352822f237456f1cc22822c991.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/ChibiBody/undies/girl_undies.png"
-dest_files=["res://.godot/imported/girl_undies.png-78d25da9ec16ff54746c5e4800af211d.ctex"]
+source_file="res://assets/images/player/LowPixelBody/undies/girl_undies.png"
+dest_files=["res://.godot/imported/girl_undies.png-fda30b352822f237456f1cc22822c991.ctex"]
 
 [params]
 

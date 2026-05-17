@@ -1,8 +1,8 @@
 extends Node2D
 class_name BattlefieldLevel
 
-const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
-const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
+const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
+const BASIC_MAGIC_TURRET_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
 const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
 
 @export var enemy_scale: Vector2 = Vector2.ONE
@@ -18,7 +18,7 @@ var projectile_container: Node = null
 var tower_nodes: Dictionary = {}
 var tower_scene_map: Dictionary = {}
 
-var allowed_tower_types: Array[String] = ["arrow"]
+var allowed_tower_types: Array[String] = ["basic_magic_turret", "lightning"]
 
 
 func get_player_character() -> PlayerCharacter:
@@ -50,6 +50,10 @@ func get_enemy_scale() -> Vector2:
 
 
 func get_tower_container() -> Node:
+	return tower_container
+
+
+func get_typing_target_container() -> Node:
 	return tower_container
 
 
@@ -120,6 +124,9 @@ func refresh_all_towers(combat_manager: Node) -> void:
 				continue
 
 			var tower_scene: PackedScene = get_tower_scene_for_slot(slot_id, level, combat_manager)
+			if tower_scene == null:
+				continue
+
 			tower = tower_scene.instantiate() as Node2D
 			if tower == null:
 				continue
@@ -128,30 +135,25 @@ func refresh_all_towers(combat_manager: Node) -> void:
 			tower.global_position = marker.global_position
 			tower_nodes[slot_id] = tower
 
-		if tower.has_method("setup_tower"):
+		if tower.has_method("setup_portal"):
+			tower.setup_portal(slot_id, combat_manager, projectile_container)
+		elif tower.has_method("setup_tower"):
 			tower.setup_tower(slot_id, combat_manager, projectile_container)
 
-	var stale_slots: Array[String] = []
-	for existing_slot_id_variant in tower_nodes.keys():
-		var existing_slot_id: String = str(existing_slot_id_variant)
-		if not valid_slot_ids.has(existing_slot_id):
-			stale_slots.append(existing_slot_id)
-
-	for stale_slot_id in stale_slots:
-		var stale_tower: Node = tower_nodes.get(stale_slot_id, null)
-		if stale_tower != null and is_instance_valid(stale_tower):
-			stale_tower.queue_free()
-		tower_nodes.erase(stale_slot_id)
+		if combat_manager.has_method("apply_word_pool_to_portal"):
+			combat_manager.apply_word_pool_to_portal(tower)
 
 
 func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node = null) -> PackedScene:
+	var tower_type: String = "basic_magic_turret"
+
 	if combat_manager != null and combat_manager.has_method("get_tower_type"):
-		var tower_type: String = combat_manager.get_tower_type(slot_id)
+		tower_type = combat_manager.get_tower_type(slot_id)
 
-		match tower_type:
-			"lightning":
-				return LIGHTNING_TOWER_SCENE
-			"arrow":
-				return ARROW_TOWER_SCENE
-
-	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
+	match tower_type:
+		"basic_magic_turret":
+			return BASIC_MAGIC_TURRET_SCENE
+		"lightning":
+			return LIGHTNING_TOWER_SCENE
+		_:
+			return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)

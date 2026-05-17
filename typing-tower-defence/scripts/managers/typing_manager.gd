@@ -1,18 +1,14 @@
 # res://scripts/game/managers/typing_manager.gd
 extends Node
 
-signal target_locked(target_enemy: Node)
-signal target_released(target_enemy: Node)
-signal target_changed(target_enemy: Node)
-signal word_completed(target_enemy: Node)
+signal target_locked(target: Node)
+signal target_released(target: Node)
+signal target_changed(target: Node)
+signal word_completed(target: Node)
 signal input_cleared
 
-
-@onready var spawn_manager: Node = %SpawnManager
-
 var current_level: Node = null
-var tower_container: Node = null
-var enemy_container: Node = null
+var typing_target_container: Node = null
 
 var is_active: bool = false
 var active_target: Node = null
@@ -20,30 +16,24 @@ var input_buffer: String = ""
 
 
 # ---------------------------
-# LEVEL SETUP
+# Setup
 # ---------------------------
 
 func set_level(level: Node) -> void:
 	current_level = level
-	tower_container = null
-	enemy_container = null
+	typing_target_container = null
 
-	if current_level != null and current_level.has_method("get_tower_container"):
-		tower_container = current_level.get_tower_container()
-
-	if current_level != null and current_level.has_method("get_enemy_container"):
-		enemy_container = current_level.get_enemy_container()
+	if current_level != null and current_level.has_method("get_typing_target_container"):
+		typing_target_container = current_level.get_typing_target_container()
 
 
 func reset_for_new_run() -> void:
 	is_active = false
-	_clear_target()
-	input_buffer = ""
+	clear_input_state()
 
 
 func begin_wave(_wave_index: int) -> void:
-	_clear_target()
-	input_buffer = ""
+	clear_input_state()
 
 
 func set_active(active: bool) -> void:
@@ -55,31 +45,29 @@ func set_active(active: bool) -> void:
 
 func clear_input_state() -> void:
 	input_buffer = ""
-	_clear_target()
+	_clear_active_target()
 	input_cleared.emit()
 
 
 func cancel_current_target() -> void:
-	input_buffer = ""
-	_clear_target()
-	input_cleared.emit()
+	clear_input_state()
 
 
 # ---------------------------
-# INPUT PROCESSING
+# Input
 # ---------------------------
 
 func process_input_text(text: String) -> void:
 	if not is_active:
 		return
 
-	input_buffer = text
+	input_buffer = text.strip_edges()
 
 	if input_buffer.is_empty():
-		_clear_target()
+		_clear_active_target()
 		return
 
-	if not is_instance_valid(active_target):
+	if active_target != null and not is_instance_valid(active_target):
 		active_target = null
 
 	var matched_target: Node = _find_best_target_for_input(input_buffer)
@@ -92,130 +80,118 @@ func process_input_text(text: String) -> void:
 
 	_update_target_typing_feedback()
 
-	if active_target != null and is_instance_valid(active_target) and active_target.has_method("get_current_word"):
-		var target_word: String = String(active_target.get_current_word())
+	if active_target == null or not is_instance_valid(active_target):
+		return
 
-		if input_buffer == target_word:
-			var completed_target: Node = active_target
-			word_completed.emit(completed_target)
-			input_buffer = ""
-			input_cleared.emit()
-			_clear_target()
+	if not active_target.has_method("get_current_word"):
+		return
+
+	var target_word: String = String(active_target.get_current_word())
+
+	if _words_match(input_buffer, target_word):
+		var completed_target: Node = active_target
+
+		if completed_target.has_method("complete_current_word"):
+			completed_target.complete_current_word()
+
+		word_completed.emit(completed_target)
+
+		input_buffer = ""
+		input_cleared.emit()
+		_clear_active_target()
 
 
 # ---------------------------
-# TARGET SELECTION
+# Target discovery
 # ---------------------------
 
 func _find_best_target_for_input(input_text: String) -> Node:
 	if input_text.is_empty():
 		return null
 
-	var enemy_candidates: Array[Node] = []
-	var tower_candidates: Array[Node] = []
+	var candidates: Array[Node] = []
+	_collect_target_candidates(input_text, candidates)
 
-	_collect_enemy_candidates(input_text, enemy_candidates)
-	_collect_tower_candidates(input_text, tower_candidates)
+	if candidates.is_empty():
+		return null
 
-	if not enemy_candidates.is_empty():
-		return enemy_candidates[0]
-
-	if not tower_candidates.is_empty():
-		tower_candidates.sort_custom(_sort_tower_priority)
-		return tower_candidates[0]
-
-	return null
+	candidates.sort_custom(_sort_target_priority)
+	return candidates[0]
 
 
-func _collect_enemy_candidates(input_text: String, candidates: Array[Node]) -> void:
-	var enemies: Array[Node] = []
+func _collect_target_candidates(input_text: String, candidates: Array[Node]) -> void:
+	if typing_target_container != null and is_instance_valid(typing_target_container):
+		for child in typing_target_container.get_children():
+			_try_add_target_candidate(child, input_text, candidates)
 
-	if spawn_manager != null and spawn_manager.has_method("get_active_enemies"):
-		var enemies_variant: Variant = spawn_manager.get_active_enemies()
-
-		if typeof(enemies_variant) == TYPE_ARRAY:
-			for enemy in enemies_variant:
-				if enemy is Node:
-					enemies.append(enemy)
-
-	if enemies.is_empty() and enemy_container != null and is_instance_valid(enemy_container):
-		for child in enemy_container.get_children():
-			if child is Node:
-				enemies.append(child)
-
-	if enemies.is_empty():
-		for enemy in get_tree().get_nodes_in_group("enemies"):
-			if enemy is Node:
-				enemies.append(enemy)
-
-	for enemy in enemies:
-		if not is_instance_valid(enemy):
-			continue
-
-		if enemy.has_method("is_enemy_dead") and enemy.is_enemy_dead():
-			continue
-
-		if not enemy.has_method("get_current_word"):
-			continue
-
-		var word: String = String(enemy.get_current_word())
-		if word.is_empty():
-			continue
-
-		if word.begins_with(input_text):
-			candidates.append(enemy)
-
-	candidates.sort_custom(_sort_enemy_priority)
+	for target in get_tree().get_nodes_in_group("typing_targets"):
+		_try_add_target_candidate(target, input_text, candidates)
 
 
-func _collect_tower_candidates(input_text: String, candidates: Array[Node]) -> void:
-	if tower_container == null or not is_instance_valid(tower_container):
+func _try_add_target_candidate(node: Node, input_text: String, candidates: Array[Node]) -> void:
+	if node == null or not is_instance_valid(node):
 		return
 
-	for child in tower_container.get_children():
-		if not is_instance_valid(child):
-			continue
+	if candidates.has(node):
+		return
 
-		if not child.has_method("can_accept_word"):
-			continue
+	if not node.has_method("can_accept_word"):
+		return
 
-		if not child.can_accept_word():
-			continue
+	if not node.can_accept_word():
+		return
 
-		if not child.has_method("get_current_word"):
-			continue
+	if not node.has_method("get_current_word"):
+		return
 
-		var word: String = String(child.get_current_word())
-		if word.is_empty():
-			continue
+	var word: String = String(node.get_current_word())
+	if word.is_empty():
+		return
 
-		if word.begins_with(input_text):
-			candidates.append(child)
+	if _word_starts_with(word, input_text):
+		candidates.append(node)
 
 
 # ---------------------------
-# SORTING
+# Matching
 # ---------------------------
 
-func _sort_enemy_priority(a: Node, b: Node) -> bool:
-	return a.get_instance_id() < b.get_instance_id()
+func _word_starts_with(word: String, input_text: String) -> bool:
+	return word.to_lower().begins_with(input_text.to_lower())
 
 
-func _sort_tower_priority(a: Node, b: Node) -> bool:
+func _words_match(input_text: String, word: String) -> bool:
+	return input_text.to_lower() == word.to_lower()
+
+
+# ---------------------------
+# Priority
+# ---------------------------
+
+func _sort_target_priority(a: Node, b: Node) -> bool:
+	if a == active_target:
+		return true
+
+	if b == active_target:
+		return false
+
 	if not (a is Node2D) or not (b is Node2D):
 		return a.get_instance_id() < b.get_instance_id()
 
 	var a_node: Node2D = a as Node2D
 	var b_node: Node2D = b as Node2D
 
-	if a_node.global_position.x == b_node.global_position.x:
-		return a_node.get_instance_id() < b_node.get_instance_id()
+	if not is_equal_approx(a_node.global_position.y, b_node.global_position.y):
+		return a_node.global_position.y < b_node.global_position.y
 
-	return a_node.global_position.x < b_node.global_position.x
+	if not is_equal_approx(a_node.global_position.x, b_node.global_position.x):
+		return a_node.global_position.x < b_node.global_position.x
+
+	return a_node.get_instance_id() < b_node.get_instance_id()
 
 
 # ---------------------------
-# TARGET STATE
+# Target state
 # ---------------------------
 
 func _set_active_target(new_target: Node) -> void:
@@ -249,7 +225,7 @@ func _update_target_typing_feedback() -> void:
 		active_target.set_typing_progress(input_buffer)
 
 
-func _clear_target() -> void:
+func _clear_active_target() -> void:
 	if active_target != null and is_instance_valid(active_target):
 		if active_target.has_method("set_targeted"):
 			active_target.set_targeted(false)

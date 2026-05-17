@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://byxn2tink4tyi" path="res://scenes/game/levels/grasslands.gd" id="1_2v6j6"]
 [ext_resource type="TileSet" uid="uid://381uk2yd5j73" path="res://assets/tilesets/tiny-town-tileset.tres" id="1_gemwl"]
 [ext_resource type="PackedScene" uid="uid://c8jx1yfih5d8l" path="res://scenes/game/bases/grasslands_house.tscn" id="2_2v6j6"]
-[ext_resource type="AudioStream" uid="uid://bdsohuhaqrsyt" path="res://assets/bgm/moodys_tunes/forest01.ogg" id="2_n6djo"]
 [ext_resource type="Texture2D" uid="uid://d0w15v7eonj8a" path="res://assets/images/animals/spr_deco_cow_strip4.png" id="4_qh78w"]
 [ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/animals/sheep.tscn" id="5_ius4a"]
 [ext_resource type="PackedScene" uid="uid://8npj02qfrg3f" path="res://scenes/game/player/player.tscn" id="6_ius4a"]
@@ -55,9 +54,7 @@ script = ExtResource("1_2v6j6")
 
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=865135594]
 unique_name_in_owner = true
-stream = ExtResource("2_n6djo")
 volume_db = -8.0
-parameters/looping = true
 
 [node name="GroundTiles" type="TileMapLayer" parent="." unique_id=136972214]
 scale = Vector2(2, 2)
