@@ -4,9 +4,6 @@ class_name BattlefieldLevel
 const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 
 const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
-const BASIC_MAGIC_TURRET_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
-const CHAIN_LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
-#const ICE_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/ice_tower.tscn")
 
 @export var enemy_scale: Vector2 = Vector2.ONE
 @export var allowed_tower_types: Array[String] = [
@@ -76,12 +73,14 @@ func get_tower_slots() -> Array[Marker2D]:
 	var result: Array[Marker2D] = []
 
 	if tower_container == null:
+		print("[BattlefieldLevel] tower_container is null")
 		return result
 
 	for child in tower_container.get_children():
 		if child is Marker2D:
 			result.append(child)
 
+	print("[BattlefieldLevel] get_tower_slots found: ", result.size())
 	return result
 
 
@@ -103,7 +102,16 @@ func clear_all_towers() -> void:
 
 
 func refresh_all_towers(combat_manager: Node) -> void:
-	if combat_manager == null or tower_container == null or projectile_container == null:
+	if combat_manager == null:
+		print("[BattlefieldLevel] refresh_all_towers failed: combat_manager null")
+		return
+
+	if tower_container == null:
+		print("[BattlefieldLevel] refresh_all_towers failed: tower_container null")
+		return
+
+	if projectile_container == null:
+		print("[BattlefieldLevel] refresh_all_towers failed: projectile_container null")
 		return
 
 	var valid_slot_ids: Array[String] = []
@@ -127,14 +135,17 @@ func refresh_all_towers(combat_manager: Node) -> void:
 		if tower == null or not is_instance_valid(tower):
 			var marker: Marker2D = tower_container.get_node_or_null(slot_id)
 			if marker == null:
+				print("[BattlefieldLevel] no marker for tower slot: ", slot_id)
 				continue
 
 			var tower_scene: PackedScene = get_tower_scene_for_slot(slot_id, level, combat_manager)
 			if tower_scene == null:
+				print("[BattlefieldLevel] no tower scene for slot: ", slot_id)
 				continue
 
 			tower = tower_scene.instantiate() as Node2D
 			if tower == null:
+				print("[BattlefieldLevel] failed to instantiate tower for slot: ", slot_id)
 				continue
 
 			tower_container.add_child(tower)
@@ -160,13 +171,11 @@ func refresh_all_towers(combat_manager: Node) -> void:
 func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node = null) -> PackedScene:
 	if combat_manager != null and combat_manager.has_method("get_tower_type"):
 		var tower_type: String = combat_manager.get_tower_type(slot_id)
+		var scene: PackedScene = TowerDefinitions.get_tower_scene(tower_type)
 
-		match tower_type:
-			"basic_magic_turret":
-				return BASIC_MAGIC_TURRET_SCENE
-			"chain_lightning":
-				return CHAIN_LIGHTNING_TOWER_SCENE
-			#"ice_tower":
-			#	return ICE_TOWER_SCENE
+		if scene != null:
+			return scene
 
-	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
+		print("[BattlefieldLevel] TowerDefinitions missing scene for tower_type: ", tower_type, " slot: ", slot_id)
+
+	return DEFAULT_TOWER_SCENE

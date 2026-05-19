@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://nou6hqfvsi23" path="res://assets/tilemaps/spr_tileset_sunnysideworld_16px.png" id="1_ekq4y"]
 [ext_resource type="Script" uid="uid://smfwynpqb8u" path="res://scenes/game/levels/seaside_farm.gd" id="1_xd7uw"]
-[ext_resource type="AudioStream" uid="uid://5jffiyd5a1g1" path="res://assets/bgm/JDSherbert - Ambiences Music Pack - Desert Sirocco.ogg" id="2_f1jwk"]
 [ext_resource type="Shader" uid="uid://dkcy4uwq0oahv" path="res://shaders/water_shader_01.gdshader" id="2_xd7uw"]
 [ext_resource type="Texture2D" uid="uid://d54gn3poylq7" path="res://assets/images/environment/water_texture.png" id="3_4ds0v"]
 [ext_resource type="PackedScene" uid="uid://cv0vs0fbr1f4f" path="res://scenes/game/bases/seaside_farm_sheep_pen.tscn" id="3_83f7x"]
@@ -2192,7 +2191,6 @@ script = ExtResource("1_xd7uw")
 
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=1627240824]
 unique_name_in_owner = true
-stream = ExtResource("2_f1jwk")
 volume_db = -12.0
 
 [node name="SheepBaa" type="AudioStreamPlayer" parent="." unique_id=920518929]
@@ -2514,13 +2512,22 @@ frame_progress = 0.7632782
 unique_name_in_owner = true
 
 [node name="slot_01" type="Marker2D" parent="TowerContainer" unique_id=1265027611]
-position = Vector2(603, 357)
+position = Vector2(661, 346)
 
 [node name="slot_02" type="Marker2D" parent="TowerContainer" unique_id=1741717832]
-position = Vector2(284, 173)
+position = Vector2(727, 213)
 
 [node name="slot_03" type="Marker2D" parent="TowerContainer" unique_id=1812613022]
-position = Vector2(198, 385)
+position = Vector2(553, 329)
+
+[node name="slot_04" type="Marker2D" parent="TowerContainer" unique_id=1577083950]
+position = Vector2(388, 283)
+
+[node name="slot_05" type="Marker2D" parent="TowerContainer" unique_id=1637450738]
+position = Vector2(249, 348)
+
+[node name="slot_06" type="Marker2D" parent="TowerContainer" unique_id=606755627]
+position = Vector2(284, 176)
 
 [node name="EnemyPath" type="Path2D" parent="." unique_id=1878631455]
 unique_name_in_owner = true

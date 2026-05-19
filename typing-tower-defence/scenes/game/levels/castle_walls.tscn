@@ -1617,10 +1617,19 @@ tile_set = SubResource("TileSet_ed621")
 unique_name_in_owner = true
 
 [node name="slot_01" type="Marker2D" parent="TowerContainer" unique_id=1273289982]
-position = Vector2(600, 220)
+position = Vector2(785, 219)
 
 [node name="slot_02" type="Marker2D" parent="TowerContainer" unique_id=920394866]
-position = Vector2(272, 215)
+position = Vector2(600, 232)
+
+[node name="slot_03" type="Marker2D" parent="TowerContainer" unique_id=624876297]
+position = Vector2(489, 429)
+
+[node name="slot_04" type="Marker2D" parent="TowerContainer" unique_id=1262529710]
+position = Vector2(317, 167)
+
+[node name="slot_05" type="Marker2D" parent="TowerContainer" unique_id=1934362360]
+position = Vector2(172, 224)
 
 [node name="Protect" parent="." unique_id=1460439950 instance=ExtResource("3_squuo")]
 unique_name_in_owner = true

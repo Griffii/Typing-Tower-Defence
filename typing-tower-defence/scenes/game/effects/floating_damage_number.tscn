@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="2_hs1qq"]
 
 [node name="FloatingDamageNumber" type="Node2D" unique_id=1359402670]
+z_index = 1
 script = ExtResource("1_475o6")
 
 [node name="DamageLabel" type="Label" parent="." unique_id=1128666021]

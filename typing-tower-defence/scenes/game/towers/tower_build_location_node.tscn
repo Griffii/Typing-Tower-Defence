@@ -14,7 +14,6 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h87h7"]
 
 [node name="TowerBuildLocationNode" type="Node2D" unique_id=90150733]
-scale = Vector2(0.27343783, 0.16015622)
 script = ExtResource("1_2hmum")
 
 [node name="AreaRing" parent="." unique_id=116692627 instance=ExtResource("1_qreu5")]

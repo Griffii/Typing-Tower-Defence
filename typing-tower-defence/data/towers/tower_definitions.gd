@@ -10,41 +10,44 @@ extends RefCounted
 
 const TOWER_TYPES := {
 	"basic_magic_turret": {
+		"scene": preload("uid://ciwqq06h6kavx"),
 		"display_name": "Basic Magic Turret",
-		"description": "Shoots magic projectiles at individual enemies. Reliable single-target damage.",
-		"icon": preload("uid://fw68dporkcpi"),
+		"description": "Shoots magic fireballs at enemies.",
+		"icon": preload("uid://cagkyx3rciwg6"),
 		"cost": 60,
 		"tower_role": "damage",
 		"effect": "single_target_projectile",
 		"damage": 4,
-		"attack_interval": 0.65,
+		"attack_interval": 1.5,
 		"projectile_speed": 480.0,
-		"range": 220.0,
+		"range": 200.0,
 		"targeting": "nearest",
 		"can_receive_damage_upgrades": true
 	},
 
 	"chain_lightning": {
+		"scene": preload("uid://y4a2j88o08jf"),
 		"display_name": "Chain Lightning Tower",
-		"description": "Fires lightning that jumps between multiple enemies, damaging each target.",
+		"description": "Fires lightning that hits multiple enemies.",
 		"icon": preload("uid://ds5mibip8yqge"),
 		"cost": 90,
 		"tower_role": "damage",
 		"effect": "chain_lightning",
-		"damage": 8,
-		"attack_interval": 1.6,
+		"damage": 5,
+		"attack_interval": 3.0,
 		"projectile_speed": 9999.0,
-		"range": 260.0,
-		"chain_range": 120.0,
+		"range": 200.0,
+		"chain_range": 100.0,
 		"max_chain_targets": 4,
 		"targeting": "nearest",
 		"can_receive_damage_upgrades": true
 	},
 
 	"ice_tower": {
+		"scene": preload("uid://ciwqq06h6kavx"),
 		"display_name": "Ice Tower",
-		"description": "Creates an icy field around itself, slowing enemies while they remain inside the area.",
-		"icon": preload("uid://ds5mibip8yqge"),
+		"description": "Creates an icy field to slow enemies.",
+		"icon": preload("uid://bjkiyugprlyuf"),
 		"cost": 80,
 		"tower_role": "control",
 		"effect": "area_slow",
@@ -97,6 +100,11 @@ static func get_display_name(tower_type: String) -> String:
 static func get_description(tower_type: String) -> String:
 	var tower_data: Dictionary = get_tower_data(tower_type)
 	return str(tower_data.get("description", ""))
+
+
+static func get_tower_scene(tower_type: String) -> PackedScene:
+	var tower_data: Dictionary = get_tower_data(tower_type)
+	return tower_data.get("scene", null)
 
 
 static func get_icon(tower_type: String) -> Texture2D:

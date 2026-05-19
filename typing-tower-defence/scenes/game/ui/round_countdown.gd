@@ -2,74 +2,52 @@ extends CanvasLayer
 
 signal countdown_finished
 
-@onready var number_label: Label = %NumberLabel
+@export var fade_in_time: float = 0.25
+@export var hold_time: float = 0.35
+@export var fade_out_time: float = 0.25
+@export var dim_alpha: float = 0.65
+
+@onready var get_ready_label: Label = %GetReadyLabel
 @onready var dim_rect: ColorRect = %DimRect
 
-@onready var count_sfx: AudioStreamPlayer2D = %"count-sfx"
-
-var base_number_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	visible = false
-	dim_rect.modulate.a = 0.0
-	number_label.modulate.a = 0.0
-	call_deferred("_store_base_position")
+
+	if dim_rect != null:
+		dim_rect.modulate.a = 0.0
+
+	if get_ready_label != null:
+		get_ready_label.modulate.a = 0.0
 
 
-func _store_base_position() -> void:
-	base_number_position = number_label.position
-
-
-func play_countdown(start_number: int = 3, step_time: float = 1.0) -> void:
+func play_countdown(_start_number: int = 3, _step_time: float = 1.0) -> void:
 	visible = true
-	
-	if base_number_position == Vector2.ZERO:
-		base_number_position = number_label.position
-	
-	number_label.text = ""
-	number_label.modulate.a = 0.0
-	dim_rect.modulate.a = 0.0
-	
-	count_sfx.play()
-	
+
+	if dim_rect != null:
+		dim_rect.modulate.a = 0.0
+
+	if get_ready_label != null:
+		get_ready_label.modulate.a = 0.0
+		get_ready_label.visible = true
+
 	var fade_in_tween: Tween = create_tween()
-	fade_in_tween.tween_property(dim_rect, "modulate:a", 0.65, 0.18)
+	if dim_rect != null:
+		fade_in_tween.parallel().tween_property(dim_rect, "modulate:a", dim_alpha, fade_in_time)
+	if get_ready_label != null:
+		fade_in_tween.parallel().tween_property(get_ready_label, "modulate:a", 1.0, fade_in_time)
+
 	await fade_in_tween.finished
-	
-	for i: int in range(start_number, 0, -1):
-		await _play_single_number(str(i), step_time)
-	
-	number_label.text = ""
-	
+
+	await get_tree().create_timer(hold_time).timeout
+
 	var fade_out_tween: Tween = create_tween()
-	fade_out_tween.parallel().tween_property(dim_rect, "modulate:a", 0.0, 0.16)
-	fade_out_tween.parallel().tween_property(number_label, "modulate:a", 0.0, 0.10)
+	if dim_rect != null:
+		fade_out_tween.parallel().tween_property(dim_rect, "modulate:a", 0.0, fade_out_time)
+	if get_ready_label != null:
+		fade_out_tween.parallel().tween_property(get_ready_label, "modulate:a", 0.0, fade_out_time)
+
 	await fade_out_tween.finished
-	
+
 	visible = false
 	countdown_finished.emit()
-
-
-func _play_single_number(text_value: String, step_time: float) -> void:
-	number_label.text = text_value
-	number_label.modulate.a = 1.0
-	number_label.scale = Vector2.ONE
-
-	var start_pos: Vector2 = base_number_position + Vector2(0.0, -140.0)
-	var overshoot_pos: Vector2 = base_number_position + Vector2(0.0, 18.0)
-
-	number_label.position = start_pos
-
-	var drop_time: float = step_time * 0.45
-	var settle_time: float = step_time * 0.18
-	var hold_time: float = step_time * 0.20
-	var fade_time: float = step_time * 0.17
-
-	var tween: Tween = create_tween()
-	tween.tween_property(number_label, "position", overshoot_pos, drop_time)\
-		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(number_label, "position", base_number_position, settle_time)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_interval(hold_time)
-	tween.parallel().tween_property(number_label, "modulate:a", 0.0, fade_time)
-	await tween.finished

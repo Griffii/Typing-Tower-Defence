@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://b42n0y3c2g3de" path="res://assets/images/spell_projectiles/iceball_01/Iceball_84x9.png" id="11_1hkw3"]
 [ext_resource type="Texture2D" uid="uid://3sn07pnvfeo5" path="res://assets/images/burst_effects/symmetrical_impact_002_large_blue/frame0009.png" id="11_urmlh"]
 [ext_resource type="AudioStream" uid="uid://bpctesc3u073p" path="res://assets/sfx/spells/sound_spark_Fire_Spell_Spit_Fire_03.mp3" id="12_urmlh"]
-[ext_resource type="AudioStream" uid="uid://c6rrusho2a3hi" path="res://assets/sfx/spells/explosion-01.ogg" id="13_3lxni"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_811wn"]
 atlas = ExtResource("2_owt58")
@@ -330,7 +329,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"explode",
-"speed": 20.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -527,6 +526,7 @@ rotation = 3.1415927
 sprite_frames = SubResource("SpriteFrames_kdvvi")
 animation = &"flight"
 autoplay = "flight"
+frame_progress = 0.30489075
 
 [node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=1398991119]
 unique_name_in_owner = true
@@ -534,5 +534,4 @@ stream = ExtResource("12_urmlh")
 
 [node name="ExplosionSfx" type="AudioStreamPlayer2D" parent="." unique_id=1753667198]
 unique_name_in_owner = true
-stream = ExtResource("13_3lxni")
 volume_db = 10.0

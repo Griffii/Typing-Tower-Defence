@@ -2,15 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bp1o6jp0pn2d7" path="res://scenes/game/towers/lightning_tower.gd" id="1_jj4tl"]
 [ext_resource type="Texture2D" uid="uid://naimgdxyifja" path="res://assets/images/towers/Tower-yellow.png" id="1_kk6pl"]
-[ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/menu/magic_bar_empty.png" id="2_jj4tl"]
-[ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/menu/magic_bar_filled.png" id="3_a7sus"]
-[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="4_noblj"]
-[ext_resource type="Texture2D" uid="uid://bqr7xfr6pej58" path="res://assets/images/menu/magic_panel_05.png" id="6_noblj"]
 [ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/spells/spell_shoosh_sfx.mp3" id="7_a7sus"]
-[ext_resource type="AudioStream" uid="uid://cpoaxay8kck0" path="res://assets/sfx/towers/electric_discharge_sfx.mp3" id="8_noblj"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_bccep"]
-radius = 250.0
 
 [sub_resource type="Animation" id="Animation_jj4tl"]
 length = 0.001
@@ -61,30 +53,19 @@ _data = {
 &"shoot": SubResource("Animation_a7sus")
 }
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qtnhy"]
-texture = ExtResource("2_jj4tl")
-texture_margin_left = 10.034258
-texture_margin_right = 2.0089364
-region_rect = Rect2(0, 0, 50.008907, 11)
+[sub_resource type="CircleShape2D" id="CircleShape2D_bccep"]
+radius = 250.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c1a51"]
-texture = ExtResource("3_a7sus")
-texture_margin_left = 10.978203
-texture_margin_right = 2.0044343
-region_rect = Rect2(0, 0, 49.99132, 11)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qrhda"]
-texture = ExtResource("6_noblj")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_left = 1.0
-expand_margin_right = 2.0
-region_rect = Rect2(0, 0, 46, 46)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4n0l6"]
+radius = 21.0
+height = 78.0
 
 [node name="LightningTower" type="Node2D" unique_id=2115614552]
 script = ExtResource("1_jj4tl")
+
+[node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=821825393]
+unique_name_in_owner = true
+stream = ExtResource("7_a7sus")
 
 [node name="BaseSprite" type="Sprite2D" parent="." unique_id=1743833032]
 position = Vector2(0, -43)
@@ -98,75 +79,24 @@ position = Vector2(0, -43)
 unique_name_in_owner = true
 position = Vector2(0, -57)
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=233774710]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_noblj")
+
 [node name="RangeArea" type="Area2D" parent="." unique_id=696677905]
 unique_name_in_owner = true
 position = Vector2(0, -43)
 collision_layer = 128
 collision_mask = 2
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=906788337]
 shape = SubResource("CircleShape2D_bccep")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=233774710]
+[node name="HoverArea" type="Area2D" parent="." unique_id=1066968622]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_noblj")
+position = Vector2(0, -5)
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=681935031]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 20)
-offset_left = -31.0
-offset_top = -1.0
-offset_right = 29.0
-offset_bottom = 19.0
-theme_override_styles/background = SubResource("StyleBoxTexture_qtnhy")
-theme_override_styles/fill = SubResource("StyleBoxTexture_c1a51")
-show_percentage = false
-
-[node name="WordLabel" type="RichTextLabel" parent="." unique_id=1428284056]
-unique_name_in_owner = true
-clip_contents = false
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -32.5
-offset_top = -126.0
-offset_right = 32.5
-offset_bottom = -87.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7647059)
-theme_override_constants/shadow_outline_size = 3
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/normal_font = ExtResource("4_noblj")
-theme_override_fonts/bold_font = ExtResource("4_noblj")
-theme_override_fonts/bold_italics_font = ExtResource("4_noblj")
-theme_override_fonts/italics_font = ExtResource("4_noblj")
-theme_override_fonts/mono_font = ExtResource("4_noblj")
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 20
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxTexture_qrhda")
-bbcode_enabled = true
-text = "Word"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=821825393]
-unique_name_in_owner = true
-stream = ExtResource("7_a7sus")
-
-[node name="LightningSfx" type="AudioStreamPlayer2D" parent="." unique_id=1181858309]
-unique_name_in_owner = true
-stream = ExtResource("8_noblj")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea" unique_id=285312842]
+position = Vector2(0, -32)
+shape = SubResource("CapsuleShape2D_4n0l6")

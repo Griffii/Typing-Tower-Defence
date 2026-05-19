@@ -6,6 +6,16 @@
 [ext_resource type="Texture2D" uid="uid://bd3nhyopixmid" path="res://assets/images/icons/gold_coin.png" id="3_r6o75"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="4_qhbdi"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6o75"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 1, 0, 0.6)
+shadow_color = Color(0, 1, 0, 0.6)
+shadow_size = 2
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bqw8m"]
 texture = ExtResource("2_vkdjy")
 texture_margin_left = 10.0
@@ -34,17 +44,23 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_gilt8")
 
-[node name="SelectedBorder" type="ColorRect" parent="." unique_id=633729971]
+[node name="SelectedBorder" type="Panel" parent="." unique_id=1503810958]
 unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(150, 250)
 layout_mode = 1
-color = Color(0, 1, 0, 1)
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 250.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_r6o75")
 
 [node name="InfoCard" type="PanelContainer" parent="." unique_id=380663713]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 200)
+custom_minimum_size = Vector2(150, 250)
 layout_mode = 0
-offset_right = 150.0
-offset_bottom = 262.0
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 250.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_bqw8m")
@@ -54,14 +70,13 @@ layout_mode = 2
 
 [node name="InfoVBox" type="VBoxContainer" parent="InfoCard/MarginContainer" unique_id=451983487]
 layout_mode = 2
-alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="InfoCard/MarginContainer/InfoVBox" unique_id=466738546]
 layout_mode = 2
 
 [node name="IconTexture" type="TextureRect" parent="InfoCard/MarginContainer/InfoVBox/CenterContainer" unique_id=361284933]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("3_qhbdi")
 expand_mode = 3
@@ -76,6 +91,8 @@ theme_override_styles/separator = SubResource("StyleBoxLine_gw3bw")
 
 [node name="NameLabel" type="Label" parent="InfoCard/MarginContainer/InfoVBox" unique_id=1761517969]
 unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -83,11 +100,13 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 1
 theme_override_fonts/font = ExtResource("4_qhbdi")
 theme_override_font_sizes/font_size = 16
-text = "Name Label"
+text = "Magic Defence"
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="DescriptionLabel" type="Label" parent="InfoCard/MarginContainer/InfoVBox" unique_id=1707381604]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.37254903)
@@ -96,8 +115,9 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 1
 theme_override_fonts/font = ExtResource("4_qhbdi")
 theme_override_font_sizes/font_size = 12
-text = "A super cool spell"
+text = "A super cool spell that will kill all the bad guys."
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="HSeparator2" type="HSeparator" parent="InfoCard/MarginContainer/InfoVBox" unique_id=114222525]
 custom_minimum_size = Vector2(100, 0)
@@ -107,6 +127,7 @@ size_flags_vertical = 4
 theme_override_styles/separator = SubResource("StyleBoxLine_gw3bw")
 
 [node name="GoldHBox" type="HBoxContainer" parent="InfoCard/MarginContainer/InfoVBox" unique_id=950701304]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
@@ -137,6 +158,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_gw3bw")
 
 [node name="StatsLabel" type="Label" parent="InfoCard/MarginContainer/InfoVBox" unique_id=1308238845]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.37254903)
@@ -149,14 +171,16 @@ text = "DMG: 99
 Speed: 99
 Range: 99"
 horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 4
 
 [node name="SelectButton" type="Button" parent="." unique_id=1657241625]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 250)
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 140.0
-offset_bottom = 252.0
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 250.0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_r6o75")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_qhbdi")

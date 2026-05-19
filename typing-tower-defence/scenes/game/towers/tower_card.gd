@@ -3,46 +3,51 @@ class_name TowerCard
 
 signal tower_selected(tower_type: String)
 
-@export var card_size: Vector2 = Vector2(150, 210)
-@export var hover_scale: Vector2 = Vector2(1.06, 1.06)
-@export var selected_border_padding: float = 4.0
-@export var selected_border_color: Color = Color(1.0, 0.88, 0.2, 0.9)
+@export var hover_scale: Vector2 = Vector2(1.04, 1.04)
+@export var hover_y_offset: float = -10.0
+@export var float_amount: float = 3.0
+@export var float_speed_min: float = 1.2
+@export var float_speed_max: float = 2.0
 
-@onready var info_card: PanelContainer = %InfoCard
 @onready var name_label: Label = %NameLabel
 @onready var description_label: Label = %DescriptionLabel
 @onready var cost_label: Label = %CostLabel
 @onready var stats_label: Label = %StatsLabel
 @onready var icon_texture: TextureRect = %IconTexture
-@onready var select_button: BaseButton = %SelectButton
-@onready var selected_border: ColorRect = %SelectedBorder
+@onready var select_button: Button = %SelectButton
+@onready var info_card: PanelContainer = %InfoCard
 
 var tower_type: String = ""
 var tower_data: Dictionary = {}
 
-var current_gold: int = 0
-var can_afford: bool = true
+var is_hovered: bool = false
 var is_selected: bool = false
 
-var _base_scale: Vector2 = Vector2.ONE
+var _base_info_pos: Vector2 = Vector2.ZERO
+var _float_time: float = 0.0
+var _float_speed: float = 1.5
+var _float_phase: float = 0.0
 
 
 func _ready() -> void:
-	_base_scale = scale
+	_float_speed = randf_range(float_speed_min, float_speed_max)
+	_float_phase = randf_range(0.0, TAU)
 
-	custom_minimum_size = card_size
-	size = card_size
-	pivot_offset = card_size * 0.5
+	if info_card != null:
+		_base_info_pos = info_card.position
 
-	_setup_card_size()
-	_setup_button()
-	_setup_labels()
-	_setup_selected_border()
+	if select_button != null:
+		if not select_button.pressed.is_connected(_on_select_pressed):
+			select_button.pressed.connect(_on_select_pressed)
+
+		if not select_button.mouse_entered.is_connected(_on_mouse_entered):
+			select_button.mouse_entered.connect(_on_mouse_entered)
+
+		if not select_button.mouse_exited.is_connected(_on_mouse_exited):
+			select_button.mouse_exited.connect(_on_mouse_exited)
 
 	_apply_card_data()
-	_refresh_afford_state()
-	_refresh_selection_visuals()
-	_start_info_card_float()
+	set_process(true)
 
 
 func setup_card(new_tower_type: String, new_tower_data: Dictionary) -> void:
@@ -51,102 +56,34 @@ func setup_card(new_tower_type: String, new_tower_data: Dictionary) -> void:
 
 	if is_node_ready():
 		_apply_card_data()
-		_refresh_afford_state()
-		_refresh_selection_visuals()
 
 
-func refresh_card(new_current_gold: int, new_can_afford: bool) -> void:
-	current_gold = new_current_gold
-	can_afford = new_can_afford
-
-	if is_node_ready():
-		_refresh_afford_state()
+func refresh_card(_current_gold: int, _can_afford: bool) -> void:
+	pass
 
 
 func set_selected(new_is_selected: bool) -> void:
 	is_selected = new_is_selected
 
-	if is_node_ready():
-		_refresh_selection_visuals()
+
+func get_tower_type() -> String:
+	return tower_type
 
 
-func _setup_card_size() -> void:
+func _process(delta: float) -> void:
+	_float_time += delta
+
+	var bob_y: float = sin(_float_time * _float_speed + _float_phase) * float_amount
+	var hover_y: float = hover_y_offset if is_hovered and not is_selected else 0.0
+
 	if info_card != null:
-		info_card.custom_minimum_size = card_size
-		info_card.size = card_size
-		info_card.position = Vector2.ZERO
-		info_card.z_index = 1
-		info_card.modulate.a = 1.0
+		info_card.position = _base_info_pos + Vector2(0.0, bob_y + hover_y)
 
-	if selected_border != null:
-		selected_border.z_index = 0
-
-	if icon_texture != null:
-		icon_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-
-
-func _setup_button() -> void:
-	if select_button == null:
-		return
-
-	select_button.custom_minimum_size = card_size
-	select_button.size = card_size
-	select_button.position = Vector2.ZERO
-	select_button.focus_mode = Control.FOCUS_NONE
-	select_button.modulate.a = 0.0
-	select_button.z_index = 50
-	select_button.disabled = false
-
-	if not select_button.pressed.is_connected(_on_select_pressed):
-		select_button.pressed.connect(_on_select_pressed)
-
-	if not select_button.mouse_entered.is_connected(_on_button_hovered):
-		select_button.mouse_entered.connect(_on_button_hovered)
-
-	if not select_button.mouse_exited.is_connected(_on_button_unhovered):
-		select_button.mouse_exited.connect(_on_button_unhovered)
-
-
-func _setup_labels() -> void:
-	_configure_label(name_label, 14)
-	_configure_label(description_label, 9)
-	_configure_label(cost_label, 12)
-	_configure_label(stats_label, 10)
-
-
-func _configure_label(label: Label, font_size: int) -> void:
-	if label == null:
-		return
-
-	label.visible = true
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	label.clip_text = true
-	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_constant_override("line_spacing", -2)
-
-
-func _setup_selected_border() -> void:
-	if selected_border == null:
-		return
-
-	selected_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	selected_border.color = selected_border_color
-	selected_border.visible = false
-	_update_selected_border_size()
-
-
-func _update_selected_border_size() -> void:
-	if selected_border == null or info_card == null:
-		return
-
-	selected_border.position = info_card.position - Vector2(selected_border_padding, selected_border_padding)
-	selected_border.size = info_card.size + Vector2(selected_border_padding * 2.0, selected_border_padding * 2.0)
+	scale = hover_scale if is_hovered else Vector2.ONE
 
 
 func _apply_card_data() -> void:
-	if tower_type.is_empty():
+	if tower_type.is_empty() or tower_data.is_empty():
 		return
 
 	if name_label != null:
@@ -156,144 +93,50 @@ func _apply_card_data() -> void:
 		description_label.text = str(tower_data.get("description", ""))
 
 	if cost_label != null:
-		var cost: int = int(tower_data.get("cost", -1))
-		cost_label.text = "Cost: %d" % cost if cost >= 0 else "Unavailable"
+		cost_label.text = "Cost: %d" % int(tower_data.get("cost", 0))
 
 	if stats_label != null:
-		stats_label.text = _build_stats_text()
+		stats_label.text = _get_stats_text()
 
 	if icon_texture != null:
 		icon_texture.texture = tower_data.get("icon", null)
 
 
-func _refresh_afford_state() -> void:
-	if info_card != null:
-		info_card.modulate.a = 1.0
-
-	if cost_label != null:
-		var cost: int = int(tower_data.get("cost", -1))
-		if cost < 0:
-			cost_label.text = "Unavailable"
-		elif can_afford:
-			cost_label.text = "Cost: %d" % cost
-		else:
-			cost_label.text = "Cost: %d\nNeed gold" % cost
-
-
-func _refresh_selection_visuals() -> void:
-	if selected_border != null:
-		selected_border.visible = is_selected
-		_update_selected_border_size()
-
-
-func _build_stats_text() -> String:
+func _get_stats_text() -> String:
 	var effect: String = str(tower_data.get("effect", ""))
 	var damage: int = int(tower_data.get("damage", 0))
-	var attack_interval: float = float(tower_data.get("attack_interval", 0.0))
-	var tower_range: int = int(tower_data.get("range", 0.0))
+	var rate: float = float(tower_data.get("attack_interval", 0.0))
+	var tower_range: int = int(tower_data.get("range", 0))
 
 	match effect:
 		"single_target_projectile":
-			return "Single Target\nDMG: %d\nRate: %.2fs\nRange: %d" % [
-				damage,
-				attack_interval,
-				tower_range
-			]
+			return "Single Target\nDMG: %d\nRate: %.2fs\nRange: %d" % [damage, rate, tower_range]
 
 		"chain_lightning":
 			return "Chain Lightning\nDMG: %d\nTargets: %d\nRate: %.2fs\nRange: %d" % [
 				damage,
 				int(tower_data.get("max_chain_targets", 1)),
-				attack_interval,
+				rate,
 				tower_range
 			]
 
 		"area_slow":
-			var slow_multiplier: float = float(tower_data.get("slow_multiplier", 1.0))
-			var slow_percent: int = int(round((1.0 - slow_multiplier) * 100.0))
-			return "Area Slow\nSlow: %d%%\nRange: %d" % [
-				slow_percent,
-				tower_range
-			]
+			var slow: int = int(round((1.0 - float(tower_data.get("slow_multiplier", 1.0))) * 100.0))
+			return "Area Slow\nSlow: %d%%\nRange: %d" % [slow, tower_range]
 
-		_:
-			return "Effect: %s\nDMG: %d\nRange: %d" % [
-				effect,
-				damage,
-				tower_range
-			]
+	return "DMG: %d\nRange: %d" % [damage, tower_range]
 
 
 func _on_select_pressed() -> void:
 	if tower_type.is_empty():
 		return
-	if not can_afford:
-		return
 
 	tower_selected.emit(tower_type)
 
 
-func _on_button_hovered() -> void:
-	_kill_tree_meta_tween("hover_tween")
-
-	var tween := create_tween()
-	tween.tween_property(self, "scale", _base_scale * hover_scale, 0.12)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-
-	set_meta("hover_tween", tween)
+func _on_mouse_entered() -> void:
+	is_hovered = true
 
 
-func _on_button_unhovered() -> void:
-	_kill_tree_meta_tween("hover_tween")
-
-	var tween := create_tween()
-	tween.tween_property(self, "scale", _base_scale, 0.12)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-
-	set_meta("hover_tween", tween)
-
-
-func _start_info_card_float() -> void:
-	if info_card == null:
-		return
-
-	_kill_meta_tween(info_card, "float_tween")
-
-	var base_pos: Vector2 = info_card.position
-	info_card.set_meta("base_pos", base_pos)
-
-	var tween := create_tween()
-	tween.set_loops()
-
-	tween.tween_property(info_card, "position", base_pos + Vector2(0, -3), 1.15)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-	tween.tween_property(info_card, "position", base_pos + Vector2(0, 2), 1.25)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-	tween.tween_property(info_card, "position", base_pos, 1.0)\
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-	info_card.set_meta("float_tween", tween)
-
-
-func _kill_meta_tween(node: Node, key: String) -> void:
-	if node == null or not node.has_meta(key):
-		return
-
-	var tween = node.get_meta(key)
-	if tween != null and is_instance_valid(tween):
-		tween.kill()
-
-	node.remove_meta(key)
-
-
-func _kill_tree_meta_tween(key: String) -> void:
-	if not has_meta(key):
-		return
-
-	var tween = get_meta(key)
-	if tween != null and is_instance_valid(tween):
-		tween.kill()
-
-	remove_meta(key)
+func _on_mouse_exited() -> void:
+	is_hovered = false

@@ -3,6 +3,8 @@ extends Node2D
 signal projectile_finished
 
 @onready var animated_sprite: AnimatedSprite2D = %LightningSprite
+@onready var lightning_sfx: AudioStreamPlayer2D = %LightningSfx
+
 
 
 var target_enemy: Node = null
@@ -19,6 +21,9 @@ func fire(on_pos: Vector2, target: Node = null) -> void:
 	
 		animated_sprite.visible = true
 		animated_sprite.play()
+		
+		if lightning_sfx != null:
+			lightning_sfx.play()
 	else:
 		_finish_projectile()
 

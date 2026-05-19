@@ -5,13 +5,13 @@ extends Node2D
 signal tower_finished_firing(slot_id: String)
 signal training_dummy_died(dummy: Node, marker_id: String)
 
-const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
-const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
-const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
+const DEFAULT_TOWER_SCENE: PackedScene = preload("uid://ciwqq06h6kavx")
+const ARROW_TOWER_SCENE: PackedScene = preload("uid://ciwqq06h6kavx")
+
 
 @export var training_dummy_scene: PackedScene
 @export var enemy_scale: Vector2 = Vector2.ONE
-@export var allowed_tower_types: Array[String] = ["arrow"] ## No lightning towers, for now
+@export var allowed_tower_types: Array[String] = ["basic_magic_turret"] 
 
 @onready var dummy_marker_1: Marker2D = %DummyMarker1
 @onready var dummy_marker_2: Marker2D = %DummyMarker2
@@ -92,7 +92,7 @@ func get_tower_slots() -> Array[Marker2D]:
 	return result
 
 
-func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
+func get_allowed_tower_types() -> Array[String]:
 	return allowed_tower_types.duplicate()
 
 
@@ -335,17 +335,8 @@ func refresh_all_towers(combat_manager: Node) -> void:
 
 
 
-func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node = null) -> PackedScene:
-	if combat_manager != null and combat_manager.has_method("get_tower_type"):
-		var tower_type: String = str(combat_manager.get_tower_type(slot_id))
-
-		match tower_type:
-			"lightning":
-				return LIGHTNING_TOWER_SCENE
-			"arrow":
-				return ARROW_TOWER_SCENE
-
-	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)
+func get_tower_scene_for_slot(_slot_id: String, _level: int, _combat_manager: Node = null) -> PackedScene:
+	return DEFAULT_TOWER_SCENE
 
 
 func _on_tower_finished_firing(slot_id: String) -> void:
