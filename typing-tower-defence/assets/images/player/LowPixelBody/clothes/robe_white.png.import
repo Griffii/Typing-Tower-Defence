@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://byusa6m3tjw4b"
-path="res://.godot/imported/robe_white.png-d4fa90e704547f829d5059c4aef62dc4.ctex"
+path="res://.godot/imported/robe_white.png-bd64a37ffe9a9b3b542f93ae56f20e77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/ChibiBody/clothes/robe_white.png"
-dest_files=["res://.godot/imported/robe_white.png-d4fa90e704547f829d5059c4aef62dc4.ctex"]
+source_file="res://assets/images/player/LowPixelBody/clothes/robe_white.png"
+dest_files=["res://.godot/imported/robe_white.png-bd64a37ffe9a9b3b542f93ae56f20e77.ctex"]
 
 [params]
 

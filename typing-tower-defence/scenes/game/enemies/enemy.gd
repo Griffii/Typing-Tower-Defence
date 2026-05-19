@@ -9,10 +9,12 @@ const EnemyDefinitions = preload("res://data/enemies/enemy_definitions.gd")
 const HIT_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/hit_burst.tscn")
 const COIN_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/coin_burst.tscn")
 const BUBBLE_BURST_EFFECT_SCENE: PackedScene = preload("res://scenes/game/effects/bubble_burst.tscn")
+const FLOATING_DAMAGE_NUMBER_SCENE: PackedScene = preload("uid://135vfqolfa2c")
 
 @export var base_reach_distance: float = 8.0
 @export var use_hit_burst_effect: bool = true
 @export var use_coin_burst_effect: bool = true
+@export var use_floating_damage_numbers: bool = true
 
 @onready var visual_root: Node2D = %VisualRoot
 @onready var label_root: Node2D = %LabelRoot
@@ -219,8 +221,13 @@ func apply_damage(amount: int) -> void:
 	if is_dead:
 		return
 
-	current_hp = max(0, current_hp - amount)
+	var damage_received: int = max(0, amount)
+	if damage_received <= 0:
+		return
+
+	current_hp = max(0, current_hp - damage_received)
 	_update_labels()
+	_spawn_floating_damage_number(damage_received)
 
 	if current_hp <= 0:
 		die()
@@ -228,6 +235,27 @@ func apply_damage(amount: int) -> void:
 
 	_spawn_hit_burst_effect()
 	play_take_damage_animation()
+
+
+func _spawn_floating_damage_number(amount: int) -> void:
+	if not use_floating_damage_numbers:
+		return
+	if FLOATING_DAMAGE_NUMBER_SCENE == null:
+		return
+
+	var damage_number: Node2D = FLOATING_DAMAGE_NUMBER_SCENE.instantiate() as Node2D
+	if damage_number == null:
+		return
+
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		return
+
+	parent_node.add_child(damage_number)
+	damage_number.global_position = _get_effect_spawn_position()
+
+	if damage_number.has_method("play"):
+		damage_number.play(amount)
 
 
 func play_take_damage_animation() -> void:

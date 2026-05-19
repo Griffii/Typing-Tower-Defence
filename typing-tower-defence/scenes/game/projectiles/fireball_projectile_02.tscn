@@ -483,6 +483,8 @@ rotation = 3.1415927
 sprite_frames = SubResource("SpriteFrames_kdvvi")
 animation = &"flight"
 autoplay = "flight"
+frame = 11
+frame_progress = 0.6954586
 
 [node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=1398991119]
 unique_name_in_owner = true

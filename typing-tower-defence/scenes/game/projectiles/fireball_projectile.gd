@@ -1,41 +1,25 @@
 # res://scripts/game/projectiles/fireball_projectile.gd
-extends Node2D
+extends BaseProjectile
 
-signal impact_reached(target_enemy: Node)
-signal projectile_finished
-
-@export var speed: float = 800.0
-@export var impact_distance: float = 14.0
-@export var max_lifetime: float = 4.0
-@export var target_offset: Vector2 = Vector2.ZERO
+@export var explosion_sprite_base_radius: float = 32.0
 
 @onready var fireball_sprite: AnimatedSprite2D = %FireballSprite
 @onready var shoot_sfx: AudioStreamPlayer2D = %ShootSfx
 @onready var explosion_sfx: AudioStreamPlayer2D = %ExplosionSfx
 
-var target_enemy: Node = null
-var fallback_target_position: Vector2 = Vector2.ZERO
-var has_impacted: bool = false
-var has_finished: bool = false
-var is_flying: bool = false
-var lifetime: float = 0.0
+var original_sprite_scale: Vector2 = Vector2.ONE
 
 
-func fire(from_pos: Vector2, target: Node, _duration: float = 1.0, _height: float = 0.0) -> void:
-	global_position = from_pos
-	target_enemy = target
-	lifetime = 0.0
-	has_impacted = false
-	has_finished = false
-	is_flying = true
+func _ready() -> void:
+	if fireball_sprite != null:
+		original_sprite_scale = fireball_sprite.scale
 
-	if is_instance_valid(target_enemy) and target_enemy is Node2D:
-		fallback_target_position = (target_enemy as Node2D).global_position + target_offset
-	else:
-		fallback_target_position = from_pos
 
+func _on_fired() -> void:
 	if fireball_sprite != null:
 		fireball_sprite.visible = true
+		fireball_sprite.scale = original_sprite_scale
+
 		if fireball_sprite.sprite_frames != null and fireball_sprite.sprite_frames.has_animation("fly"):
 			fireball_sprite.play("fly")
 
@@ -43,60 +27,17 @@ func fire(from_pos: Vector2, target: Node, _duration: float = 1.0, _height: floa
 		shoot_sfx.play()
 
 
-func _process(delta: float) -> void:
-	if not is_flying:
-		return
-
-	lifetime += delta
-
-	if lifetime >= max_lifetime:
-		_on_impact()
-		return
-
-	var target_position: Vector2 = fallback_target_position
-
-	if is_instance_valid(target_enemy) and target_enemy is Node2D:
-		target_position = (target_enemy as Node2D).global_position + target_offset
-		fallback_target_position = target_position
-
-	var to_target: Vector2 = target_position - global_position
-	var distance: float = to_target.length()
-
-	if distance <= impact_distance:
-		global_position = target_position
-		_on_impact()
-		return
-
-	var move_distance: float = speed * delta
-
-	if move_distance >= distance:
-		global_position = target_position
-		_on_impact()
-		return
-
-	global_position += to_target.normalized() * move_distance
-	rotation = to_target.angle()
-
-
-func _on_impact() -> void:
-	if has_impacted:
-		return
-
-	has_impacted = true
-	is_flying = false
-
-	if is_instance_valid(target_enemy):
-		impact_reached.emit(target_enemy)
-
+func _on_impact_started() -> void:
 	if explosion_sfx != null:
 		explosion_sfx.play()
 
 	if fireball_sprite == null:
-		_finish_after_delay(1)
+		_finish_after_delay(1.0)
 		return
 
 	rotation = 0.0
 	fireball_sprite.rotation = 0.0
+	_scale_sprite_to_aoe_radius()
 
 	if fireball_sprite.sprite_frames != null and fireball_sprite.sprite_frames.has_animation("explode"):
 		if not fireball_sprite.animation_finished.is_connected(_on_explosion_finished):
@@ -104,26 +45,24 @@ func _on_impact() -> void:
 
 		fireball_sprite.play("explode")
 	else:
-		_finish_after_delay(1)
+		_finish_after_delay(1.0)
+
+
+func _scale_sprite_to_aoe_radius() -> void:
+	if fireball_sprite == null:
+		return
+
+	var aoe_radius: float = float(spell_data.get("base_aoe_radius", 0.0))
+	if aoe_radius <= 0.0:
+		fireball_sprite.scale = original_sprite_scale
+		return
+
+	var scale_factor: float = aoe_radius / explosion_sprite_base_radius
+	fireball_sprite.scale = original_sprite_scale * scale_factor
 
 
 func _on_explosion_finished() -> void:
+	if fireball_sprite != null:
+		fireball_sprite.scale = original_sprite_scale
+
 	_finish_after_delay(0.15)
-
-
-func _finish_after_delay(delay: float) -> void:
-	if has_finished:
-		return
-
-	var timer := get_tree().create_timer(delay)
-	await timer.timeout
-	_finish_projectile()
-
-
-func _finish_projectile() -> void:
-	if has_finished:
-		return
-
-	has_finished = true
-	projectile_finished.emit()
-	queue_free()

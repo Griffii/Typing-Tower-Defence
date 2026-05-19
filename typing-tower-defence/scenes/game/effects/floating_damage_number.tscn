@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://135vfqolfa2c"]
+
+[ext_resource type="Script" uid="uid://lwuvgly8xu0s" path="res://scenes/game/effects/floating_damage_number.gd" id="1_475o6"]
+[ext_resource type="FontFile" uid="uid://b4qpckb7ynfwm" path="res://assets/fonts/BadComic-Italic.ttf" id="2_hs1qq"]
+
+[node name="FloatingDamageNumber" type="Node2D" unique_id=1359402670]
+script = ExtResource("1_475o6")
+
+[node name="DamageLabel" type="Label" parent="." unique_id=1128666021]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("2_hs1qq")
+text = "69"
+horizontal_alignment = 1
+vertical_alignment = 1

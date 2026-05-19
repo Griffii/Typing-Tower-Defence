@@ -107,9 +107,10 @@ script = ExtResource("1_5vnfl")
 [node name="FireballSprite" type="AnimatedSprite2D" parent="." unique_id=2109604757]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_kdvvi")
-animation = &"flight"
+animation = &"explode"
 autoplay = "flight"
-frame_progress = 0.7136778
+frame = 8
+frame_progress = 1.0
 
 [node name="ShootSfx" type="AudioStreamPlayer2D" parent="." unique_id=1398991119]
 unique_name_in_owner = true
@@ -119,3 +120,6 @@ stream = ExtResource("17_k3kjj")
 unique_name_in_owner = true
 stream = ExtResource("18_5vnfl")
 volume_db = 10.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=474783810]
+unique_name_in_owner = true

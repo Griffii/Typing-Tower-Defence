@@ -1,11 +1,19 @@
 extends Node2D
 class_name BattlefieldLevel
 
-const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
-const ARROW_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/arrow_tower.tscn")
-const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
+const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
+
+const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
+const BASIC_MAGIC_TURRET_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
+const CHAIN_LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lightning_tower.tscn")
+#const ICE_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/ice_tower.tscn")
 
 @export var enemy_scale: Vector2 = Vector2.ONE
+@export var allowed_tower_types: Array[String] = [
+	"basic_magic_turret",
+	"chain_lightning",
+	"ice_tower"
+]
 
 @onready var protect: Node = %Protect
 @onready var enemy_path: Path2D = %EnemyPath
@@ -17,8 +25,6 @@ const LIGHTNING_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/lig
 var projectile_container: Node = null
 var tower_nodes: Dictionary = {}
 var tower_scene_map: Dictionary = {}
-
-var allowed_tower_types: Array[String] = ["arrow"]
 
 
 func get_player_character() -> PlayerCharacter:
@@ -79,8 +85,12 @@ func get_tower_slots() -> Array[Marker2D]:
 	return result
 
 
+func get_allowed_tower_types() -> Array[String]:
+	return TowerDefinitions.filter_valid_tower_types(allowed_tower_types)
+
+
 func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
-	return allowed_tower_types.duplicate()
+	return get_allowed_tower_types()
 
 
 func clear_all_towers() -> void:
@@ -120,6 +130,9 @@ func refresh_all_towers(combat_manager: Node) -> void:
 				continue
 
 			var tower_scene: PackedScene = get_tower_scene_for_slot(slot_id, level, combat_manager)
+			if tower_scene == null:
+				continue
+
 			tower = tower_scene.instantiate() as Node2D
 			if tower == null:
 				continue
@@ -149,9 +162,11 @@ func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node
 		var tower_type: String = combat_manager.get_tower_type(slot_id)
 
 		match tower_type:
-			"lightning":
-				return LIGHTNING_TOWER_SCENE
-			"arrow":
-				return ARROW_TOWER_SCENE
+			"basic_magic_turret":
+				return BASIC_MAGIC_TURRET_SCENE
+			"chain_lightning":
+				return CHAIN_LIGHTNING_TOWER_SCENE
+			#"ice_tower":
+			#	return ICE_TOWER_SCENE
 
 	return tower_scene_map.get(slot_id, DEFAULT_TOWER_SCENE)

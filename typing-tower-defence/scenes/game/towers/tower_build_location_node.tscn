@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://duhogxnir620c"]
+
+[ext_resource type="Script" uid="uid://chh0mkshbn8my" path="res://scenes/game/towers/tower_build_location_node.gd" id="1_2hmum"]
+[ext_resource type="PackedScene" uid="uid://cw0dchu1xjkuq" path="res://scenes/game/towers/tower_area_ring.tscn" id="1_qreu5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwigm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxg2q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pirod"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f1382"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h87h7"]
+
+[node name="TowerBuildLocationNode" type="Node2D" unique_id=90150733]
+scale = Vector2(0.27343783, 0.16015622)
+script = ExtResource("1_2hmum")
+
+[node name="AreaRing" parent="." unique_id=116692627 instance=ExtResource("1_qreu5")]
+unique_name_in_owner = true
+
+[node name="BuildButton" type="Button" parent="." unique_id=1656397451]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.571384
+offset_top = -24.975615
+offset_right = 36.571377
+offset_bottom = 24.975615
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uwigm")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_uxg2q")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pirod")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_f1382")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h87h7")

@@ -45,6 +45,17 @@ script = ExtResource("1_ihyv4")
 [node name="SlotNodeContainer" type="Node2D" parent="." unique_id=1064592461]
 unique_name_in_owner = true
 
+[node name="TowerCardContainer" type="HBoxContainer" parent="." unique_id=671145733]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
 [node name="ReturnToShopButton" type="Button" parent="." unique_id=1541534897]
 unique_name_in_owner = true
 z_index = 1

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcnlpcl8hluvx"
-path="res://.godot/imported/glass_staff.png-a784b7c19a4b108ea1086489bc5d95de.ctex"
+path="res://.godot/imported/glass_staff.png-89b9268909c9f74e8a1785259d29b93c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player/ChibiBody/wands/glass_staff.png"
-dest_files=["res://.godot/imported/glass_staff.png-a784b7c19a4b108ea1086489bc5d95de.ctex"]
+source_file="res://assets/images/player/LowPixelBody/wands/glass_staff.png"
+dest_files=["res://.godot/imported/glass_staff.png-89b9268909c9f74e8a1785259d29b93c.ctex"]
 
 [params]
 

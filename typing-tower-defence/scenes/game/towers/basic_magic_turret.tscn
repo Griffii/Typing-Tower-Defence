@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://ciwqq06h6kavx"]
+
+[ext_resource type="Script" uid="uid://dnbd43fns7das" path="res://scenes/game/towers/basic_magic_turret.gd" id="1_urd5k"]
+[ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="2_kjf8r"]
+[ext_resource type="Texture2D" uid="uid://b8na3q8wdhbrr" path="res://assets/images/menu/magic_bar_empty.png" id="3_bodve"]
+[ext_resource type="Texture2D" uid="uid://0i0esmgogqti" path="res://assets/images/menu/magic_bar_filled.png" id="4_xx8gx"]
+[ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_6n0il"]
+[ext_resource type="Texture2D" uid="uid://68c4e2karxs3" path="res://assets/images/menu/magic_panel_04.png" id="6_a4iaj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8t4bd"]
+radius = 250.0
+
+[sub_resource type="Animation" id="Animation_wdbdq"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jwqch"]
+_data = {
+&"RESET": SubResource("Animation_wdbdq")
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lgji"]
+texture = ExtResource("3_bodve")
+texture_margin_left = 10.034258
+texture_margin_right = 2.0089364
+region_rect = Rect2(0, 0, 50.008907, 11)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8waj"]
+texture = ExtResource("4_xx8gx")
+texture_margin_left = 10.978203
+texture_margin_right = 2.0044343
+region_rect = Rect2(0, 0, 49.99132, 11)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_om1c8"]
+texture = ExtResource("6_a4iaj")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(0, 0, 48, 48)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_urd5k"]
+radius = 21.0
+height = 78.0
+
+[node name="BasicMagicTower" type="Node2D" unique_id=1067505479]
+script = ExtResource("1_urd5k")
+
+[node name="BaseSprite" type="Sprite2D" parent="." unique_id=2072018009]
+position = Vector2(0, -43)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_kjf8r")
+
+[node name="TurretSprite" type="Sprite2D" parent="." unique_id=1154071169]
+position = Vector2(0, -43)
+
+[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1970906002]
+unique_name_in_owner = true
+position = Vector2(0, -57)
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=336730534]
+unique_name_in_owner = true
+position = Vector2(0, -43)
+collision_layer = 128
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1744894666]
+shape = SubResource("CircleShape2D_8t4bd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1903714713]
+libraries/ = SubResource("AnimationLibrary_jwqch")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=786163962]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 20)
+offset_left = -31.0
+offset_top = -1.0
+offset_right = 29.0
+offset_bottom = 19.0
+theme_override_styles/background = SubResource("StyleBoxTexture_4lgji")
+theme_override_styles/fill = SubResource("StyleBoxTexture_j8waj")
+show_percentage = false
+
+[node name="WordLabel" type="RichTextLabel" parent="." unique_id=1236156707]
+unique_name_in_owner = true
+clip_contents = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.5
+offset_top = -130.0
+offset_right = 35.5
+offset_bottom = -85.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7647059)
+theme_override_constants/shadow_outline_size = 3
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("5_6n0il")
+theme_override_fonts/bold_font = ExtResource("5_6n0il")
+theme_override_fonts/bold_italics_font = ExtResource("5_6n0il")
+theme_override_fonts/italics_font = ExtResource("5_6n0il")
+theme_override_fonts/mono_font = ExtResource("5_6n0il")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_om1c8")
+bbcode_enabled = true
+text = "Word"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HoverArea" type="Area2D" parent="." unique_id=1366149117]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea" unique_id=1579389912]
+position = Vector2(0, -32)
+shape = SubResource("CapsuleShape2D_urd5k")

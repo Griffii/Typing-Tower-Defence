@@ -107,7 +107,9 @@ var unlocked_items: Dictionary = {
 
 	"spell": [
 		"fireball_01",
-		"fireball_02"
+		"fireball_02",
+		"fireball_03",
+		"fireball_04"
 	]
 }
 
