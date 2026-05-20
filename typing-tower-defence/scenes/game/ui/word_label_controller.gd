@@ -24,6 +24,25 @@ extends Node2D
 @onready var background: PanelContainer = %Background
 @onready var word_label: RichTextLabel = %WordLabel
 
+@export var dark_pastel_alpha: float = 0.95
+
+const BACKGROUND_COLORS: Array[Color] = [
+	Color(0.50, 0.38, 0.48, 1.0), # soft plum
+	Color(0.40, 0.50, 0.60, 1.0), # pastel steel blue
+	Color(0.40, 0.58, 0.54, 1.0), # soft teal
+	Color(0.58, 0.50, 0.36, 1.0), # muted sand
+	Color(0.50, 0.44, 0.62, 1.0), # pastel violet
+	Color(0.60, 0.42, 0.42, 1.0), # dusty rose
+	Color(0.42, 0.56, 0.46, 1.0), # soft sage
+	Color(0.48, 0.48, 0.60, 1.0), # mist lavender
+	Color(0.60, 0.52, 0.42, 1.0), # warm beige
+	Color(0.42, 0.46, 0.62, 1.0), # muted periwinkle
+	Color(0.52, 0.42, 0.58, 1.0), # soft orchid
+	Color(0.36, 0.56, 0.60, 1.0), # dusty cyan
+]
+
+var base_background_color: Color = Color.WHITE
+
 var anchor: Node2D = null
 var current_word: String = ""
 var typing_progress: String = ""
@@ -51,6 +70,7 @@ func _ready() -> void:
 
 	if background != null:
 		background.custom_minimum_size = Vector2.ZERO
+		_apply_random_background_color()
 
 	randomize()
 	_bob_phase = randf() * TAU * bob_phase_randomness
@@ -132,6 +152,16 @@ func set_word(word: String) -> void:
 	_queue_layout_refresh()
 
 
+func _apply_random_background_color() -> void:
+	if background == null:
+		return
+
+	base_background_color = BACKGROUND_COLORS.pick_random()
+	base_background_color.a = dark_pastel_alpha
+	background.self_modulate = base_background_color
+
+
+
 func set_typing_progress(text: String) -> void:
 	typing_progress = text
 	_update_word_visual()
@@ -170,7 +200,10 @@ func _update_target_visual() -> void:
 	if background == null:
 		return
 
-	background.modulate = Color(1, 1, 1, 1.0 if is_targeted else 0.92)
+	background.self_modulate = base_background_color
+
+	if is_targeted:
+		background.self_modulate = base_background_color.lightened(0.18)
 
 
 func _queue_layout_refresh() -> void:

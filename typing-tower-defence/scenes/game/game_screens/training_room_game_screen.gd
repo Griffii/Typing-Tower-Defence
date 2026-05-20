@@ -15,7 +15,7 @@ enum TrainingStep {
 	BUY_UPGRADE,
 	MAKE_70_GOLD,
 	BUILD_TOWER,
-	CHARGE_TOWER,
+	TOWER_KILL_ENEMY,
 	DEFEAT_5_STRONG,
 	FINAL_DIALOGUE,
 	FREE_PRACTICE,
@@ -125,18 +125,17 @@ const BUILD_TOWER_DIALOGUE: Dictionary = {
 	"lines": [
 		{"speaker_id": "jisho", "text": "Next: towers!"},
 		{"speaker_id": "jisho", "text": "Towers can be summoned with magic to help you fight."},
-		{"speaker_id": "jisho", "text": "They cost gold, but once built, they give you another way to control the battle."},
-		{"speaker_id": "jisho", "text": "Try building an arrow tower."},
+		{"speaker_id": "jisho", "text": "They cost gold, but once built, they can help you control the battlefield."},
+		{"speaker_id": "jisho", "text": "Try building an magic turret."},
 	]
 }
 
-const CHARGE_TOWER_DIALOGUE: Dictionary = {
+const TOWER_KILL_ENEMY_DIALOGUE: Dictionary = {
 	"speakers": TUTORIAL_SPEAKERS,
 	"lines": [
-		{"speaker_id": "jisho", "text": "Cool right?! But, a tower is not useful by itself."},
-		{"speaker_id": "jisho", "text": "You must charge it with magic before it can activate."},
-		{"speaker_id": "jisho", "text": "Type the word shown on the tower to feed it power."},
-		{"speaker_id": "jisho", "text": "You have to choose what to focus on, attacking enemies or charging your towers."},
+		{"speaker_id": "jisho", "text": "Nice. Once built, towers attack by themselves."},
+		{"speaker_id": "jisho", "text": "Just sit back and relax."},
+		{"speaker_id": "jisho", "text": "Let your magic turret destroy a training dummy."},
 	]
 }
 
@@ -338,9 +337,6 @@ func _connect_signals() -> void:
 			build_overlay.tower_purchase_requested.connect(_on_build_tower_purchase_requested)
 
 	if training_room_level != null:
-		if training_room_level.has_signal("tower_finished_firing"):
-			if not training_room_level.tower_finished_firing.is_connected(_on_training_tower_finished_firing):
-				training_room_level.tower_finished_firing.connect(_on_training_tower_finished_firing)
 		if training_room_level.has_signal("training_dummy_died"):
 			if not training_room_level.training_dummy_died.is_connected(_on_training_dummy_died):
 				training_room_level.training_dummy_died.connect(_on_training_dummy_died)
@@ -984,6 +980,9 @@ func _start_buy_upgrade_goal() -> void:
 
 	_set_run_state(TrainingRunState.SHOP)
 	_set_shop_mode_upgrades_only()
+	
+	if shop_overlay != null and shop_overlay.has_method("set_next_wave_button_visible"):
+		shop_overlay.set_next_wave_button_visible(false)
 
 
 func _complete_buy_upgrade_goal() -> void:
@@ -1026,32 +1025,44 @@ func _start_build_tower_goal() -> void:
 
 	_set_run_state(TrainingRunState.BUILD)
 	_set_build_mode_towers_only()
+	
+	if build_overlay != null and build_overlay.has_method("set_return_to_shop_button_visible"):
+		build_overlay.set_return_to_shop_button_visible(false)
 
 
 func _complete_build_tower_goal() -> void:
 	if current_step != TrainingStep.BUILD_TOWER:
 		return
 
+	if build_overlay != null and build_overlay.has_method("set_return_to_shop_button_visible"):
+		build_overlay.set_return_to_shop_button_visible(true)
+
 	_hide_build()
-	_start_charge_tower_goal()
+	_start_tower_kill_enemy_goal()
 
 
-func _start_charge_tower_goal() -> void:
-	current_step = TrainingStep.CHARGE_TOWER
+func _start_tower_kill_enemy_goal() -> void:
+	current_step = TrainingStep.TOWER_KILL_ENEMY
 
-	await _play_dialogue(CHARGE_TOWER_DIALOGUE)
+	await _play_dialogue(TOWER_KILL_ENEMY_DIALOGUE)
 
-	_set_goal_text("Goal: Charge the tower")
+	_set_goal_text("Goal: Let your tower destroy a training dummy")
 	_set_run_state(TrainingRunState.ACTIVE)
 
-	training_room_level.set_respawn_enabled(true)
+	training_room_level.set_respawn_enabled(false)
 	training_room_level.set_word_pool(_get_words_from_list_ids(["easy"]))
-	training_room_level.spawn_two_dummies()
+	training_room_level.spawn_one_dummy()
 
 
-func _complete_charge_tower_goal() -> void:
-	if current_step != TrainingStep.CHARGE_TOWER:
+func _complete_tower_kill_enemy_goal() -> void:
+	if current_step != TrainingStep.TOWER_KILL_ENEMY:
 		return
+
+	if training_room_level != null:
+		training_room_level.clear_all_towers()
+
+	if combat_manager != null and combat_manager.has_method("clear_all_towers"):
+		combat_manager.clear_all_towers()
 
 	_start_defeat_strong_goal()
 
@@ -1102,6 +1113,12 @@ func _start_free_practice() -> void:
 
 	if CampaignProgress != null:
 		CampaignProgress.tutorial_completed = true
+
+	if shop_overlay != null and shop_overlay.has_method("set_next_wave_button_visible"):
+		shop_overlay.set_next_wave_button_visible(true)
+
+	if build_overlay != null and build_overlay.has_method("set_return_to_shop_button_visible"):
+		build_overlay.set_return_to_shop_button_visible(true)
 
 	_set_goal_text("Free Practice")
 	_set_run_state(TrainingRunState.ACTIVE)
@@ -1179,17 +1196,14 @@ func _set_goal_text(text: String) -> void:
 			game_hud.set_goal_text(text)
 
 
-func _on_training_tower_finished_firing(_slot_id: String) -> void:
-	if current_step != TrainingStep.CHARGE_TOWER:
-		return
-	
-	_complete_charge_tower_goal()
-
 
 func _on_training_dummy_died(_dummy: Node, _marker_id: String) -> void:
 	match current_step:
 		TrainingStep.DESTROY_ONE_DUMMY:
 			_complete_destroy_one_dummy_goal()
+
+		TrainingStep.TOWER_KILL_ENEMY:
+			_complete_tower_kill_enemy_goal()
 
 		TrainingStep.DEFEAT_5_STRONG:
 			_on_strong_dummy_died()

@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bhhsjeyjd3utp" path="res://assets/images/enemies/slimes/slime_idle1.png" id="4_7cpak"]
 [ext_resource type="Texture2D" uid="uid://cpfy7kgenmns0" path="res://assets/images/enemies/slimes/slime_move.png" id="5_ebhn5"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="8_t2hb6"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/enemies/enemy_health_bar.tscn" id="9_iq6i8"]
 [ext_resource type="AudioStream" uid="uid://bcr61d0htxom7" path="res://assets/sfx/enemies/slime_goop_01.mp3" id="9_t2hb6"]
 [ext_resource type="AudioStream" uid="uid://dijs5pxd6kmaf" path="res://assets/sfx/enemies/slime_die.mp3" id="10_7cpak"]
 [ext_resource type="AudioStream" uid="uid://cjpjkhidpb5qi" path="res://assets/sfx/enemies/slime_goop_02.mp3" id="11_ebhn5"]
@@ -2085,8 +2086,17 @@ offset = Vector2(0, -8)
 [node name="LabelRoot" type="Node2D" parent="." unique_id=1744058454 groups=["enemy"]]
 unique_name_in_owner = true
 
+[node name="EnemyHealthBar" parent="LabelRoot" unique_id=970504870 instance=ExtResource("9_iq6i8")]
+unique_name_in_owner = true
+offset_left = -24.0
+offset_top = -27.0
+offset_right = -24.0
+offset_bottom = -27.0
+scale = Vector2(0.8, 1)
+
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=83419371]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 21.0
 offset_right = 21.0

@@ -1,5 +1,5 @@
 ## shop_mennu_overlay.gd
-# Script for the in game shop that appears between waves and gives access to the build mode
+## Script for the in game shop that appears between waves and gives access to the build mode
 
 extends CanvasLayer
 
@@ -24,16 +24,27 @@ signal build_mode_requested
 @onready var card_root_gold_gain: Control = %CardRoot_GoldGain
 
 @onready var card_hover_sfx: AudioStreamPlayer2D = %CardHoverSfx
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var current_shop_state: Dictionary = {}
 var current_upgrade_defs: Dictionary = {}
 
 var animated_cards: Array[Control] = []
+var animated_buttons: Array[Button] = []
+
 var base_positions: Dictionary = {}
 var hover_offsets: Dictionary = {}
 var hover_targets: Dictionary = {}
 var sway_speeds: Dictionary = {}
 var sway_phases: Dictionary = {}
+
+var button_base_scales: Dictionary = {}
+var button_hovered: Dictionary = {}
+
+var next_wave_base_position: Vector2 = Vector2.ZERO
+var next_wave_sway_speed: float = 1.5
+var next_wave_sway_phase: float = 0.0
+var next_wave_wiggle_offset: float = 0.0
 
 const HOVER_LIFT_Y: float = -15.0
 const HOVER_LERP_SPEED: float = 50.0
@@ -41,6 +52,14 @@ const BOB_AMPLITUDE: float = 2.0
 const ROTATION_AMPLITUDE: float = 0.02
 const HOVER_Z_INDEX: int = 10
 const NORMAL_Z_INDEX: int = 0
+
+const BUTTON_HOVER_SCALE: Vector2 = Vector2(1.06, 1.06)
+const BUTTON_SCALE_LERP_SPEED: float = 18.0
+
+const NEXT_WAVE_BOB_AMPLITUDE: float = 3.0
+const NEXT_WAVE_ROTATION_AMPLITUDE: float = 0.025
+const NEXT_WAVE_WIGGLE_AMOUNT: float = 0.12
+const NEXT_WAVE_WIGGLE_TIME: float = 0.16
 
 
 func _ready() -> void:
@@ -56,6 +75,8 @@ func _ready() -> void:
 	next_wave_button.pressed.connect(_on_next_wave_pressed)
 
 	_setup_card_animations()
+	_setup_button_hover_effects()
+	_setup_next_wave_animation()
 
 
 func _process(delta: float) -> void:
@@ -70,7 +91,13 @@ func _process(delta: float) -> void:
 
 		var current_hover: float = float(hover_offsets.get(card, 0.0))
 		var target_hover: float = float(hover_targets.get(card, 0.0))
-		current_hover = move_toward(current_hover, target_hover, HOVER_LERP_SPEED * delta)
+
+		current_hover = move_toward(
+			current_hover,
+			target_hover,
+			HOVER_LERP_SPEED * delta
+		)
+
 		hover_offsets[card] = current_hover
 
 		var speed: float = float(sway_speeds.get(card, 1.0))
@@ -80,8 +107,16 @@ func _process(delta: float) -> void:
 		var rot: float = sin(time_now * speed * 0.8 + phase) * ROTATION_AMPLITUDE
 
 		var base_pos: Vector2 = base_positions.get(card, card.position)
-		card.position = base_pos + Vector2(0.0, current_hover + bob_y)
+
+		card.position = base_pos + Vector2(
+			0.0,
+			current_hover + bob_y
+		)
+
 		card.rotation = rot
+
+	_update_button_scales(delta)
+	_update_next_wave_motion(time_now)
 
 
 func show_overlay(shop_state: Dictionary, upgrade_defs: Dictionary) -> void:
@@ -91,11 +126,20 @@ func show_overlay(shop_state: Dictionary, upgrade_defs: Dictionary) -> void:
 	visible = true
 	_update_ui()
 
+	if animation_player != null and animation_player.has_animation("open_menu"):
+		animation_player.play("open_menu")
+
 
 func hide_overlay() -> void:
+	if animation_player != null and animation_player.has_animation("close_menu"):
+		animation_player.play("close_menu")
+		await animation_player.animation_finished
+
 	visible = false
+
 	current_shop_state.clear()
 	current_upgrade_defs.clear()
+
 	description_label.text = ""
 
 	for card in animated_cards:
@@ -105,8 +149,20 @@ func hide_overlay() -> void:
 		card.rotation = 0.0
 		card.position = base_positions.get(card, card.position)
 		card.z_index = NORMAL_Z_INDEX
+
 		hover_offsets[card] = 0.0
 		hover_targets[card] = 0.0
+
+	for button in animated_buttons:
+		if not is_instance_valid(button):
+			continue
+
+		button.scale = button_base_scales.get(button, Vector2.ONE)
+		button_hovered[button] = false
+
+	if next_wave_button != null:
+		next_wave_button.position = next_wave_base_position
+		next_wave_button.rotation = 0.0
 
 
 func refresh_shop(shop_state: Dictionary, upgrade_defs: Dictionary) -> void:
@@ -115,6 +171,14 @@ func refresh_shop(shop_state: Dictionary, upgrade_defs: Dictionary) -> void:
 
 	if visible:
 		_update_ui()
+
+
+func set_next_wave_button_visible(enabled: bool) -> void:
+	if next_wave_button == null:
+		return
+
+	next_wave_button.visible = enabled
+	next_wave_button.disabled = not enabled
 
 
 func _setup_card_animations() -> void:
@@ -132,14 +196,16 @@ func _setup_card_animations() -> void:
 		base_positions[card] = card.position
 		hover_offsets[card] = 0.0
 		hover_targets[card] = 0.0
+
 		sway_speeds[card] = randf_range(1.2, 2.0)
 		sway_phases[card] = randf_range(0.0, TAU)
+
 		card.z_index = NORMAL_Z_INDEX
 
-	# Hover is driven by the buttons, visual motion is applied to the roots.
 	word_damage_button.mouse_entered.connect(func() -> void:
 		_on_card_hover_entered(card_root_word_damage)
 	)
+
 	word_damage_button.mouse_exited.connect(func() -> void:
 		_on_card_hover_exited(card_root_word_damage)
 	)
@@ -147,6 +213,7 @@ func _setup_card_animations() -> void:
 	special_damage_button.mouse_entered.connect(func() -> void:
 		_on_card_hover_entered(card_root_special_damage)
 	)
+
 	special_damage_button.mouse_exited.connect(func() -> void:
 		_on_card_hover_exited(card_root_special_damage)
 	)
@@ -154,6 +221,7 @@ func _setup_card_animations() -> void:
 	special_meter_button.mouse_entered.connect(func() -> void:
 		_on_card_hover_entered(card_root_special_meter)
 	)
+
 	special_meter_button.mouse_exited.connect(func() -> void:
 		_on_card_hover_exited(card_root_special_meter)
 	)
@@ -161,8 +229,123 @@ func _setup_card_animations() -> void:
 	gold_gain_button.mouse_entered.connect(func() -> void:
 		_on_card_hover_entered(card_root_gold_gain)
 	)
+
 	gold_gain_button.mouse_exited.connect(func() -> void:
 		_on_card_hover_exited(card_root_gold_gain)
+	)
+
+
+func _setup_button_hover_effects() -> void:
+	animated_buttons = [
+		repair_button,
+		build_mode_button,
+		next_wave_button,
+	]
+
+	for button in animated_buttons:
+		if button == null:
+			continue
+
+		button.pivot_offset = button.size * 0.5
+
+		button_base_scales[button] = button.scale
+		button_hovered[button] = false
+
+		button.mouse_entered.connect(func() -> void:
+			_on_button_hover_entered(button)
+		)
+
+		button.mouse_exited.connect(func() -> void:
+			_on_button_hover_exited(button)
+		)
+
+
+func _setup_next_wave_animation() -> void:
+	if next_wave_button == null:
+		return
+
+	next_wave_base_position = next_wave_button.position
+	next_wave_sway_speed = randf_range(1.2, 1.8)
+	next_wave_sway_phase = randf_range(0.0, TAU)
+
+
+func _update_button_scales(delta: float) -> void:
+	for button in animated_buttons:
+		if button == null or not is_instance_valid(button):
+			continue
+
+		var base_scale: Vector2 = button_base_scales.get(button, Vector2.ONE)
+
+		var target_scale: Vector2 = (
+			base_scale * BUTTON_HOVER_SCALE
+			if bool(button_hovered.get(button, false))
+			else base_scale
+		)
+
+		button.scale = button.scale.lerp(
+			target_scale,
+			clampf(BUTTON_SCALE_LERP_SPEED * delta, 0.0, 1.0)
+		)
+
+
+func _update_next_wave_motion(time_now: float) -> void:
+	if next_wave_button == null:
+		return
+
+	var bob_y: float = sin(
+		time_now * next_wave_sway_speed + next_wave_sway_phase
+	) * NEXT_WAVE_BOB_AMPLITUDE
+
+	var rot: float = sin(
+		time_now * next_wave_sway_speed * 0.8 + next_wave_sway_phase
+	) * NEXT_WAVE_ROTATION_AMPLITUDE
+
+	next_wave_button.position = next_wave_base_position + Vector2(0.0, bob_y)
+	next_wave_button.rotation = rot + next_wave_wiggle_offset
+
+
+func _on_button_hover_entered(button: Button) -> void:
+	if button == null:
+		return
+
+	button_hovered[button] = true
+
+	if button == next_wave_button:
+		_play_next_wave_wiggle_once()
+
+
+func _on_button_hover_exited(button: Button) -> void:
+	if button == null:
+		return
+
+	button_hovered[button] = false
+
+
+func _play_next_wave_wiggle_once() -> void:
+	if next_wave_button == null:
+		return
+
+	var tween := create_tween()
+
+	tween.tween_property(
+		self,
+		"next_wave_wiggle_offset",
+		NEXT_WAVE_WIGGLE_AMOUNT,
+		NEXT_WAVE_WIGGLE_TIME
+	)
+
+	tween.tween_property(
+		self,
+		"next_wave_wiggle_offset",
+		-NEXT_WAVE_WIGGLE_AMOUNT,
+		NEXT_WAVE_WIGGLE_TIME
+	)
+
+	tween.tween_property(
+		self,
+		"next_wave_wiggle_offset",
+		0.0,
+		NEXT_WAVE_WIGGLE_TIME
 	)
 
 
@@ -186,8 +369,8 @@ func _on_card_hover_exited(card_root: Control) -> void:
 
 
 func _update_ui() -> void:
-
 	repair_button.text = _build_repair_button_text()
+
 	word_damage_button.text = _build_upgrade_button_text("word_damage")
 	special_damage_button.text = _build_upgrade_button_text("special_damage")
 	special_meter_button.text = _build_upgrade_button_text("special_meter_gain")
@@ -211,6 +394,7 @@ func _build_repair_button_text() -> String:
 		return "Repair"
 
 	var def: Dictionary = current_upgrade_defs["repair_base"]
+
 	var value: int = int(def.get("value_per_level", 0))
 	var cost: int = int(_get_upgrade_cost("repair_base"))
 
@@ -222,6 +406,7 @@ func _build_upgrade_button_text(upgrade_id: String) -> String:
 		return upgrade_id
 
 	var def: Dictionary = current_upgrade_defs[upgrade_id]
+
 	var display_name: String = String(def.get("display_name", upgrade_id))
 	var level: int = int(_get_upgrade_level(upgrade_id))
 	var cost: int = int(_get_upgrade_cost(upgrade_id))
@@ -230,16 +415,27 @@ func _build_upgrade_button_text(upgrade_id: String) -> String:
 	if max_level >= 0 and level >= max_level:
 		return "%s Lv.%d\n(MAX)" % [display_name, level]
 
-	return "%s Lv.%d\n($%d)" % [display_name, level, cost]
+	return "%s Lv.%d\n($%d)" % [
+		display_name,
+		level,
+		cost
+	]
 
 
 func _build_description_text() -> String:
 	var base_hp: int = int(current_shop_state.get("base_hp", 0))
 	var base_hp_max: int = int(current_shop_state.get("base_hp_max", 0))
+
 	var word_damage: int = int(current_shop_state.get("word_damage", 0))
 	var special_damage: int = int(current_shop_state.get("special_damage", 0))
-	var special_gain: float = float(current_shop_state.get("special_meter_gain_per_word", 0.0))
-	var gold_multiplier: float = float(current_shop_state.get("gold_gain_multiplier", 1.0))
+
+	var special_gain: float = float(
+		current_shop_state.get("special_meter_gain_per_word", 0.0)
+	)
+
+	var gold_multiplier: float = float(
+		current_shop_state.get("gold_gain_multiplier", 1.0)
+	)
 
 	return "Base HP: %d / %d\nWord Damage: %d\nSpecial Damage: %d\nSpecial Charge/Word: %.1f\nGold Multiplier: x%.2f" % [
 		base_hp,
@@ -276,6 +472,7 @@ func _is_upgrade_disabled(upgrade_id: String) -> bool:
 		return true
 
 	var def: Dictionary = current_upgrade_defs[upgrade_id]
+
 	var level: int = _get_upgrade_level(upgrade_id)
 	var max_level: int = int(def.get("max_level", -1))
 

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c6ksaxpa8jd1r" path="res://assets/images/enemies/training_dummy/Training Dummy Sprite Sheet.png" id="1_f2dj3"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_n8k24"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="3_o0ccj"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/enemies/enemy_health_bar.tscn" id="5_5ilb8"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="6_euo34"]
 [ext_resource type="AudioStream" uid="uid://d24jf6dbia7jp" path="res://assets/sfx/enemies/cardboard box hit 4.wav" id="6_moyrj"]
 
@@ -288,6 +289,7 @@ unique_name_in_owner = true
 
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=2094866817]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 5.0
 offset_right = 21.0
@@ -306,6 +308,13 @@ position = Vector2(0, -97)
 [node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("3_o0ccj")]
 unique_name_in_owner = true
 position = Vector2(0, -78)
+
+[node name="EnemyHealthBar" parent="LabelRoot" unique_id=970504870 instance=ExtResource("5_5ilb8")]
+unique_name_in_owner = true
+offset_left = -30.0
+offset_top = -74.0
+offset_right = -30.0
+offset_bottom = -74.0
 
 [node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=2046593178]
 unique_name_in_owner = true

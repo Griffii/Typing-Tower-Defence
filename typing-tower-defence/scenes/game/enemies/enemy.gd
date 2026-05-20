@@ -21,6 +21,8 @@ const FLOATING_DAMAGE_NUMBER_SCENE: PackedScene = preload("uid://135vfqolfa2c")
 @onready var label_anchor: Marker2D = %LabelAnchor
 @onready var word_label_controller: WordLabelController = %WordLabelController
 @onready var hp_label: Label = %HpLabel
+@onready var enemy_health_bar: Control = %EnemyHealthBar
+
 
 var move_speed: float = 40.0
 var max_hp: int = 10
@@ -320,7 +322,15 @@ func _update_labels() -> void:
 		word_label_controller.set_targeted(is_targeted)
 
 	if hp_label != null:
-		hp_label.text = "%d / %d" % [current_hp, max_hp]
+		hp_label.visible = false
+
+	if enemy_health_bar != null:
+		enemy_health_bar.visible = true
+
+		if enemy_health_bar.has_method("set_hp"):
+			enemy_health_bar.set_hp(current_hp, max_hp)
+		elif enemy_health_bar.has_method("set_base_hp"):
+			enemy_health_bar.set_base_hp(current_hp, max_hp)
 
 
 func _apply_visuals() -> void:

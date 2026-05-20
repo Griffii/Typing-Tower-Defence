@@ -6,7 +6,7 @@ signal tower_finished_firing(slot_id: String)
 signal training_dummy_died(dummy: Node, marker_id: String)
 
 const DEFAULT_TOWER_SCENE: PackedScene = preload("uid://ciwqq06h6kavx")
-const ARROW_TOWER_SCENE: PackedScene = preload("uid://ciwqq06h6kavx")
+const MAGIC_TURRET_SCENE: PackedScene = preload("uid://ciwqq06h6kavx")
 
 
 @export var training_dummy_scene: PackedScene
@@ -95,6 +95,8 @@ func get_tower_slots() -> Array[Marker2D]:
 func get_allowed_tower_types() -> Array[String]:
 	return allowed_tower_types.duplicate()
 
+func get_allowed_tower_types_for_slot(_slot_id: String) -> Array[String]:
+	return get_allowed_tower_types()
 
 # ---------------------------
 # WORD SYSTEM
@@ -222,7 +224,7 @@ func _on_dummy_died(dummy: Node) -> void:
 
 
 func _respawn_after_delay(marker_id: String) -> void:
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(1.5).timeout
 
 	if not respawn_enabled:
 		return

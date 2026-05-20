@@ -27,6 +27,8 @@ var targets_in_range: Array[Node2D] = []
 
 var show_range_outline: bool = false
 var range_outline_rotation: float = 0.0
+var has_override_range: bool = false
+var override_range: float = 0.0
 
 
 func _ready() -> void:
@@ -69,7 +71,10 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 		damage = int(stats.get("damage", damage))
 		attack_interval = float(stats.get("attack_interval", attack_interval))
 		projectile_speed = float(stats.get("projectile_speed", projectile_speed))
-		tower_range = float(stats.get("range", tower_range))
+		if has_override_range:
+			tower_range = override_range
+		else:
+			tower_range = float(stats.get("range", tower_range))
 		targeting = str(stats.get("targeting", targeting))
 
 	_update_range_shapes()
@@ -80,6 +85,16 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 	attack_timer = randf_range(0.0, attack_interval)
 	set_process(damage > 0 and attack_interval > 0.0)
 
+
+func set_override_range(new_range: float) -> void:
+	has_override_range = true
+	override_range = new_range
+	tower_range = new_range
+
+	_update_range_shapes()
+
+	await get_tree().physics_frame
+	_refresh_targets_from_overlaps()
 
 func _process(delta: float) -> void:
 	if show_range_outline:

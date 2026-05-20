@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://btccmbpm1ktx8" path="res://assets/images/enemies/soldiers/weapon_01.png" id="3_aqtvf"]
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/enemies/soldiers/shield.png" id="4_bt7jr"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_vniek"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/enemies/enemy_health_bar.tscn" id="6_0klgf"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="6_4ddi5"]
 [ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_7qbyo"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_ci21b"]
@@ -551,16 +552,16 @@ texture = ExtResource("4_bt7jr")
 unique_name_in_owner = true
 position = Vector2(0, -15)
 
-[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=7679063]
+[node name="EnemyHealthBar" parent="LabelRoot" unique_id=970504870 instance=ExtResource("6_0klgf")]
 unique_name_in_owner = true
-position = Vector2(0, -60)
-
-[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("6_4ddi5")]
-unique_name_in_owner = true
-position = Vector2(0, -37)
+offset_left = -30.0
+offset_top = -35.0
+offset_right = -30.0
+offset_bottom = -35.0
 
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 35.0
 offset_right = 21.0
@@ -570,6 +571,14 @@ theme_override_constants/shadow_outline_size = 2
 theme_override_fonts/font = ExtResource("5_vniek")
 text = "10"
 horizontal_alignment = 1
+
+[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=7679063]
+unique_name_in_owner = true
+position = Vector2(0, -60)
+
+[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("6_4ddi5")]
+unique_name_in_owner = true
+position = Vector2(0, -37)
 
 [node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1599622870]
 unique_name_in_owner = true

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dpbsnukcgmcg2"]
 
-[ext_resource type="Script" uid="uid://dhrwinuv504i7" path="res://scenes/game/bases/enemy_health_bar.gd" id="1_itoen"]
+[ext_resource type="Script" uid="uid://bcuaycwxv7tbx" path="res://scenes/game/enemies/enemy_health_bar.gd" id="1_itoen"]
 [ext_resource type="Texture2D" uid="uid://b773rl4l64gyf" path="res://assets/images/menu/progress_white_border.png" id="2_0l1c8"]
 [ext_resource type="Texture2D" uid="uid://b1j8qmur8uhkh" path="res://assets/images/menu/progress_red_border.png" id="3_s26w6"]
 
@@ -30,14 +30,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = 60.0
-offset_top = -2.0
+offset_top = -1.0
 offset_right = 80.0
-offset_bottom = 118.0
+offset_bottom = 119.0
 grow_horizontal = 2
 grow_vertical = 0
 rotation = 1.5707964
-scale = Vector2(0.2, 0.5)
-value = 100.0
+scale = Vector2(0.1, 0.5)
+value = 50.0
 fill_mode = 3
 nine_patch_stretch = true
 stretch_margin_left = 6

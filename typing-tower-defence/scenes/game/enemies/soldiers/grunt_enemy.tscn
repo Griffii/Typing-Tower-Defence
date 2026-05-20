@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dhlutul7udy04" path="res://assets/images/enemies/soldiers/shield.png" id="4_jja6d"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_mi6ti"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="5_wysbr"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/enemies/enemy_health_bar.tscn" id="6_leqcb"]
 [ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_vbw0u"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_rr3is"]
 [ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="8_pd8my"]
@@ -548,16 +549,17 @@ texture = ExtResource("4_jja6d")
 [node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
 unique_name_in_owner = true
 
-[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=641645112]
+[node name="EnemyHealthBar" parent="LabelRoot" unique_id=970504870 instance=ExtResource("6_leqcb")]
 unique_name_in_owner = true
-position = Vector2(0, -56)
-
-[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("5_wysbr")]
-unique_name_in_owner = true
-position = Vector2(0, -33)
+offset_left = -24.0
+offset_top = -25.0
+offset_right = -24.0
+offset_bottom = -25.0
+scale = Vector2(0.8, 1)
 
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 21.0
 offset_right = 21.0
@@ -568,6 +570,14 @@ theme_override_fonts/font = ExtResource("5_mi6ti")
 text = "10"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="LabelAnchor" type="Marker2D" parent="LabelRoot" unique_id=641645112]
+unique_name_in_owner = true
+position = Vector2(0, -56)
+
+[node name="WordLabelController" parent="LabelRoot" unique_id=1934251699 instance=ExtResource("5_wysbr")]
+unique_name_in_owner = true
+position = Vector2(0, -33)
 
 [node name="attack-sfx" type="AudioStreamPlayer2D" parent="." unique_id=1599622870]
 unique_name_in_owner = true

@@ -488,3 +488,9 @@ func apply_tower_hit(target_enemy: Node, damage_amount: int) -> void:
 	if target_enemy.has_method("is_enemy_dead") and target_enemy.is_enemy_dead():
 		if not was_dead_before:
 			_award_enemy_kill_rewards(target_enemy)
+
+
+func clear_all_towers() -> void:
+	tower_levels.clear()
+	tower_types.clear()
+	tower_state_changed.emit()

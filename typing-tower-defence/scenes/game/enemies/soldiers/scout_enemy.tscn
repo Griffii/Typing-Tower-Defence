@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="5_8g6i5"]
 [ext_resource type="PackedScene" uid="uid://5ncf4s20mxcj" path="res://scenes/game/ui/word_label_controller.tscn" id="6_fpbj4"]
 [ext_resource type="AudioStream" uid="uid://d1c1qptlmsujv" path="res://assets/sfx/enemies/sword_attack.ogg" id="6_u4ii5"]
+[ext_resource type="PackedScene" uid="uid://dpbsnukcgmcg2" path="res://scenes/game/enemies/enemy_health_bar.tscn" id="7_e4und"]
 [ext_resource type="AudioStream" uid="uid://cj0a4f0d843dj" path="res://assets/sfx/enemies/soldier_impact.ogg" id="7_s8oqu"]
 [ext_resource type="AudioStream" uid="uid://cxto2jug3865u" path="res://assets/sfx/enemies/soldier_oof.ogg" id="8_vfbyj"]
 
@@ -549,8 +550,17 @@ texture = ExtResource("4_1aatg")
 [node name="LabelRoot" type="Node2D" parent="." unique_id=258776368]
 unique_name_in_owner = true
 
+[node name="EnemyHealthBar" parent="LabelRoot" unique_id=970504870 instance=ExtResource("7_e4und")]
+unique_name_in_owner = true
+offset_left = -18.0
+offset_top = -20.0
+offset_right = -18.0
+offset_bottom = -20.0
+scale = Vector2(0.6, 1)
+
 [node name="HpLabel" type="Label" parent="LabelRoot" unique_id=372582553]
 unique_name_in_owner = true
+visible = false
 offset_left = -21.0
 offset_top = 21.0
 offset_right = 21.0

@@ -79,8 +79,7 @@ func get_tower_slots() -> Array[Marker2D]:
 	for child in tower_container.get_children():
 		if child is Marker2D:
 			result.append(child)
-
-	print("[BattlefieldLevel] get_tower_slots found: ", result.size())
+	
 	return result
 
 
@@ -175,7 +174,5 @@ func get_tower_scene_for_slot(slot_id: String, _level: int, combat_manager: Node
 
 		if scene != null:
 			return scene
-
-		print("[BattlefieldLevel] TowerDefinitions missing scene for tower_type: ", tower_type, " slot: ", slot_id)
 
 	return DEFAULT_TOWER_SCENE

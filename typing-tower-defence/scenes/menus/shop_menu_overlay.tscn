@@ -109,6 +109,7 @@ texture_margin_left = 8.0
 texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
+region_rect = Rect2(0, -2, 45, 47)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fs08"]
 texture = ExtResource("10_cq8vo")
@@ -116,6 +117,7 @@ texture_margin_left = 8.0
 texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
+region_rect = Rect2(0, 0, 45, 49)
 modulate_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2vps7"]
@@ -128,8 +130,212 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vb143"]
 
+[sub_resource type="Animation" id="Animation_2uuwv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoldTracker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(788, 452)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BottomButtonRow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(24, 480)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DescriptionLabel:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(14, 328)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardsContainer:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("NextWaveButton:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(727, 202)]
+}
+
+[sub_resource type="Animation" id="Animation_yr2xu"]
+resource_name = "close_menu"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BottomButtonRow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(24, 480), Vector2(24, 562)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DescriptionLabel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(14, 328), Vector2(-155, 328)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NextWaveButton:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(727, 202), Vector2(1020, 202)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardsContainer:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 178)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GoldTracker:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(788, 452), Vector2(991, 452)]
+}
+
+[sub_resource type="Animation" id="Animation_h403f"]
+resource_name = "open_menu"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoldTracker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(976, 452), Vector2(788, 452)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BottomButtonRow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(24, 568), Vector2(24, 480)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DescriptionLabel:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-160, 328), Vector2(14, 328)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardsContainer:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 185), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("NextWaveButton:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(971, 202), Vector2(727, 202)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yr2xu"]
+_data = {
+&"RESET": SubResource("Animation_2uuwv"),
+&"close_menu": SubResource("Animation_yr2xu"),
+&"open_menu": SubResource("Animation_h403f")
+}
+
 [node name="ShopOverlay" type="CanvasLayer" unique_id=2140083217]
 script = ExtResource("1_ho8j0")
+
+[node name="CardHoverSfx" type="AudioStreamPlayer2D" parent="." unique_id=518790465]
+unique_name_in_owner = true
+stream = ExtResource("12_styg8")
 
 [node name="TitleLabel" type="Label" parent="." unique_id=2096681193]
 unique_name_in_owner = true
@@ -147,17 +353,37 @@ theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxTexture_kmlj4")
 text = "Shop"
 
-[node name="CardRoot_WordDamage" type="Control" parent="." unique_id=1415568419]
+[node name="CardsContainer" type="Node2D" parent="." unique_id=1231695697]
+
+[node name="UpgradeCardsHBox - For Repositioning" type="HBoxContainer" parent="CardsContainer" unique_id=1618639219]
+custom_minimum_size = Vector2(0, 150)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 312.0
+offset_top = 386.0
+offset_right = 648.0
+offset_bottom = 536.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = -30
+alignment = 1
+
+[node name="CardRoot_WordDamage" type="Control" parent="CardsContainer" unique_id=1415568419]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 265.0
-offset_top = 386.0
+offset_top = 398.0
 offset_right = 395.0
-offset_bottom = 536.0
+offset_bottom = 548.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_WordDamage" unique_id=1736794971]
+[node name="CardTexture" type="Panel" parent="CardsContainer/CardRoot_WordDamage" unique_id=1736794971]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -166,7 +392,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="WordDamageButton" type="Button" parent="CardRoot_WordDamage" unique_id=1165688287]
+[node name="WordDamageButton" type="Button" parent="CardsContainer/CardRoot_WordDamage" unique_id=1165688287]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
@@ -190,17 +416,17 @@ text = "+ Word
 Damage"
 autowrap_mode = 3
 
-[node name="CardRoot_SpecialDamage" type="Control" parent="." unique_id=2145547706]
+[node name="CardRoot_SpecialDamage" type="Control" parent="CardsContainer" unique_id=2145547706]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 365.0
-offset_top = 386.0
+offset_top = 398.0
 offset_right = 495.0
-offset_bottom = 536.0
+offset_bottom = 548.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_SpecialDamage" unique_id=1352035571]
+[node name="CardTexture" type="Panel" parent="CardsContainer/CardRoot_SpecialDamage" unique_id=1352035571]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -209,7 +435,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="SpecialDamageButton" type="Button" parent="CardRoot_SpecialDamage" unique_id=1953137594]
+[node name="SpecialDamageButton" type="Button" parent="CardsContainer/CardRoot_SpecialDamage" unique_id=1953137594]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
@@ -229,17 +455,17 @@ text = "+ Arrow
 Damage"
 autowrap_mode = 3
 
-[node name="CardRoot_SpecialMeter" type="Control" parent="." unique_id=1685981917]
+[node name="CardRoot_SpecialMeter" type="Control" parent="CardsContainer" unique_id=1685981917]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 465.0
-offset_top = 386.0
+offset_top = 398.0
 offset_right = 595.0
-offset_bottom = 536.0
+offset_bottom = 548.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_SpecialMeter" unique_id=300445654]
+[node name="CardTexture" type="Panel" parent="CardsContainer/CardRoot_SpecialMeter" unique_id=300445654]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -248,7 +474,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="SpecialMeterButton" type="Button" parent="CardRoot_SpecialMeter" unique_id=1355266849]
+[node name="SpecialMeterButton" type="Button" parent="CardsContainer/CardRoot_SpecialMeter" unique_id=1355266849]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
@@ -268,17 +494,17 @@ text = "+ Arrow
 Meter"
 autowrap_mode = 3
 
-[node name="CardRoot_GoldGain" type="Control" parent="." unique_id=915635299]
+[node name="CardRoot_GoldGain" type="Control" parent="CardsContainer" unique_id=915635299]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 565.0
-offset_top = 386.0
+offset_top = 398.0
 offset_right = 695.0
-offset_bottom = 536.0
+offset_bottom = 548.0
 
-[node name="CardTexture" type="Panel" parent="CardRoot_GoldGain" unique_id=1635097887]
+[node name="CardTexture" type="Panel" parent="CardsContainer/CardRoot_GoldGain" unique_id=1635097887]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -287,7 +513,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bahfu")
 
-[node name="GoldGainButton" type="Button" parent="CardRoot_GoldGain" unique_id=1278282630]
+[node name="GoldGainButton" type="Button" parent="CardsContainer/CardRoot_GoldGain" unique_id=1278282630]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 150)
 layout_mode = 1
@@ -313,24 +539,6 @@ offset_top = 452.0
 offset_right = 788.0
 offset_bottom = 452.0
 
-[node name="UpgradeCardsHBox - For Repositioning" type="HBoxContainer" parent="." unique_id=1618639219]
-custom_minimum_size = Vector2(0, 150)
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -168.0
-offset_top = -64.0
-offset_right = 168.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 8
-mouse_filter = 2
-theme_override_constants/separation = -30
-alignment = 1
-
 [node name="DescriptionLabel" type="Label" parent="." unique_id=1762160267]
 unique_name_in_owner = true
 offset_left = 14.0
@@ -354,7 +562,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 80)
 offset_left = 727.0
 offset_top = 202.0
-offset_right = 947.0
+offset_right = 947.0034
 offset_bottom = 282.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -377,7 +585,7 @@ expand_icon = true
 offset_left = 24.0
 offset_top = 480.0
 offset_right = 936.0
-offset_bottom = 530.0
+offset_bottom = 530.00006
 size_flags_vertical = 8
 theme_override_constants/separation = 600
 alignment = 1
@@ -424,6 +632,6 @@ text = "Build"
 icon = ExtResource("13_yr2xu")
 expand_icon = true
 
-[node name="CardHoverSfx" type="AudioStreamPlayer2D" parent="." unique_id=518790465]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1718268007]
 unique_name_in_owner = true
-stream = ExtResource("12_styg8")
+libraries/ = SubResource("AnimationLibrary_yr2xu")

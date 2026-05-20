@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_c1bcm"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_ynrey"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0hkp"]
+bg_color = Color(0, 0, 0, 0.39215687)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rgwd3"]
 texture = ExtResource("2_l8ubc")
 texture_margin_left = 15.0
@@ -83,23 +86,194 @@ modulate_color = Color(1, 1, 1, 0.5882353)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0g41r"]
 
+[sub_resource type="Animation" id="Animation_n0hkp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dimmer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(305, 45)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BackButton:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_l8ubc"]
+resource_name = "close_menu"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dimmer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 0.6, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(305, 45), Vector2(305, 37), Vector2(305, 45), Vector2(305, 559)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BackButton:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hide_buttons"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_pmu7m"]
+resource_name = "open_menu"
+length = 0.8
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dimmer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(305, 572), Vector2(305, 45), Vector2(305, 30), Vector2(305, 45)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BackButton:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.45, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"show_buttons"
+}, {
+"args": [],
+"method": &"enable_menu_buttons"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dwxbi"]
+_data = {
+&"RESET": SubResource("Animation_n0hkp"),
+&"close_menu": SubResource("Animation_l8ubc"),
+&"open_menu": SubResource("Animation_pmu7m")
+}
+
 [node name="GameMenuOverlay" type="CanvasLayer" unique_id=1547500714]
 script = ExtResource("1_aj1up")
 
-[node name="Dimmer" type="ColorRect" parent="." unique_id=1648877238]
+[node name="Dimmer" type="Button" parent="." unique_id=1855557162]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.1148968, 0.11489681, 0.1148968, 0.21568628)
+theme_override_styles/normal = SubResource("StyleBoxFlat_n0hkp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n0hkp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n0hkp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_n0hkp")
+theme_override_styles/focus = SubResource("StyleBoxFlat_n0hkp")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1270002490]
-custom_minimum_size = Vector2(700, 500)
-offset_left = 130.0
-offset_top = 20.0
-offset_right = 830.0
-offset_bottom = 520.0
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 450)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -225.0
+offset_right = 175.0
+offset_bottom = 225.00024
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_rgwd3")
 
 [node name="Margin" type="MarginContainer" parent="Panel" unique_id=262327052]
@@ -173,11 +347,14 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_hymvl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_v63te")
 text = "View Word Lists"
 
-[node name="BackButton" type="Button" parent="Panel/Margin" unique_id=605056298]
+[node name="BackButton" type="Button" parent="." unique_id=605056298]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(70, 40)
-layout_mode = 2
+offset_left = 276.0
+offset_top = 35.0
+offset_right = 346.0
+offset_bottom = 75.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_default_cursor_shape = 2
@@ -192,3 +369,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_dwxbi")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_t8ffp")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_0g41r")
 text = "Back"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1231895697]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_dwxbi")

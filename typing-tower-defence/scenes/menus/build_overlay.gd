@@ -8,12 +8,21 @@ const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 const TOWER_BUILD_LOCATION_NODE_SCENE: PackedScene = preload("res://scenes/game/towers/tower_build_location_node.tscn")
 const TOWER_CARD_SCENE: PackedScene = preload("res://scenes/game/towers/tower_card.tscn")
 
+@export var card_move_to_marker_time: float = 0.42
+@export var card_return_to_holder_time: float = 0.34
+
+var _selected_card_node: Control = null
+var _is_closing: bool = false
+
 @onready var return_button: Button = %ReturnToShopButton
 @onready var slot_node_container: Node2D = %SlotNodeContainer
 
 @onready var tower_card_container: HBoxContainer = %TowerCardContainer
 @onready var selected_card_holder: Control = %SelectedCardHolder
 @onready var selected_card_marker: Marker2D = %SelectedCardMarker
+
+@onready var card_swipe_sfx: AudioStreamPlayer2D = %CardSwipeSfx
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var _current_level: Node = null
 
@@ -22,8 +31,6 @@ var _slot_nodes: Dictionary = {}
 
 var _tower_card_nodes: Dictionary = {}
 var _card_original_indices: Dictionary = {}
-
-var _selected_card_node: Control = null
 
 var _current_build_state: Dictionary = {}
 var _current_gold: int = 0
@@ -54,6 +61,9 @@ func show_overlay(build_state: Dictionary) -> void:
 	visible = true
 	set_process(true)
 
+	if animation_player != null and animation_player.has_animation("open_menu"):
+		animation_player.play("open_menu")
+
 	if slot_node_container != null:
 		slot_node_container.visible = true
 
@@ -69,6 +79,15 @@ func show_overlay(build_state: Dictionary) -> void:
 
 
 func hide_overlay() -> void:
+	if _is_closing:
+		return
+
+	_is_closing = true
+
+	if animation_player != null and animation_player.has_animation("close_menu"):
+		animation_player.play("close_menu")
+		await animation_player.animation_finished
+
 	if _selected_card_node != null and is_instance_valid(_selected_card_node):
 		_return_card_to_hbox(_selected_card_node)
 
@@ -77,6 +96,7 @@ func hide_overlay() -> void:
 
 	_selected_tower_type = ""
 	_selected_card_node = null
+	_is_closing = false
 
 	_refresh_build_location_states()
 
@@ -122,7 +142,6 @@ func _rebuild_slot_nodes() -> void:
 
 		if slot_node is CanvasItem:
 			(slot_node as CanvasItem).visible = true
-
 
 		if slot_node.has_method("setup_slot"):
 			slot_node.setup_slot(slot_id)
@@ -269,29 +288,38 @@ func _world_to_screen(world_position: Vector2) -> Vector2:
 
 
 func _on_tower_card_selected(tower_type: String) -> void:
+	if _is_closing:
+		return
+
 	if not _allowed_tower_types.has(tower_type):
 		return
 
 	if not TowerDefinitions.has_tower_type(tower_type):
 		return
 
+	var clicked_card: Control = _tower_card_nodes.get(tower_type, null) as Control
+	if clicked_card == null or not is_instance_valid(clicked_card):
+		return
+
+	# Clicking the selected card deselects it and sends it back.
 	if _selected_tower_type == tower_type:
-		_deselect_current_card()
+		_selected_tower_type = ""
+		_selected_card_node = null
+
+		_return_card_to_hbox(clicked_card)
+		_refresh_build_location_states()
 		return
 
-	var new_card: Control = _tower_card_nodes.get(tower_type, null) as Control
-
-	if new_card == null or not is_instance_valid(new_card):
-		return
-
-	if _selected_card_node != null and is_instance_valid(_selected_card_node):
-		_return_card_to_hbox(_selected_card_node)
+	# Clicking a different card swaps selection.
+	var previous_card: Control = _selected_card_node
 
 	_selected_tower_type = tower_type
-	_selected_card_node = new_card
+	_selected_card_node = clicked_card
 
-	_move_card_to_selected_marker(new_card)
+	if previous_card != null and is_instance_valid(previous_card):
+		_return_card_to_hbox(previous_card)
 
+	_move_card_to_selected_marker(clicked_card)
 	_refresh_build_location_states()
 
 
@@ -314,6 +342,9 @@ func _move_card_to_selected_marker(card: Control) -> void:
 
 	_kill_card_tween(card)
 
+	if card_swipe_sfx != null:
+		card_swipe_sfx.play()
+
 	var global_start: Vector2 = card.global_position
 
 	if card.get_parent() != selected_card_holder:
@@ -322,17 +353,15 @@ func _move_card_to_selected_marker(card: Control) -> void:
 
 	card.global_position = global_start
 
-
 	var target_global_position: Vector2 = selected_card_marker.global_position
 
 	var tween := create_tween()
-
 	tween.tween_property(
 		card,
 		"global_position",
 		target_global_position,
-		0.22
-	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		card_move_to_marker_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	card.set_meta("move_tween", tween)
 
@@ -342,6 +371,9 @@ func _return_card_to_hbox(card: Control) -> void:
 		return
 
 	_kill_card_tween(card)
+
+	if card_swipe_sfx != null:
+		card_swipe_sfx.play()
 
 	var global_start: Vector2 = card.global_position
 	var tower_type: String = ""
@@ -366,20 +398,28 @@ func _return_card_to_hbox(card: Control) -> void:
 
 	card.global_position = global_start
 
+	call_deferred("_tween_card_back_to_hbox_position", card, global_start)
+
+
+func _tween_card_back_to_hbox_position(card: Control, global_start: Vector2) -> void:
+	if card == null or not is_instance_valid(card):
+		return
+
 	await get_tree().process_frame
 
-	var target_global_position: Vector2 = card.global_position
+	if card == null or not is_instance_valid(card):
+		return
 
+	var target_global_position: Vector2 = card.global_position
 	card.global_position = global_start
 
 	var tween := create_tween()
-
 	tween.tween_property(
 		card,
 		"global_position",
 		target_global_position,
-		0.18
-	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		card_return_to_holder_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	card.set_meta("move_tween", tween)
 
@@ -422,3 +462,11 @@ func _on_build_location_pressed(slot_id: String) -> void:
 
 func _on_return_pressed() -> void:
 	return_to_shop_requested.emit()
+
+
+func set_return_to_shop_button_visible(enabled: bool) -> void:
+	if return_button == null:
+		return
+
+	return_button.visible = enabled
+	return_button.disabled = not enabled

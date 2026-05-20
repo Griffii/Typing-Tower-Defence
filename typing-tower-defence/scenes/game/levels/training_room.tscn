@@ -3041,4 +3041,4 @@ position = Vector2(765, 458)
 unique_name_in_owner = true
 
 [node name="slot_01" type="Marker2D" parent="TowerContainer" unique_id=562766943]
-position = Vector2(421, 350)
+position = Vector2(416, 334)

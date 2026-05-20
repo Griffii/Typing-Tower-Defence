@@ -144,18 +144,24 @@ func _fire_chain_lightning_sequence(first_target: Node2D) -> void:
 	if shoot_sfx != null:
 		shoot_sfx.play()
 
-
 	if animation_player != null and animation_player.has_animation("shoot"):
 		animation_player.play("shoot")
+
 		while animation_player.is_playing():
 			await get_tree().process_frame
 
+			if not is_instance_valid(self):
+				return
+
 	var attacked_enemy_ids: Dictionary = {}
-	var current_target: Node2D = first_target
+	var current_target = first_target
 	var current_origin: Vector2 = _get_fire_origin()
 	var hits_done: int = 0
 
-	while hits_done < max_chain_targets and _is_valid_enemy(current_target):
+	while hits_done < max_chain_targets:
+		if not _is_valid_enemy(current_target):
+			break
+
 		var current_enemy_id: int = current_target.get_instance_id()
 		attacked_enemy_ids[current_enemy_id] = true
 
@@ -163,7 +169,8 @@ func _fire_chain_lightning_sequence(first_target: Node2D) -> void:
 
 		_spawn_lightning_projectile_on_enemy(current_target)
 
-		_apply_chain_damage(current_target)
+		if _is_valid_enemy(current_target):
+			_apply_chain_damage(current_target)
 
 		hits_done += 1
 		current_origin = hit_position
@@ -174,6 +181,9 @@ func _fire_chain_lightning_sequence(first_target: Node2D) -> void:
 		if chain_hit_delay > 0.0:
 			await get_tree().create_timer(chain_hit_delay).timeout
 
+			if not is_instance_valid(self):
+				return
+
 		current_target = _find_next_chain_target_from_position(
 			current_origin,
 			attacked_enemy_ids
@@ -183,7 +193,7 @@ func _fire_chain_lightning_sequence(first_target: Node2D) -> void:
 	attack_timer = attack_interval
 
 
-func _spawn_lightning_projectile_on_enemy(target: Node2D) -> void:
+func _spawn_lightning_projectile_on_enemy(target) -> void:
 	if projectile_container == null:
 		return
 
@@ -201,7 +211,7 @@ func _spawn_lightning_projectile_on_enemy(target: Node2D) -> void:
 		projectile.fire(target.global_position, target)
 
 
-func _apply_chain_damage(target: Node2D) -> void:
+func _apply_chain_damage(target) -> void:
 	if not _is_valid_enemy(target):
 		return
 
@@ -269,8 +279,11 @@ func _get_fire_origin() -> Vector2:
 	return global_position
 
 
-func _is_valid_enemy(enemy: Node) -> bool:
-	if enemy == null or not is_instance_valid(enemy):
+func _is_valid_enemy(enemy) -> bool:
+	if enemy == null:
+		return false
+
+	if not is_instance_valid(enemy):
 		return false
 
 	if not enemy is Node2D:

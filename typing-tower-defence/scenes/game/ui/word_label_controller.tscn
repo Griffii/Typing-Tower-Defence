@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://5ncf4s20mxcj"]
 
-[ext_resource type="Texture2D" uid="uid://6lcwpgiafsmk" path="res://assets/images/menu/card_01.png" id="1_e8k45"]
 [ext_resource type="Script" uid="uid://purswh8c7cwf" path="res://scenes/game/ui/word_label_controller.gd" id="1_l30uu"]
+[ext_resource type="Texture2D" uid="uid://b4gflo6a5qish" path="res://assets/cute_fantasy_assets/ui/UI_Pop_Up.png" id="2_7xheh"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_l30uu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l30uu"]
-size = Vector2(71, 45)
+size = Vector2(73, 44)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e8k45"]
-texture = ExtResource("1_e8k45")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
-region_rect = Rect2(8, 0, 48, 64)
+texture = ExtResource("2_7xheh")
+texture_margin_left = 6.0
+texture_margin_top = 5.0
+texture_margin_right = 14.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(61, 13, 22, 26)
 
 [node name="WordLabelController" type="Node2D" unique_id=1934251699]
 z_index = 1
@@ -29,7 +29,7 @@ safe_margin = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LabelBody" unique_id=174962011]
 unique_name_in_owner = true
-position = Vector2(35.5, 25.5)
+position = Vector2(34.5, 25)
 shape = SubResource("RectangleShape2D_l30uu")
 
 [node name="LabelUI" type="Control" parent="LabelBody" unique_id=1203742195]
