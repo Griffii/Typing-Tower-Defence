@@ -95,139 +95,103 @@ modulate_color = Color(1, 1, 1, 0.5882353)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12o2h"]
 
-[sub_resource type="Animation" id="Animation_abyik"]
+[sub_resource type="Animation" id="Animation_f4ify"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BookBG:position")
+tracks/0/path = NodePath("BookContainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(30, 20)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ContentsContainer:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_y2081"]
-resource_name = "clsoe_menu"
-length = 0.6
-step = 0.1
+[sub_resource type="Animation" id="Animation_a8hkd"]
+resource_name = "close_menu"
+length = 0.5
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ContentsContainer:modulate")
+tracks/0/path = NodePath("close_sfx:playing")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("BookBG:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(30, 20), Vector2(30, 542)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("close_sfx:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0), Vector2(0, 540)]
+}
 
-[sub_resource type="Animation" id="Animation_ywiuc"]
+[sub_resource type="Animation" id="Animation_0k1ti"]
 resource_name = "open_menu"
 length = 0.5
-step = 0.1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BookBG:position")
+tracks/0/path = NodePath("open_sfx:playing")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(30, 548), Vector2(30, 20)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ContentsContainer:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("open_sfx:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.35, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 540), Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_e43iu"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_12o2h"]
 _data = {
-&"RESET": SubResource("Animation_abyik"),
-&"close_menu": SubResource("Animation_y2081"),
-&"open_menu": SubResource("Animation_ywiuc")
+&"RESET": SubResource("Animation_f4ify"),
+&"close_menu": SubResource("Animation_a8hkd"),
+&"open_menu": SubResource("Animation_0k1ti")
 }
 
 [node name="WordListMenu" type="CanvasLayer" unique_id=156764392]
 layer = 3
 script = ExtResource("1_b3dts")
 
-[node name="BookBG" type="Panel" parent="." unique_id=1135784519]
+[node name="BookContainer" type="Node2D" parent="." unique_id=1453254054]
+
+[node name="BookBG" type="Panel" parent="BookContainer" unique_id=1135784519]
 custom_minimum_size = Vector2(900, 500)
 offset_left = 30.0
 offset_top = 20.0
 offset_right = 930.0
-offset_bottom = 520.0018
+offset_bottom = 520.00195
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxTexture_e43iu")
 
-[node name="ContentsContainer" type="Node2D" parent="." unique_id=1453254054]
-
-[node name="LeftPanel" type="MarginContainer" parent="ContentsContainer" unique_id=2054015635]
+[node name="LeftPanel" type="MarginContainer" parent="BookContainer" unique_id=2054015635]
 custom_minimum_size = Vector2(380, 400)
 offset_left = 69.0
 offset_top = 52.0
@@ -236,20 +200,20 @@ offset_bottom = 466.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ContentsContainer/LeftPanel" unique_id=846759140]
+[node name="VBoxContainer" type="VBoxContainer" parent="BookContainer/LeftPanel" unique_id=846759140]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="DetailPanel" type="PanelContainer" parent="ContentsContainer/LeftPanel/VBoxContainer" unique_id=1592921599]
+[node name="DetailPanel" type="PanelContainer" parent="BookContainer/LeftPanel/VBoxContainer" unique_id=1592921599]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("3_66g60")
 
-[node name="TitleLabel" type="Label" parent="ContentsContainer/LeftPanel/VBoxContainer/DetailPanel" unique_id=1879615661]
+[node name="TitleLabel" type="Label" parent="BookContainer/LeftPanel/VBoxContainer/DetailPanel" unique_id=1879615661]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("2_nu840")
@@ -257,18 +221,18 @@ theme_override_font_sizes/font_size = 24
 text = "Word Lists"
 horizontal_alignment = 1
 
-[node name="ScrollPanel" type="PanelContainer" parent="ContentsContainer/LeftPanel/VBoxContainer" unique_id=1747699585]
+[node name="ScrollPanel" type="PanelContainer" parent="BookContainer/LeftPanel/VBoxContainer" unique_id=1747699585]
 custom_minimum_size = Vector2(370, 320)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mf367")
 
-[node name="WordListScroll" type="ScrollContainer" parent="ContentsContainer/LeftPanel/VBoxContainer/ScrollPanel" unique_id=1935253958]
+[node name="WordListScroll" type="ScrollContainer" parent="BookContainer/LeftPanel/VBoxContainer/ScrollPanel" unique_id=1935253958]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ContentsContainer/LeftPanel/VBoxContainer/ScrollPanel/WordListScroll" unique_id=1166404229]
+[node name="MarginContainer" type="MarginContainer" parent="BookContainer/LeftPanel/VBoxContainer/ScrollPanel/WordListScroll" unique_id=1166404229]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -277,18 +241,18 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="WordListGrid" type="GridContainer" parent="ContentsContainer/LeftPanel/VBoxContainer/ScrollPanel/WordListScroll/MarginContainer" unique_id=1436342821]
+[node name="WordListGrid" type="GridContainer" parent="BookContainer/LeftPanel/VBoxContainer/ScrollPanel/WordListScroll/MarginContainer" unique_id=1436342821]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 columns = 4
 
-[node name="WordListControlsContainer" type="HBoxContainer" parent="ContentsContainer/LeftPanel/VBoxContainer" unique_id=201423174]
+[node name="WordListControlsContainer" type="HBoxContainer" parent="BookContainer/LeftPanel/VBoxContainer" unique_id=201423174]
 layout_mode = 2
 alignment = 1
 
-[node name="AddNewWordListButton" type="Button" parent="ContentsContainer/LeftPanel/VBoxContainer/WordListControlsContainer" unique_id=1988582981]
+[node name="AddNewWordListButton" type="Button" parent="BookContainer/LeftPanel/VBoxContainer/WordListControlsContainer" unique_id=1988582981]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -305,7 +269,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_y2081")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ywiuc")
 text = "Add New Word List"
 
-[node name="RightPanel" type="MarginContainer" parent="ContentsContainer" unique_id=1513627780]
+[node name="RightPanel" type="MarginContainer" parent="BookContainer" unique_id=1513627780]
 custom_minimum_size = Vector2(380, 400)
 offset_left = 514.0
 offset_top = 44.0
@@ -316,23 +280,23 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ContentsContainer/RightPanel" unique_id=1837152635]
+[node name="VBoxContainer" type="VBoxContainer" parent="BookContainer/RightPanel" unique_id=1837152635]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="DetailPanel" type="PanelContainer" parent="ContentsContainer/RightPanel/VBoxContainer" unique_id=991561221]
+[node name="DetailPanel" type="PanelContainer" parent="BookContainer/RightPanel/VBoxContainer" unique_id=991561221]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxTexture_ugody")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ContentsContainer/RightPanel/VBoxContainer/DetailPanel" unique_id=317157645]
+[node name="HBoxContainer" type="HBoxContainer" parent="BookContainer/RightPanel/VBoxContainer/DetailPanel" unique_id=317157645]
 layout_mode = 2
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="DetailNameLabel" type="Label" parent="ContentsContainer/RightPanel/VBoxContainer/DetailPanel/HBoxContainer" unique_id=252109149]
+[node name="DetailNameLabel" type="Label" parent="BookContainer/RightPanel/VBoxContainer/DetailPanel/HBoxContainer" unique_id=252109149]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1584723, 0.15847233, 0.15847224, 1)
@@ -340,7 +304,7 @@ theme_override_fonts/font = ExtResource("2_nu840")
 theme_override_font_sizes/font_size = 24
 text = "Detail Name"
 
-[node name="DetailCountLabel" type="Label" parent="ContentsContainer/RightPanel/VBoxContainer/DetailPanel/HBoxContainer" unique_id=1286602175]
+[node name="DetailCountLabel" type="Label" parent="BookContainer/RightPanel/VBoxContainer/DetailPanel/HBoxContainer" unique_id=1286602175]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -349,7 +313,7 @@ theme_override_fonts/font = ExtResource("3_q3mnh")
 text = "Detail Count"
 horizontal_alignment = 2
 
-[node name="DetailWordsText" type="RichTextLabel" parent="ContentsContainer/RightPanel/VBoxContainer" unique_id=802963524]
+[node name="DetailWordsText" type="RichTextLabel" parent="BookContainer/RightPanel/VBoxContainer" unique_id=802963524]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(370, 320)
 layout_mode = 2
@@ -362,7 +326,7 @@ text = "Words"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DeleteListButton" type="Button" parent="ContentsContainer/RightPanel/VBoxContainer" unique_id=672331425]
+[node name="DeleteListButton" type="Button" parent="BookContainer/RightPanel/VBoxContainer" unique_id=672331425]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -379,7 +343,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_y2081")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ywiuc")
 text = "Delete List"
 
-[node name="BackButton" type="Button" parent="ContentsContainer" unique_id=244711756]
+[node name="BackButton" type="Button" parent="BookContainer" unique_id=244711756]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(70, 40)
@@ -413,9 +377,9 @@ text = "Back"
 unique_name_in_owner = true
 visible = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=930946561]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1435943533]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_e43iu")
+libraries/ = SubResource("AnimationLibrary_12o2h")
 
 [node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=989231342]
 stream = ExtResource("10_12o2h")

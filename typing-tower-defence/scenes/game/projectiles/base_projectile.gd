@@ -99,6 +99,9 @@ func _apply_area_effects() -> void:
 		return
 
 	for enemy: Node in get_tree().get_nodes_in_group(enemy_group_name):
+		if enemy == target_enemy:
+			continue
+
 		if not _is_valid_enemy_in_area(enemy, aoe_radius):
 			continue
 

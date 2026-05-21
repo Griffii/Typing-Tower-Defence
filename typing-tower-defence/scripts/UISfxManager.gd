@@ -3,8 +3,12 @@ extends Node
 @onready var hover_player: AudioStreamPlayer = AudioStreamPlayer.new()
 @onready var click_player: AudioStreamPlayer = AudioStreamPlayer.new()
 
-var hover_sound: AudioStream = preload("res://assets/sfx/menus/hover-sfx.ogg")
-var click_sound: AudioStream = preload("res://assets/sfx/menus/click-sfx.ogg")
+var hover_sound: AudioStream = preload("res://assets/sfx/menus/click-sfx.ogg")
+var click_sound: AudioStream = preload("uid://d21dtkxbcw5qs")
+
+const HOVER_VOLUME_DB: float = 0.0
+const CLICK_VOLUME_DB: float = -4.0
+
 
 func _ready():
 	add_child(hover_player)
@@ -12,6 +16,9 @@ func _ready():
 
 	hover_player.stream = hover_sound
 	click_player.stream = click_sound
+
+	hover_player.volume_db = HOVER_VOLUME_DB
+	click_player.volume_db = CLICK_VOLUME_DB
 
 	# Hook existing UI
 	_connect_buttons(get_tree().root)
@@ -29,6 +36,7 @@ func _connect_buttons(root: Node) -> void:
 	for node in root.get_children():
 		if node is BaseButton:
 			_connect_button(node)
+
 		_connect_buttons(node)
 
 

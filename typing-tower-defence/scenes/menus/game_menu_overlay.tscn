@@ -2,22 +2,30 @@
 
 [ext_resource type="Script" uid="uid://cjl8i2wp56gfh" path="res://scenes/menus/game_menu_overlay.gd" id="1_aj1up"]
 [ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_l8ubc"]
+[ext_resource type="Texture2D" uid="uid://brdf40xlbra6f" path="res://assets/cute_fantasy_assets/ui/Book_UI.png" id="2_tdo6r"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_t26sy"]
+[ext_resource type="FontFile" uid="uid://ds1n8n0fogrlw" path="res://assets/fonts/MagicSchoolOne.ttf" id="3_vg3tn"]
 [ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="4_n0hkp"]
 [ext_resource type="Texture2D" uid="uid://gc1m2jgtycj1" path="res://assets/images/menu/buttonSquare_blue.png" id="6_c1bcm"]
 [ext_resource type="Texture2D" uid="uid://ba1ulrvypxycl" path="res://assets/images/menu/buttonSquare_blue_pressed.png" id="7_ynrey"]
+[ext_resource type="PackedScene" uid="uid://cew3xi5xdq3s0" path="res://scenes/game/ui/sliders/volume_slider.tscn" id="8_ujo10"]
+[ext_resource type="FontFile" uid="uid://dfafj6dmhu6ti" path="res://assets/fonts/ud-digi-kyokasho-n-b.ttf" id="9_upk7l"]
+[ext_resource type="Texture2D" uid="uid://cu41173875ncd" path="res://assets/images/menu/magic_panel_01.png" id="10_77o3l"]
+[ext_resource type="AudioStream" uid="uid://b887neunyf6da" path="res://assets/sfx/menus/Paper_01.mp3" id="12_3ugqb"]
+[ext_resource type="AudioStream" uid="uid://bldwj3xauyf52" path="res://assets/sfx/menus/Paper_02.mp3" id="13_5yjgk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0hkp"]
 bg_color = Color(0, 0, 0, 0.39215687)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rgwd3"]
-texture = ExtResource("2_l8ubc")
-texture_margin_left = 15.0
-texture_margin_top = 15.0
-texture_margin_right = 15.0
-texture_margin_bottom = 15.0
-region_rect = Rect2(0, 0, 46, 46)
-modulate_color = Color(1, 1, 1, 0.78431374)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wff0h"]
+texture = ExtResource("2_tdo6r")
+region_rect = Rect2(248, 6, 224, 133)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pbkgg"]
+texture = ExtResource("2_tdo6r")
+region_rect = Rect2(488, 150, 224, 133)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0fx1q"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rivx6"]
 texture = ExtResource("6_c1bcm")
@@ -51,7 +59,50 @@ modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v63te"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8ubc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ym7rm"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8jjl2"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 13.0
+region_rect = Rect2(964, 4, 40, 41)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t0krf"]
+texture = ExtResource("4_n0hkp")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(1019, 107, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2ae2a"]
+texture = ExtResource("10_77o3l")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ya2bv"]
+texture = ExtResource("10_77o3l")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+modulate_color = Color(1, 1, 0.80784315, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d1wrb"]
+texture = ExtResource("10_77o3l")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wmwp3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_502vm"]
 texture = ExtResource("4_n0hkp")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
@@ -59,7 +110,7 @@ texture_margin_right = 4.0
 texture_margin_bottom = 7.0
 region_rect = Rect2(58, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pmu7m"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_auuty"]
 texture = ExtResource("4_n0hkp")
 texture_margin_left = 4.0
 texture_margin_top = 6.0
@@ -67,7 +118,7 @@ texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 region_rect = Rect2(442, 248, 28, 30)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dwxbi"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dqn2t"]
 texture = ExtResource("4_n0hkp")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
@@ -75,7 +126,7 @@ texture_margin_right = 4.0
 texture_margin_bottom = 6.0
 region_rect = Rect2(202, 250, 28, 31)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t8ffp"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vssdc"]
 texture = ExtResource("4_n0hkp")
 texture_margin_left = 4.0
 texture_margin_top = 3.0
@@ -84,7 +135,16 @@ texture_margin_bottom = 7.0
 region_rect = Rect2(58, 251, 28, 30)
 modulate_color = Color(1, 1, 1, 0.5882353)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0g41r"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b6k68"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rgwd3"]
+texture = ExtResource("2_l8ubc")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+region_rect = Rect2(0, 0, 46, 46)
+modulate_color = Color(1, 1, 1, 0.78431374)
 
 [sub_resource type="Animation" id="Animation_n0hkp"]
 length = 0.001
@@ -115,14 +175,38 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("BackButton:modulate")
+tracks/2/path = NodePath("BookContainer:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("open_sfx:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("close_sfx:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_l8ubc"]
@@ -140,43 +224,43 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/1/type = "value"
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Panel:position")
-tracks/1/interp = 2
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5, 0.6, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(305, 45), Vector2(305, 37), Vector2(305, 45), Vector2(305, 559)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("BackButton:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.2),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"hide_buttons"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BookContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 0.6, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -15), Vector2(0, 0), Vector2(0, 540)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("close_sfx:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_pmu7m"]
@@ -207,25 +291,13 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(305, 572), Vector2(305, 45), Vector2(305, 30), Vector2(305, 45)]
 }
-tracks/2/type = "value"
+tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("BackButton:modulate")
+tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.7, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.45, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
@@ -235,6 +307,30 @@ tracks/3/keys = {
 "args": [],
 "method": &"enable_menu_buttons"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BookContainer:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 530), Vector2(0, 0), Vector2(0, -15), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("open_sfx:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dwxbi"]
@@ -260,31 +356,66 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_n0hkp")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_n0hkp")
 theme_override_styles/focus = SubResource("StyleBoxFlat_n0hkp")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1270002490]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(350, 450)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -175.0
-offset_top = -225.0
-offset_right = 175.0
-offset_bottom = 225.00024
+[node name="BookContainer" type="Control" parent="." unique_id=280962849]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 0.00024414063
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_rgwd3")
 
-[node name="Margin" type="MarginContainer" parent="Panel" unique_id=262327052]
+[node name="BookBG" type="Panel" parent="BookContainer" unique_id=1030331039]
+custom_minimum_size = Vector2(900, 500)
+layout_mode = 0
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 930.0
+offset_bottom = 520.00024
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxTexture_wff0h")
+
+[node name="BookBGCoverColor" type="Panel" parent="BookContainer/BookBG" unique_id=1823196388]
+custom_minimum_size = Vector2(900, 500)
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 500.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxTexture_pbkgg")
+
+[node name="LeftPanel" type="PanelContainer" parent="BookContainer" unique_id=1854497377]
+custom_minimum_size = Vector2(340, 400)
+layout_mode = 0
+offset_left = 83.0
+offset_top = 54.0
+offset_right = 429.0
+offset_bottom = 458.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0fx1q")
+
+[node name="PropertyOfJisho" type="Label" parent="BookContainer/LeftPanel" unique_id=783352698]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0.59607846, 0.8627451, 1)
+theme_override_colors/font_shadow_color = Color(1.8049032e-07, 0.1890938, 0.3223944, 0.78431374)
+theme_override_fonts/font = ExtResource("3_vg3tn")
+theme_override_font_sizes/font_size = 48
+text = "Grand Grimoire Jisho"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="BookContainer/LeftPanel" unique_id=262327052]
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1871379043]
+[node name="VBox" type="VBoxContainer" parent="BookContainer/LeftPanel/Margin" unique_id=1871379043]
 layout_mode = 2
 theme_override_constants/separation = 28
 alignment = 1
 
-[node name="MenuLabel" type="Label" parent="Panel/Margin/VBox" unique_id=574574929]
+[node name="MenuLabel" type="Label" parent="BookContainer/LeftPanel/Margin/VBox" unique_id=574574929]
+visible = false
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75686276)
 theme_override_constants/shadow_outline_size = 4
@@ -293,7 +424,7 @@ theme_override_font_sizes/font_size = 48
 text = "Paused"
 horizontal_alignment = 1
 
-[node name="MainMenuButton" type="Button" parent="Panel/Margin/VBox" unique_id=1079036139]
+[node name="MainMenuButton" type="Button" parent="BookContainer/LeftPanel/Margin/VBox" unique_id=1079036139]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
@@ -309,10 +440,11 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_q1uu0")
 theme_override_styles/hover = SubResource("StyleBoxTexture_8uelp")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_hymvl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_v63te")
-text = "Main Menu"
+text = "Back to Main Menu"
 
-[node name="SettingsButton" type="Button" parent="Panel/Margin/VBox" unique_id=1605261216]
+[node name="SettingsButton" type="Button" parent="BookContainer/LeftPanel/Margin/VBox" unique_id=1605261216]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -329,7 +461,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_hymvl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_v63te")
 text = "Settings"
 
-[node name="WordlistsButton" type="Button" parent="Panel/Margin/VBox" unique_id=1288434986]
+[node name="WordlistsButton" type="Button" parent="BookContainer/LeftPanel/Margin/VBox" unique_id=1288434986]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
@@ -347,14 +479,166 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_hymvl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_v63te")
 text = "View Word Lists"
 
-[node name="BackButton" type="Button" parent="." unique_id=605056298]
+[node name="DoNotTouch" type="Label" parent="BookContainer/LeftPanel" unique_id=535690859]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.16092488, 0.15345299, 0.26534343, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.39215687)
+theme_override_fonts/font = ExtResource("3_vg3tn")
+theme_override_font_sizes/font_size = 28
+text = "Do Not Touch."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightPanel" type="PanelContainer" parent="BookContainer" unique_id=1806312016]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 0
+offset_left = 524.0
+offset_top = 50.0
+offset_right = 882.0
+offset_bottom = 463.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ym7rm")
+
+[node name="MarginContainer" type="MarginContainer" parent="BookContainer/RightPanel" unique_id=514974007]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="VBoxContainer" parent="BookContainer/RightPanel/MarginContainer" unique_id=1982580939]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="AudioControlsLabel" type="Label" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer" unique_id=1909493445]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("3_t26sy")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_8jjl2")
+text = "Audio Settings:"
+horizontal_alignment = 1
+
+[node name="MasterVolume" type="HBoxContainer" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer" unique_id=1478734438]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/MasterVolume" unique_id=457705392]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("3_t26sy")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_t0krf")
+text = "Master"
+horizontal_alignment = 1
+
+[node name="master_volume_slider" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/MasterVolume" unique_id=1437933216 instance=ExtResource("8_ujo10")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+bus_name = "Master"
+
+[node name="MusicVolume" type="HBoxContainer" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer" unique_id=833796315]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/MusicVolume" unique_id=1750932473]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("3_t26sy")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_t0krf")
+text = "Music"
+horizontal_alignment = 1
+
+[node name="music_volume_slider" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/MusicVolume" unique_id=515808051 instance=ExtResource("8_ujo10")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+bus_name = "Music"
+
+[node name="SFXVolume" type="HBoxContainer" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer" unique_id=1610305796]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 2
+
+[node name="SFXVolumeLabel" type="Label" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/SFXVolume" unique_id=833237432]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("3_t26sy")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_t0krf")
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="sfx_volume_slider" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/SFXVolume" unique_id=2100804886 instance=ExtResource("8_ujo10")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+bus_name = "SFX"
+
+[node name="TypingSFXVolume" type="HBoxContainer" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer" unique_id=1875113813]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 2
+
+[node name="TypingSFXVolumeLabel" type="Label" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/TypingSFXVolume" unique_id=1386767146]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
+theme_override_fonts/font = ExtResource("3_t26sy")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_t0krf")
+text = "Typing"
+horizontal_alignment = 1
+
+[node name="typing_sfx_volume_slider" parent="BookContainer/RightPanel/MarginContainer/HBoxContainer/TypingSFXVolume" unique_id=437308209 instance=ExtResource("8_ujo10")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+bus_name = "Typing_SFX"
+
+[node name="DevModeToggleButton" type="Button" parent="BookContainer/RightPanel/MarginContainer" unique_id=537143659]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_upk7l")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxTexture_2ae2a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2ae2a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ya2bv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_2ae2a")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_d1wrb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wmwp3")
+text = "Dev Mode: On"
+
+[node name="BackButton" type="Button" parent="BookContainer" unique_id=689682020]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(70, 40)
-offset_left = 276.0
-offset_top = 35.0
-offset_right = 346.0
-offset_bottom = 75.0
+layout_mode = 0
+offset_left = 22.0
+offset_top = 13.0
+offset_right = 92.0
+offset_bottom = 53.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 mouse_default_cursor_shape = 2
@@ -363,13 +647,38 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("3_t26sy")
 theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxTexture_l8ubc")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_pmu7m")
-theme_override_styles/hover = SubResource("StyleBoxTexture_dwxbi")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_t8ffp")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_0g41r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_502vm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_auuty")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dqn2t")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_vssdc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_b6k68")
 text = "Back"
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1270002490]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(350, 450)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -225.0
+offset_right = 175.0
+offset_bottom = 225.00073
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_rgwd3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1231895697]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_dwxbi")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1548154824]
+stream = ExtResource("12_3ugqb")
+bus = &"SFX"
+
+[node name="close_sfx" type="AudioStreamPlayer2D" parent="." unique_id=29618583]
+stream = ExtResource("13_5yjgk")
+bus = &"SFX"

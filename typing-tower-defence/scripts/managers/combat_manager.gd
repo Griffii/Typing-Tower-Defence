@@ -128,6 +128,10 @@ func _recalculate_player_upgrade_stats() -> void:
 				gold_gain_multiplier += float(value_per_level) * float(level)
 
 
+func get_special_damage() -> int:
+	return special_damage
+
+
 func set_available_tower_slots(slot_ids: Array[String]) -> void:
 	available_tower_slots = slot_ids.duplicate()
 	_reset_tower_state()

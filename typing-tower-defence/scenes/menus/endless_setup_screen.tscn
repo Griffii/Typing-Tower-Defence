@@ -341,6 +341,7 @@ script = ExtResource("1_vhn6x")
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=915991822]
 unique_name_in_owner = true
 stream = ExtResource("23_e0k1d")
+volume_db = -8.0
 bus = &"Music"
 parameters/looping = true
 

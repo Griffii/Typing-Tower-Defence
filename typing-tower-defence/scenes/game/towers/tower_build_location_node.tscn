@@ -14,7 +14,9 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h87h7"]
 
 [node name="TowerBuildLocationNode" type="Node2D" unique_id=90150733]
+scale = Vector2(0.9, 0.9)
 script = ExtResource("1_2hmum")
+hover_scale = Vector2(1.1, 1.1)
 
 [node name="AreaRing" parent="." unique_id=116692627 instance=ExtResource("1_qreu5")]
 unique_name_in_owner = true

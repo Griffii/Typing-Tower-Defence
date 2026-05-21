@@ -128,7 +128,11 @@ func _play_avatar_staff_swing() -> void:
 		avatar.play_staff_swing()
 
 
-func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> void:
+func fire_special_projectile(
+	target_enemy: Node,
+	projectile_container: Node,
+	combat_manager: Node = null
+) -> void:
 	_apply_equipped_spell()
 
 	if target_enemy == null or not is_instance_valid(target_enemy):
@@ -143,13 +147,32 @@ func fire_special_projectile(target_enemy: Node, projectile_container: Node) -> 
 	_play_avatar_staff_swing()
 
 	var spawn_position: Vector2 = get_special_spawn_position()
-	var spell_data: Dictionary = SpellDefinitions.get_spell_data(equipped_spell_id)
+	var spell_data: Dictionary = SpellDefinitions.get_spell_data(equipped_spell_id).duplicate(true)
+
+	var upgraded_special_damage: int = int(spell_data.get("damage", 10))
+
+	if combat_manager != null and is_instance_valid(combat_manager):
+		if "special_damage" in combat_manager:
+			upgraded_special_damage = int(combat_manager.special_damage)
+		elif combat_manager.has_method("get_special_damage"):
+			upgraded_special_damage = int(combat_manager.get_special_damage())
+
+	spell_data["base_damage"] = upgraded_special_damage
+	spell_data["damage"] = upgraded_special_damage
+	spell_data["special_damage"] = upgraded_special_damage
+	spell_data["aoe_damage"] = upgraded_special_damage
 
 	var projectile: Node = special_projectile_scene.instantiate()
 	projectile_container.add_child(projectile)
 
 	if projectile.has_method("setup_spell"):
 		projectile.setup_spell(spell_data)
+
+	if projectile.has_method("set_combat_manager"):
+		projectile.set_combat_manager(combat_manager)
+
+	if projectile.has_method("set_special_damage"):
+		projectile.set_special_damage(upgraded_special_damage)
 
 	if projectile.has_signal("impact_reached"):
 		projectile.impact_reached.connect(_on_special_projectile_impact)

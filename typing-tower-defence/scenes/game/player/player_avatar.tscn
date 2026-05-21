@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dkyjnwpxti4vg" path="res://assets/images/burst_effects/lightning_strike_001_large_violet/frame0004.png" id="16_o3xqh"]
 [ext_resource type="Texture2D" uid="uid://bx5ogdxq0amqo" path="res://assets/images/burst_effects/lightning_strike_001_large_violet/frame0005.png" id="17_vvoor"]
 [ext_resource type="Texture2D" uid="uid://br6jig8wtbsqm" path="res://assets/images/burst_effects/lightning_strike_001_large_violet/frame0006.png" id="18_xfipn"]
+[ext_resource type="AudioStream" uid="uid://cpoaxay8kck0" path="res://assets/sfx/towers/electric_discharge_sfx.mp3" id="19_n2elf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5udkg"]
 animations = [{
@@ -257,6 +258,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpellEffects/LightningSfx:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_f0b1h"]
 resource_name = "staff_ground_tap"
@@ -287,6 +300,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -9), Vector2(0, -9), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpellEffects/LightningSfx:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_vjtqs"]
@@ -430,6 +455,11 @@ sprite_frames = SubResource("SpriteFrames_5udkg")
 animation = &"burst"
 frame = 12
 frame_progress = 1.0
+
+[node name="LightningSfx" type="AudioStreamPlayer2D" parent="SpellEffects" unique_id=135252012]
+unique_name_in_owner = true
+stream = ExtResource("19_n2elf")
+bus = &"SFX"
 
 [node name="InteractButton" type="Button" parent="." unique_id=212374094]
 unique_name_in_owner = true

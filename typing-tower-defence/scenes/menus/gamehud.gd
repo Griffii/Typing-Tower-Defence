@@ -9,31 +9,45 @@ signal word_list_change_pressed
 const GAME_MENU_HOVER_OFFSET: Vector2 = Vector2(5.0, 0.0)
 const GAME_MENU_TWEEN_DURATION: float = 0.1
 
+const START_WAVE_HOVER_SCALE: Vector2 = Vector2(1.06, 1.06)
+const START_WAVE_SCALE_LERP_SPEED: float = 18.0
+const START_WAVE_BOB_AMPLITUDE: float = 3.0
+const START_WAVE_ROTATION_AMPLITUDE: float = 0.025
+const START_WAVE_WIGGLE_AMOUNT: float = 0.12
+const START_WAVE_WIGGLE_TIME: float = 0.16
+
 @onready var wave_label: Label = %WaveLabel
 @onready var status_label: Label = %StatusLabel
 @onready var goal_label: Label = %GoalLabel
 
-# For use in the training room
 @onready var word_list_change_button: Button = %WordListChangeButton
-
 @onready var start_wave_button: Button = %StartWaveButton
 @onready var game_menu_button: Button = %GameMenuButton
 
 @onready var input_field: LineEdit = %InputField
-
 @onready var base_hp_label: Label = %BaseHpLabel
-
-@onready var feedback_label: Label = %FeedbackLabel
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
 
 var game_menu_button_base_position: Vector2 = Vector2.ZERO
 var game_menu_button_tween: Tween = null
 
+var start_wave_base_position: Vector2 = Vector2.ZERO
+var start_wave_base_scale: Vector2 = Vector2.ONE
+var start_wave_sway_speed: float = 1.5
+var start_wave_sway_phase: float = 0.0
+var start_wave_wiggle_offset: float = 0.0
+var start_wave_hovered: bool = false
+
 
 func _ready() -> void:
 	game_menu_button_base_position = game_menu_button.position
 
+	_setup_start_wave_button_animation()
+
 	start_wave_button.pressed.connect(_on_start_wave_button_pressed)
+	start_wave_button.mouse_entered.connect(_on_start_wave_button_mouse_entered)
+	start_wave_button.mouse_exited.connect(_on_start_wave_button_mouse_exited)
+
 	game_menu_button.pressed.connect(_on_game_menu_button_pressed)
 	game_menu_button.mouse_entered.connect(_on_game_menu_button_mouse_entered)
 	game_menu_button.mouse_exited.connect(_on_game_menu_button_mouse_exited)
@@ -42,8 +56,7 @@ func _ready() -> void:
 	input_field.text_submitted.connect(_on_input_field_text_submitted)
 
 	input_field.editable = false
-	feedback_label.visible = false
-	
+
 	goal_label.visible = false
 	word_list_change_button.visible = false
 	word_list_change_button.disabled = true
@@ -55,10 +68,100 @@ func _ready() -> void:
 	set_wave_text(1, 1)
 
 
+func _process(delta: float) -> void:
+	_update_start_wave_button_motion()
+	_update_start_wave_button_scale(delta)
+
+
+func _setup_start_wave_button_animation() -> void:
+	if start_wave_button == null:
+		return
+
+	start_wave_base_position = start_wave_button.position
+	start_wave_base_scale = start_wave_button.scale
+	start_wave_sway_speed = randf_range(1.2, 1.8)
+	start_wave_sway_phase = randf_range(0.0, TAU)
+	start_wave_button.pivot_offset = start_wave_button.size * 0.5
+
+
+func _update_start_wave_button_motion() -> void:
+	if start_wave_button == null:
+		return
+
+	if not start_wave_button.visible:
+		return
+
+	var time_now: float = Time.get_ticks_msec() / 1000.0
+
+	var bob_y: float = sin(
+		time_now * start_wave_sway_speed + start_wave_sway_phase
+	) * START_WAVE_BOB_AMPLITUDE
+
+	var rot: float = sin(
+		time_now * start_wave_sway_speed * 0.8 + start_wave_sway_phase
+	) * START_WAVE_ROTATION_AMPLITUDE
+
+	start_wave_button.position = start_wave_base_position + Vector2(0.0, bob_y)
+	start_wave_button.rotation = rot + start_wave_wiggle_offset
+
+
+func _update_start_wave_button_scale(delta: float) -> void:
+	if start_wave_button == null:
+		return
+
+	var target_scale: Vector2 = (
+		start_wave_base_scale * START_WAVE_HOVER_SCALE
+		if start_wave_hovered
+		else start_wave_base_scale
+	)
+
+	start_wave_button.scale = start_wave_button.scale.lerp(
+		target_scale,
+		clampf(START_WAVE_SCALE_LERP_SPEED * delta, 0.0, 1.0)
+	)
+
+
 func _on_start_wave_button_pressed() -> void:
 	start_wave_pressed.emit()
 	_focus_input()
 	hide_start_wave_button()
+
+
+func _on_start_wave_button_mouse_entered() -> void:
+	start_wave_hovered = true
+	_play_start_wave_wiggle_once()
+
+
+func _on_start_wave_button_mouse_exited() -> void:
+	start_wave_hovered = false
+
+
+func _play_start_wave_wiggle_once() -> void:
+	if start_wave_button == null:
+		return
+
+	var tween := create_tween()
+
+	tween.tween_property(
+		self,
+		"start_wave_wiggle_offset",
+		START_WAVE_WIGGLE_AMOUNT,
+		START_WAVE_WIGGLE_TIME
+	)
+
+	tween.tween_property(
+		self,
+		"start_wave_wiggle_offset",
+		-START_WAVE_WIGGLE_AMOUNT,
+		START_WAVE_WIGGLE_TIME
+	)
+
+	tween.tween_property(
+		self,
+		"start_wave_wiggle_offset",
+		0.0,
+		START_WAVE_WIGGLE_TIME
+	)
 
 
 func _on_game_menu_button_pressed() -> void:
@@ -113,10 +216,21 @@ func set_status_text(text: String) -> void:
 func show_start_wave_button(button_text: String) -> void:
 	start_wave_button.text = button_text
 	start_wave_button.visible = true
+	start_wave_button.disabled = false
+	start_wave_hovered = false
+	start_wave_button.position = start_wave_base_position
+	start_wave_button.rotation = 0.0
+	start_wave_button.scale = start_wave_base_scale
 
 
 func hide_start_wave_button() -> void:
 	start_wave_button.visible = false
+	start_wave_button.disabled = true
+	start_wave_hovered = false
+	start_wave_wiggle_offset = 0.0
+	start_wave_button.position = start_wave_base_position
+	start_wave_button.rotation = 0.0
+	start_wave_button.scale = start_wave_base_scale
 
 
 func set_input_enabled(is_enabled: bool) -> void:
@@ -130,19 +244,6 @@ func set_input_enabled(is_enabled: bool) -> void:
 
 func clear_input() -> void:
 	input_field.clear()
-
-
-func flash_input_error() -> void:
-	feedback_label.text = "MISS"
-	feedback_label.visible = true
-	feedback_label.modulate = Color(1.0, 0.35, 0.35, 1.0)
-
-	var tween: Tween = create_tween()
-	tween.tween_property(feedback_label, "modulate:a", 0.0, 0.2)
-	await tween.finished
-
-	feedback_label.visible = false
-	feedback_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 
 func _focus_input() -> void:

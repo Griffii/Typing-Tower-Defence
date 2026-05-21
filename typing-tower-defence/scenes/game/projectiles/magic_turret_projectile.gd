@@ -7,6 +7,7 @@ signal projectile_finished
 @export var impact_distance: float = 14.0
 @export var max_lifetime: float = 4.0
 @export var target_offset: Vector2 = Vector2.ZERO
+@export var fade_in_time: float = 0.06
 
 @onready var projectile_sprite: AnimatedSprite2D = %FireballSprite
 @onready var shoot_sfx: AudioStreamPlayer2D = %ShootSfx
@@ -25,9 +26,12 @@ var has_finished: bool = false
 var is_flying: bool = false
 
 var original_sprite_scale: Vector2 = Vector2.ONE
+var fade_tween: Tween = null
 
 
 func _ready() -> void:
+	modulate.a = 0.0
+
 	if projectile_sprite != null:
 		original_sprite_scale = projectile_sprite.scale
 
@@ -44,10 +48,16 @@ func fire(from_pos: Vector2, target: Node, new_damage: int, new_combat_manager: 
 	has_finished = false
 	is_flying = true
 
+	modulate.a = 0.0
+
 	if is_instance_valid(target_enemy) and target_enemy is Node2D:
 		fallback_target_position = (target_enemy as Node2D).global_position + target_offset
 	else:
 		fallback_target_position = from_pos
+
+	var initial_direction: Vector2 = fallback_target_position - global_position
+	if initial_direction.length() > 0.001:
+		rotation = initial_direction.angle()
 
 	if projectile_sprite != null:
 		projectile_sprite.visible = true
@@ -56,10 +66,29 @@ func fire(from_pos: Vector2, target: Node, new_damage: int, new_combat_manager: 
 		if projectile_sprite.sprite_frames != null and projectile_sprite.sprite_frames.has_animation("fly"):
 			projectile_sprite.play("fly")
 
+	_start_fade_in()
+
 	if shoot_sfx != null:
 		shoot_sfx.play()
 
 	set_process(true)
+
+
+func _start_fade_in() -> void:
+	if fade_tween != null and fade_tween.is_valid():
+		fade_tween.kill()
+
+	if fade_in_time <= 0.0:
+		modulate.a = 1.0
+		return
+
+	fade_tween = create_tween()
+	fade_tween.tween_property(
+		self,
+		"modulate:a",
+		1.0,
+		fade_in_time
+	)
 
 
 func _process(delta: float) -> void:
@@ -104,6 +133,11 @@ func _on_impact() -> void:
 	has_impacted = true
 	is_flying = false
 	set_process(false)
+
+	modulate.a = 1.0
+
+	if fade_tween != null and fade_tween.is_valid():
+		fade_tween.kill()
 
 	if is_instance_valid(target_enemy):
 		if combat_manager != null and combat_manager.has_method("apply_tower_hit"):

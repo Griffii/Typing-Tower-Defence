@@ -7,245 +7,164 @@ signal training_room_requested
 signal settingsmenu_requested
 signal wordlistsmenu_requested
 signal customizecharactermenu_requested
+signal main_menu_closed
 
-const LIGHTNING_SCENE: PackedScene = preload("uid://blet6g5uj5s40")
-const GRUNT_ENEMY_SCENE: PackedScene = preload("uid://mxpolmgd3vvh")
-const SLIME_ENEMY_SCENE: PackedScene = preload("uid://pm1jbtqdt8d1")
+const TITLE_TEXT: String = "Leximancer"
+const BUTTON_ANIMATE_DELAY: float = 0.07
 
-const MENU_ENEMY_SCENES: Array[PackedScene] = [
-	GRUNT_ENEMY_SCENE,
-	SLIME_ENEMY_SCENE,
-]
+@onready var story_button: MainMenuButton = %StoryButton
+@onready var tutorial_button: MainMenuButton = %TutorialButton
+@onready var endless_button: MainMenuButton = %EndlessButton
+@onready var word_lists_button: MainMenuButton = %WordListsButton
+@onready var character_button: MainMenuButton = %CharacterButton
+@onready var settings_button: MainMenuButton = %SettingsButton
 
-const TITLE_TEXT := "Typing\nTower Defence!"
-const TITLE_TYPED_COLOR := "6fdc8c"
-const MENU_ENEMY_MOVE_SPEED := 50.0
 
-const BUTTON_NORMAL_SCALE: Vector2 = Vector2.ONE
-const BUTTON_HOVER_SCALE: Vector2 = Vector2(1.05, 1.05)
-const BUTTON_TWEEN_DURATION: float = 0.08
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
-@onready var endless_button: Button = %EndlessButton
-@onready var settings_button: Button = %SettingsButton
-@onready var word_lists_button: Button = %WordListsButton
-@onready var story_button: Button = %StoryButton
-@onready var character_button: Button = %CharacterButton
-@onready var tutorial_button: Button = %TutorialButton
-
-@onready var title_label: RichTextLabel = %TitleLabel
-@onready var tower_container: Node2D = %TowerContainer
-@onready var lightning_marker: Marker2D = %LightningMarker
-@onready var animation_player: AnimationPlayer = %TowerAnimPlayer
-@onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
-
-@onready var enemy_spawn_marker: Marker2D = %EnemySpawnMarker
-@onready var enemy_path: Path2D = %EnemyPath
-
-var rng := RandomNumberGenerator.new()
-var is_shoot_animation_playing := false
-var type_color_effect: TypeColorEffect = null
+var menu_buttons: Array[MainMenuButton] = []
+var is_closing: bool = false
+var is_animating_buttons: bool = false
 
 
 func _ready() -> void:
-	rng.randomize()
+	visible = true
+
+	menu_buttons = [
+		story_button,
+		tutorial_button,
+		endless_button,
+		word_lists_button,
+		character_button,
+		settings_button,
+	]
 
 	_setup_menu_button(story_button, _on_story_mode_pressed)
-	_setup_menu_button(endless_button, _on_endless_mode_pressed)
 	_setup_menu_button(tutorial_button, _on_training_room_pressed)
-	_setup_menu_button(settings_button, _on_settings_pressed)
+	_setup_menu_button(endless_button, _on_endless_mode_pressed)
 	_setup_menu_button(word_lists_button, _on_wordlists_pressed)
 	_setup_menu_button(character_button, _on_customize_pressed)
+	_setup_menu_button(settings_button, _on_settings_pressed)
+
+	_snap_buttons_hidden_left()
 
 	if animation_player != null and not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
 
-	title_label.bbcode_enabled = true
-	title_label.scroll_active = false
-	title_label.fit_content = true
-
-	var wave_effect := WaveTextEffect.new()
-	title_label.install_effect(wave_effect)
-
-	type_color_effect = TypeColorEffect.new()
-	title_label.install_effect(type_color_effect)
-
-	_reset_title_text()
-
-	call_deferred("_run_title_cycle")
-	call_deferred("_run_menu_enemy_cycle")
+	call_deferred("_open_menu_after_layout")
 
 
-func _setup_menu_button(button: Button, pressed_callable: Callable) -> void:
-	if button == null:
+func _open_menu_after_layout() -> void:
+	await get_tree().process_frame
+	open_menu()
+
+
+func open_menu() -> void:
+	is_closing = false
+	visible = true
+
+	if animation_player != null and animation_player.has_animation("open_main_menu"):
+		animation_player.play("open_main_menu")
+	else:
+		_animate_buttons_in()
+
+
+func close_menu() -> void:
+	if is_closing:
 		return
 
-	button.pivot_offset = button.size * 0.5
-	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	is_closing = true
+
+	await _animate_buttons_out()
+
+	if animation_player != null and animation_player.has_animation("close_main_menu"):
+		animation_player.play("close_main_menu")
+		await animation_player.animation_finished
+
+	visible = false
+	is_closing = false
+	main_menu_closed.emit()
+
+
+
+func _setup_menu_button(button: MainMenuButton, pressed_callable: Callable) -> void:
+	if button == null:
+		return
 
 	if not button.pressed.is_connected(pressed_callable):
 		button.pressed.connect(pressed_callable)
 
-	if not button.mouse_entered.is_connected(_on_menu_button_mouse_entered.bind(button)):
-		button.mouse_entered.connect(_on_menu_button_mouse_entered.bind(button))
 
-	if not button.mouse_exited.is_connected(_on_menu_button_mouse_exited.bind(button)):
-		button.mouse_exited.connect(_on_menu_button_mouse_exited.bind(button))
+func _snap_buttons_hidden_left() -> void:
+	for button in menu_buttons:
+		if button == null:
+			continue
+
+		button.snap_in_hidden_left()
 
 
-func _on_menu_button_mouse_entered(button: Button) -> void:
-	if button == null or not is_instance_valid(button):
+func _set_all_buttons_interactable(enabled: bool) -> void:
+	for button in menu_buttons:
+		if button == null:
+			continue
+
+		button.set_interactable(enabled)
+
+
+func _animate_buttons_in() -> void:
+	if is_animating_buttons:
 		return
 
-	var tween := create_tween()
-	tween.tween_property(button, "scale", BUTTON_HOVER_SCALE, BUTTON_TWEEN_DURATION)
+	is_animating_buttons = true
+	_set_all_buttons_interactable(false)
+
+	var last_button: MainMenuButton = null
+
+	for button in menu_buttons:
+		if button == null:
+			continue
+
+		button.animate_in_button()
+		last_button = button
+
+		await get_tree().create_timer(BUTTON_ANIMATE_DELAY).timeout
+
+	if last_button != null:
+		await last_button.button_animation_finished
+
+	_set_all_buttons_interactable(true)
+	is_animating_buttons = false
 
 
-func _on_menu_button_mouse_exited(button: Button) -> void:
-	if button == null or not is_instance_valid(button):
+func _animate_buttons_out() -> void:
+	if is_animating_buttons:
 		return
 
-	var tween := create_tween()
-	tween.tween_property(button, "scale", BUTTON_NORMAL_SCALE, BUTTON_TWEEN_DURATION)
+	is_animating_buttons = true
+	_set_all_buttons_interactable(false)
 
+	var last_button: MainMenuButton = null
 
-func _reset_title_text() -> void:
-	if type_color_effect != null:
-		type_color_effect.typed_count = 0
+	for i in range(menu_buttons.size() - 1, -1, -1):
+		var button: MainMenuButton = menu_buttons[i]
 
-	title_label.text = "[wave height=8 speed=2.2 spacing=0.45][typecolor color=%s]%s[/typecolor]" % [
-		TITLE_TYPED_COLOR,
-		TITLE_TEXT
-	]
+		if button == null:
+			continue
 
+		button.animate_out_button()
+		last_button = button
 
-func _run_title_cycle() -> void:
-	while is_inside_tree():
-		if type_color_effect == null:
-			return
+		await get_tree().create_timer(BUTTON_ANIMATE_DELAY).timeout
 
-		type_color_effect.typed_count = 0
-		title_label.queue_redraw()
+	if last_button != null:
+		await last_button.button_animation_finished
 
-		await get_tree().create_timer(rng.randf_range(1.8, 3.8)).timeout
-
-		for i in range(1, TITLE_TEXT.length() + 1):
-			type_color_effect.typed_count = i
-			title_label.queue_redraw()
-			_play_typing_sfx()
-
-			var delay := rng.randf_range(0.07, 0.15)
-
-			if rng.randf() < 0.24:
-				delay += rng.randf_range(0.06, 0.18)
-
-			await get_tree().create_timer(delay).timeout
-
-		await get_tree().create_timer(0.2).timeout
-
-		type_color_effect.typed_count = 0
-		title_label.queue_redraw()
-		_play_random_shoot_animation()
-
-		while is_shoot_animation_playing and is_inside_tree():
-			await get_tree().process_frame
-
-		await get_tree().create_timer(rng.randf_range(2.5, 5.0)).timeout
-
-
-func _run_menu_enemy_cycle() -> void:
-	while is_inside_tree():
-		await get_tree().create_timer(rng.randf_range(8.0, 16.0)).timeout
-		_spawn_menu_enemy()
-
-
-func _spawn_menu_enemy() -> void:
-	if enemy_path == null or enemy_spawn_marker == null:
-		return
-
-	if MENU_ENEMY_SCENES.is_empty():
-		return
-
-	var curve: Curve2D = enemy_path.curve
-	if curve == null:
-		return
-
-	var enemy_scene: PackedScene = MENU_ENEMY_SCENES[rng.randi_range(0, MENU_ENEMY_SCENES.size() - 1)]
-
-	if enemy_scene == null:
-		return
-
-	var path_follow: PathFollow2D = PathFollow2D.new()
-	path_follow.rotates = false
-	path_follow.loop = false
-	enemy_path.add_child(path_follow)
-
-	var enemy_instance: Node = enemy_scene.instantiate()
-	path_follow.add_child(enemy_instance)
-
-	if enemy_instance is Node2D:
-		(enemy_instance as Node2D).position = Vector2.ZERO
-
-	var label_root := enemy_instance.find_child("LabelRoot", true, false)
-	if label_root is CanvasItem:
-		(label_root as CanvasItem).visible = false
-
-	var spawn_local: Vector2 = enemy_path.to_local(enemy_spawn_marker.global_position)
-	var start_offset: float = curve.get_closest_offset(spawn_local)
-	var path_length: float = curve.get_baked_length()
-
-	path_follow.progress = start_offset
-
-	var remaining_distance: float = maxf(path_length - start_offset, 1.0)
-	var travel_time: float = remaining_distance / MENU_ENEMY_MOVE_SPEED
-
-	var tween := create_tween()
-	tween.tween_property(path_follow, "progress", path_length, travel_time)
-	tween.finished.connect(_on_menu_enemy_tween_finished.bind(path_follow))
-
-
-func _on_menu_enemy_tween_finished(path_follow: PathFollow2D) -> void:
-	if is_instance_valid(path_follow):
-		path_follow.queue_free()
-
-
-func _play_typing_sfx() -> void:
-	if typing_sfx_player == null:
-		return
-
-	typing_sfx_player.pitch_scale = rng.randf_range(0.96, 1.04)
-	typing_sfx_player.play()
-
-
-func _play_random_shoot_animation() -> void:
-	if animation_player == null or is_shoot_animation_playing:
-		return
-
-	is_shoot_animation_playing = true
-
-	if rng.randi_range(0, 1) == 0:
-		animation_player.play("shoot_blue")
-	else:
-		animation_player.play("shoot_yellow")
+	is_animating_buttons = false
 
 
 func _on_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "shoot_blue" or anim_name == "shoot_yellow":
-		is_shoot_animation_playing = false
-
-
-func spawn_lightning() -> void:
-	if LIGHTNING_SCENE == null or lightning_marker == null or tower_container == null:
-		return
-
-	var lightning_instance := LIGHTNING_SCENE.instantiate()
-	tower_container.add_child(lightning_instance)
-
-	var spawn_pos := tower_container.to_local(lightning_marker.global_position)
-
-	if lightning_instance.has_method("fire"):
-		lightning_instance.fire(spawn_pos)
-	elif lightning_instance is Node2D:
-		lightning_instance.position = spawn_pos
+	if anim_name == "open_main_menu":
+		_animate_buttons_in()
 
 
 func _on_play_pressed() -> void:

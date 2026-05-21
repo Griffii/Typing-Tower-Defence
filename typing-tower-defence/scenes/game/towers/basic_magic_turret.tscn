@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://ciwqq06h6kavx"]
 
 [ext_resource type="Script" uid="uid://dnbd43fns7das" path="res://scenes/game/towers/basic_magic_turret.gd" id="1_urd5k"]
-[ext_resource type="Texture2D" uid="uid://d0yjqik3bpi4b" path="res://assets/images/towers/Tower-black.png" id="2_kjf8r"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8t4bd"]
-radius = 250.0
+[ext_resource type="Texture2D" uid="uid://ba7ga4egc0mir" path="res://assets/images/towers/Crystal_Basic.png" id="2_53u7r"]
+[ext_resource type="Texture2D" uid="uid://dxhs8nq2g4b7x" path="res://assets/images/gradient_textures/circle_05_a.png" id="2_e1sw3"]
+[ext_resource type="Shader" uid="uid://bmpyiqig8e3dm" path="res://shaders/magic_energy_wobble.gdshader" id="2_yp6uj"]
 
 [sub_resource type="Animation" id="Animation_wdbdq"]
 length = 0.001
@@ -14,41 +13,117 @@ _data = {
 &"RESET": SubResource("Animation_wdbdq")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_urd5k"]
-radius = 21.0
-height = 78.0
+[sub_resource type="Gradient" id="Gradient_yp6uj"]
+offsets = PackedFloat32Array(0, 0.77011496)
+colors = PackedColorArray(1, 1, 1, 0.87058824, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e1sw3"]
+gradient = SubResource("Gradient_yp6uj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xvoab"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_urd5k"]
+offsets = PackedFloat32Array(0, 0.069078945, 0.8256579, 1)
+colors = PackedColorArray(0.2, 0.42745098, 1, 0, 0.8372687, 0.10645392, 0.23603407, 1, 0.72790337, 0.74115443, 0.99574727, 1, 0.7294118, 0.7411765, 0.99607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kjf8r"]
+gradient = SubResource("Gradient_urd5k")
+
+[sub_resource type="Curve" id="Curve_bodve"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.16060606, 0.77261764), 0.0, 0.0, 0, 0, Vector2(0.99090904, 0.3100121), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xx8gx"]
+curve = SubResource("Curve_bodve")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6n0il"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 0, 0)
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 15.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+scale_curve = SubResource("CurveTexture_xx8gx")
+color_ramp = SubResource("GradientTexture1D_kjf8r")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1sw3"]
+shader = ExtResource("2_yp6uj")
+shader_parameter/glow_color = Color(8.663535e-07, 0.3644603, 0.5878038, 1)
+shader_parameter/glow_strength = 1.8
+shader_parameter/pulse_speed = 3.0
+shader_parameter/edge_width = 0.08
+shader_parameter/distortion_strength = 0.05
+shader_parameter/flame_speed = 1.5
+shader_parameter/top_flame_strength = 1.2
+shader_parameter/top_flame_height = 0.22
+shader_parameter/top_flame_breakup = 0.55
+shader_parameter/top_flame_wobble = 0.045
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8t4bd"]
+radius = 250.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yp6uj"]
+radius = 17.0
+height = 48.0
 
 [node name="BasicMagicTower" type="Node2D" unique_id=1067505479]
 script = ExtResource("1_urd5k")
 
-[node name="BaseSprite" type="Sprite2D" parent="." unique_id=2072018009]
-position = Vector2(0, -43)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_kjf8r")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1903714713]
+libraries/ = SubResource("AnimationLibrary_jwqch")
 
-[node name="TurretSprite" type="Sprite2D" parent="." unique_id=1154071169]
-position = Vector2(0, -43)
-
-[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1970906002]
+[node name="CrystalRoot" type="Node2D" parent="." unique_id=873079431]
 unique_name_in_owner = true
-position = Vector2(0, -57)
+
+[node name="ProjectileSpawn" type="Marker2D" parent="CrystalRoot" unique_id=1970906002]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+
+[node name="PointLight2D" type="PointLight2D" parent="CrystalRoot" unique_id=1007052807]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+color = Color(0.30980393, 0.7647059, 1, 1)
+energy = 0.5
+texture = SubResource("GradientTexture2D_e1sw3")
+
+[node name="FlameParticles" type="GPUParticles2D" parent="CrystalRoot" unique_id=1307533987]
+material = SubResource("CanvasItemMaterial_xvoab")
+position = Vector2(0, -32)
+amount = 5
+texture = ExtResource("2_e1sw3")
+preprocess = 0.8
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_6n0il")
+
+[node name="GlowSprite" type="Sprite2D" parent="CrystalRoot" unique_id=1743581545]
+material = SubResource("ShaderMaterial_e1sw3")
+position = Vector2(0, -32)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_53u7r")
+
+[node name="CrystalSprite" type="Sprite2D" parent="CrystalRoot" unique_id=2072018009]
+position = Vector2(0, -32)
+texture = ExtResource("2_53u7r")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=336730534]
 unique_name_in_owner = true
-position = Vector2(0, -43)
+position = Vector2(0, -32)
 collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1744894666]
 shape = SubResource("CircleShape2D_8t4bd")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1903714713]
-libraries/ = SubResource("AnimationLibrary_jwqch")
-
 [node name="HoverArea" type="Area2D" parent="." unique_id=1366149117]
 unique_name_in_owner = true
-position = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea" unique_id=1579389912]
 position = Vector2(0, -32)
-shape = SubResource("CapsuleShape2D_urd5k")
+shape = SubResource("CapsuleShape2D_yp6uj")

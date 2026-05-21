@@ -9,10 +9,26 @@ const TOWER_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectil
 @export var range_outline_rotation_speed: float = 0.65
 @export var chain_hit_delay: float = 0.10
 
+@export_group("Crystal Animation")
+@export var crystal_intro_time: float = 0.28
+@export var crystal_rebound_time: float = 0.12
+@export var crystal_settle_time: float = 0.10
+@export var crystal_overshoot_scale: Vector2 = Vector2(1.16, 1.16)
+@export var crystal_bob_height: float = 7.0
+@export var crystal_bob_time: float = 1.15
+
+@export_group("Light Flicker")
+@export var light_base_energy: float = 1.15
+@export var light_flicker_amount: float = 0.18
+@export var light_flicker_speed: float = 4.0
+
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn
 @onready var range_area: Area2D = %RangeArea
 @onready var hover_area: Area2D = %HoverArea
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+
+@onready var crystal_root: Node2D = %CrystalRoot
+@onready var point_light_2d: PointLight2D = %PointLight2D
 
 @onready var shoot_sfx: AudioStreamPlayer2D = %ShootSfx
 
@@ -35,9 +51,23 @@ var show_range_outline: bool = false
 var range_outline_rotation: float = 0.0
 var is_firing_chain: bool = false
 
+var attacks_enabled: bool = false
+
+var crystal_base_position: Vector2 = Vector2.ZERO
+var crystal_bob_tween: Tween = null
+var crystal_intro_tween: Tween = null
+var light_time: float = 0.0
+
 
 func _ready() -> void:
 	add_to_group("towers")
+
+	if crystal_root != null:
+		crystal_base_position = crystal_root.position
+		_play_crystal_intro_animation()
+
+	if point_light_2d != null:
+		point_light_2d.energy = 0.0
 
 	if range_area != null:
 		if not range_area.body_entered.is_connected(_on_range_body_entered):
@@ -62,7 +92,89 @@ func _ready() -> void:
 			hover_area.mouse_exited.connect(_on_hover_area_mouse_exited)
 
 	_update_range_shape()
-	set_process(false)
+	set_process(true)
+
+
+func _play_crystal_intro_animation() -> void:
+	if crystal_root == null:
+		return
+
+	if crystal_intro_tween != null and crystal_intro_tween.is_valid():
+		crystal_intro_tween.kill()
+
+	if crystal_bob_tween != null and crystal_bob_tween.is_valid():
+		crystal_bob_tween.kill()
+
+	crystal_root.position = crystal_base_position
+	crystal_root.scale = Vector2.ZERO
+	crystal_root.modulate.a = 0.0
+
+	crystal_intro_tween = create_tween()
+
+	crystal_intro_tween.parallel().tween_property(
+		crystal_root,
+		"modulate:a",
+		1.0,
+		crystal_intro_time
+	)
+
+	crystal_intro_tween.parallel().tween_property(
+		crystal_root,
+		"scale",
+		crystal_overshoot_scale,
+		crystal_intro_time
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	if point_light_2d != null:
+		crystal_intro_tween.parallel().tween_property(
+			point_light_2d,
+			"energy",
+			light_base_energy,
+			crystal_intro_time
+		)
+
+	crystal_intro_tween.tween_property(
+		crystal_root,
+		"scale",
+		Vector2(0.92, 0.92),
+		crystal_rebound_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	crystal_intro_tween.tween_property(
+		crystal_root,
+		"scale",
+		Vector2.ONE,
+		crystal_settle_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	crystal_intro_tween.finished.connect(func() -> void:
+		_start_crystal_bob_animation()
+	)
+
+
+func _start_crystal_bob_animation() -> void:
+	if crystal_root == null:
+		return
+
+	if crystal_bob_tween != null and crystal_bob_tween.is_valid():
+		crystal_bob_tween.kill()
+
+	crystal_bob_tween = create_tween()
+	crystal_bob_tween.set_loops()
+
+	crystal_bob_tween.tween_property(
+		crystal_root,
+		"position:y",
+		crystal_base_position.y - crystal_bob_height,
+		crystal_bob_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	crystal_bob_tween.tween_property(
+		crystal_root,
+		"position:y",
+		crystal_base_position.y,
+		crystal_bob_time
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_container: Node) -> void:
@@ -87,15 +199,23 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 	_refresh_targets_from_overlaps()
 
 	attack_timer = randf_range(0.0, attack_interval)
-	set_process(damage > 0 and attack_interval > 0.0)
+	attacks_enabled = damage > 0 and attack_interval > 0.0
 
 
 func _process(delta: float) -> void:
+	_update_light_flicker(delta)
+
 	if show_range_outline:
 		range_outline_rotation += delta * range_outline_rotation_speed
 		queue_redraw()
 
+	if not attacks_enabled:
+		return
+
 	if damage <= 0:
+		return
+
+	if attack_interval <= 0.0:
 		return
 
 	if is_firing_chain:
@@ -113,6 +233,19 @@ func _process(delta: float) -> void:
 		return
 
 	_fire_chain_lightning_sequence(first_target)
+
+
+func _update_light_flicker(delta: float) -> void:
+	if point_light_2d == null:
+		return
+
+	light_time += delta
+
+	var wave_a: float = sin(light_time * light_flicker_speed)
+	var wave_b: float = sin(light_time * light_flicker_speed * 1.73 + 1.4)
+	var combined: float = (wave_a * 0.65) + (wave_b * 0.35)
+
+	point_light_2d.energy = light_base_energy + combined * light_flicker_amount
 
 
 func _get_first_target() -> Node2D:
@@ -154,7 +287,7 @@ func _fire_chain_lightning_sequence(first_target: Node2D) -> void:
 				return
 
 	var attacked_enemy_ids: Dictionary = {}
-	var current_target = first_target
+	var current_target: Node2D = first_target
 	var current_origin: Vector2 = _get_fire_origin()
 	var hits_done: int = 0
 

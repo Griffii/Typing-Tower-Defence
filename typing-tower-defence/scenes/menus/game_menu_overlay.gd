@@ -3,7 +3,6 @@ extends CanvasLayer
 signal resume_requested
 signal back_to_menu_requested
 signal word_lists_requested
-signal settingsmenu_requested
 
 enum MenuState {
 	CLOSED,
@@ -23,17 +22,32 @@ const BUTTON_SETTLE_TIME: float = 0.10
 const BUTTON_HIDE_TIME: float = 0.12
 const BUTTON_SEQUENCE_DELAY: float = 0.06
 
+const MASTER_BUS_NAME: String = "Master"
+const MUSIC_BUS_NAME: String = "Music"
+const SFX_BUS_NAME: String = "SFX"
+const TYPING_SFX_BUS_NAME: String = "TypingSFX"
+
 @onready var dimmer: Button = %Dimmer
 @onready var panel: PanelContainer = %Panel
 @onready var back_button: Button = %BackButton
 @onready var main_menu_button: Button = %MainMenuButton
 @onready var wordlists_button: Button = %WordlistsButton
-@onready var settings_button: Button = %SettingsButton
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+
+@onready var dev_mode_toggle_button: Button = get_node_or_null("%DevModeToggleButton") as Button
+
+@onready var master_slider: Slider = get_node_or_null("%MasterVolumeSlider") as Slider
+@onready var music_slider: Slider = get_node_or_null("%MusicVolumeSlider") as Slider
+@onready var sfx_slider: Slider = get_node_or_null("%SfxVolumeSlider") as Slider
+@onready var typing_sfx_slider: Slider = get_node_or_null("%TypingSfxVolumeSlider") as Slider
+
+@onready var master_value_label: Label = get_node_or_null("%MasterVolumeValueLabel") as Label
+@onready var music_value_label: Label = get_node_or_null("%MusicVolumeValueLabel") as Label
+@onready var sfx_value_label: Label = get_node_or_null("%SfxVolumeValueLabel") as Label
+@onready var typing_sfx_value_label: Label = get_node_or_null("%TypingSfxVolumeValueLabel") as Label
 
 var button_tweens: Dictionary = {}
 var menu_buttons: Array[Button] = []
-
 var menu_state: MenuState = MenuState.CLOSED
 
 
@@ -44,41 +58,109 @@ func _ready() -> void:
 	menu_buttons = [
 		main_menu_button,
 		wordlists_button,
-		settings_button,
 	]
+
+	if dev_mode_toggle_button != null:
+		menu_buttons.append(dev_mode_toggle_button)
 
 	if dimmer != null:
 		dimmer.focus_mode = Control.FOCUS_NONE
-
 		if not dimmer.pressed.is_connected(_on_dimmer_pressed):
 			dimmer.pressed.connect(_on_dimmer_pressed)
 
 	if back_button != null:
 		if not back_button.pressed.is_connected(_on_back_pressed):
 			back_button.pressed.connect(_on_back_pressed)
-
 		_setup_button_hover(back_button)
 
 	if main_menu_button != null:
 		if not main_menu_button.pressed.is_connected(_on_main_menu_pressed):
 			main_menu_button.pressed.connect(_on_main_menu_pressed)
-
 		_setup_menu_button(main_menu_button)
 
 	if wordlists_button != null:
 		if not wordlists_button.pressed.is_connected(_on_wordlists_pressed):
 			wordlists_button.pressed.connect(_on_wordlists_pressed)
-
 		_setup_menu_button(wordlists_button)
 
-	if settings_button != null:
-		if not settings_button.pressed.is_connected(_on_settings_pressed):
-			settings_button.pressed.connect(_on_settings_pressed)
+	if dev_mode_toggle_button != null:
+		if not dev_mode_toggle_button.pressed.is_connected(_on_dev_mode_toggle_pressed):
+			dev_mode_toggle_button.pressed.connect(_on_dev_mode_toggle_pressed)
+		_setup_menu_button(dev_mode_toggle_button)
 
-		_setup_menu_button(settings_button)
+	if GameFlags != null and not GameFlags.dev_mode_changed.is_connected(_on_dev_mode_changed):
+		GameFlags.dev_mode_changed.connect(_on_dev_mode_changed)
+
+	_setup_audio_controls()
+	_refresh_dev_mode_button()
 
 	_set_menu_buttons_input_enabled(false)
 	_reset_menu_buttons_hidden()
+
+
+func _setup_audio_controls() -> void:
+	_setup_volume_slider(master_slider, MASTER_BUS_NAME, master_value_label)
+	_setup_volume_slider(music_slider, MUSIC_BUS_NAME, music_value_label)
+	_setup_volume_slider(sfx_slider, SFX_BUS_NAME, sfx_value_label)
+	_setup_volume_slider(typing_sfx_slider, TYPING_SFX_BUS_NAME, typing_sfx_value_label)
+
+
+func _setup_volume_slider(slider: Slider, bus_name: String, value_label: Label) -> void:
+	if slider == null:
+		return
+
+	slider.min_value = 0.0
+	slider.max_value = 100.0
+	slider.step = 1.0
+
+	var bus_index: int = AudioServer.get_bus_index(bus_name)
+	if bus_index == -1:
+		push_warning("GameMenuOverlay: Audio bus not found: " + bus_name)
+		return
+
+	var current_value: float = _get_bus_volume_percent(bus_index)
+	slider.set_value_no_signal(current_value)
+	_update_volume_label(value_label, current_value)
+
+	if not slider.value_changed.is_connected(_on_volume_slider_changed.bind(bus_name, value_label)):
+		slider.value_changed.connect(_on_volume_slider_changed.bind(bus_name, value_label))
+
+
+func _on_volume_slider_changed(value: float, bus_name: String, value_label: Label) -> void:
+	var bus_index: int = AudioServer.get_bus_index(bus_name)
+	if bus_index == -1:
+		return
+
+	_set_bus_volume_percent(bus_index, value)
+	_update_volume_label(value_label, value)
+
+
+func _get_bus_volume_percent(bus_index: int) -> float:
+	if AudioServer.is_bus_mute(bus_index):
+		return 0.0
+
+	var db: float = AudioServer.get_bus_volume_db(bus_index)
+	var linear: float = db_to_linear(db)
+
+	return clampf(linear * 100.0, 0.0, 100.0)
+
+
+func _set_bus_volume_percent(bus_index: int, value: float) -> void:
+	var clamped_value: float = clampf(value, 0.0, 100.0)
+
+	if clamped_value <= 0.0:
+		AudioServer.set_bus_mute(bus_index, true)
+		return
+
+	AudioServer.set_bus_mute(bus_index, false)
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(clamped_value / 100.0))
+
+
+func _update_volume_label(label: Label, value: float) -> void:
+	if label == null:
+		return
+
+	label.text = str(roundi(value)) + "%"
 
 
 func show_overlay() -> void:
@@ -90,6 +172,8 @@ func show_overlay() -> void:
 
 	_set_menu_buttons_input_enabled(false)
 	_reset_menu_buttons_hidden()
+	_setup_audio_controls()
+	_refresh_dev_mode_button()
 
 	if animation_player != null and animation_player.has_animation("open_menu"):
 		animation_player.play("open_menu")
@@ -119,7 +203,6 @@ func toggle_overlay() -> void:
 		show_overlay()
 
 
-# Call from the end of open_menu animation.
 func enable_menu_buttons() -> void:
 	_on_open_menu_finished()
 
@@ -133,7 +216,6 @@ func _on_open_menu_finished() -> void:
 	_set_menu_buttons_input_enabled(true)
 
 
-# Call from open_menu animation.
 func show_buttons() -> void:
 	for button in menu_buttons:
 		if button == null:
@@ -153,7 +235,6 @@ func show_buttons() -> void:
 		await get_tree().create_timer(BUTTON_SEQUENCE_DELAY).timeout
 
 
-# Call from close_menu animation.
 func hide_buttons() -> void:
 	_set_menu_buttons_input_enabled(false)
 
@@ -204,18 +285,21 @@ func _set_menu_buttons_input_enabled(enabled: bool) -> void:
 
 		button.mouse_filter = mouse_filter_value
 
+	var slider_mouse_filter := Control.MOUSE_FILTER_STOP if enabled else Control.MOUSE_FILTER_IGNORE
+
+	for slider in [master_slider, music_slider, sfx_slider, typing_sfx_slider]:
+		if slider == null:
+			continue
+
+		slider.mouse_filter = slider_mouse_filter
+
 
 func _tween_button_show(button: Button) -> void:
 	_kill_button_tween(button)
 
 	var tween: Tween = create_tween()
 
-	tween.parallel().tween_property(
-		button,
-		"modulate:a",
-		1.0,
-		BUTTON_SHOW_TIME
-	)
+	tween.parallel().tween_property(button, "modulate:a", 1.0, BUTTON_SHOW_TIME)
 
 	tween.parallel().tween_property(
 		button,
@@ -244,12 +328,7 @@ func _tween_button_hide(button: Button) -> void:
 
 	var tween: Tween = create_tween()
 
-	tween.parallel().tween_property(
-		button,
-		"modulate:a",
-		0.0,
-		BUTTON_HIDE_TIME
-	)
+	tween.parallel().tween_property(button, "modulate:a", 0.0, BUTTON_HIDE_TIME)
 
 	tween.parallel().tween_property(
 		button,
@@ -317,11 +396,25 @@ func _on_wordlists_pressed() -> void:
 	word_lists_requested.emit()
 
 
-func _on_settings_pressed() -> void:
-	if menu_state != MenuState.OPEN:
+func _on_dev_mode_toggle_pressed() -> void:
+	if GameFlags == null:
 		return
 
-	settingsmenu_requested.emit()
+	GameFlags.toggle_dev_mode()
+
+
+func _on_dev_mode_changed(_is_enabled: bool) -> void:
+	_refresh_dev_mode_button()
+
+
+func _refresh_dev_mode_button() -> void:
+	if dev_mode_toggle_button == null:
+		return
+
+	if GameFlags != null and GameFlags.is_dev_mode_enabled():
+		dev_mode_toggle_button.text = "Dev Mode: ON"
+	else:
+		dev_mode_toggle_button.text = "Dev Mode: OFF"
 
 
 func _setup_button_hover(button: Button) -> void:
@@ -358,13 +451,7 @@ func _tween_button_scale(button: Button, target_scale: Vector2) -> void:
 	_kill_button_tween(button)
 
 	var tween: Tween = create_tween()
-
-	tween.tween_property(
-		button,
-		"scale",
-		target_scale,
-		BUTTON_HOVER_TWEEN_DURATION
-	)
+	tween.tween_property(button, "scale", target_scale, BUTTON_HOVER_TWEEN_DURATION)
 
 	button_tweens[button] = tween
 

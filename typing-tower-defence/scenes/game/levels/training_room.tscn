@@ -2991,6 +2991,7 @@ training_dummy_scene = ExtResource("9_mhfkx")
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=438680067]
 unique_name_in_owner = true
 stream = ExtResource("3_216pb")
+volume_db = -8.0
 bus = &"Music"
 parameters/looping = true
 
@@ -3020,7 +3021,7 @@ tile_map_data = PackedByteArray("AAADAAcAAAAFAAIAAAABAAkAAAAEAAIAAAAAAAYABgAoACM
 tile_set = SubResource("TileSet_6sp8s")
 
 [node name="JishoAvatar" parent="." unique_id=1215723615 instance=ExtResource("8_0ce4e")]
-position = Vector2(116, 284)
+position = Vector2(133, 265)
 
 [node name="Player" parent="." unique_id=1889170284 instance=ExtResource("1_w3jbd")]
 unique_name_in_owner = true
