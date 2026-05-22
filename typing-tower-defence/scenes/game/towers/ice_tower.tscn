@@ -1,0 +1,232 @@
+[gd_scene format=3 uid="uid://wha8rlkddi4d"]
+
+[ext_resource type="Script" uid="uid://bqf4i1rh3l0db" path="res://scenes/game/towers/ice_tower.gd" id="1_x43dg"]
+[ext_resource type="PackedScene" uid="uid://xc0rnv812nwm" path="res://vfx/summon_circle.tscn" id="2_ai8ho"]
+[ext_resource type="Texture2D" uid="uid://dxhs8nq2g4b7x" path="res://assets/images/gradient_textures/circle_05_a.png" id="2_m8awq"]
+[ext_resource type="Shader" uid="uid://bmpyiqig8e3dm" path="res://shaders/magic_energy_wobble.gdshader" id="3_b4noh"]
+[ext_resource type="Texture2D" uid="uid://ba7ga4egc0mir" path="res://assets/images/towers/Crystal_Basic.png" id="4_ai8ho"]
+[ext_resource type="PackedScene" uid="uid://txnmwp1t7r4d" path="res://vfx/ice_frost.tscn" id="5_b4noh"]
+[ext_resource type="Shader" uid="uid://c6h8qahimfc8" path="res://shaders/ice_field_shader.gdshader" id="5_m8awq"]
+
+[sub_resource type="Animation" id="Animation_wdbdq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrystalRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CrystalRoot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_e1sw3"]
+resource_name = "fire"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrystalRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(0.95, 0.95), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CrystalRoot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4), Vector2(0, 4), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jwqch"]
+_data = {
+&"RESET": SubResource("Animation_wdbdq"),
+&"fire": SubResource("Animation_e1sw3")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b4noh"]
+shader = ExtResource("5_m8awq")
+shader_parameter/ice_color = Color(0.45, 0.85, 1, 0.32)
+shader_parameter/frost_color = Color(0.85, 0.97, 1, 0.22)
+shader_parameter/radius = 0.3930000186675
+shader_parameter/edge_softness = 0.12
+shader_parameter/noise_scale = 22.0
+shader_parameter/shimmer_speed = 0.45
+shader_parameter/shimmer_strength = 0.25
+shader_parameter/crack_strength = 0.35
+
+[sub_resource type="Gradient" id="Gradient_yp6uj"]
+offsets = PackedFloat32Array(0, 0.77011496)
+colors = PackedColorArray(1, 1, 1, 0.87058824, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e1sw3"]
+gradient = SubResource("Gradient_yp6uj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xvoab"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_urd5k"]
+offsets = PackedFloat32Array(0, 0.069078945, 0.8256579, 1)
+colors = PackedColorArray(0.2, 0.42745098, 1, 0, 0.42085662, 0.42423427, 0.69881815, 1, 0.95342046, 0.9573191, 0.99917966, 1, 0.7294118, 0.7411765, 0.99607843, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kjf8r"]
+gradient = SubResource("Gradient_urd5k")
+
+[sub_resource type="Curve" id="Curve_bodve"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.16060606, 0.77261764), 0.0, 0.0, 0, 0, Vector2(0.99090904, 0.3100121), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xx8gx"]
+curve = SubResource("Curve_bodve")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6n0il"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 0, 0)
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 15.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.049999997
+scale_max = 0.099999994
+scale_curve = SubResource("CurveTexture_xx8gx")
+color_ramp = SubResource("GradientTexture1D_kjf8r")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1sw3"]
+shader = ExtResource("3_b4noh")
+shader_parameter/glow_color = Color(0.87413913, 0.93994856, 0.9999998, 1)
+shader_parameter/glow_strength = 1.8
+shader_parameter/pulse_speed = 3.0
+shader_parameter/edge_width = 0.08
+shader_parameter/distortion_strength = 0.05
+shader_parameter/flame_speed = 1.5
+shader_parameter/top_flame_strength = 1.2
+shader_parameter/top_flame_height = 0.22
+shader_parameter/top_flame_breakup = 0.55
+shader_parameter/top_flame_wobble = 0.045
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8t4bd"]
+radius = 250.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yp6uj"]
+radius = 17.0
+height = 48.0
+
+[node name="IceTower" type="Node2D" unique_id=1067505479]
+script = ExtResource("1_x43dg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1903714713]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_jwqch")
+
+[node name="SummonCircle" parent="." unique_id=243379518 instance=ExtResource("2_ai8ho")]
+unique_name_in_owner = true
+amount = 2
+scale_amount_min = 0.7
+scale_amount_max = 0.7
+
+[node name="IceField" type="ColorRect" parent="." unique_id=1592605583]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_b4noh")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CrystalRoot" type="Node2D" parent="." unique_id=873079431]
+unique_name_in_owner = true
+
+[node name="ProjectileSpawn" type="Marker2D" parent="CrystalRoot" unique_id=1970906002]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+
+[node name="PointLight2D" type="PointLight2D" parent="CrystalRoot" unique_id=1007052807]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+color = Color(0.30980393, 0.7647059, 1, 1)
+energy = 0.5
+texture = SubResource("GradientTexture2D_e1sw3")
+
+[node name="FlameParticles" type="GPUParticles2D" parent="CrystalRoot" unique_id=1307533987]
+visible = false
+material = SubResource("CanvasItemMaterial_xvoab")
+position = Vector2(0, -32)
+amount = 5
+texture = ExtResource("2_m8awq")
+preprocess = 0.8
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_6n0il")
+
+[node name="IceFrost" parent="CrystalRoot" unique_id=1259927400 instance=ExtResource("5_b4noh")]
+position = Vector2(1, -32)
+lifetime = 1.0
+explosiveness = 0.3
+gravity = Vector2(0, 20)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+scale_amount_max = 0.5
+
+[node name="GlowSprite" type="Sprite2D" parent="CrystalRoot" unique_id=1743581545]
+material = SubResource("ShaderMaterial_e1sw3")
+position = Vector2(0, -32)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_ai8ho")
+
+[node name="CrystalSprite" type="Sprite2D" parent="CrystalRoot" unique_id=2072018009]
+visible = false
+position = Vector2(0, -32)
+texture = ExtResource("4_ai8ho")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=336730534]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -32)
+collision_layer = 128
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1744894666]
+shape = SubResource("CircleShape2D_8t4bd")
+
+[node name="HoverArea" type="Area2D" parent="." unique_id=1366149117]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverArea" unique_id=1579389912]
+position = Vector2(0, -32)
+shape = SubResource("CapsuleShape2D_yp6uj")

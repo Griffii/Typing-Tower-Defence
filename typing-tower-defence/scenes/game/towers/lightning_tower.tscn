@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://y4a2j88o08jf"]
 
 [ext_resource type="Script" uid="uid://bp1o6jp0pn2d7" path="res://scenes/game/towers/lightning_tower.gd" id="1_jj4tl"]
+[ext_resource type="PackedScene" uid="uid://xc0rnv812nwm" path="res://vfx/summon_circle.tscn" id="3_jj4tl"]
 [ext_resource type="Texture2D" uid="uid://dxhs8nq2g4b7x" path="res://assets/images/gradient_textures/circle_05_a.png" id="3_kk6pl"]
+[ext_resource type="PackedScene" uid="uid://bda44yts7vxd3" path="res://vfx/sparks.tscn" id="4_a7sus"]
 [ext_resource type="Shader" uid="uid://bmpyiqig8e3dm" path="res://shaders/magic_energy_wobble.gdshader" id="4_jj4tl"]
 [ext_resource type="Texture2D" uid="uid://dq7lo3gn05tef" path="res://assets/images/towers/Crystal_Yellow.png" id="5_a7sus"]
 [ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/spells/spell_shoosh_sfx.mp3" id="7_a7sus"]
@@ -127,6 +129,12 @@ stream = ExtResource("7_a7sus")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_noblj")
 
+[node name="SummonCircle" parent="." unique_id=243379518 instance=ExtResource("3_jj4tl")]
+unique_name_in_owner = true
+amount = 2
+scale_amount_min = 0.7
+scale_amount_max = 0.7
+
 [node name="CrystalRoot" type="Node2D" parent="." unique_id=369273183]
 unique_name_in_owner = true
 
@@ -141,7 +149,18 @@ color = Color(0.30980393, 0.7647059, 1, 1)
 energy = 0.5
 texture = SubResource("GradientTexture2D_noblj")
 
+[node name="Sparks" parent="CrystalRoot" unique_id=38049743 instance=ExtResource("4_a7sus")]
+position = Vector2(0, -32)
+amount = 15
+lifetime = 1.5
+spread = 80.0
+gravity = Vector2(0, 100)
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+angular_velocity_max = 180.0
+
 [node name="FlameParticles" type="GPUParticles2D" parent="CrystalRoot" unique_id=1859866183]
+visible = false
 material = SubResource("CanvasItemMaterial_m6cp8")
 position = Vector2(0, -32)
 amount = 5
@@ -162,6 +181,7 @@ texture = ExtResource("5_a7sus")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=696677905]
 unique_name_in_owner = true
+visible = false
 position = Vector2(0, -32)
 collision_layer = 128
 collision_mask = 2

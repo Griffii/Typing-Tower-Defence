@@ -584,3 +584,7 @@ func play_staff_swing() -> void:
 		return
 
 	staff_anim_player.play("staff_swing")
+
+
+func small_shake() -> void:
+	ScreenEffects.shake_screen(4.0, 0.25)

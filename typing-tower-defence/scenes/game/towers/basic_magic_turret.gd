@@ -28,6 +28,10 @@ const MAGIC_PROJECTILE_SCENE: PackedScene = preload("uid://hkis3ut0qmh5")
 @onready var crystal_root: Node2D = %CrystalRoot
 @onready var point_light_2d: PointLight2D = %PointLight2D
 
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var summon_circle: CPUParticles2D = %SummonCircle
+
+
 var slot_id: String = ""
 var combat_manager: Node = null
 var projectile_container: Node = null
@@ -88,9 +92,19 @@ func _ready() -> void:
 	set_process(true)
 
 
+func play_summon_effect() -> void:
+	if summon_circle == null:
+		return
+
+	summon_circle.restart()
+	summon_circle.emitting = true
+
+
 func _play_crystal_intro_animation() -> void:
 	if crystal_root == null:
 		return
+	
+	play_summon_effect()
 
 	if crystal_intro_tween != null and crystal_intro_tween.is_valid():
 		crystal_intro_tween.kill()
@@ -292,7 +306,10 @@ func _fire_at_target(target: Node2D) -> void:
 	if MAGIC_PROJECTILE_SCENE != null and projectile_container != null:
 		var projectile: Node = MAGIC_PROJECTILE_SCENE.instantiate()
 		projectile_container.add_child(projectile)
-
+		
+		if animation_player and animation_player.has_animation("fire"):
+			animation_player.play("fire")
+		
 		if projectile.has_method("fire"):
 			projectile.fire(
 				from_pos,
@@ -359,14 +376,32 @@ func _draw() -> void:
 func _refresh_targets_from_overlaps() -> void:
 	targets_in_range.clear()
 
-	if range_area == null:
-		return
+	if range_area != null:
+		for body in range_area.get_overlapping_bodies():
+			_try_add_target(body)
 
-	for body in range_area.get_overlapping_bodies():
-		_try_add_target(body)
+		for area in range_area.get_overlapping_areas():
+			_try_add_target(area)
 
-	for area in range_area.get_overlapping_areas():
-		_try_add_target(area)
+	# Fallback for training room / unusual collision setups.
+	# This makes tower targeting not fully dependent on Area2D masks.
+	for enemy_node in get_tree().get_nodes_in_group("enemies"):
+		if not _is_valid_enemy(enemy_node):
+			continue
+
+		var enemy: Node2D = enemy_node as Node2D
+		var origin: Vector2 = global_position
+
+		if projectile_spawn != null:
+			origin = projectile_spawn.global_position
+
+		if origin.distance_to(enemy.global_position) <= tower_range:
+			_try_add_target(enemy)
+
+
+func refresh_targets() -> void:
+	await get_tree().physics_frame
+	_refresh_targets_from_overlaps()
 
 
 func _cleanup_targets() -> void:

@@ -8,7 +8,6 @@ const ENDLESS_GAME_SCENE: PackedScene = preload("uid://160u44o703f8")
 const CAMPAIGN_GAME_SCENE: PackedScene = preload("uid://ds243ews64l1a")
 const TRAINING_ROOM_GAME_SCENE: PackedScene = preload("uid://dly0hhr52vbhj")
 
-## Modal scenes
 const WORD_LISTS_SCENE: PackedScene = preload("uid://b3dwhhkipwc5c")
 const SETTINGS_MENU_SCENE: PackedScene = preload("uid://gx0317qb6t87")
 
@@ -20,9 +19,61 @@ var current_modal: CanvasLayer = null
 var current_screen: Control = null
 var is_transitioning: bool = false
 
+var screen_container_base_position: Vector2 = Vector2.ZERO
+var screen_shake_tween: Tween = null
+
 
 func _ready() -> void:
+	screen_container_base_position = screen_container.position
+
+	if ScreenEffects != null and not ScreenEffects.screen_shake_requested.is_connected(_on_screen_shake_requested):
+		ScreenEffects.screen_shake_requested.connect(_on_screen_shake_requested)
+
 	_set_main_menu()
+
+
+func _on_screen_shake_requested(intensity: float = 8.0, duration: float = 0.18) -> void:
+	shake_screen_container(intensity, duration)
+
+
+func shake_screen_container(intensity: float = 8.0, duration: float = 0.18) -> void:
+	if screen_container == null:
+		return
+
+	if screen_shake_tween != null and screen_shake_tween.is_valid():
+		screen_shake_tween.kill()
+
+	screen_container.position = screen_container_base_position
+
+	var step_time: float = 0.025
+	var elapsed: float = 0.0
+
+	screen_shake_tween = create_tween()
+
+	while elapsed < duration:
+		var progress: float = elapsed / max(duration, 0.001)
+		var current_intensity: float = lerpf(intensity, 0.0, progress)
+
+		var offset := Vector2(
+			randf_range(-current_intensity, current_intensity),
+			randf_range(-current_intensity, current_intensity)
+		)
+
+		screen_shake_tween.tween_property(
+			screen_container,
+			"position",
+			screen_container_base_position + offset,
+			step_time
+		)
+
+		elapsed += step_time
+
+	screen_shake_tween.tween_property(
+		screen_container,
+		"position",
+		screen_container_base_position,
+		step_time
+	)
 
 
 func clear_current_screen() -> void:

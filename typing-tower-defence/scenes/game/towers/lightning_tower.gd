@@ -32,6 +32,9 @@ const TOWER_PROJECTILE_SCENE: PackedScene = preload("res://scenes/game/projectil
 
 @onready var shoot_sfx: AudioStreamPlayer2D = %ShootSfx
 
+@onready var summon_circle: CPUParticles2D = %SummonCircle
+
+
 var slot_id: String = ""
 var combat_manager: Node = null
 var projectile_container: Node = null
@@ -95,9 +98,19 @@ func _ready() -> void:
 	set_process(true)
 
 
+func play_summon_effect() -> void:
+	if summon_circle == null:
+		return
+
+	summon_circle.restart()
+	summon_circle.emitting = true
+
+
 func _play_crystal_intro_animation() -> void:
 	if crystal_root == null:
 		return
+	
+	play_summon_effect()
 
 	if crystal_intro_tween != null and crystal_intro_tween.is_valid():
 		crystal_intro_tween.kill()
@@ -199,7 +212,7 @@ func setup_tower(new_slot_id: String, new_combat_manager: Node, new_projectile_c
 	_refresh_targets_from_overlaps()
 
 	attack_timer = randf_range(0.0, attack_interval)
-	attacks_enabled = damage > 0 and attack_interval > 0.0
+	attacks_enabled = damage > 0 and attack_interval > 0.
 
 
 func _process(delta: float) -> void:

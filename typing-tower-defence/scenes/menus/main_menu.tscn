@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://poovhl5nq36r" path="res://scenes/menus/main_menu.gd" id="1_xqga4"]
 [ext_resource type="PackedScene" uid="uid://fjvdfkiln5ta" path="res://scenes/game/ui/magic_title_label.tscn" id="4_88kup"]
-[ext_resource type="FontFile" uid="uid://boie2i3rto4ck" path="res://assets/fonts/Cinzel/Cinzel-Bold.ttf" id="5_25m6f"]
+[ext_resource type="FontFile" uid="uid://ds1n8n0fogrlw" path="res://assets/fonts/MagicSchoolOne.ttf" id="5_bh4e2"]
 [ext_resource type="PackedScene" uid="uid://d2ckssk1pr0mr" path="res://scenes/game/ui/buttons/main_menu_button.tscn" id="6_bh4e2"]
-[ext_resource type="PackedScene" uid="uid://cce64clndfd8h" path="res://scenes/animals/sheep.tscn" id="6_ng0o5"]
 [ext_resource type="Script" uid="uid://t5htqohx50rr" path="res://scenes/menus/animated_starfield_background.gd" id="7_bh4e2"]
 [ext_resource type="PackedScene" uid="uid://b807kf2rrb0yt" path="res://scenes/game/dialogue/avatars/jisho_avatar.tscn" id="11_uxao6"]
 [ext_resource type="PackedScene" uid="uid://8npj02qfrg3f" path="res://scenes/game/player/player.tscn" id="12_vr0hv"]
+[ext_resource type="PackedScene" uid="uid://y4a2j88o08jf" path="res://scenes/game/towers/lightning_tower.tscn" id="14_vr0hv"]
+[ext_resource type="PackedScene" uid="uid://wha8rlkddi4d" path="res://scenes/game/towers/ice_tower.tscn" id="15_a3hrp"]
+[ext_resource type="PackedScene" uid="uid://ciwqq06h6kavx" path="res://scenes/game/towers/basic_magic_turret.tscn" id="16_25m6f"]
 [ext_resource type="AudioStream" uid="uid://ct8ehhfarhrnr" path="res://assets/sfx/spells/spell_shoosh_sfx.mp3" id="17_25m6f"]
 [ext_resource type="AudioStream" uid="uid://cpoaxay8kck0" path="res://assets/sfx/towers/electric_discharge_sfx.mp3" id="18_nkawv"]
 [ext_resource type="AudioStream" uid="uid://d21dtkxbcw5qs" path="res://assets/sfx/menus/Type_Click.ogg" id="21_287l7"]
@@ -80,12 +82,21 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_bh4e2")
 
-[node name="MagicTitleLabel" parent="." unique_id=1810070664 instance=ExtResource("4_88kup")]
+[node name="TitleContainer" type="MarginContainer" parent="." unique_id=963352031]
+custom_minimum_size = Vector2(0, 115)
 layout_mode = 1
-title_font = ExtResource("5_25m6f")
-font_size = 72
-mouse_push_radius = 70.0
-mouse_push_strength = 10.0
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_right = 50
+
+[node name="MagicTitleLabel" parent="TitleContainer" unique_id=1810070664 instance=ExtResource("4_88kup")]
+layout_mode = 2
+title_font = ExtResource("5_bh4e2")
+color_cycle_speed = 1.0
+shadow_offset = Vector2(4, 6)
+shadow_color = Color(0.78084, 0.3540541, 0.9101875, 1)
 
 [node name="MainMarginConatianer" type="MarginContainer" parent="." unique_id=1666646469]
 layout_mode = 1
@@ -138,21 +149,34 @@ unique_name_in_owner = true
 layout_mode = 2
 label_text = "Settings"
 
+[node name="CrystalContainer" type="Node2D" parent="." unique_id=306499104]
+visible = false
+position = Vector2(479, 286)
+
+[node name="LightningTower" parent="CrystalContainer" unique_id=2115614552 instance=ExtResource("14_vr0hv")]
+position = Vector2(-27, 27)
+
+[node name="IceTower" parent="CrystalContainer" unique_id=1067505479 instance=ExtResource("15_a3hrp")]
+position = Vector2(28, 27)
+ice_visual_initial_expand_time = 0.0
+ice_visual_refresh_interval = 20.0
+ice_visual_full_alpha = 0.0
+ice_visual_low_alpha = 0.0
+ice_visual_restore_time = 0.0
+ice_field_base_size = Vector2(0, 0)
+
+[node name="BasicMagicTower" parent="CrystalContainer" unique_id=197358579 instance=ExtResource("16_25m6f")]
+
 [node name="CharactersContainer" type="Node2D" parent="." unique_id=711948835]
 
 [node name="JishoAvatar" parent="CharactersContainer" unique_id=1215723615 instance=ExtResource("11_uxao6")]
-position = Vector2(810, 334)
+position = Vector2(816, 320)
 scale = Vector2(2, 2)
 
 [node name="Player" parent="CharactersContainer" unique_id=1889170284 instance=ExtResource("12_vr0hv")]
-position = Vector2(582, 541)
+position = Vector2(575, 541)
 scale = Vector2(3, 3)
 show_special_meter = false
-
-[node name="Thistle" parent="CharactersContainer" unique_id=1144505600 instance=ExtResource("6_ng0o5")]
-position = Vector2(837.00006, 459.00003)
-scale = Vector2(10, 10)
-frame_progress = 0.68117845
 
 [node name="SFXContainer" type="Node2D" parent="." unique_id=1035850287]
 

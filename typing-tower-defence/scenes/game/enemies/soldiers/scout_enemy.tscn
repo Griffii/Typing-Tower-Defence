@@ -518,7 +518,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x1wx"]
 size = Vector2(30, 35)
 
-[node name="Scout" type="CharacterBody2D" unique_id=1935126053]
+[node name="Scout" type="CharacterBody2D" unique_id=1935126053 groups=["enemy"]]
 collision_layer = 2
 script = ExtResource("1_lld82")
 

@@ -155,10 +155,12 @@ func spawn_dummy(marker_id: String) -> TrainingDummy:
 		return null
 
 	var parent_node: Node = enemy_container
+
 	if parent_node == null:
 		parent_node = self
 
 	parent_node.add_child(dummy)
+
 	dummy.global_position = marker.global_position
 	dummy.scale = enemy_scale
 
@@ -176,6 +178,8 @@ func spawn_dummy(marker_id: String) -> TrainingDummy:
 		dummy.enemy_died.connect(_on_dummy_died)
 
 	active_dummies[marker_id] = dummy
+
+	call_deferred("_refresh_tower_targets_deferred")
 
 	return dummy
 
@@ -249,6 +253,20 @@ func clear_all_towers() -> void:
 	tower_nodes.clear()
 
 
+func refresh_tower_targets() -> void:
+	for tower in tower_nodes.values():
+		if tower == null or not is_instance_valid(tower):
+			continue
+
+		if tower.has_method("refresh_targets"):
+			tower.refresh_targets()
+
+
+func _refresh_tower_targets_deferred() -> void:
+	await get_tree().physics_frame
+	refresh_tower_targets()
+
+
 func refresh_all_towers(combat_manager: Node) -> void:
 	if combat_manager == null:
 		return
@@ -309,15 +327,15 @@ func refresh_all_towers(combat_manager: Node) -> void:
 			tower.global_position = marker.global_position
 			tower_nodes[slot_id] = tower
 
+		if tower.has_method("set_override_range"):
+			tower.set_override_range(999.0)
+
 		if tower.has_method("setup_tower"):
 			tower.setup_tower(slot_id, combat_manager, projectile_container)
-			
-			if tower.has_method("set_override_range"):
-				tower.set_override_range(999.0)
-			
-			if tower.has_signal("tower_finished_firing"):
-				if not tower.tower_finished_firing.is_connected(_on_tower_finished_firing):
-					tower.tower_finished_firing.connect(_on_tower_finished_firing)
+
+		if tower.has_signal("tower_finished_firing"):
+			if not tower.tower_finished_firing.is_connected(_on_tower_finished_firing):
+				tower.tower_finished_firing.connect(_on_tower_finished_firing)
 
 	var stale_slots: Array[String] = []
 

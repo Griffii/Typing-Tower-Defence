@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n54m58d228ns"
-path="res://.godot/imported/TypingTowerDefence-Backsplash.png-1038bb7085c17bb5caba01fcf48d75ff.ctex"
+uid="uid://pydnujpa1y4"
+path="res://.godot/imported/pixel_snowflake.png-85c52c07c75146583eb371161ef2fb31.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TypingTowerDefence-Backsplash.png"
-dest_files=["res://.godot/imported/TypingTowerDefence-Backsplash.png-1038bb7085c17bb5caba01fcf48d75ff.ctex"]
+source_file="res://assets/images/gradient_textures/pixel_snowflake.png"
+dest_files=["res://.godot/imported/pixel_snowflake.png-85c52c07c75146583eb371161ef2fb31.ctex"]
 
 [params]
 

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://xc0rnv812nwm"]
+
+[ext_resource type="Texture2D" uid="uid://cypypvg5h1i8k" path="res://assets/images/gradient_textures/magic_circle_flat.png" id="1_pg8py"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_summon"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_summon_scale"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.40434784, 0.6067416), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_summon"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.9, 0.5, 1, 0.8, 0.5, 1, 0.8, 0.5, 0.3, 0.8, 0)
+
+[node name="SummonCircle" type="CPUParticles2D" unique_id=243379518]
+material = SubResource("CanvasItemMaterial_summon")
+emitting = false
+amount = 5
+texture = ExtResource("1_pg8py")
+one_shot = true
+preprocess = 0.5
+local_coords = true
+emission_shape = 2
+emission_sphere_radius = 1.0
+direction = Vector2(0, 0)
+spread = 20.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_summon_scale")
+color_ramp = SubResource("Gradient_summon")

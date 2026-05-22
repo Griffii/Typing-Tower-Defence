@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://b807kf2rrb0yt"]
 
 [ext_resource type="Texture2D" uid="uid://csrxxtqvftbf" path="res://assets/images/npcs/jisho_placeholder.png" id="1_reovt"]
+[ext_resource type="PackedScene" uid="uid://y4a2j88o08jf" path="res://scenes/game/towers/lightning_tower.tscn" id="2_782ry"]
+[ext_resource type="PackedScene" uid="uid://wha8rlkddi4d" path="res://scenes/game/towers/ice_tower.tscn" id="3_4wpcj"]
+[ext_resource type="PackedScene" uid="uid://ciwqq06h6kavx" path="res://scenes/game/towers/basic_magic_turret.tscn" id="4_2m0hi"]
 
 [sub_resource type="Animation" id="Animation_reovt"]
 length = 0.001
@@ -70,6 +73,24 @@ _data = {
 position = Vector2(0, -41)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("1_reovt")
+
+[node name="CrystalContainer" type="Node2D" parent="JishoSprite" unique_id=1082711678]
+position = Vector2(0, -24)
+
+[node name="LightningTower" parent="JishoSprite/CrystalContainer" unique_id=2115614552 instance=ExtResource("2_782ry")]
+position = Vector2(0, 48)
+
+[node name="IceTower" parent="JishoSprite/CrystalContainer" unique_id=1067505479 instance=ExtResource("3_4wpcj")]
+position = Vector2(0, 96)
+ice_visual_initial_expand_time = 0.0
+ice_visual_refresh_interval = 20.0
+ice_visual_full_alpha = 0.0
+ice_visual_low_alpha = 0.0
+ice_visual_restore_time = 0.0
+ice_field_base_size = Vector2(0, 0)
+
+[node name="BasicMagicTower" parent="JishoSprite/CrystalContainer" unique_id=1645500321 instance=ExtResource("4_2m0hi")]
+position = Vector2(0, 4)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1450338407]
 libraries/ = SubResource("AnimationLibrary_vqx2a")

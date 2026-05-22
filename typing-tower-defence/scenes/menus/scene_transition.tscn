@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://4rggynnm11g4"]
 
 [ext_resource type="Script" uid="uid://dq3kwphm1620n" path="res://scenes/menus/scene_transition.gd" id="1_3bgq8"]
+[ext_resource type="Script" uid="uid://t5htqohx50rr" path="res://scenes/menus/animated_starfield_background.gd" id="2_65ar7"]
 [ext_resource type="AudioStream" uid="uid://cuh21rtnii00u" path="res://assets/sfx/menus/transition_whoosh.ogg" id="2_sromv"]
 
 [sub_resource type="Gradient" id="Gradient_ipp86"]
-offsets = PackedFloat32Array(0.712551, 0.955466, 1)
-colors = PackedColorArray(0.0728426, 0.0728426, 0.0728426, 1, 0.278431, 0.278431, 0.278431, 0.756863, 0.278431, 0.278431, 0.278431, 0)
+offsets = PackedFloat32Array(0.7019231, 1)
+colors = PackedColorArray(0.0728426, 0.0728426, 0.0728426, 1, 0.2784314, 0.2784314, 0.2784314, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_igxph"]
 gradient = SubResource("Gradient_ipp86")
@@ -199,6 +200,29 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 0
 texture = SubResource("GradientTexture2D_igxph")
+
+[node name="AnimatedStarfieldBackground" type="Control" parent="ColorRect" unique_id=228558222]
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.66724
+offset_top = -166.0
+offset_right = 319.33276
+offset_bottom = 194.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_65ar7")
+star_count = 15
+magic_dot_count = 5
+star_color = Color(0.65756637, 0.9695706, 0.6464042, 0.8509804)
+magic_color = Color(0.59723234, 0.7714715, 0.117482774, 0.7490196)
+background_color_a = Color(0, 0, 0, 1)
+background_color_b = Color(0, 0, 0, 1)
+background_color_c = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=157343367]
 unique_name_in_owner = true

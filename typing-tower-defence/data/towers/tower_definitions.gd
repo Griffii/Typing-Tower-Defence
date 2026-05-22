@@ -44,7 +44,7 @@ const TOWER_TYPES := {
 	},
 
 	"ice_tower": {
-		"scene": preload("uid://ciwqq06h6kavx"),
+		"scene": preload("uid://wha8rlkddi4d"),
 		"display_name": "Ice Tower",
 		"description": "Creates an icy field to slow enemies.",
 		"icon": preload("uid://bjkiyugprlyuf"),

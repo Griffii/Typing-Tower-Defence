@@ -25,6 +25,8 @@ const FLOATING_DAMAGE_NUMBER_SCENE: PackedScene = preload("uid://135vfqolfa2c")
 
 
 var move_speed: float = 40.0
+var speed_multiplier: float = 1.0
+var slow_effects: Dictionary = {}
 var max_hp: int = 10
 var reward_score: int = 10
 var reward_gold: int = 1
@@ -71,9 +73,11 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-
+	
+	_update_speed_modifiers(delta)
+	
 	_cleanup_targets()
-
+	
 	if is_instance_valid(current_target):
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -115,7 +119,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var direction: Vector2 = to_point.normalized()
-	velocity = direction * move_speed
+	velocity = direction * get_current_move_speed()
 	move_and_slide()
 
 	_play_walk_animation()
@@ -343,6 +347,51 @@ func _apply_facing() -> void:
 
 	if label_root != null:
 		label_root.scale.x = 1.0
+
+
+func _update_speed_modifiers(delta: float) -> void:
+	var expired_sources: Array[String] = []
+
+	for source_id in slow_effects.keys():
+		var effect: Dictionary = slow_effects[source_id]
+		var time_left: float = float(effect.get("time_left", 0.0)) - delta
+
+		if time_left <= 0.0:
+			expired_sources.append(source_id)
+		else:
+			effect["time_left"] = time_left
+			slow_effects[source_id] = effect
+
+	for source_id in expired_sources:
+		slow_effects.erase(source_id)
+
+
+func apply_speed_modifier(source_id: String, multiplier: float, duration: float) -> void:
+	if is_dead:
+		return
+
+	if source_id.is_empty():
+		return
+
+	slow_effects[source_id] = {
+		"multiplier": clampf(multiplier, 0.05, 1.0),
+		"time_left": max(0.01, duration),
+	}
+
+
+func get_current_move_speed() -> float:
+	return move_speed * _get_active_speed_multiplier()
+
+
+func _get_active_speed_multiplier() -> float:
+	var strongest_multiplier: float = 1.0
+
+	for source_id in slow_effects.keys():
+		var effect: Dictionary = slow_effects[source_id]
+		var multiplier: float = float(effect.get("multiplier", 1.0))
+		strongest_multiplier = min(strongest_multiplier, multiplier)
+
+	return strongest_multiplier
 
 
 func _play_walk_animation() -> void:

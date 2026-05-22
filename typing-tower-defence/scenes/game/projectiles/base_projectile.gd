@@ -83,6 +83,8 @@ func _on_impact() -> void:
 	has_impacted = true
 	is_flying = false
 
+	ScreenEffects.shake_screen(18.0, 0.35) # Big shake on impact
+	
 	_apply_area_effects()
 
 	if is_instance_valid(target_enemy):

@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Typing Tower Defence!"
+config/name="Leximancer"
 run/main_scene="uid://ws4cm1qoqgge"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-boot_splash/image="uid://n54m58d228ns"
-config/icon="uid://b23vspxb8ehtc"
+boot_splash/image="uid://b0v0a7ci8g5as"
+config/icon="uid://cq2jt7a5evb2q"
 
 [autoload]
 
@@ -26,6 +26,7 @@ PlayerLoadout="*uid://lpu452r3wg4j"
 CampaignProgress="*uid://dkqp8wqwrso0b"
 AudioManager="*uid://bxkgnqvmq6yhe"
 GameFlags="*uid://dh53mlb0kab44"
+ScreenEffects="*uid://bwmc5nqces5jf"
 
 [display]
 
@@ -40,7 +41,6 @@ enabled=PackedStringArray("res://addons/tile-run-instances/plugin.cfg")
 [file_customization]
 
 folder_colors={
-"res://Networking/": "pink",
 "res://assets/": "purple",
 "res://campaign/": "yellow",
 "res://data/": "teal",
