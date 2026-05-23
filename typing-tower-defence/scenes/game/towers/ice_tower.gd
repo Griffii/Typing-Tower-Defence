@@ -35,6 +35,8 @@ extends Node2D
 @onready var ice_field: ColorRect = %IceField
 
 @onready var summon_circle: CPUParticles2D = %SummonCircle
+@onready var spawn_sfx: AudioStreamPlayer2D = %SpawnSFX
+
 
 var slot_id: String = ""
 var combat_manager: Node = null
@@ -288,6 +290,8 @@ func play_summon_effect() -> void:
 
 	summon_circle.restart()
 	summon_circle.emitting = true
+	
+	spawn_sfx.play()
 
 
 func _play_crystal_intro_animation() -> void:

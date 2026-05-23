@@ -6,6 +6,7 @@ const TowerDefinitions = preload("res://data/towers/tower_definitions.gd")
 const DEFAULT_TOWER_SCENE: PackedScene = preload("res://scenes/game/towers/basic_magic_turret.tscn")
 
 @export var enemy_scale: Vector2 = Vector2.ONE
+@export var enemy_speed_multiplier: float = 1.0
 @export var allowed_tower_types: Array[String] = [
 	"basic_magic_turret",
 	"chain_lightning",
@@ -51,6 +52,8 @@ func get_enemy_container() -> Node2D:
 func get_enemy_scale() -> Vector2:
 	return enemy_scale
 
+func get_enemy_speed_multiplier() -> float:
+	return enemy_speed_multiplier
 
 func get_tower_container() -> Node:
 	return tower_container

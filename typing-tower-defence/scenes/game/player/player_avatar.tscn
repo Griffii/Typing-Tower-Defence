@@ -282,7 +282,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.4),
+"times": PackedFloat32Array(0.35),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -320,7 +320,7 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.4),
+"times": PackedFloat32Array(0.45),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -387,6 +387,7 @@ offset_top = -60.0
 offset_right = -4.0
 offset_bottom = -52.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="RightEyeColor" type="ColorRect" parent="VisualRoot/MainBody/Pupils" unique_id=475957763]
 unique_name_in_owner = true
@@ -395,6 +396,7 @@ offset_top = -60.0
 offset_right = 12.0
 offset_bottom = -52.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="EyesSprite" type="Sprite2D" parent="VisualRoot/MainBody" unique_id=316699724]
 unique_name_in_owner = true

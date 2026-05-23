@@ -159,6 +159,10 @@ func setup_enemy(enemy_data: Dictionary) -> void:
 	_play_walk_animation()
 
 
+func set_base_move_speed_multiplier(multiplier: float) -> void:
+	move_speed *= max(0.01, multiplier)
+
+
 func _apply_type_stats(type_name: String) -> void:
 	var stats: Dictionary = EnemyDefinitions.ENEMY_STATS.get(type_name, EnemyDefinitions.ENEMY_STATS["grunt"])
 
@@ -232,7 +236,7 @@ func apply_damage(amount: int) -> void:
 		return
 
 	current_hp = max(0, current_hp - damage_received)
-	_update_labels()
+	_update_health_display()
 	_spawn_floating_damage_number(damage_received)
 
 	if current_hp <= 0:
@@ -324,13 +328,17 @@ func _update_labels() -> void:
 	if word_label_controller != null:
 		word_label_controller.set_word(current_word)
 		word_label_controller.set_targeted(is_targeted)
+	
+	_update_health_display()
 
+
+func _update_health_display() -> void:
 	if hp_label != null:
 		hp_label.visible = false
-
+	
 	if enemy_health_bar != null:
 		enemy_health_bar.visible = true
-
+	
 		if enemy_health_bar.has_method("set_hp"):
 			enemy_health_bar.set_hp(current_hp, max_hp)
 		elif enemy_health_bar.has_method("set_base_hp"):

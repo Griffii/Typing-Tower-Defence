@@ -6,6 +6,8 @@ extends Enemy
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var death_sfx: AudioStreamPlayer2D = %"death-sfx"
 @onready var hit_sfx: AudioStreamPlayer2D = %"hit-sfx"
+@onready var spawn_sfx: AudioStreamPlayer2D = %SpawnSFX
+
 
 var marker_id: String = ""
 var is_finishing_death: bool = false
@@ -75,6 +77,7 @@ func _physics_process(_delta: float) -> void:
 func _play_spawn_animation() -> void:
 	if animation_player != null and animation_player.has_animation("spawn"):
 		animation_player.play("spawn")
+	spawn_sfx.play()
 
 	if body != null:
 		body.play("idle")

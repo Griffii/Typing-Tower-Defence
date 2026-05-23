@@ -217,7 +217,7 @@ position = Vector2(-189, 393)
 
 [node name="RightMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1101247962]
 unique_name_in_owner = true
-position = Vector2(841, 249)
+position = Vector2(841, 332)
 
 [node name="RightMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1500617371]
 unique_name_in_owner = true
@@ -225,7 +225,7 @@ position = Vector2(767, 382)
 
 [node name="CenterMarker2" type="Marker2D" parent="AvatarLayer" unique_id=640173939]
 unique_name_in_owner = true
-position = Vector2(524, 249)
+position = Vector2(524, 332)
 
 [node name="CenterMarker1" type="Marker2D" parent="AvatarLayer" unique_id=1828286948]
 unique_name_in_owner = true
@@ -233,7 +233,7 @@ position = Vector2(471, 381)
 
 [node name="LeftMarker2" type="Marker2D" parent="AvatarLayer" unique_id=1660934310]
 unique_name_in_owner = true
-position = Vector2(331, 246)
+position = Vector2(331, 329)
 
 [node name="LeftMarker1" type="Marker2D" parent="AvatarLayer" unique_id=255255571]
 unique_name_in_owner = true

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjl8i2wp56gfh" path="res://scenes/menus/game_menu_overlay.gd" id="1_aj1up"]
 [ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_l8ubc"]
-[ext_resource type="Texture2D" uid="uid://brdf40xlbra6f" path="res://assets/cute_fantasy_assets/ui/Book_UI.png" id="2_tdo6r"]
+[ext_resource type="Texture2D" uid="uid://dm34yfgp5qfyn" path="res://assets/cute_fantasy_assets/ui/Jisho_Book_Background.png" id="2_tdo6r"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_t26sy"]
 [ext_resource type="FontFile" uid="uid://ds1n8n0fogrlw" path="res://assets/fonts/MagicSchoolOne.ttf" id="3_vg3tn"]
 [ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="4_n0hkp"]
@@ -19,11 +19,7 @@ bg_color = Color(0, 0, 0, 0.39215687)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wff0h"]
 texture = ExtResource("2_tdo6r")
-region_rect = Rect2(248, 6, 224, 133)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pbkgg"]
-texture = ExtResource("2_tdo6r")
-region_rect = Rect2(488, 150, 224, 133)
+region_rect = Rect2(16, 11, 224, 133)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0fx1q"]
 
@@ -376,15 +372,6 @@ offset_bottom = 520.00024
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxTexture_wff0h")
-
-[node name="BookBGCoverColor" type="Panel" parent="BookContainer/BookBG" unique_id=1823196388]
-custom_minimum_size = Vector2(900, 500)
-layout_mode = 0
-offset_right = 900.0
-offset_bottom = 500.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxTexture_pbkgg")
 
 [node name="LeftPanel" type="PanelContainer" parent="BookContainer" unique_id=1854497377]
 custom_minimum_size = Vector2(340, 400)

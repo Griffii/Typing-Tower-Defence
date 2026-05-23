@@ -3021,7 +3021,7 @@ tile_map_data = PackedByteArray("AAADAAcAAAAFAAIAAAABAAkAAAAEAAIAAAAAAAYABgAoACM
 tile_set = SubResource("TileSet_6sp8s")
 
 [node name="JishoAvatar" parent="." unique_id=1215723615 instance=ExtResource("8_0ce4e")]
-position = Vector2(133, 265)
+position = Vector2(143, 317)
 
 [node name="Player" parent="." unique_id=1889170284 instance=ExtResource("1_w3jbd")]
 unique_name_in_owner = true

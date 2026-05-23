@@ -9,6 +9,7 @@ signal countdown_finished
 
 @onready var get_ready_label: Label = %GetReadyLabel
 @onready var dim_rect: ColorRect = %DimRect
+@onready var sword_draw_sfx: AudioStreamPlayer2D = %SwordDrawSFX
 
 
 func _ready() -> void:
@@ -38,6 +39,8 @@ func play_countdown(_start_number: int = 3, _step_time: float = 1.0) -> void:
 		fade_in_tween.parallel().tween_property(get_ready_label, "modulate:a", 1.0, fade_in_time)
 
 	await fade_in_tween.finished
+	
+	sword_draw_sfx.play()
 
 	await get_tree().create_timer(hold_time).timeout
 
@@ -46,7 +49,8 @@ func play_countdown(_start_number: int = 3, _step_time: float = 1.0) -> void:
 		fade_out_tween.parallel().tween_property(dim_rect, "modulate:a", 0.0, fade_out_time)
 	if get_ready_label != null:
 		fade_out_tween.parallel().tween_property(get_ready_label, "modulate:a", 0.0, fade_out_time)
-
+	
+	
 	await fade_out_tween.finished
 
 	visible = false

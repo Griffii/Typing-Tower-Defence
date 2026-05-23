@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b3dwhhkipwc5c"]
 
 [ext_resource type="Script" uid="uid://bdg7gg6abjg7o" path="res://scenes/menus/word_list_menu.gd" id="1_b3dts"]
-[ext_resource type="Texture2D" uid="uid://brdf40xlbra6f" path="res://assets/cute_fantasy_assets/ui/Book_UI.png" id="2_mf367"]
+[ext_resource type="Texture2D" uid="uid://dm34yfgp5qfyn" path="res://assets/cute_fantasy_assets/ui/Jisho_Book_Background.png" id="2_12o2h"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_nu840"]
 [ext_resource type="StyleBox" uid="uid://bmr1ksc4wvr2x" path="res://styles/word_list_button_style.tres" id="3_66g60"]
 [ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="3_mf367"]
@@ -13,8 +13,8 @@
 [ext_resource type="AudioStream" uid="uid://bldwj3xauyf52" path="res://assets/sfx/menus/Paper_02.mp3" id="11_ugody"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e43iu"]
-texture = ExtResource("2_mf367")
-region_rect = Rect2(248, 6, 224, 133)
+texture = ExtResource("2_12o2h")
+region_rect = Rect2(16, 11, 224, 133)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mf367"]
 
@@ -53,12 +53,40 @@ expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 modulate_color = Color(1, 1, 0.8039216, 1)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8f8g"]
+texture = ExtResource("6_66g60")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ugody"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ugody"]
 texture = ExtResource("3_mf367")
 texture_margin_left = 7.0
 texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_12o2h"]
+texture = ExtResource("6_66g60")
+texture_margin_left = 6.0
+texture_margin_top = 7.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+modulate_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_abyik"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ilsef"]
 texture = ExtResource("8_66g60")
@@ -267,6 +295,8 @@ theme_override_fonts/font = ExtResource("2_nu840")
 theme_override_styles/normal = SubResource("StyleBoxTexture_abyik")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_y2081")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ywiuc")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_c8f8g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ugody")
 text = "Add New Word List"
 
 [node name="RightPanel" type="MarginContainer" parent="BookContainer" unique_id=1513627780]
@@ -341,6 +371,8 @@ theme_override_fonts/font = ExtResource("2_nu840")
 theme_override_styles/normal = SubResource("StyleBoxTexture_abyik")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_y2081")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ywiuc")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_12o2h")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_abyik")
 text = "Delete List"
 
 [node name="BackButton" type="Button" parent="BookContainer" unique_id=244711756]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csrxxtqvftbf"
-path="res://.godot/imported/jisho_placeholder.png-cdaa001c246d8c34110334e7ec0af290.ctex"
+uid="uid://kc73kjoxhpll"
+path="res://.godot/imported/Jisho_Sprite.png-18f646bb71a64443827db6a5a9fddb04.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/npcs/jisho_placeholder.png"
-dest_files=["res://.godot/imported/jisho_placeholder.png-cdaa001c246d8c34110334e7ec0af290.ctex"]
+source_file="res://assets/images/npcs/Jisho_Sprite.png"
+dest_files=["res://.godot/imported/Jisho_Sprite.png-18f646bb71a64443827db6a5a9fddb04.ctex"]
 
 [params]
 

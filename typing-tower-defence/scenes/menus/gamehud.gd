@@ -25,7 +25,6 @@ const START_WAVE_WIGGLE_TIME: float = 0.16
 @onready var game_menu_button: Button = %GameMenuButton
 
 @onready var input_field: LineEdit = %InputField
-@onready var base_hp_label: Label = %BaseHpLabel
 @onready var typing_sfx_player: AudioStreamPlayer2D = %TypingSfxPlayer
 
 var game_menu_button_base_position: Vector2 = Vector2.ZERO
@@ -201,12 +200,6 @@ func _on_input_field_text_submitted(text: String) -> void:
 func set_wave_text(current_wave: int, total_waves: int) -> void:
 	wave_label.text = "Wave %d / %d" % [current_wave, total_waves]
 
-
-func set_base_hp(current_hp: int, max_hp: int) -> void:
-	if max_hp <= 0:
-		base_hp_label.text = "%d" % current_hp
-	else:
-		base_hp_label.text = "%d / %d" % [current_hp, max_hp]
 
 
 func set_status_text(text: String) -> void:

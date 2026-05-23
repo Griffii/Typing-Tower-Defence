@@ -17,7 +17,7 @@ const ENEMY_SCENES := {
 }
 
 @export var spawn_interval_seconds: float = 0.8
-@export var minimum_spacing_pixels: float = 72.0
+@export var minimum_spacing_pixels: float = 50.0
 
 @onready var enemy_container: Node = %EnemyContainer
 @onready var wave_manager: Node = %WaveManager
@@ -38,6 +38,7 @@ var enemy_spawn_serial: int = 0
 
 var level_enemy_container: Node2D = null
 var enemy_scale: Vector2 = Vector2.ONE
+var enemy_speed_multiplier: float = 1.0
 
 
 func _ready() -> void:
@@ -118,6 +119,9 @@ func set_enemy_container(value: Node2D) -> void:
 
 func set_enemy_scale(value: Vector2) -> void:
 	enemy_scale = value
+
+func set_enemy_speed_multiplier(value: float) -> void:
+	enemy_speed_multiplier = max(0.01, value)
 
 
 ## GETTERS
@@ -290,9 +294,17 @@ func _spawn_next_enemy_from_queue() -> void:
 
 	if enemy_instance.has_method("setup_enemy"):
 		enemy_instance.setup_enemy(final_enemy_data)
+	
+	if enemy_instance.has_method("set_base_move_speed_multiplier"):
+		enemy_instance.set_base_move_speed_multiplier(enemy_speed_multiplier)
+	elif "move_speed" in enemy_instance:
+		enemy_instance.move_speed *= enemy_speed_multiplier
 
 	if enemy_instance.has_signal("enemy_died"):
 		enemy_instance.enemy_died.connect(_on_enemy_died)
+		
+	if combat_manager != null and combat_manager.has_method("register_enemy_for_rewards"):
+		combat_manager.register_enemy_for_rewards(enemy_instance)
 
 	if enemy_instance.has_signal("enemy_reached_base"):
 		enemy_instance.enemy_reached_base.connect(_on_enemy_reached_base)
@@ -555,9 +567,17 @@ func _debug_spawn_next_enemy_from_queue() -> void:
 
 	if enemy_instance.has_method("setup_enemy"):
 		enemy_instance.setup_enemy(final_enemy_data)
+	
+	if enemy_instance.has_method("set_base_move_speed_multiplier"):
+		enemy_instance.set_base_move_speed_multiplier(enemy_speed_multiplier)
+	elif "move_speed" in enemy_instance:
+		enemy_instance.move_speed *= enemy_speed_multiplier
 
 	if enemy_instance.has_signal("enemy_died"):
 		enemy_instance.enemy_died.connect(_on_enemy_died)
+	
+	if combat_manager != null and combat_manager.has_method("register_enemy_for_rewards"):
+		combat_manager.register_enemy_for_rewards(enemy_instance)
 
 	if enemy_instance.has_signal("enemy_reached_base"):
 		enemy_instance.enemy_reached_base.connect(_on_enemy_reached_base)

@@ -27,6 +27,40 @@ expand_margin_top = 8.0
 expand_margin_right = 8.0
 expand_margin_bottom = 8.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fyj04"]
+texture = ExtResource("10_cq8vo")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c2ho0"]
+texture = ExtResource("11_2uuwv")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+region_rect = Rect2(0, -2, 45, 47)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fs08"]
+texture = ExtResource("10_cq8vo")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+region_rect = Rect2(0, 0, 45, 49)
+modulate_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2vps7"]
+texture = ExtResource("10_cq8vo")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1, 1, 1, 0.50980395)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vb143"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bahfu"]
 texture = ExtResource("2_8e4jm")
 texture_margin_left = 10.0
@@ -95,40 +129,6 @@ texture_margin_bottom = 8.0
 modulate_color = Color(1, 1, 1, 0.50980395)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kespj"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fyj04"]
-texture = ExtResource("10_cq8vo")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c2ho0"]
-texture = ExtResource("11_2uuwv")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-region_rect = Rect2(0, -2, 45, 47)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fs08"]
-texture = ExtResource("10_cq8vo")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-region_rect = Rect2(0, 0, 45, 49)
-modulate_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2vps7"]
-texture = ExtResource("10_cq8vo")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-modulate_color = Color(1, 1, 1, 0.50980395)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vb143"]
 
 [sub_resource type="Animation" id="Animation_2uuwv"]
 length = 0.001
@@ -352,6 +352,57 @@ theme_override_fonts/font = ExtResource("10_kespj")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxTexture_kmlj4")
 text = "Shop"
+
+[node name="BottomButtonRow" type="HBoxContainer" parent="." unique_id=1711924826]
+offset_left = 24.0
+offset_top = 480.0
+offset_right = 936.0
+offset_bottom = 530.00006
+size_flags_vertical = 8
+theme_override_constants/separation = 600
+alignment = 1
+
+[node name="RepairButton" type="Button" parent="BottomButtonRow" unique_id=344626598]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_4j2oy")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_fyj04")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c2ho0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_4fs08")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_2vps7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vb143")
+text = "Repair"
+icon = ExtResource("12_h403f")
+expand_icon = true
+
+[node name="BuildModeButton" type="Button" parent="BottomButtonRow" unique_id=87231962]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_4j2oy")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_fyj04")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c2ho0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_4fs08")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_2vps7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vb143")
+text = "Build"
+icon = ExtResource("13_yr2xu")
+expand_icon = true
 
 [node name="CardsContainer" type="Node2D" parent="." unique_id=1231695697]
 
@@ -579,57 +630,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_xjaea")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kespj")
 text = "Next Wave"
 icon = ExtResource("10_2uuwv")
-expand_icon = true
-
-[node name="BottomButtonRow" type="HBoxContainer" parent="." unique_id=1711924826]
-offset_left = 24.0
-offset_top = 480.0
-offset_right = 936.0
-offset_bottom = 530.00006
-size_flags_vertical = 8
-theme_override_constants/separation = 600
-alignment = 1
-
-[node name="RepairButton" type="Button" parent="BottomButtonRow" unique_id=344626598]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 50)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("2_4j2oy")
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_fyj04")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_c2ho0")
-theme_override_styles/hover = SubResource("StyleBoxTexture_4fs08")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_2vps7")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_vb143")
-text = "Repair"
-icon = ExtResource("12_h403f")
-expand_icon = true
-
-[node name="BuildModeButton" type="Button" parent="BottomButtonRow" unique_id=87231962]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 50)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("2_4j2oy")
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_fyj04")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_c2ho0")
-theme_override_styles/hover = SubResource("StyleBoxTexture_4fs08")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_2vps7")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_vb143")
-text = "Build"
-icon = ExtResource("13_yr2xu")
 expand_icon = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1718268007]

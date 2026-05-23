@@ -16,7 +16,7 @@ texture_margin_bottom = 9.0
 region_rect = Rect2(61, 13, 22, 26)
 
 [node name="WordLabelController" type="Node2D" unique_id=1934251699]
-z_index = 1
+z_index = 5
 script = ExtResource("1_l30uu")
 
 [node name="LabelBody" type="CharacterBody2D" parent="." unique_id=258786388]

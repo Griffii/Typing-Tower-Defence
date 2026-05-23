@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://fjvdfkiln5ta"]
 
+[ext_resource type="FontFile" uid="uid://c84yl481fj4mh" path="res://assets/fonts/Cinzel_Decorative/CinzelDecorative-Bold.ttf" id="2_50nv0"]
 [ext_resource type="Script" uid="uid://ud6ke0t23q3d" path="res://scripts/ui/magic_title_label.gd" id="3_0k50w"]
 
 [node name="MagicTitleLabel" type="Control" unique_id=1810070664]
@@ -12,6 +13,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_0k50w")
+title_font = ExtResource("2_50nv0")
 
 [node name="LetterContainer" type="Control" parent="." unique_id=256699564]
 unique_name_in_owner = true

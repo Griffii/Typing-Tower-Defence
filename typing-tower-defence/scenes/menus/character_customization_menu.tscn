@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cebeqn5s4emot" path="res://assets/images/menu/magic_panel_02.png" id="2_4dwsr"]
 [ext_resource type="PackedScene" uid="uid://0sph3h4ghhey" path="res://scenes/game/player/player_avatar.tscn" id="2_ebh46"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="3_223qg"]
+[ext_resource type="Texture2D" uid="uid://dm34yfgp5qfyn" path="res://assets/cute_fantasy_assets/ui/Jisho_Book_Background.png" id="4_f4ify"]
 [ext_resource type="Texture2D" uid="uid://dtfkclsdftyli" path="res://assets/images/menu/panel-fantasy-01.png" id="4_p2uxk"]
-[ext_resource type="Texture2D" uid="uid://d2kcrxonaix6a" path="res://assets/images/menu/card_03.png" id="6_6sv41"]
 [ext_resource type="Texture2D" uid="uid://cly140miwtr7n" path="res://assets/cute_fantasy_assets/ui/UI_Ribbons.png" id="6_cuyg6"]
 [ext_resource type="Texture2D" uid="uid://brdf40xlbra6f" path="res://assets/cute_fantasy_assets/ui/Book_UI.png" id="8_6sv41"]
 [ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="8_p2uxk"]
@@ -19,13 +19,9 @@ texture = ExtResource("2_3ubid")
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frbmh"]
-texture = ExtResource("8_6sv41")
-region_rect = Rect2(248, 6, 224, 133)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5f82d"]
-texture = ExtResource("8_6sv41")
-region_rect = Rect2(488, 150, 224, 133)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8hkd"]
+texture = ExtResource("4_f4ify")
+region_rect = Rect2(16, 11, 224, 133)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f4ify"]
 texture = ExtResource("4_p2uxk")
@@ -59,34 +55,6 @@ thickness = 4
 vertical = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cuyg6"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8hkd"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_left = 50.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0k1ti"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_left = 50.0
-modulate_color = Color(0.9019737, 0.8661228, 0.6144088, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2uxk"]
-texture = ExtResource("6_6sv41")
-texture_margin_left = 7.0
-texture_margin_top = 7.0
-texture_margin_right = 7.0
-texture_margin_bottom = 7.0
-expand_margin_left = 50.0
-modulate_color = Color(1, 1, 1, 0.5882353)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqbf4"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phoqo"]
 texture = ExtResource("8_6sv41")
@@ -270,6 +238,7 @@ script = ExtResource("1_0mlbl")
 [node name="Scene_BGM" type="AudioStreamPlayer" parent="." unique_id=402075648]
 unique_name_in_owner = true
 stream = ExtResource("13_f4ify")
+volume_db = -8.0
 bus = &"Music"
 parameters/looping = true
 
@@ -302,16 +271,7 @@ offset_right = 930.0
 offset_bottom = 520.00024
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxTexture_frbmh")
-
-[node name="BookBGCoverColor" type="Panel" parent="BookContainer/BookBG" unique_id=1629716646]
-custom_minimum_size = Vector2(900, 500)
-layout_mode = 0
-offset_right = 900.0
-offset_bottom = 500.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxTexture_5f82d")
+theme_override_styles/panel = SubResource("StyleBoxTexture_a8hkd")
 
 [node name="PreviewPanel" type="PanelContainer" parent="BookContainer" unique_id=1422571014]
 custom_minimum_size = Vector2(340, 400)
@@ -342,6 +302,7 @@ theme_override_colors/caret_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("3_223qg")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxTexture_3ubid")
+theme_override_styles/read_only = SubResource("StyleBoxTexture_3ubid")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6sv41")
 text = "Spellicus"
 alignment = 1
@@ -403,7 +364,7 @@ unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="BodyButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=893778320]
+[node name="BodyButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=1972517552]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
@@ -411,13 +372,13 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_colors/font_hover_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
-theme_override_colors/font_disabled_color = Color(0.19607843, 0.19607843, 0.19607843, 0.47058824)
+theme_override_colors/font_hover_pressed_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
 theme_override_fonts/font = ExtResource("3_223qg")
-theme_override_styles/normal = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_a8hkd")
-theme_override_styles/hover = SubResource("StyleBoxTexture_0k1ti")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_p2uxk")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_tqbf4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phoqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gj5la")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_j7lkb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ubid")
 text = "Body"
 
 [node name="EyesButton" type="Button" parent="BookContainer/CategoryPanel/CategoryButtons" unique_id=128495507]

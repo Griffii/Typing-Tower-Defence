@@ -37,6 +37,8 @@ var replacement_word_provider: Node = null
 
 var base_attackers: Array[Node] = []
 
+var rewarded_enemy_instance_ids: Dictionary = {}
+
 var upgrade_levels := {
 	"word_damage": 0,
 	"special_damage": 0,
@@ -145,6 +147,7 @@ func reset_for_new_run() -> void:
 	_reset_tower_state()
 	_emit_hud_stats()
 	reset_special_meter()
+	rewarded_enemy_instance_ids.clear()
 	tower_state_changed.emit()
 
 
@@ -247,15 +250,40 @@ func reset_special_meter() -> void:
 
 
 func _award_enemy_kill_rewards(enemy: Node) -> void:
+	if enemy == null or not is_instance_valid(enemy):
+		return
+
+	var enemy_instance_id: int = enemy.get_instance_id()
+
+	if rewarded_enemy_instance_ids.has(enemy_instance_id):
+		return
+
+	rewarded_enemy_instance_ids[enemy_instance_id] = true
+
 	var reward_gold: int = 0
 
-	if enemy != null and is_instance_valid(enemy):
-		if enemy.has_method("get_reward_gold"):
-			reward_gold = int(enemy.get_reward_gold())
+	if enemy.has_method("get_reward_gold"):
+		reward_gold = int(enemy.get_reward_gold())
 
 	gold += int(round(reward_gold * gold_gain_multiplier))
 	_emit_hud_stats()
 
+
+func register_enemy_for_rewards(enemy: Node) -> void:
+	if enemy == null or not is_instance_valid(enemy):
+		return
+
+	if not enemy.has_signal("enemy_died"):
+		return
+
+	if enemy.enemy_died.is_connected(_on_enemy_died_for_rewards):
+		return
+
+	enemy.enemy_died.connect(_on_enemy_died_for_rewards)
+
+
+func _on_enemy_died_for_rewards(enemy: Node) -> void:
+	_award_enemy_kill_rewards(enemy)
 
 func register_enemy_at_base(enemy: Node) -> void:
 	if enemy == null or not is_instance_valid(enemy):

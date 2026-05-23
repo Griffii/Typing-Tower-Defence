@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://xc0rnv812nwm" path="res://vfx/summon_circle.tscn" id="2_ai8ho"]
 [ext_resource type="Texture2D" uid="uid://dxhs8nq2g4b7x" path="res://assets/images/gradient_textures/circle_05_a.png" id="2_m8awq"]
 [ext_resource type="Shader" uid="uid://bmpyiqig8e3dm" path="res://shaders/magic_energy_wobble.gdshader" id="3_b4noh"]
+[ext_resource type="AudioStream" uid="uid://cwnqiwoella8e" path="res://assets/sfx/spells/SFX_Magic_Arcane_Bolt.wav" id="3_y6scq"]
 [ext_resource type="Texture2D" uid="uid://ba7ga4egc0mir" path="res://assets/images/towers/Crystal_Basic.png" id="4_ai8ho"]
 [ext_resource type="PackedScene" uid="uid://txnmwp1t7r4d" path="res://vfx/ice_frost.tscn" id="5_b4noh"]
 [ext_resource type="Shader" uid="uid://c6h8qahimfc8" path="res://shaders/ice_field_shader.gdshader" id="5_m8awq"]
@@ -80,12 +81,12 @@ shader_parameter/shimmer_speed = 0.45
 shader_parameter/shimmer_strength = 0.25
 shader_parameter/crack_strength = 0.35
 
-[sub_resource type="Gradient" id="Gradient_yp6uj"]
+[sub_resource type="Gradient" id="Gradient_y6scq"]
 offsets = PackedFloat32Array(0, 0.77011496)
 colors = PackedColorArray(1, 1, 1, 0.87058824, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_e1sw3"]
-gradient = SubResource("Gradient_yp6uj")
+gradient = SubResource("Gradient_y6scq")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -96,14 +97,14 @@ blend_mode = 1
 offsets = PackedFloat32Array(0, 0.069078945, 0.8256579, 1)
 colors = PackedColorArray(0.2, 0.42745098, 1, 0, 0.42085662, 0.42423427, 0.69881815, 1, 0.95342046, 0.9573191, 0.99917966, 1, 0.7294118, 0.7411765, 0.99607843, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_kjf8r"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wlif0"]
 gradient = SubResource("Gradient_urd5k")
 
 [sub_resource type="Curve" id="Curve_bodve"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.16060606, 0.77261764), 0.0, 0.0, 0, 0, Vector2(0.99090904, 0.3100121), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_xx8gx"]
+[sub_resource type="CurveTexture" id="CurveTexture_b7xf3"]
 curve = SubResource("Curve_bodve")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6n0il"]
@@ -117,8 +118,8 @@ initial_velocity_max = 30.0
 gravity = Vector3(0, 0, 0)
 scale_min = 0.049999997
 scale_max = 0.099999994
-scale_curve = SubResource("CurveTexture_xx8gx")
-color_ramp = SubResource("GradientTexture1D_kjf8r")
+scale_curve = SubResource("CurveTexture_b7xf3")
+color_ramp = SubResource("GradientTexture1D_wlif0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1sw3"]
 shader = ExtResource("3_b4noh")
@@ -152,6 +153,11 @@ unique_name_in_owner = true
 amount = 2
 scale_amount_min = 0.7
 scale_amount_max = 0.7
+
+[node name="SpawnSFX" type="AudioStreamPlayer2D" parent="." unique_id=1374606706]
+unique_name_in_owner = true
+stream = ExtResource("3_y6scq")
+bus = &"SFX"
 
 [node name="IceField" type="ColorRect" parent="." unique_id=1592605583]
 unique_name_in_owner = true

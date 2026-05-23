@@ -3,13 +3,13 @@ extends Control
 @export var star_count: int = 90
 @export var magic_dot_count: int = 35
 
-@export var star_color: Color = Color(0.75, 0.9, 1.0, 0.85)
-@export var magic_color: Color = Color(0.25, 0.75, 1.0, 0.75)
+@export var star_color: Color = Color("ffdca0c8")
+@export var magic_color: Color = Color("9d5cffc8")
 
 @export_group("Background Color Cycle")
-@export var background_color_a: Color = Color("#08111f")
-@export var background_color_b: Color = Color("#140b24")
-@export var background_color_c: Color = Color("#06202a")
+@export var background_color_a: Color = Color("#1d0b38")
+@export var background_color_b: Color = Color("#3d1569")
+@export var background_color_c: Color = Color("#123b7a")
 @export var background_cycle_speed: float = 0.08
 
 @export var star_speed_min: float = 6.0

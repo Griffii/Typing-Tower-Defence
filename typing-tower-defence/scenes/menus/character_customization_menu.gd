@@ -11,8 +11,13 @@ const DEFAULT_PLAYER_NAME := "Spellicus"
 
 const NORMAL_CATEGORY_SCALE := Vector2.ONE
 const SELECTED_CATEGORY_SCALE := Vector2(1.05, 1.05)
-const HOVER_CATEGORY_SCALE := Vector2(1.1, 1.1)
+const HOVER_CATEGORY_SCALE := Vector2(1.08, 1.08)
 const HOVER_SELECTED_CATEGORY_SCALE := Vector2(1.1, 1.1)
+
+const NORMAL_CATEGORY_MODULATE := Color(0.72, 0.72, 0.78, 1.0)
+const SELECTED_CATEGORY_MODULATE := Color(1.15, 1.15, 1.2, 1.0)
+const HOVER_CATEGORY_MODULATE := Color(0.95, 0.95, 1.0, 1.0)
+const HOVER_SELECTED_CATEGORY_MODULATE := Color(1.35, 1.35, 1.4, 1.0)
 
 const CATEGORY_TWEEN_DURATION := 0.08
 
@@ -144,11 +149,14 @@ func _update_category_button_visuals() -> void:
 			continue
 
 		var target_scale := NORMAL_CATEGORY_SCALE
+		var target_modulate := NORMAL_CATEGORY_MODULATE
 
 		if slot_id == current_slot:
 			target_scale = SELECTED_CATEGORY_SCALE
+			target_modulate = SELECTED_CATEGORY_MODULATE
 
 		button.scale = target_scale
+		button.modulate = target_modulate
 
 
 func _on_category_button_mouse_entered(slot_id: String) -> void:
@@ -158,12 +166,27 @@ func _on_category_button_mouse_entered(slot_id: String) -> void:
 		return
 
 	var target_scale := HOVER_CATEGORY_SCALE
+	var target_modulate := HOVER_CATEGORY_MODULATE
 
 	if slot_id == current_slot:
 		target_scale = HOVER_SELECTED_CATEGORY_SCALE
+		target_modulate = HOVER_SELECTED_CATEGORY_MODULATE
 
 	var tween := create_tween()
-	tween.tween_property(button, "scale", target_scale, CATEGORY_TWEEN_DURATION)
+
+	tween.parallel().tween_property(
+		button,
+		"scale",
+		target_scale,
+		CATEGORY_TWEEN_DURATION
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	tween.parallel().tween_property(
+		button,
+		"modulate",
+		target_modulate,
+		CATEGORY_TWEEN_DURATION
+	)
 
 
 func _on_category_button_mouse_exited(slot_id: String) -> void:
@@ -173,12 +196,27 @@ func _on_category_button_mouse_exited(slot_id: String) -> void:
 		return
 
 	var target_scale := NORMAL_CATEGORY_SCALE
+	var target_modulate := NORMAL_CATEGORY_MODULATE
 
 	if slot_id == current_slot:
 		target_scale = SELECTED_CATEGORY_SCALE
+		target_modulate = SELECTED_CATEGORY_MODULATE
 
 	var tween := create_tween()
-	tween.tween_property(button, "scale", target_scale, CATEGORY_TWEEN_DURATION)
+
+	tween.parallel().tween_property(
+		button,
+		"scale",
+		target_scale,
+		CATEGORY_TWEEN_DURATION
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	tween.parallel().tween_property(
+		button,
+		"modulate",
+		target_modulate,
+		CATEGORY_TWEEN_DURATION
+	)
 
 
 func _clear_item_grid() -> void:

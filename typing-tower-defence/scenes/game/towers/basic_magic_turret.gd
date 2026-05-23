@@ -30,6 +30,7 @@ const MAGIC_PROJECTILE_SCENE: PackedScene = preload("uid://hkis3ut0qmh5")
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var summon_circle: CPUParticles2D = %SummonCircle
+@onready var spawn_sfx: AudioStreamPlayer2D = %SpawnSFX
 
 
 var slot_id: String = ""
@@ -98,6 +99,8 @@ func play_summon_effect() -> void:
 
 	summon_circle.restart()
 	summon_circle.emitting = true
+	
+	spawn_sfx.play()
 
 
 func _play_crystal_intro_animation() -> void:

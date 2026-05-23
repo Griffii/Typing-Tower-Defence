@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WordListData" format=3 uid="uid://dh6kqnssptoyv"]
+
+[ext_resource type="Script" uid="uid://blmx4awdqm5pt" path="res://scripts/configs/WordListData.gd" id="1_wylgl"]
+
+[resource]
+script = ExtResource("1_wylgl")
+id = "bohemian"
+display_name = "The Rhapsody"
+category = "song"
+words = Array[String](["is", "this", "the", "real", "life", "is", "this", "just", "fantasy", "caught", "in", "a", "landside", "no", "escape", "from", "reality", "open", "your", "eyes", "look", "up", "to", "the", "skies", "and", "see", "im", "just", "a", "poor", "boy", "i", "need", "no", "sympathy", "because", "im", "easy", "come", "easy", "go", "little", "high", "little", "low", "any", "way", "the", "wind", "blows", "doesnt", "really", "matter", "to", "me", "to", "me", "mamaaa", "just", "killed", "a", "man", "put", "a", "gun", "against", "his", "head", "pulled", "my", "trigger", "now", "hes", "dead", "mamaaa", "life", "had", "just", "begun", "but", "now", "ive", "gone", "and", "thrown", "it", "all", "away", "mama", "oooh", "didnt", "mean", "to", "make", "you", "cry", "if", "im", "not", "back", "again", "this", "time", "tomorrow", "carry", "on", "carry", "on", "as", "if", "nothing", "really", "matters"])
+metadata/_custom_type_script = "uid://blmx4awdqm5pt"

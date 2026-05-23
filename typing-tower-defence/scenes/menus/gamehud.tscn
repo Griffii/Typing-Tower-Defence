@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bvicoxxhe1la0" path="res://scenes/menus/gamehud.gd" id="1_d4vl5"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_g1fq1"]
-[ext_resource type="Texture2D" uid="uid://c0lcannswxffp" path="res://assets/images/icons/heart_icon_hover.png" id="2_i4r04"]
 [ext_resource type="Texture2D" uid="uid://dl8g1tdf1vman" path="res://assets/images/menu/buttonSquare_beige.png" id="3_1h1bv"]
 [ext_resource type="Texture2D" uid="uid://c5bmw5vg1gewl" path="res://assets/cute_fantasy_assets/ui/UI_Frames.png" id="3_2pxcf"]
-[ext_resource type="PackedScene" uid="uid://c86wxohinjsip" path="res://scenes/game/bases/health_bar.tscn" id="3_h1umh"]
 [ext_resource type="Texture2D" uid="uid://cx2ovcmvgohjs" path="res://assets/images/menu/buttonSquare_beige_pressed.png" id="4_u5dwu"]
 [ext_resource type="Texture2D" uid="uid://bbsbgkdeoma4g" path="res://assets/images/icons/skull_hover.png" id="5_04ufq"]
 [ext_resource type="PackedScene" uid="uid://mutayi51c78v" path="res://scenes/game/ui/gold_tracker.tscn" id="5_urhf0"]
@@ -19,6 +17,9 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(1019, 107, 26, 26)
+modulate_color = Color(1, 1, 1, 0.78431374)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nsbd5"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aqx4m"]
 texture = ExtResource("3_2pxcf")
@@ -27,6 +28,9 @@ texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(1163, 107, 26, 26)
+modulate_color = Color(1, 1, 1, 0.78431374)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_chw5g"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tk2q4"]
 texture = ExtResource("3_1h1bv")
@@ -146,7 +150,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_constants/separation = 200
-alignment = 1
 
 [node name="GoalLabel" type="Label" parent="MarginContainer/TopBarsBox" unique_id=1759797251]
 unique_name_in_owner = true
@@ -155,6 +158,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
 theme_override_fonts/font = ExtResource("2_g1fq1")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_85v3j")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nsbd5")
 text = "Goal label"
 horizontal_alignment = 1
 
@@ -165,6 +169,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.73333335)
 theme_override_fonts/font = ExtResource("2_g1fq1")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_aqx4m")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_chw5g")
 text = "Status label"
 horizontal_alignment = 1
 
@@ -179,33 +184,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_constants/separation = 150
 alignment = 1
-
-[node name="CastleHealthBar" parent="MarginContainer/BottomBarsBox/BottomBar" unique_id=390813373 instance=ExtResource("3_h1umh")]
-visible = false
-layout_mode = 2
-
-[node name="HpContainer" type="HBoxContainer" parent="MarginContainer/BottomBarsBox/BottomBar" unique_id=133155919]
-visible = false
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
-
-[node name="HeartIcon" type="TextureRect" parent="MarginContainer/BottomBarsBox/BottomBar/HpContainer" unique_id=1618412900]
-layout_mode = 2
-texture = ExtResource("2_i4r04")
-expand_mode = 3
-
-[node name="BaseHpLabel" type="Label" parent="MarginContainer/BottomBarsBox/BottomBar/HpContainer" unique_id=1911789980]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.56078434)
-theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("2_g1fq1")
-theme_override_font_sizes/font_size = 22
-text = "100/100"
-horizontal_alignment = 1
 
 [node name="GoldTracker" parent="MarginContainer/BottomBarsBox/BottomBar" unique_id=22832078 instance=ExtResource("5_urhf0")]
 layout_mode = 2

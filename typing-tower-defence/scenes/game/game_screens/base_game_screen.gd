@@ -274,6 +274,11 @@ func _apply_level_references_to_systems() -> void:
 		if spawn_manager.has_method("set_enemy_scale") and current_level.has_method("get_enemy_scale"):
 			spawn_manager.set_enemy_scale(current_level.get_enemy_scale())
 
+		if spawn_manager.has_method("set_enemy_speed_multiplier") and current_level.has_method("get_enemy_speed_multiplier"):
+			spawn_manager.set_enemy_speed_multiplier(
+				current_level.get_enemy_speed_multiplier()
+			)
+
 	if typing_manager != null and typing_manager.has_method("set_level"):
 		typing_manager.set_level(current_level)
 

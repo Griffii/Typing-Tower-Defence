@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq2jt7a5evb2q"
-path="res://.godot/imported/Leximancer-icon.png-732bde47e6612470fcb68160a22041eb.ctex"
+uid="uid://8i4oqb0gj4nj"
+path="res://.godot/imported/Leximancer-Icon.png-9abf36b480211da71cccddf158717714.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Leximancer-icon.png"
-dest_files=["res://.godot/imported/Leximancer-icon.png-732bde47e6612470fcb68160a22041eb.ctex"]
+source_file="res://Leximancer-Icon.png"
+dest_files=["res://.godot/imported/Leximancer-Icon.png-9abf36b480211da71cccddf158717714.ctex"]
 
 [params]
 

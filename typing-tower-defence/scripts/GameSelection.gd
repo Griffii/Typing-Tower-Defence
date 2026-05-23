@@ -8,11 +8,7 @@ var selected_wave_set_script = DEFAULT_WAVE_SET
 
 
 func _ready() -> void:
-	print("[GameSelection] _ready()")
-	print("[GameSelection] default level = ", _describe_resource(DEFAULT_LEVEL_SCENE))
-	print("[GameSelection] default wave  = ", _describe_resource(DEFAULT_WAVE_SET))
-	print("[GameSelection] selected level at startup = ", _describe_resource(selected_level_scene))
-	print("[GameSelection] selected wave at startup  = ", _describe_resource(selected_wave_set_script))
+	pass
 
 
 func set_level_scene(level_scene: PackedScene) -> void:

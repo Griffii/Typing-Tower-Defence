@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3jiu5nydwwxj" path="res://scenes/game/ui/round_countdown.gd" id="1_2jpbh"]
 [ext_resource type="FontFile" uid="uid://bxnlee350xbyr" path="res://assets/fonts/BadComic-Regular.ttf" id="2_b7dil"]
+[ext_resource type="AudioStream" uid="uid://cvl8un71yflbq" path="res://assets/sfx/menus/sword_draw.mp3" id="3_qk4nk"]
 
 [node name="RoundCountdown" type="CanvasLayer" unique_id=30536367]
 script = ExtResource("1_2jpbh")
@@ -32,3 +33,8 @@ theme_override_font_sizes/font_size = 86
 text = "Get ready..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SwordDrawSFX" type="AudioStreamPlayer2D" parent="." unique_id=1178365378]
+unique_name_in_owner = true
+stream = ExtResource("3_qk4nk")
+bus = &"SFX"

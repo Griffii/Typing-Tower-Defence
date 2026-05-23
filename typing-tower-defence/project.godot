@@ -14,7 +14,7 @@ config/name="Leximancer"
 run/main_scene="uid://ws4cm1qoqgge"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/image="uid://b0v0a7ci8g5as"
-config/icon="uid://cq2jt7a5evb2q"
+config/icon="uid://8i4oqb0gj4nj"
 
 [autoload]
 
