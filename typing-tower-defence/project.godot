@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Leximancer"
 run/main_scene="uid://ws4cm1qoqgge"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/image="uid://b0v0a7ci8g5as"
 config/icon="uid://8i4oqb0gj4nj"
 
@@ -27,6 +27,7 @@ CampaignProgress="*uid://dkqp8wqwrso0b"
 AudioManager="*uid://bxkgnqvmq6yhe"
 GameFlags="*uid://dh53mlb0kab44"
 ScreenEffects="*uid://bwmc5nqces5jf"
+MCPRuntimeServer="*res://addons/godot_mcp_toolkit/runtime/mcp_runtime_server.gd"
 
 [display]
 
@@ -36,7 +37,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/tile-run-instances/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg", "res://addons/tile-run-instances/plugin.cfg")
 
 [file_customization]
 

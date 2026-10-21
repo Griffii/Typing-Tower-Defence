@@ -716,8 +716,8 @@ offset_bottom = 40.0
 
 [node name="CastleWallsContainer" type="MarginContainer" parent="MapContent/LevelButtonsContainer" unique_id=329051178]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(200, 120)
+clip_contents = true
 layout_mode = 0
 offset_left = 29.0
 offset_top = 278.0
@@ -745,8 +745,8 @@ text = "Castle Walls"
 
 [node name="GrasslandsContainer" type="MarginContainer" parent="MapContent/LevelButtonsContainer" unique_id=430213616]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(200, 120)
+clip_contents = true
 layout_mode = 0
 offset_left = 389.0
 offset_top = 383.0
@@ -774,8 +774,8 @@ text = "Grasslands"
 
 [node name="SeasideFarmContainer" type="MarginContainer" parent="MapContent/LevelButtonsContainer" unique_id=1613033655]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(200, 120)
+clip_contents = true
 layout_mode = 0
 offset_left = 569.0
 offset_top = 77.0
@@ -799,7 +799,162 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
 theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
 text = "Seaside Farm"
 
+[node name="Level4PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=306213650]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 76.0
+offset_right = 1020.0
+offset_bottom = 196.0
+tooltip_text = "Level 4 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 4
+Coming soon"
+
+[node name="Level5PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=1480527849]
+layout_mode = 0
+offset_left = 1060.0
+offset_top = 76.0
+offset_right = 1260.0
+offset_bottom = 196.0
+tooltip_text = "Level 5 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 5
+Coming soon"
+
+[node name="Level6PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=223653863]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 76.0
+offset_right = 1500.0
+offset_bottom = 196.0
+tooltip_text = "Level 6 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 6
+Coming soon"
+
+[node name="Level7PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=401946642]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 240.0
+offset_right = 1020.0
+offset_bottom = 360.0
+tooltip_text = "Level 7 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 7
+Coming soon"
+
+[node name="Level8PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=120383755]
+layout_mode = 0
+offset_left = 1060.0
+offset_top = 240.0
+offset_right = 1260.0
+offset_bottom = 360.0
+tooltip_text = "Level 8 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 8
+Coming soon"
+
+[node name="Level9PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=1841022411]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 240.0
+offset_right = 1500.0
+offset_bottom = 360.0
+tooltip_text = "Level 9 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 9
+Coming soon"
+
+[node name="Level10PlaceholderButton" type="Button" parent="MapContent/LevelButtonsContainer" unique_id=761702531]
+layout_mode = 0
+offset_left = 1060.0
+offset_top = 404.0
+offset_right = 1260.0
+offset_bottom = 524.0
+tooltip_text = "Level 10 - planned campaign slot. Design to be decided."
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_disabled_color = Color(0.85, 0.83, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sqqrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wh20i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fitsn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tapnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_x80u1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fitsn")
+disabled = true
+text = "Level 10
+Coming soon"
+
 [node name="ConstructionStuff" type="Node2D" parent="MapContent" unique_id=245247680]
+visible = false
 
 [node name="UnderConstructionMan" type="Sprite2D" parent="MapContent/ConstructionStuff" unique_id=1783271950]
 position = Vector2(1127, 277)
