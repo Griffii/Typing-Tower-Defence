@@ -263,10 +263,8 @@ func _refresh_buttons() -> void:
 
 		if completed:
 			button.text = "%s ✓" % level_data.display_name
-		elif unlocked:
-			button.text = level_data.display_name
 		else:
-			button.text = "Locked"
+			button.text = level_data.display_name
 
 		button.tooltip_text = _get_level_tooltip(level_data, unlocked, completed)
 
